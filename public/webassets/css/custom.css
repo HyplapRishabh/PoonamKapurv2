@@ -1,0 +1,48 @@
+.btnheighlight
+{
+    color: #fff !important;
+    background-color: rgba(234, 106, 18, 0.2) !important;
+    border-color: #EA6A12;
+    -webkit-box-shadow: 0 0px 0px 0 rgb(0 0 0 / 0%);
+    box-shadow: 0 0px 0px 0 rgb(0 0 0 / 0%);
+}
+
+.bkgloader
+{
+    
+    height: 50%;
+    width: 100%;
+    position: fixed;
+    place-content: center;
+    overflow: hidden !important;
+    right: 0px;
+    z-index: 1250;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.loader123 {
+    
+    border-top: 16px solid rgba(234, 106, 18, 0.2) !important; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 0.8s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .fade-in-card { animation: fadeIn 3s; }
+
+  .errorshow
+		{
+			color: red;
+			font-size: 12px;
+		}
