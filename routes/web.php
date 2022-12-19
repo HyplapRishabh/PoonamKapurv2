@@ -279,6 +279,17 @@ Route::group(['middleware' => 'checkUserr'], function () {
         Route::post('/deleteCoupon', [AdminController::class, 'deleteCoupon']);
         Route::get('/status', [AdminController::class, 'couponStatus']);
     });
+
+    // faqs
+    Route::group([
+        'prefix' => 'faqs'
+    ], function () {
+        Route::get('/', [AdminController::class, 'indexFaq']);
+        Route::post('/addFaqs', [AdminController::class, 'storeFaq']);
+        Route::post('/updateFaqs', [AdminController::class, 'updateFaq']);
+        Route::post('/deleteFaqs', [AdminController::class, 'deleteFaq']);
+        // Route::get('/status', [AdminController::class, 'faqStatus']);
+    });
 });
 
 

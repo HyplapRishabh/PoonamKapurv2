@@ -8,6 +8,7 @@ use App\Models\Booking;
 use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Enquiry;
+use App\Models\Faq;
 use App\Models\Goal;
 use App\Models\Log;
 use App\Models\Mealtime;
@@ -2723,5 +2724,50 @@ class AdminController extends Controller
             'status' => 200,
             'message' => 'Status Changed Successfully',
         ]);
+    }
+
+    // faqs controller
+
+    public function indexFaq()
+    {
+        $faqs = Faq::where('deleteId', 0)->get();
+        return view('admin.faqs', compact('faqs'));
+    }
+
+    public function storeFaq(Request $request)
+    {
+        $faqs = new Faq;
+        $faqs->question = $request->question;
+        $faqs->answer = $request->answer;
+        $faqs->sequence = $request->sequence;
+        $faqs->status = $request->status;
+        $faqs->save();
+
+        Session()->flash('alert-success', "Faq Added Succesfully");
+        $this->storeLog('Add', 'storeFaq', $faqs);
+        return redirect()->back();
+    }
+
+    public function updateFaq(Request $request)
+    {
+        $faqs = Faq::find($request->hiddenId);
+        $faqs->question = $request->question;
+        $faqs->answer = $request->answer;
+        $faqs->sequence = $request->sequence;
+        $faqs->status = $request->status;
+        $faqs->update();
+
+        Session()->flash('alert-success', "Faq Updated Succesfully");
+        $this->storeLog('Update', 'updateFaq', $faqs);
+        return redirect()->back();
+    }
+
+    public function deleteFaq(Request $request)
+    {
+        $model = Faq::find($request->hiddenId)->delete();
+
+        Session()->flash('alert-success', "Faq Deleted Succesfully");
+        $this->storeLog('Delete', 'deleteFaq', $model);
+        return redirect()->back();
     }
 }

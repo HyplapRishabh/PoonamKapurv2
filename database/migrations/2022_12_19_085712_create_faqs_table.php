@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cartaddons', function (Blueprint $table) {
+        Schema::create('faqs', function (Blueprint $table) {
             $table->id();
-            $table->string('cartId')->nullable();
-            $table->string('addonId')->nullable();
-            $table->string('qty')->nullable();
+            $table->longText('question')->nullable();
+            $table->longText('answer')->nullable();
+            $table->integer('sequence')->nullable();
+            $table->boolean('status')->default(1);
+            $table->boolean('deleteId')->default(0);
+            $table->timestamps();
         });
     }
 
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cartaddons');
+        Schema::dropIfExists('faqs');
     }
 };
