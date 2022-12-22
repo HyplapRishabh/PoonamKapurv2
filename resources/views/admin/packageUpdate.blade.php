@@ -7,15 +7,13 @@
 @endsection
 
 @section('content')
-
-
-
 <div class="col-sm-12 mt-3">
     <div class="card">
         <div class="card-header">
             <h5>Update Package</h5>
         </div>
         <form action="{{url('package/updatePackage')}}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="hiddenId" value="{{$data->id}}">
             <div class="card-body">
                 @csrf
                 <div class="row">

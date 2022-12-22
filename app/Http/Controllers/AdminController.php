@@ -1786,8 +1786,10 @@ class AdminController extends Controller
         $package->description = $request->description;
         $package->goalId = $request->goalId;
         $package->mealTypeId = $request->mealTypeId;
-        $package->price = $request->price;
-        $package->discountedPrice = $request->discountedPrice;
+        $package->bfPrice = $request->bfPrice;
+        $package->lPrice = $request->lPrice;
+        $package->sPrice = $request->sPrice;
+        $package->dPrice = $request->dPrice;
         if ($request->status != $package->status) {
             $package->status = $request->status;
         }
