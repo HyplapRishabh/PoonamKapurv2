@@ -29,7 +29,7 @@
         @include('web.weblayout.headerlayout')
         <div class="content-inner mt-5 py-0">
             <div class="row">
-                <div class="col-md-12 col-lg-8">
+                <div class="col-md-12 col-lg-12">
                     <div class="card " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
                         data-iq-duration=".6" data-iq-delay=".8" data-iq-trigger="scroll" data-iq-ease="none">
                         <div class="hero-image p-3"
@@ -371,215 +371,67 @@
                     </div>
                     <!-- quiz modal ends here -->
                 </div>
-                <div class="col-md-12 col-lg-4 ">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-12">
-                            <div class="card rounded border border-white" data-iq-gsap="onStart" data-iq-opacity="0"
-                                data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay="1"
-                                data-iq-trigger="scroll" data-iq-ease="none">
-                                <div class="card-header bg-transparent">
-                                    <div class="d-flex justify-content-between align-items-center list-main">
-                                        <h4>Goals</h4>
-                                        <!-- <div class="d-flex">
-                                            <a href="{{url('/app/allgoal')}}" class="text-dark d-flex">View All
-                                                <svg width="24" height="24" class="ms-1" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <rect width="24" height="24" rx="12" fill="#EA6A12" />
-                                                    <path d="M10.25 8.5L13.75 12L10.25 15.5" stroke="white"
-                                                        stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-                                            </a>
-                                        </div> -->
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="iq-col-masonry m-0">
-                                        @foreach($goallist as $goalinfo)
-                                        <a href="{{url('/app/goal/')}}/{{Str::slug($goalinfo->name)}}?goal={{$goalinfo->id}}&pkgId={{$goalinfo->package->id}}&meal={{$goalinfo->package->mealtype->name}}"
-                                            type="button btn rounded-pill"
-                                            class="btn btn-outline-primary rounded iq-col-masonry-block">{{$goalinfo->name}}</a>
-                                        @endforeach
-
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="position-relative">
-                                <img src="webassets/images/layouts/40.png" alt="img-1" class="img-fluid img-user">
-                            </div>
+                <div class="row">
+              <div class="col-md-12 col-lg-12">
+                <div class="card-header border-0  ">
+                    <div class="card-transparent bg-transparent mb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3>How It Works</h3>
+                                       </div>
+                </div>
+                </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="card"style="text-align: center;">
+                        <img src="webassets/images/login.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
+                        <div class="card-body">
+                            <h4 class="card-title">Login</h4>
+                            <p class="card-text">Simple one step login to the ordering platform </p>
+                           
                         </div>
-                        <!-- <div class="col-md-12 col-lg-12">
-                            <div class="card  profile-img3 " data-iq-gsap="onStart" data-iq-opacity="0"
-                                data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay="1"
-                                data-iq-trigger="scroll" data-iq-ease="none">
-                                <div class="card-body">
-                                    <div class="text-center profile-img51">
-                                        <div class="profile-img41 ">
-                                            <img src="webassets/images/layouts/8.png" class="img-fluid rounded-pill "
-                                                alt="profile-image">
-                                        </div>
-                                        <div class="profile-img51 ">
-                                            <h2 class="mb-2 profile-img55">50 % off </h2>
-                                            <p class="mb-0">The full price of burgers</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <!-- <div class="col-md-12 col-lg-12">
-                            <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
-                                data-iq-duration=".6" data-iq-delay="1.2" data-iq-trigger="scroll" data-iq-ease="none">
-                                <div class="card-header">
-                                    <h4 class="list-main">My Cart</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="rounded-pill bg-soft-primary iq-my-cart">
-                                        <div class="d-flex align-items-center justify-content-between profile-img4">
-                                            <div class="profile-img11">
-                                                <img src="webassets/images/layouts/13.png"
-                                                    class="img-fluid rounded-pill avatar-115 blur-shadow position-end"
-                                                    alt="img">
-                                                <img src="webassets/images/layouts/13.png"
-                                                    class="img-fluid rounded-pill avatar-115" alt="img"
-                                                    data-iq-gsap="onStart" data-iq-opacity="0" data-iq-scale=".6"
-                                                    data-iq-rotate="180" data-iq-duration="1" data-iq-delay="1"
-                                                    data-iq-trigger="scroll" data-iq-ease="none">
-                                            </div>
-                                            <div class="d-flex align-items-center profile-content">
-                                                <div>
-                                                    <h6 class="mb-1 heading-title fw-bolder">Chinese Salads</h6>
-                                                    <span class="d-flex align-items-center "><svg width="10" height="10"
-                                                            viewBox="0 0 10 10" fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg">
-                                                            <rect x="0.875" y="2.05469" width="1.66667" height="10"
-                                                                rx="0.833333" transform="rotate(-45 0.875 2.05469)"
-                                                                fill="#EA6A12" />
-                                                            <rect x="2.05469" y="9.125" width="1.66666" height="10"
-                                                                rx="0.833332" transform="rotate(-135 2.05469 9.125)"
-                                                                fill="#EA6A12" />
-                                                        </svg><small class="text-dark ms-1">1</small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="me-4 text-end">
-                                                <span class="mb-1">
-                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path opacity="0.4"
-                                                            d="M19.6449 9.48924C19.6449 9.55724 19.112 16.298 18.8076 19.1349C18.6169 20.8758 17.4946 21.9318 15.8111 21.9618C14.5176 21.9908 13.2514 22.0008 12.0055 22.0008C10.6829 22.0008 9.38936 21.9908 8.1338 21.9618C6.50672 21.9228 5.38342 20.8458 5.20253 19.1349C4.88936 16.288 4.36613 9.55724 4.35641 9.48924C4.34668 9.28425 4.41281 9.08925 4.54703 8.93126C4.67929 8.78526 4.86991 8.69727 5.07026 8.69727H18.9408C19.1402 8.69727 19.3211 8.78526 19.464 8.93126C19.5973 9.08925 19.6644 9.28425 19.6449 9.48924"
-                                                            fill="#E60A0A" />
-                                                        <path
-                                                            d="M21 5.97686C21 5.56588 20.6761 5.24389 20.2871 5.24389H17.3714C16.7781 5.24389 16.2627 4.8219 16.1304 4.22692L15.967 3.49795C15.7385 2.61698 14.9498 2 14.0647 2H9.93624C9.0415 2 8.26054 2.61698 8.02323 3.54595L7.87054 4.22792C7.7373 4.8219 7.22185 5.24389 6.62957 5.24389H3.71385C3.32386 5.24389 3 5.56588 3 5.97686V6.35685C3 6.75783 3.32386 7.08982 3.71385 7.08982H20.2871C20.6761 7.08982 21 6.75783 21 6.35685V5.97686Z"
-                                                            fill="#E60A0A" />
-                                                    </svg>
-                                                </span>
-                                                <p class="mb-0 text-dark">&#8377 750/-</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="rounded-pill bg-soft-primary iq-my-cart">
-                                        <div
-                                            class="d-flex align-items-center justify-content-between profile-img4 mt-4">
-                                            <div class="profile-img11">
-                                                <img src="webassets/images/layouts/12.png"
-                                                    class="img-fluid rounded-pill avatar-115 blur-shadow position-end"
-                                                    alt="img">
-                                                <img src="webassets/images/layouts/12.png"
-                                                    class="img-fluid rounded-pill avatar-115" alt="img"
-                                                    data-iq-gsap="onStart" data-iq-opacity="0" data-iq-scale=".6"
-                                                    data-iq-rotate="180" data-iq-duration="1" data-iq-delay="1"
-                                                    data-iq-trigger="scroll" data-iq-ease="none">
-                                            </div>
-                                            <div class="d-flex align-items-center profile-content">
-                                                <div>
-                                                    <h6 class="mb-1 heading-title fw-bolder">Italian Salads</h6>
-                                                    <span class="d-flex align-items-center "><svg width="10" height="10"
-                                                            viewBox="0 0 10 10" fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg">
-                                                            <rect x="0.875" y="2.05469" width="1.66667" height="10"
-                                                                rx="0.833333" transform="rotate(-45 0.875 2.05469)"
-                                                                fill="#EA6A12" />
-                                                            <rect x="2.05469" y="9.125" width="1.66666" height="10"
-                                                                rx="0.833332" transform="rotate(-135 2.05469 9.125)"
-                                                                fill="#EA6A12" />
-                                                        </svg><small class="text-dark ms-1">1</small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="me-4 text-end">
-                                                <span class="mb-1">
-                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path opacity="0.4"
-                                                            d="M19.6449 9.48924C19.6449 9.55724 19.112 16.298 18.8076 19.1349C18.6169 20.8758 17.4946 21.9318 15.8111 21.9618C14.5176 21.9908 13.2514 22.0008 12.0055 22.0008C10.6829 22.0008 9.38936 21.9908 8.1338 21.9618C6.50672 21.9228 5.38342 20.8458 5.20253 19.1349C4.88936 16.288 4.36613 9.55724 4.35641 9.48924C4.34668 9.28425 4.41281 9.08925 4.54703 8.93126C4.67929 8.78526 4.86991 8.69727 5.07026 8.69727H18.9408C19.1402 8.69727 19.3211 8.78526 19.464 8.93126C19.5973 9.08925 19.6644 9.28425 19.6449 9.48924"
-                                                            fill="#E60A0A" />
-                                                        <path
-                                                            d="M21 5.97686C21 5.56588 20.6761 5.24389 20.2871 5.24389H17.3714C16.7781 5.24389 16.2627 4.8219 16.1304 4.22692L15.967 3.49795C15.7385 2.61698 14.9498 2 14.0647 2H9.93624C9.0415 2 8.26054 2.61698 8.02323 3.54595L7.87054 4.22792C7.7373 4.8219 7.22185 5.24389 6.62957 5.24389H3.71385C3.32386 5.24389 3 5.56588 3 5.97686V6.35685C3 6.75783 3.32386 7.08982 3.71385 7.08982H20.2871C20.6761 7.08982 21 6.75783 21 6.35685V5.97686Z"
-                                                            fill="#E60A0A" />
-                                                    </svg>
-                                                </span>
-                                                <p class="mb-0 text-dark">&#8377 750/-</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="rounded-pill bg-soft-primary iq-my-cart">
-                                        <div
-                                            class="d-flex align-items-center justify-content-between profile-img4 mt-4">
-                                            <div class="profile-img11">
-                                                <img src="webassets/images/layouts/11.png"
-                                                    class="img-fluid rounded-pill avatar-115 blur-shadow position-end"
-                                                    alt="img">
-                                                <img src="webassets/images/layouts/11.png"
-                                                    class="img-fluid rounded-pill avatar-115" alt="img"
-                                                    data-iq-gsap="onStart" data-iq-opacity="0" data-iq-scale=".6"
-                                                    data-iq-rotate="180" data-iq-duration="1" data-iq-delay="1"
-                                                    data-iq-trigger="scroll" data-iq-ease="none">
-                                            </div>
-                                            <div class="d-flex align-items-center profile-content">
-                                                <div>
-                                                    <h6 class="mb-1 heading-title fw-bolder">Sausage Salads</h6>
-                                                    <span class="d-flex align-items-center "><svg width="10" height="10"
-                                                            viewBox="0 0 10 10" fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg">
-                                                            <rect x="0.875" y="2.05469" width="1.66667" height="10"
-                                                                rx="0.833333" transform="rotate(-45 0.875 2.05469)"
-                                                                fill="#EA6A12" />
-                                                            <rect x="2.05469" y="9.125" width="1.66666" height="10"
-                                                                rx="0.833332" transform="rotate(-135 2.05469 9.125)"
-                                                                fill="#EA6A12" />
-                                                        </svg><small class="text-dark ms-1">1</small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="me-4 text-end">
-                                                <span class="mb-1">
-                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path opacity="0.4"
-                                                            d="M19.6449 9.48924C19.6449 9.55724 19.112 16.298 18.8076 19.1349C18.6169 20.8758 17.4946 21.9318 15.8111 21.9618C14.5176 21.9908 13.2514 22.0008 12.0055 22.0008C10.6829 22.0008 9.38936 21.9908 8.1338 21.9618C6.50672 21.9228 5.38342 20.8458 5.20253 19.1349C4.88936 16.288 4.36613 9.55724 4.35641 9.48924C4.34668 9.28425 4.41281 9.08925 4.54703 8.93126C4.67929 8.78526 4.86991 8.69727 5.07026 8.69727H18.9408C19.1402 8.69727 19.3211 8.78526 19.464 8.93126C19.5973 9.08925 19.6644 9.28425 19.6449 9.48924"
-                                                            fill="#E60A0A" />
-                                                        <path
-                                                            d="M21 5.97686C21 5.56588 20.6761 5.24389 20.2871 5.24389H17.3714C16.7781 5.24389 16.2627 4.8219 16.1304 4.22692L15.967 3.49795C15.7385 2.61698 14.9498 2 14.0647 2H9.93624C9.0415 2 8.26054 2.61698 8.02323 3.54595L7.87054 4.22792C7.7373 4.8219 7.22185 5.24389 6.62957 5.24389H3.71385C3.32386 5.24389 3 5.56588 3 5.97686V6.35685C3 6.75783 3.32386 7.08982 3.71385 7.08982H20.2871C20.6761 7.08982 21 6.75783 21 6.35685V5.97686Z"
-                                                            fill="#E60A0A" />
-                                                    </svg>
-                                                </span>
-                                                <p class="mb-0 text-dark">&#8377 750/-</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="text-center mt-5">
-                                        <a type="button" href="checkout.html"
-                                            class="btn btn-primary rounded-pill">Checkout</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
                     </div>
                 </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="card"style="text-align: center;">
+                        <img src="webassets/images/bmi.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
+                        <div class="card-body">
+                            <h4 class="card-title">BMI & BMR Calculations</h4>
+                            <p class="card-text">Get your BMI & BMR calculations at your fingertips </p>
+                          
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="card"style="text-align: center;">
+                        <img src="webassets/images/star.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top"  alt="#">
+                        <div class="card-body">
+                            <h4 class="card-title">Goal Selection</h4>
+                            <p class="card-text">Select your body goal as per the requirement and recommendation.</p>
+                            <!-- <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Cras justo odio</li>
+                                <li class="list-group-item">Vestibulum at eros</li>
+                            </ul> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="card" style="text-align: center;">
+                        <img src="webassets/images/lunch-box.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
+                        <div class="card-body">
+                            <h4 class="card-title">Choose Meal Packages</h4>
+                            <p class="card-text">Select your meal packages as per your preference.</p>
+                        </div>
+                        <!-- <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Cras justo odio</li>
+                        </ul>
+                        <div class="card-body">
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+                
                 <div class="card-transparent bg-transparent mb-0">
                     <div class="card-header border-0  ">
 

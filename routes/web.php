@@ -333,4 +333,12 @@ Route::group([
     Route::get('/myprofile', [webController::class, 'myprofile']);
     Route::get('/deletefromcart/{cartid}', [webController::class, 'deletefromcart']);
     Route::get('/weblogout', [webController::class, 'weblogout']);
+    Route::get('/consultation', [webController::class, 'consultation']);
+    Route::get('/allblogs', [webController::class, 'allblogs']);
+    Route::get('/alacartcheckout', [webController::class, 'alacartcheckout']);
+    Route::get('/pincodechg/{pincode}', [webController::class, 'pincodechg']);
+    Route::post('/alacartorderplace', [webController::class, 'alacartorderplace']);
+    Route::post('/subscriptionorderplace', [webController::class, 'subscriptionorderplace']);
+    Route::get('/alacartsuccess', [webController::class, 'alacartsuccess']);
+    Route::get('/orderdetails', [webController::class, 'orderdetails']);
 });

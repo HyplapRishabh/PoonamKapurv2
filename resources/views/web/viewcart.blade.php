@@ -119,7 +119,7 @@
                                     </div>
                                 </div>
                                 <div class="text-center mt-3">
-                                    <button type="button" class="btn btn-primary rounded-pill">Checkout</button>
+                                    <a href="{{url('/app/alacartcheckout')}}" class="btn btn-primary rounded-pill">Checkout</a>
                                 </div>
                             </div>
                         </div>

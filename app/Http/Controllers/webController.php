@@ -15,6 +15,7 @@ use App\Models\Mealtype;
 use App\Models\Package;
 use App\Models\Packagemenu;
 use App\Models\Pincode;
+use App\Models\Address;
 use App\Models\Product;
 use App\Models\Productmacro;
 use App\Models\Productreceipe;
@@ -25,6 +26,10 @@ use App\Models\cartaddon;
 use App\Models\Role;
 use App\Models\Subcategory;
 use App\Models\Testimonial;
+use App\Models\transction;
+use Carbon\Carbon;
+
+use App\Models\alacartorder;
 use App\Models\User;
 use Barryvdh\DomPDF\PDF;
 use Exception;
@@ -56,9 +61,10 @@ class webController extends Controller
     public function welcomeindex()
     {
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
         
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
+        
         $testimonials = Testimonial::where([['deleteId', '0'],['status','1']])->get();
         return view('web.welcomeindex', compact('categorylist', 'packagelist','goallist','testimonials'));
     }
@@ -66,10 +72,11 @@ class webController extends Controller
     public function allcategory()
     {
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
 
         $categoryall = Category::where([['deleteId', '0'],['status','1']])->get();
-        return view('web.allcategory', compact('categorylist', 'packagelist','categoryall'));
+        return view('web.allcategory', compact('categorylist', 'packagelist','goallist','categoryall'));
     }
 
     public function categorydetail($catslug,Request $input)
@@ -81,6 +88,7 @@ class webController extends Controller
             $mealtypedtl = mealtype::where([['deleteId', '0'],['status','1']])->where('name',$mealtypedtl)->pluck('id')->first(); 
         }
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
 
         $checktitle=$this->sanitizeStringForUrl($catslug);
@@ -89,7 +97,7 @@ class webController extends Controller
         ->select('categoryId','status','deleteId','mealTypeId', DB::raw('count(*) as totalmealTypeId'))
         ->where([['categoryId',$categorydtl['id']],['deleteId', '0'],['status','1']])->get();
         
-        return view('web.category', compact('categorylist', 'packagelist','categorydtl','mealTypes','input'));
+        return view('web.category', compact('categorylist','goallist','packagelist','categorydtl','mealTypes','input'));
     }
 
     public function getcartdata()
@@ -156,12 +164,13 @@ class webController extends Controller
     public function alacart()
     {
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
         
         $categoryall = Category::where([['deleteId', '0'],['status','1']])->get();
         $productdtl = Product::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('16')->get();
 
-        return view('web.alacart', compact('categorylist', 'packagelist','categoryall','productdtl'));
+        return view('web.alacart', compact('categorylist','goallist','packagelist','categoryall','productdtl'));
     }
 
     
@@ -438,26 +447,28 @@ class webController extends Controller
     public function viewcart()
     {
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
         
         $productlist = Product::with('category')->where([['deleteId', '0'],['status','1']])->limit('8')->get(); 
 
         $cartlist=cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
 
-        return view('web.viewcart', compact('categorylist', 'packagelist','productlist','cartlist'));
+        return view('web.viewcart', compact('categorylist','goallist','packagelist','productlist','cartlist'));
 
     }
 
     public function dish($pname)
     {
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
 
         $dishdtl = Product::with('category')->where([['deleteId', '0'],['status','1']])->where('slug',$pname)->first(); 
         $dishmacros = Productmacro::where('productUId',$dishdtl['UID'])->first(); 
         $dishaddonlist=Addon::where([['deleteId', '0'],['status','1'],['mealTypeId',$dishdtl['mealTypeId']],['alaCartFlag','1']])->with('mealtype')->get();
         $similarproduct = Product::with('category')->where([['deleteId', '0'],['status','1'],['categoryId',$dishdtl['categoryId']]])->inRandomOrder()->limit('8')->get();
-        return view('web.dish', compact('categorylist', 'packagelist','dishdtl','dishmacros','dishaddonlist','similarproduct'));
+        return view('web.dish', compact('categorylist','goallist','packagelist','dishdtl','dishmacros','dishaddonlist','similarproduct'));
     }
 
     public function deletefromcart($cartid)
@@ -497,34 +508,40 @@ class webController extends Controller
     public function goaldetail($goal,Request $input)
     {
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
         $checktitle=$this->sanitizeStringForUrl($goal);
         $goaldtl=Goal::where([['deleteId', '0'],['status','1']])->where('name',$checktitle)->first();
         $goalpkg=Package::where([['deleteId', '0'],['status','1'],['goalId',$goaldtl['id']]])->with('mealtype')->get();
  
-        return view('web.goaldetail', compact('categorylist', 'packagelist','goaldtl','goalpkg','input'));
+        return view('web.goaldetail', compact('categorylist','goallist','packagelist','goaldtl','goalpkg','input'));
     }
 
     public function packagemenu($pkgId,Request $input)
     {
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
         
         $packageinfo=Package::where([['deleteId', '0'],['status','1'],['id',$pkgId]])->first();
 
         $menuinfo=packagemenu::where('packageUId',$packageinfo['UID'])->with('webbreakfast')->with('weblunch')->with('websnacks')->with('webdinner')->limit($input['days'])->orderBy('day')->get();
       
-        return view('web.packagemenu', compact('categorylist','packageinfo','packagelist','menuinfo','input'));
+        return view('web.packagemenu', compact('categorylist','goallist','packageinfo','packagelist','menuinfo','input'));
     }
     
     public function packagesubscription($pkgId,Request $input)
     {
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
         
         $mealtimecount=count(explode(",",$input['type']));
         
         $packageinfo=Package::where([['deleteId', '0'],['status','1'],['id',$pkgId]])->with('goal')->first();
+        $userdetail=User::where('id',Auth::user()->id)->first();
+        $useraddress=Address::where('userId',Auth::user()->id)->first();
+        $pincodelist=pincode::where([['deleteId', '0'],['status','1']])->groupBy('pincode')->get();
 
         $fprice=$input['days']*$mealtimecount*$packageinfo['lPrice'];
         if($input['days']==3)
@@ -544,23 +561,28 @@ class webController extends Controller
             $finalamt=$fprice-$fprice*15/100;
         }
         $finalamt=round($finalamt);
-        return view('web.packagesubscription', compact('categorylist','packageinfo','packagelist','input','mealtimecount','finalamt'));
+        $mindate = Carbon::now();
+        $mindate=$mindate->addDays(1)->format('Y-m-d');
+
+        return view('web.packagesubscription', compact('mindate','userdetail','useraddress','pincodelist','categorylist','goallist','packageinfo','packagelist','input','mealtimecount','finalamt'));
     }
 
     public function aboutus()
     {
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
         
-        return view('web.aboutus', compact('categorylist', 'packagelist'));
+        return view('web.aboutus', compact('categorylist','goallist','packagelist'));
     }
 
     public function contactus()
     {
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
         
-        return view('web.contactus', compact('categorylist', 'packagelist'));
+        return view('web.contactus', compact('categorylist','goallist','packagelist'));
     }
 
     public function weblogout()
@@ -573,25 +595,148 @@ class webController extends Controller
     public function privacypolicy()
     {
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
         
-        return view('web.privacypolicy', compact('categorylist', 'packagelist'));
+        return view('web.privacypolicy', compact('categorylist','goallist','packagelist'));
     }
 
     public function termsofservice()
     {
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
         
-        return view('web.termsofservice', compact('categorylist', 'packagelist'));
+        return view('web.termsofservice', compact('categorylist','goallist','packagelist'));
     }
     
     public function myprofile()
     {
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
         
-        return view('web.myprofile', compact('categorylist', 'packagelist'));
+        return view('web.myprofile', compact('categorylist','goallist','packagelist'));
+    }
+    public function consultation()
+    {
+        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+        
+        return view('web.consultation', compact('categorylist','goallist','packagelist'));
     }
     
+    public function allblogs()
+    {
+        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+        
+        return view('web.allblogs', compact('categorylist','goallist','packagelist'));
+        
+    }
+
+    public function alacartcheckout()
+    {   
+        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+        $userdetail=User::where('id',Auth::user()->id)->first();
+        $useraddress=Address::where('userId',Auth::user()->id)->first();
+        $cartlist=cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
+        $pincodelist=pincode::where([['deleteId', '0'],['status','1']])->groupBy('pincode')->get();
+
+        return view('web.alacartcheckout', compact('categorylist','goallist','packagelist','cartlist','userdetail','useraddress','pincodelist'));
+    }
+
+    public function pincodechg($pincodeval)
+    {   
+        $pincodelist=pincode::where('pincode', $pincodeval)->get();
+
+        $myresponse=[];
+        $myresponse['status']='success';
+        $myresponse['pincodelist']=$pincodelist;
+        return $myresponse;
+    }
+
+    public function alacartorderplace(Request $input)
+    {           
+        $carb= Carbon::now(); 
+
+        $trxId=transction::insertGetId([
+            'invoiceno' => $input['abc'],
+            'trxdate' => $carb,
+            'subtotalamt' => $input['subtotalval'],
+            'discountamt' =>'0',
+            'gstamt' => $input['taxval'],
+            'deliveryamt' => $input['deliveryval'],
+            'finalamt' => $input['finaltotalval'],
+            'paymenId' => $input['paymentId'],
+            'trxFor' => 'alacart',
+            'userId' => Auth::user()->id,
+            'address' => $input['addressdtl'],
+            'landmark' => $input['landmark'],
+            'pincode' => $input['pincode'],
+            'deliverystatus'=>'InProcess',
+            'area' => $input['area'],
+            'cpname' => $input['username'],
+            'cpno' => $input['mobilenumber'],
+            'trxStatus' =>'Success'
+        ]);
+
+        transction::where('id',$trxId)->update([
+            'invoiceno' => $trxId
+        ]);
+
+        $cartlist=cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
+
+        foreach ($cartlist as $key => $value) 
+        {
+            $addonval='';
+            if(isset($value['addoncart']))
+            {
+                $productprice=$value['product']['discountedPrice'];
+                $addonprice=$value['addoncart']['addon']['price'];
+                $addonval=$value['addoncart']['addon']['description'].' - ('.$value['addoncart']['addon']['quantity'].' '.$value['addoncart']['addon']['unit'].')';
+            }
+            else
+            {
+                $productprice=$value['product']['discountedPrice']*$value['qty'];
+                $addonprice=0;
+                $addonval='';
+            }
+            $cartlist=alacartorder::insertGetId([
+                'trxId' => $trxId,
+                'productId' => $value['productId'],
+                'productName' => $value['product']['name'],
+                'productImg' =>$value['product']['image'],
+                'qty' => $value['qty'],
+                'addonName' => $addonval,
+                'addonprice'=>$addonprice,
+                'productPrice' => $productprice,
+            ]);
+        }
+
+        cart::where('userID', Auth::user()->id)->delete();
+        
+        $trxdtl=transction::where('id',$trxId)->with('trxalacartorder')->first();
+        return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+    }
+
+    public function orderdetails()
+    {
+        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+        $orderdetails=transction::where([['userId', Auth::user()->id],['trxFor','alacart']])->with('trxalacartorder')->orderBy('id','DESC')->get();
+
+        return view('web.orderdetails', compact('categorylist','goallist','packagelist','orderdetails'));
+    }
+
+    public function subscriptionorderplace(Request $input)
+    {
+        return $input;
+    }
+   
 }

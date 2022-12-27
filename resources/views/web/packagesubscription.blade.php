@@ -6,6 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <title>Poonamkapur.com | Online Diet Food & Many More in Mumbai</title>
 
     @include('web.weblayout.headlayout')
@@ -59,53 +60,63 @@
                             </div>
                             <div class="card-body">
                                 <div class="new-user-info">
-                                    <form>
+                                <form action="{{url('/app/subscriptionorderplace')}}" method="post" >
+                                        @csrf
+                                        <input type="hidden" value="45453" name="paymentId">
+                                        <input type="hidden" id="ssubtotalval" name="subtotalval" value="{{$finalamt}}">
+                                        <input type="hidden" id="staxval" name="taxval" value="0">
+                                        <input type="hidden" id="sfinaltotalval" name="finaltotalval" value="{{$finalamt}}">
+                                        <input type="hidden" id="sdeliveryval" name="deliveryval" value="0">
+                                        <input type="hidden" id="goalid" name="{{$packageinfo->goal->id}}">
+                                        <input type="hidden" id="packageid" name="{{$packageinfo->id}}">
+                                        <input type="hidden" id="days" name="days" value="{{$input['days']}}">
+                                        <input type="hidden" id="totalmeals" name="totalmeals" value="{{$input['days']*$mealtimecount}}">
+                                        <input type="hidden" id="subscribefor" name="subscribefor" value="{{$input['type']}}">
                                         <div class="row">
                                             <div class="form-group col-md-6">
                                                 <label class="form-label" for="fname">Enter Your Name:</label>
-                                                <input type="text" class="form-control" id="fname"
-                                                    placeholder="Enter Your Name">
+                                                <input type="text" required class="form-control" value="{{$userdetail->name}}" name="username" id="fname" placeholder="Enter Your Name">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="form-label" for="mobno">Mobile Number:</label>
-                                                <input type="text" class="form-control" id="mobno"
+                                                <input type="text" required class="form-control" name="mobilenumber" value="{{$userdetail->phone}}" id="mobno"
                                                     placeholder="Mobile Number">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="form-label" for="add1">Street Address 1:</label>
-                                                <input type="text" class="form-control" id="add1"
+                                                <input type="text" required class="form-control" name="addressdtl" id="add1"
                                                     placeholder="Street Address 1">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="form-label" for="add2">Landmark</label>
-                                                <input type="text" class="form-control" id="add2"
+                                                <input type="text" required class="form-control" name="landmark" id="add2"
                                                     placeholder="Enter Nearby Landmark">
                                             </div>
-
-                                            <div class="form-group col-md-6">
-                                                <label class="form-label">Select City:</label>
-                                                <select name="type" class="selectpicker form-control" data-style="py-0">
-                                                    <option>Select City</option>
-                                                    <option>Andheri</option>
-                                                    <option>Bandra</option>
-                                                    <option>Juhu</option>
-                                                    <option>Malad</option>
-                                                    <option>Borivali</option>
-                                                </select>
-                                            </div>
-
-
                                             <div class="form-group col-md-6">
                                                 <label class="form-label" for="pno">Pin Code:</label>
-                                                <input type="text" class="form-control" id="pno" placeholder="Pin Code">
+                                                <select name="pincode" required id="pincodeval" class="selectpicker form-control" onChange="pincodechg()" data-style="py-0">
+                                                    <option value="" selected>Select Pincode</option>
+                                                    @foreach($pincodelist as $pinlist)
+                                                        <option value="{{$pinlist->pincode}}">{{$pinlist->pincode}}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
-
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label">Select Area:</label>
+                                                <select name="area" required class="js-example-basic-single selectpicker form-control" id="areanameval" data-style="py-0">
+                                                   
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="form-label" for="add2">Subscription Start Date</label>
+                                                <input type="date" min="{{$mindate}}" required class="form-control" name="startdate" id="add2"
+                                                    placeholder="Select subscription start date">
+                                            </div>
                                         </div>
                                         <hr>
-
                                         <div class="checkbox">
                                             <label class="form-label"><input class="form-check-input me-2"
-                                                    type="checkbox" value="" id="flexCheckChecked">You Agree To Our
+                                                    type="checkbox" value="" required id="flexCheckChecked">You Agree To Our
                                                 Terms & Conditions</label>
                                         </div>
                                         <button type="submit" class="btn btn-primary rounded-pill">Place Order</button>
@@ -164,5 +175,41 @@
     @include('web.weblayout.footerscript')
     @include('web.weblayout.webscript')
 </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+        $(document).ready(function () {
+            $('#pincodeval').select2();
+            $('#areanameval').select2();
+        });
+
+        
+
+
+        function pincodechg()
+        {
+            newpincodeval=document.getElementById('pincodeval').value;
+            $.ajax({
+                url: '/app/pincodechg/'+newpincodeval,
+                type: "get",
+                success: function (data) {
+
+                    console.log(data);
+                    if (data['status'] == "success") {
+                        str = "";
+                        data['pincodelist'].forEach(element => {
+                            str+='<option value="'+element['areaName']+'">'+element['areaName']+'</option>';
+                        }); 
+                        
+                        document.getElementById('areanameval').innerHTML=str;
+                        calculate();
+                    }
+                    else {
+
+                    }
+                }
+            });
+        }
+</script>
 
 </html>
