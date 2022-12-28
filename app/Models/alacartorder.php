@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class alacartorder extends Model
 {
     use HasFactory;
+    
     protected $fillable = [
         'id',
         'trxId',

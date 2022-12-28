@@ -127,13 +127,49 @@
                                     <span class="menu-text">Dashboard</span>
                                 </a>
                             </li>
+
+                            <li class="menu-section">
+                                <h4 class="menu-text">Today's Orders</h4>
+                                <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                            </li>
+                            <li class="menu-item {{ Request::is('order/alacart/today*') ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                <a href="{{url('/order/alacart/today')}}" class="menu-link">
+                                    <span class="svg-icon menu-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <path d="M3.95709826,8.41510662 L11.47855,3.81866389 C11.7986624,3.62303967 12.2013376,3.62303967 12.52145,3.81866389 L20.0429,8.41510557 C20.6374094,8.77841684 21,9.42493654 21,10.1216692 L21,19.0000642 C21,20.1046337 20.1045695,21.0000642 19,21.0000642 L4.99998155,21.0000673 C3.89541205,21.0000673 2.99998155,20.1046368 2.99998155,19.0000673 L2.99999828,10.1216672 C2.99999935,9.42493561 3.36258984,8.77841732 3.95709826,8.41510662 Z M10,13 C9.44771525,13 9,13.4477153 9,14 L9,17 C9,17.5522847 9.44771525,18 10,18 L14,18 C14.5522847,18 15,17.5522847 15,17 L15,14 C15,13.4477153 14.5522847,13 14,13 L10,13 Z" fill="#000000" />
+                                            </g>
+                                        </svg>
+
+                                    </span>
+                                    <span class="menu-text">Ala Cart</span>
+                                </a>
+                            </li>
+                            <li class="menu-item {{ Request::is('order/package/today*') ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                <a href="{{url('/order/package/today')}}" class="menu-link">
+                                    <span class="svg-icon menu-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <path d="M3.95709826,8.41510662 L11.47855,3.81866389 C11.7986624,3.62303967 12.2013376,3.62303967 12.52145,3.81866389 L20.0429,8.41510557 C20.6374094,8.77841684 21,9.42493654 21,10.1216692 L21,19.0000642 C21,20.1046337 20.1045695,21.0000642 19,21.0000642 L4.99998155,21.0000673 C3.89541205,21.0000673 2.99998155,20.1046368 2.99998155,19.0000673 L2.99999828,10.1216672 C2.99999935,9.42493561 3.36258984,8.77841732 3.95709826,8.41510662 Z M10,13 C9.44771525,13 9,13.4477153 9,14 L9,17 C9,17.5522847 9.44771525,18 10,18 L14,18 C14.5522847,18 15,17.5522847 15,17 L15,14 C15,13.4477153 14.5522847,13 14,13 L10,13 Z" fill="#000000" />
+                                            </g>
+                                        </svg>
+
+                                    </span>
+                                    <span class="menu-text">Package</span>
+                                </a>
+                            </li>
+
+
+
                             <li class="menu-section">
                                 <h4 class="menu-text">Admin</h4>
                                 <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                             </li>
 
 
-                            <li class="menu-item menu-item-submenu {{ Request::is('user*','role*','goal*','category*','subcategory*','addon*','mealtype*','product*','package*','pincode*','booking*')  ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
+                            <li class="menu-item menu-item-submenu {{ Request::is('user*','role*','goal*','rawmaterial*','category*','subcategory*','addon*','mealtype*','product*','package*','pincode*','booking*')  ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true" data-menu-toggle="hover">
                                 <a href="javascript:;" class="menu-link menu-toggle">
                                     <span class="svg-icon menu-icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -202,6 +238,14 @@
                                                     <span></span>
                                                 </i>
                                                 <span class="menu-text">Meal Type</span>
+                                            </a>
+                                        </li>
+                                        <li class="menu-item {{ Request::is('rawmaterial*') ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                            <a href="{{url('/rawmaterial')}}" class="menu-link">
+                                                <i class="menu-bullet menu-bullet-dot">
+                                                    <span></span>
+                                                </i>
+                                                <span class="menu-text">Raw Material</span>
                                             </a>
                                         </li>
                                         <li class="menu-item {{ Request::is('product*') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -503,6 +547,20 @@
                                 <h4 class="menu-text">Other</h4>
                                 <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                             </li>
+                            <li class="menu-item {{ Request::is('wallet*') ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                <a href="{{url('/wallet')}}" class="menu-link">
+                                    <span class="svg-icon menu-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <path d="M5,6 L19,6 C19.5522847,6 20,6.44771525 20,7 L20,17 L4,17 L4,7 C4,6.44771525 4.44771525,6 5,6 Z" fill="#000000" />
+                                                <rect fill="#000000" opacity="0.3" x="1" y="18" width="22" height="1" rx="0.5" />
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <span class="menu-text">Wallet</span>
+                                </a>
+                            </li>
                             <li class="menu-item {{ Request::is('blog*') ? 'menu-item-active' : '' }}" aria-haspopup="true">
                                 <a href="{{url('/blog')}}" class="menu-link">
                                     <span class="svg-icon menu-icon">
@@ -766,7 +824,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#tabdata').DataTable();
-            
+
         });
 
         /*code: 48-57 Numbers*/

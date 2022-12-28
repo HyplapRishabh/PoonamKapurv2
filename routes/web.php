@@ -46,7 +46,6 @@ Route::group(['middleware' => 'checkUserr'], function () {
         Route::post('/deleteUser', [AdminController::class, 'deleteUser']);
         Route::post('/updateUser', [AdminController::class, 'updateUser']);
         Route::get('/status', [AdminController::class, 'userStatus']);
-
     });
 
     // enduser enduser/checkPhone
@@ -121,6 +120,18 @@ Route::group(['middleware' => 'checkUserr'], function () {
         Route::get('/status', [AdminController::class, 'goalStatus']);
     });
 
+    //goal
+    Route::group([
+        'prefix' => 'rawmaterial'
+    ], function () {
+        Route::get('/', [AdminController::class, 'indexRawMaterial']);
+        // Route::get('/checkName', [AdminController::class, 'checkGoalName']);
+        Route::post('/add', [AdminController::class, 'storeRawMaterial']);
+        Route::post('/delete', [AdminController::class, 'deleteRawMaterial']);
+        Route::post('/update', [AdminController::class, 'updateRawMaterial']);
+        Route::post('/import', [AdminController::class, 'importRawMaterial']);
+    });
+
     // product
     Route::group([
         'prefix' => 'product'
@@ -153,7 +164,6 @@ Route::group(['middleware' => 'checkUserr'], function () {
         Route::post('/deleteAddon', [AdminController::class, 'deleteAddon']);
         Route::post('/updateAddon', [AdminController::class, 'updateAddon']);
         Route::post('/importAddon', [AdminController::class, 'importAddon']);
-        
     });
 
     // package
@@ -185,7 +195,6 @@ Route::group(['middleware' => 'checkUserr'], function () {
         Route::post('/updatePincode', [AdminController::class, 'updatePincode']);
         Route::get('/status', [AdminController::class, 'pincodeStatus']);
         Route::post('/importPincode', [AdminController::class, 'importPincode']);
-
     });
 
     // booking
@@ -207,6 +216,14 @@ Route::group(['middleware' => 'checkUserr'], function () {
         Route::get('/expired', [AdminController::class, 'indexExpiredSubscription']);
         Route::post('/deleteSubscription', [AdminController::class, 'deleteSubscription']);
         Route::post('/updateSubscription', [AdminController::class, 'updateSubscription']);
+    });
+
+    // wallet
+    Route::group([
+        'prefix' => 'wallet'
+    ], function () {
+        Route::get('/', [AdminController::class, 'indexWallet']);
+        Route::post('/update', [AdminController::class, 'updateWallet']);
     });
 
     // order
@@ -290,6 +307,33 @@ Route::group(['middleware' => 'checkUserr'], function () {
         Route::post('/deleteFaqs', [AdminController::class, 'deleteFaq']);
         // Route::get('/status', [AdminController::class, 'faqStatus']);
     });
+
+    // orders
+    Route::group([
+        'prefix' => 'order'
+    ], function () {
+        Route::post('/status', [AdminController::class, 'updateTrxStatus']);
+        Route::group([
+            'prefix' => 'alacart'
+        ], function () {
+            Route::get('/', [AdminController::class, 'indexAlacartOrder']);
+            Route::get('/today', [AdminController::class, 'indexTodayAlacartOrder']);
+            Route::get('/completed', [AdminController::class, 'indexCompletedAlacartOrder']);
+            Route::post('/cancel', [AdminController::class, 'cancelAlacartOrder']);
+            Route::post('/delete', [AdminController::class, 'deleteAlacartOrder']);
+            Route::post('/update', [AdminController::class, 'updateAlacartOrder']);
+        });
+        Route::group([
+            'prefix' => 'package'
+        ], function () {
+            Route::get('/', [AdminController::class, 'indexPackageOrder']);
+            Route::get('/today', [AdminController::class, 'indexTodayPackageOrder']);
+            Route::get('/completed', [AdminController::class, 'indexCompletedPackageOrder']);
+            Route::get('/cancelled', [AdminController::class, 'indexCancelledPackageOrder']);
+            Route::post('/delete', [AdminController::class, 'deletePackageOrder']);
+            Route::post('/update', [AdminController::class, 'updatePackageOrder']);
+        });
+    });
 });
 
 
@@ -303,15 +347,15 @@ Route::group([
 ], function () {
     Route::get('/allcategory', [webController::class, 'allcategory']);
     Route::get('/category/{catslug}', [webController::class, 'categorydetail']);
-    Route::get('/aboutus', [webController::class, 'aboutus']); 
+    Route::get('/aboutus', [webController::class, 'aboutus']);
     Route::get('/Franchisee', [webController::class, 'Franchisee']); //
-    Route::get('/contact-us', [webController::class, 'contactus']); 
-    Route::get('/privacy-policy', [webController::class, 'privacypolicy']); 
+    Route::get('/contact-us', [webController::class, 'contactus']);
+    Route::get('/privacy-policy', [webController::class, 'privacypolicy']);
     Route::get('/terms-of-service', [webController::class, 'termsofservice']);
     Route::get('/login', [webController::class, 'login']);
     Route::get('/signup', [webController::class, 'signup']);
     Route::get('/resetpassword', [webController::class, 'resetpassword']);
-    Route::get('/goal/{goalslug}', [webController::class, 'goaldetail']); 
+    Route::get('/goal/{goalslug}', [webController::class, 'goaldetail']);
     Route::get('/alltestimonial', [webController::class, 'alltestimonial']); //
     Route::get('/alacart', [webController::class, 'alacart']);
     Route::get('/getproductfilter/{ids}', [webController::class, 'getproductfilter']);

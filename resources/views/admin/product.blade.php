@@ -126,9 +126,6 @@
     </div>
 </div>
 
-
-
-
 @foreach (['danger', 'warning', 'success', 'info'] as $msg)
 @if(Session::has('alert-' . $msg))
 <div class="col-sm-12">
@@ -208,7 +205,6 @@ isset($_GET['alaCart']) ? $alaCart = $_GET['alaCart'] : $alaCart = '';
         </div>
     </form>
 </div>
-
 <!-- table section -->
 
 <div class="col-sm-12 mt-3">
