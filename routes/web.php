@@ -341,4 +341,5 @@ Route::group([
     Route::post('/subscriptionorderplace', [webController::class, 'subscriptionorderplace']);
     Route::get('/alacartsuccess', [webController::class, 'alacartsuccess']);
     Route::get('/orderdetails', [webController::class, 'orderdetails']);
+    Route::get('/deletesubscription/{subid}', [webController::class, 'deletesubscription']);
 });

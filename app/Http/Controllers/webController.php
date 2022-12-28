@@ -28,7 +28,7 @@ use App\Models\Subcategory;
 use App\Models\Testimonial;
 use App\Models\transction;
 use Carbon\Carbon;
-
+use App\Models\subscriptionorder;
 use App\Models\alacartorder;
 use App\Models\User;
 use Barryvdh\DomPDF\PDF;
@@ -615,8 +615,10 @@ class webController extends Controller
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
         $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        
-        return view('web.myprofile', compact('categorylist','goallist','packagelist'));
+        $orderdetails=transction::where([['userId', Auth::user()->id],['trxFor','alacart']])->with('trxalacartorder')->orderBy('id','DESC')->get();
+        $subscriptiondetails=transction::where([['userId', Auth::user()->id],['trxFor','subscription']])->with(['trxsubscriptionorder'=>function($qs){$qs->with('pkgdtl');}])->orderBy('id','DESC')->get();
+
+        return view('web.myprofile', compact('categorylist','goallist','packagelist','orderdetails','subscriptiondetails'));
     }
     public function consultation()
     {
@@ -665,7 +667,6 @@ class webController extends Controller
         $carb= Carbon::now(); 
 
         $trxId=transction::insertGetId([
-            'invoiceno' => $input['abc'],
             'trxdate' => $carb,
             'subtotalamt' => $input['subtotalval'],
             'discountamt' =>'0',
@@ -736,7 +737,61 @@ class webController extends Controller
 
     public function subscriptionorderplace(Request $input)
     {
-        return $input;
+
+        $carb= Carbon::now(); 
+
+        $trxId=transction::insertGetId([
+            'trxdate' => $carb,
+            'subtotalamt' => $input['subtotalval'],
+            'discountamt' =>'0',
+            'gstamt' => $input['taxval'],
+            'deliveryamt' => $input['deliveryval'],
+            'finalamt' => $input['finaltotalval'],
+            'paymenId' => $input['paymentId'],
+            'trxFor' => 'subscription',
+            'userId' => Auth::user()->id,
+            'address' => $input['addressdtl'],
+            'landmark' => $input['landmark'],
+            'pincode' => $input['pincode'],
+            'deliverystatus'=>'InProcess',
+            'area' => $input['area'],
+            'cpname' => $input['username'],
+            'cpno' => $input['mobilenumber'],
+            'trxStatus' =>'Success'
+        ]);
+
+        transction::where('id',$trxId)->update([
+            'invoiceno' => $trxId
+        ]);
+
+        $cartlist=subscriptionorder::insertGetId([
+            'trxId' => $trxId,
+            'userId' => Auth::user()->id,
+            'packageId' =>$input['packageid'],
+            'totaldays' =>$input['days'],
+            'totalmeal' =>$input['totalmeals'],
+            'subscribedfor' => $input['subscribefor'],
+            'startdate'=>$input['startdate'],
+            'status' =>"Booked",
+        ]);
+
+        $trxdtl=transction::where('id',$trxId)->with('trxsubscriptionorder')->first();
+        return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
     }
-   
+
+    public function deletesubscription($subid)
+    {
+        transction::where('id',$subid)->update([
+            'deliverystatus' => 'cancelled'
+        ]);
+
+        subscriptionorder::where('trxId',$subid)->update([
+            'status' =>"cancelled",
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Deleted successfully !',
+        ]);
+    }
 }

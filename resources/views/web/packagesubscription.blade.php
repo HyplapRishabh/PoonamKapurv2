@@ -67,8 +67,8 @@
                                         <input type="hidden" id="staxval" name="taxval" value="0">
                                         <input type="hidden" id="sfinaltotalval" name="finaltotalval" value="{{$finalamt}}">
                                         <input type="hidden" id="sdeliveryval" name="deliveryval" value="0">
-                                        <input type="hidden" id="goalid" name="{{$packageinfo->goal->id}}">
-                                        <input type="hidden" id="packageid" name="{{$packageinfo->id}}">
+                                        <input type="hidden" id="goalid" name="goalid" value="{{$packageinfo->goal->id}}">
+                                        <input type="hidden" id="packageid" name="packageid" value="{{$packageinfo->id}}">
                                         <input type="hidden" id="days" name="days" value="{{$input['days']}}">
                                         <input type="hidden" id="totalmeals" name="totalmeals" value="{{$input['days']*$mealtimecount}}">
                                         <input type="hidden" id="subscribefor" name="subscribefor" value="{{$input['type']}}">

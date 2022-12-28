@@ -73,10 +73,10 @@
                         </div>
                      </div>
                      <ul class="d-flex mb-0 text-center ">
-                        <li class="badge bg-primary py-2 me-2">
+                        <!-- <li class="badge bg-primary py-2 me-2">
                            <p class="mb-3 mt-2">Weight Loss</p>
                            <small class="mb-1 fw-normal">My Goal</small>
-                        </li>
+                        </li> -->
                         <li class="badge bg-primary py-2 me-2">
                            <p class="mb-3 mt-2">75KG</p>
                            <small class="mb-1 fw-normal">Weight</small>
@@ -109,117 +109,232 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <p>package detailsto be shocased hereif anyone wants to see it they can do it here. <code>To change thepackage please click here</code>.
-                           or <code>to pause or cancel the packsge please click here</code>.  To do anything other than that you can call us at the given details.</p>
-                        <div class="table-responsive">
-                            <table id="datatable" class="table table-striped" data-toggle="data-table">
-                                <thead>
-                                    <tr class="ligth">
-                                       
-                                        <th>Package Name</th>
-                                        <th>Package days</th>
-                                        <th>Start Date</th>
-                                        <th>Location</th>
-                                        <th>Status</th>
-                                      
-                                      
-                                        <th>Status</th>
-                                        <th style="min-width: 100px">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                       
-                                        <td>Team HYPLAP</td>
-                                        <td>7 days</td>
-                                        <td>12-03-2022</td>
-                                        <td>Mumbai</td>
-                                        <td><span class="badge bg-primary">Active</span></td>
-                                        <td>2019/12/01</td>
-                                        <td>
-                                            <div class="flex align-items-center list-user-action">
-                                                <a class="btn btn-sm btn-icon btn-success" data-toggle="tooltip"
-                                                    data-placement="top" title="" data-original-title="Add"
-                                                    href="#">
-                                                    <span class="btn-inner">
-                                                        <svg width="32" viewBox="0 0 24 24" fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg">
-                                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                                d="M9.87651 15.2063C6.03251 15.2063 2.74951 15.7873 2.74951 18.1153C2.74951 20.4433 6.01251 21.0453 9.87651 21.0453C13.7215 21.0453 17.0035 20.4633 17.0035 18.1363C17.0035 15.8093 13.7415 15.2063 9.87651 15.2063Z"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                            </path>
-                                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                                d="M9.8766 11.886C12.3996 11.886 14.4446 9.841 14.4446 7.318C14.4446 4.795 12.3996 2.75 9.8766 2.75C7.3546 2.75 5.3096 4.795 5.3096 7.318C5.3006 9.832 7.3306 11.877 9.8456 11.886H9.8766Z"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                            </path>
-                                                            <path d="M19.2036 8.66919V12.6792"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                            </path>
-                                                            <path d="M21.2497 10.6741H17.1597"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                            </path>
-                                                        </svg>
-                                                    </span>
-                                                </a>
-                                                <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip"
-                                                    data-placement="top" title="" data-original-title="Edit"
-                                                    href="#">
-                                                    <span class="btn-inner">
-                                                        <svg width="20" viewBox="0 0 24 24" fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                            </path>
-                                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                                d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                            </path>
-                                                            <path d="M15.1655 4.60254L19.7315 9.16854"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                            </path>
-                                                        </svg>
-                                                    </span>
-                                                </a>
-                                                <a class="btn btn-sm btn-icon btn-danger" data-toggle="tooltip"
-                                                    data-placement="top" title="" data-original-title="Delete"
-                                                    href="#">
-                                                    <span class="btn-inner">
-                                                        <svg width="20" viewBox="0 0 24 24" fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            stroke="currentColor">
-                                                            <path
-                                                                d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                            </path>
-                                                            <path d="M20.708 6.23975H3.75" stroke="currentColor"
-                                                                stroke-width="1.5" stroke-linecap="round"
-                                                                stroke-linejoin="round"></path>
-                                                            <path
-                                                                d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                            </path>
-                                                        </svg>
-                                                    </span>
-                                                </a>
+                        <ul class="nav nav-pills mb-3 nav-fill" id="pills-tab-1" role="tablist">
+                           <li class="nav-item">
+                              <a class="nav-link active" id="pills-home-tab-fill" data-bs-toggle="pill" href="#pills-home-fill" role="tab" aria-controls="pills-home" aria-selected="true">AlaCart Orders</a>
+                           </li>
+                           <li class="nav-item">
+                              <a class="nav-link" id="pills-profile-tab-fill" data-bs-toggle="pill" href="#pills-profile-fill" role="tab" aria-controls="pills-profile" aria-selected="false">Subscription Orders</a>
+                           </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent-1">
+                           <div class="tab-pane fade show active" id="pills-home-fill" role="tabpanel" aria-labelledby="pills-home-tab-fill">
+                            @foreach($orderdetails as $orderinfo)
+                                    <div class="d-flex flex-wrap justify-content-between">
+                                        <div class="d-flex align-items-center flex-wrap mb-4 mb-lg-0">
+                                            <button type="button"
+                                                class="btn btn-outline-primary me-5 rounded-pill">#INV-{{$orderinfo['invoiceno']}}</button>
+
+                                        </div>
+                                        <div class="d-flex flex-wrap">
+                                            <!-- <button type="button" class="btn btn-outline-danger rounded-pill">Cancel Order</button> -->
+                                            <button type="button"
+                                                class="btn text-white btn-success ms-3 rounded-pill">{{$orderinfo['deliverystatus']}}</button>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                        <div class="col-md-12 col-lg-12 col-xl-12">
+                                            <div class="card table-responsive">
+                                                <table class="table table-borderless product-table rounded">
+                                                    <thead class="bg-primary ">
+                                                        <tr>
+                                                            <th><span
+                                                                    class="heading-title rowpad text-white">Items</span>
+                                                            </th>
+                                                            <th><span class="heading-title rowpad text-white">Qty</span>
+                                                            </th>
+                                                            <th><span
+                                                                    class="heading-title rowpad text-white">Price</span>
+                                                            </th>
+                                                            <th><span class="heading-title rowpad text-white">Total
+                                                                    Price</span></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($orderinfo['trxalacartorder'] as $alacartinfo)
+                                                        <tr class="cart_item border-bottom">
+                                                            <td>
+                                                                <div class="d-flex align-items-center">
+                                                                    <img src="/{{asset($alacartinfo->productImg)}}"
+                                                                        onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`"
+                                                                        alt="{{$alacartinfo->productName}}"
+                                                                        class="img-fluid avatar-rounded avatar-70">
+                                                                    <div class="d-flex ms-4">
+                                                                        <div>
+                                                                            <h6 class="heading-title text-primary">
+                                                                                {{$alacartinfo->productName}}</h6>
+                                                                            @if(isset($alacartinfo->addonName))
+                                                                            <p class="mb-0 fw-bolder">
+                                                                                {{$alacartinfo->addonName}}</p>
+                                                                            @else
+                                                                            <p class="mb-0 fw-bolder">
+                                                                                {{$alacartinfo->addonName}}</p>
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <span class="rowpad">{{$alacartinfo->qty}}x</span>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <span class="rowpad">{{$alacartinfo->productPrice +
+                                                                    $alacartinfo->addonprice}}</span>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <span class="rowpad">{{($alacartinfo->productPrice +
+                                                                    $alacartinfo->addonprice)*$alacartinfo->qty}}</span>
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                        </td>
-                                    </tr>
-                             
-                                </tbody>
-                         
-                            </table>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                           </div>
+                           <div class="tab-pane fade" id="pills-profile-fill" role="tabpanel" aria-labelledby="pills-profile-tab-fill">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="datatable" class="table table-striped"
+                                            data-toggle="data-table">
+                                            <thead>
+                                                <tr class="ligth">
+                                                    <th>Package Name</th>
+                                                    <th>Total days</th>
+                                                    <th>Total meals</th>
+                                                    <th>Booked for</th>
+                                                    <th>Start Date</th>
+                                                    <th>payment</th>
+                                                    <th>Status</th>
+                                                    <th style="min-width: 100px">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($subscriptiondetails as $subdetails)
+                                                <tr>
+
+                                                    <td>
+                                                        @if(isset($subdetails->trxsubscriptionorder->pkgdtl))
+                                                            {{$subdetails->trxsubscriptionorder->pkgdtl->name}}
+                                                        @else
+                                                    
+                                                        @endif
+                                                    </td>
+                                                    <td>{{$subdetails->trxsubscriptionorder->totaldays}}</td>
+                                                    <td>{{$subdetails->trxsubscriptionorder->totalmeal}}</td>
+                                                    <td>{{$subdetails->trxsubscriptionorder->subscribedfor}}</td>
+                                                    <td>{{$subdetails->trxsubscriptionorder->startdate}}</td>
+                                                    <td>{{$subdetails->subtotalamt}}</td>
+                                                    <td>{{$subdetails->trxsubscriptionorder->status}}</td>
+                                                    <td>
+                                                        @if($subdetails->trxsubscriptionorder->status!='cancelled')
+                                                        <div class="flex align-items-center list-user-action">
+                                                    
+                                                            <!-- <a class="btn btn-sm btn-icon btn-warning"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Pause subscription" data-original-title="Edit" href="#">
+                                                                <span class="btn-inner">
+                                                                    <svg width="20" viewBox="0 0 24 24"
+                                                                        fill="none"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341"
+                                                                            stroke="currentColor"
+                                                                            stroke-width="1.5"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round">
+                                                                        </path>
+                                                                        <path fill-rule="evenodd"
+                                                                            clip-rule="evenodd"
+                                                                            d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z"
+                                                                            stroke="currentColor"
+                                                                            stroke-width="1.5"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round">
+                                                                        </path>
+                                                                        <path
+                                                                            d="M15.1655 4.60254L19.7315 9.16854"
+                                                                            stroke="currentColor"
+                                                                            stroke-width="1.5"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round">
+                                                                        </path>
+                                                                    </svg>
+                                                                </span>
+                                                            </a> -->
+                                                            <a class="btn btn-sm btn-icon btn-danger"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Delete subscription" data-original-title="Delete" data-bs-toggle="modal" data-bs-target="#exampleModaldelete{{$subdetails->id}}">
+                                                                <span class="btn-inner">
+                                                                    <svg width="20" viewBox="0 0 24 24"
+                                                                        fill="none"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        stroke="currentColor">
+                                                                        <path
+                                                                            d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                                                                            stroke="currentColor"
+                                                                            stroke-width="1.5"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round">
+                                                                        </path>
+                                                                        <path d="M20.708 6.23975H3.75"
+                                                                            stroke="currentColor"
+                                                                            stroke-width="1.5"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round"></path>
+                                                                        <path
+                                                                            d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                                                                            stroke="currentColor"
+                                                                            stroke-width="1.5"
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round">
+                                                                        </path>
+                                                                    </svg>
+                                                                </span>
+                                                            </a>
+                                                        </div>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                
+                                                <div class="modal fade" id="exampleModaldelete{{$subdetails->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModaldelete{{$subdetails->id}}" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                       <div class="modal-content">
+                                                          <div class="modal-header">
+                                                             <h5 class="modal-title">Delete Subscription</h5>
+                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                             </button>
+                                                          </div>
+                                                          <form >
+                                                            @csrf
+                                                            <div class="modal-body">
+                                                                <input type="hidden" value="{{$subdetails->id}}" name="subId">
+                                                                <p>Are you suer you want to stop subscription @if(isset($subdetails->trxsubscriptionorder->pkgdtl))
+                                                                    of {{$subdetails->trxsubscriptionorder->pkgdtl->name}}
+                                                                    @else
+                                                                    @endif
+                                                                </p>
+                                                                <p>Note: Subscription will be discontinue from tomorrow</p>
+                                                            </div>
+                                                          <div class="modal-footer" style="text-align: center;justify-content: center;">
+                                                             <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
+                                                             <button type="button" onclick="deletesub({{$subdetails->id}})" style="" class="btn btn-primary rounded-pill">Delete</button>
+                                                          </div>
+                                                          </form>
+                                                       </div>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                     </div>
                 </div>
             </div>
         </div>
@@ -262,5 +377,27 @@
     </main>
     @include('web.weblayout.footerscript')
     @include('web.weblayout.webscript')
+
+    <script>
+        function deletesub(subid)
+        {
+            $.ajax({
+                url: '/app/deletesubscription/' + subid,
+                type: "get",
+                success: function (data) {
+                    console.log(data);
+                    if (data['status'] == "success") 
+                    {
+                        $('#exampleModaldelete'+subid).modal('hide');  
+                        sendnotify(data['message']);
+                        location.reload();
+                    }
+                    else{
+                        sendnotify(data['message']);
+                    }
+                }
+            });
+        }
+    </script>
 </body>
 </html>

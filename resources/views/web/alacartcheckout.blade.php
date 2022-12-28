@@ -130,11 +130,11 @@
                             <div class="rounded-pill bg-soft-primary iq-my-cart">
                                 <div class="d-flex align-items-center justify-content-between profile-img4">
                                     <div class="profile-img11">
-                                        <img src="/{{asset($cartinfo->product->image)}}"
+                                        <img src="{{asset($cartinfo->product->image)}}"
                                         onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`"
                                         alt="{{$cartinfo->product->name}}"
                                             class="img-fluid rounded-pill avatar-115 blur-shadow position-end">
-                                        <img src="/{{asset($cartinfo->product->image)}}"
+                                        <img src="{{asset($cartinfo->product->image)}}"
                                         onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`"
                                         alt="{{$cartinfo->product->name}}"
                                             class="img-fluid rounded-pill avatar-115" >
@@ -222,6 +222,7 @@
                         document.getElementById('deliverychg').innerHTML=data['pincodelist'][0]['deliveryCharge'];
                         document.getElementById('areanameval').innerHTML=str;
                         deliverychg=data['pincodelist'][0]['deliveryCharge'];
+                        console.log(deliverychg);
                         calculate();
                     }
                     else {
@@ -258,7 +259,7 @@
                                 }
                             });
 
-                            finaltotal=deliverychg+gst+total;
+                            finaltotal=deliverychg*1+gst*1+total*1;
                             document.getElementById('totalval').innerHTML='&#8377 '+total;
                             document.getElementById('taxval').innerHTML='&#8377 '+gst;
                             document.getElementById('finaltotalval').innerHTML='&#8377 '+finaltotal;

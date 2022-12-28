@@ -34,4 +34,9 @@ class transction extends Model
     {
         return $this->hasMany(alacartorder::class, 'trxId', 'id');
     }
+
+    public function trxsubscriptionorder()
+    {
+        return $this->hasOne(subscriptionorder::class, 'trxId', 'id');
+    }
 }
