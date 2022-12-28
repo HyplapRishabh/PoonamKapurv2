@@ -13,8 +13,8 @@ class transction extends Model
         'invoiceno',
         'trxdate',
         'subtotalamt',
-        'discountamt
-        gstamt',
+        'discountamt',
+        'gstamt',
         'deliveryamt',
         'finalamt',
         'paymenId',
@@ -33,5 +33,10 @@ class transction extends Model
     public function trxalacartorder()
     {
         return $this->hasMany(alacartorder::class, 'trxId', 'id');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'userId');
     }
 }

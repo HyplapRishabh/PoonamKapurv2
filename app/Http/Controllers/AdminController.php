@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Addon;
+use App\Models\alacartorder;
 use App\Models\Blog;
 use App\Models\Booking;
 use App\Models\Category;
@@ -24,8 +25,12 @@ use App\Models\Review;
 use App\Models\Role;
 use App\Models\Subcategory;
 use App\Models\Testimonial;
+use App\Models\transction;
 use App\Models\User;
+use App\Models\Wallet;
+use App\Models\Walletremark;
 use Barryvdh\DomPDF\PDF;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -957,6 +962,136 @@ class AdminController extends Controller
     public function goalStatus(Request $request)
     {
         $model = Goal::find($request->user_id);
+        $model->status = $request->status;
+        $model->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Status Changed Successfully',
+        ]);
+    }
+
+    // Raw material
+
+    public function indexRawMaterial()
+    {
+        $rawmaterials = Rawmaterial::where('deleteId', '0')->get();
+        return view('admin.rawmaterial', compact('rawmaterials'));
+    }
+
+    public function storeRawMaterial(Request $request)
+    {
+        $rawMaterial = new Rawmaterial;
+        $rawMaterial->UID = $request->UID;
+        $rawMaterial->name = $request->name;
+        $rawMaterial->unit = $request->unit;
+        $rawMaterial->warnAt = $request->warn;
+        $rawMaterial->status = $request->status;
+        $rawMaterial->save();
+        Session()->flash('alert-success', "Raw Material Added Succesfully");
+        $this->storeLog('Add', 'storeRawMaterial', $rawMaterial);
+
+        return redirect()->back();;
+    }
+
+    public function updateRawMaterial(Request $request)
+    {
+        $rawMaterial = Rawmaterial::find($request->hiddenId);
+        $rawMaterial->name = $request->name;
+        $rawMaterial->unit = $request->unit;
+        $rawMaterial->warnAt = $request->warn;
+        if ($request->status != $rawMaterial->status) {
+            $rawMaterial->status = $request->status;
+        }
+        $rawMaterial->update();
+        Session()->flash('alert-success', "Raw Material Updated Succesfully");
+        $this->storeLog('Update', 'updateRawMaterial', $rawMaterial);
+        return redirect()->back();;
+    }
+
+    public function importRawMaterial(Request $request)
+    {
+        $this->validate($request, [
+            'excel' => 'required|mimes:xls,xlsx'
+        ]);
+        try {
+            $file = $request->file('excel');
+            $filename = time() . $file->getClientOriginalName();
+            $uploadpath = 'storage/ExcelFiles/RawMaterial/';
+            $filepath = 'storage/ExcelFiles/RawMaterial/' . $filename;
+            $file->move($uploadpath, $filename);
+
+            chmod('storage/ExcelFiles/RawMaterial/' . $filename, 0777);
+            $xls_file = $filepath;
+            $reader = new Xlsx();
+            $spreadsheet = $reader->load($xls_file);
+            $loadedSheetName = $spreadsheet->getSheetNames();
+
+            $writer = new Csv($spreadsheet);
+            $sheetName = $loadedSheetName[0];
+            foreach ($loadedSheetName as $sheetIndex => $loadedSheetName) {
+                $writer->setSheetIndex($sheetIndex);
+                $writer->save($loadedSheetName . '.csv');
+            }
+            $inf = $sheetName . '.csv';
+            $fileD = fopen($inf, "r");
+            $column = fgetcsv($fileD);
+            while (!feof($fileD)) {
+                $rowData[] = fgetcsv($fileD);
+            }
+            $skip_lov = array();
+            $counter = 0;
+            $failed = 0;
+            foreach ($rowData as $value) {
+
+                if (empty($value)) {
+                    $counter--;
+                } else {
+                    $product = Rawmaterial::where('UID', $value[0])->first();
+                    if ($product) {
+                        $failed++;
+                        continue;
+                    } else {
+                        $fieldData = new Rawmaterial();  //name of modal
+                        $fieldData->UID = $value[0];
+                        $fieldData->name = $value[1];
+                        $fieldData->unit = $value[2];
+                        $fieldData->warnAt = $value[3];
+                        if ($value[4] == 'Active') {
+                            $fieldData->status = 1;
+                        } else {
+                            $fieldData->status = 0;
+                        }
+                        $fieldData->save();
+                    }
+                }
+                $counter++;
+            }
+            Session()->flash('alert-success', "File Uploaded Succesfully");
+            // $this->storeLog('Add', 'importProduct', $fieldData);
+            // delete excel file
+            unlink($filepath);
+            return redirect()->back();
+        } catch (\Exception $e) {
+            Session()->flash('alert-danger', 'error:' . $e);
+            return redirect()->back();
+        }
+    }
+
+    public function deleteRawMaterial(Request $request)
+    {
+        $model = Rawmaterial::find($request->hiddenId);
+
+        $model->deleteId = 1;
+        $model->save();
+        Session()->flash('alert-success', "Raw Material Updated Succesfully");
+        $this->storeLog('Delete', 'deleteRawMaterial', $model);
+        return redirect()->back();;
+    }
+
+    public function rawMaterialStatus(Request $request)
+    {
+        $model = Rawmaterial::find($request->user_id);
         $model->status = $request->status;
         $model->save();
 
@@ -2771,5 +2906,94 @@ class AdminController extends Controller
         Session()->flash('alert-success', "Faq Deleted Succesfully");
         $this->storeLog('Delete', 'deleteFaq', $model);
         return redirect()->back();
+    }
+
+    // wallet controller
+
+    public function indexWallet()
+    {
+        $wallets = Wallet::with('user')->get();
+        // $this->createWalletUser(13);
+        return view('admin.wallet', compact('wallets'));
+    }
+
+    public function updateWallet( Request $request)
+    {
+        $wallet = Wallet::find($request->hiddenId);
+        if($request->type == 'Debit')
+        {
+            $wallet->availableBal -= $request->amount;
+            $wallet->totalSpent -= $request->amount;
+        } else if($request->type == 'Credit')
+        {
+            $wallet->availableBal += $request->amount;
+            $wallet->totalAdded += $request->amount;
+        }
+        $wallet->update();
+
+        $walletRemark = new Walletremark();
+        $walletRemark->userId = $request->hiddenUserId;
+        $walletRemark->trxType = $request->type;
+        $walletRemark->amount = $request->amount;
+        $walletRemark->remark = 'Changed By Admin';
+        $walletRemark->save();
+        
+
+        Session()->flash('alert-success', "Wallet Updated Succesfully");
+        $this->storeLog('Update', 'updateWallet', $wallet);
+        return redirect()->back();
+    }
+
+    // Orders Controller
+    public function updateTrxStatus(Request $request)
+    {
+        $order = transction::find($request->hiddenId);
+        $order->deliverystatus = $request->status;
+        $order->update();
+
+        $alacartOrders = alacartorder::where('trxId', $request->hiddenId)->get();
+        foreach ($alacartOrders as $alacartOrder) {
+            if ($alacartOrder->status != 'Cancelled') {
+                $alacartOrder->status = $request->status;
+                $alacartOrder->update();
+            }
+        }
+
+
+        Session()->flash('alert-success', "Order Status Updated Succesfully");
+        $this->storeLog('Update', 'updateTrxStatus', $order);
+        return redirect()->back();
+    }
+
+    // alacart orders
+
+    public function indexTodayAlacartOrder()
+    {
+        $alacartorders = transction::where('trxFor', 'alacart')->with('trxalacartorder')->with('user')->whereDate('created_at', Carbon::today())->get();
+        // return $alacartorders;
+        return view('admin.orders.alacart', compact('alacartorders'));
+    }
+
+    public function updateAlacartOrder(Request $request)
+    {
+        $alacartorders = alacartorder::find($request->hiddenId);
+        $alacartorders->status = $request->status;
+        $alacartorders->update();
+
+        Session()->flash('alert-success', "Alacart Order Updated Succesfully");
+        $this->storeLog('Update', 'updateAlacartOrder', $alacartorders);
+        return redirect()->back();
+    }
+
+    public function cancelAlacartOrder(Request $request)
+    {
+        $alacartorders = alacartorder::find($request->id);
+        $alacartorders->status = 'Cancelled';
+        $alacartorders->update();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Order Cancelled Successfully',
+        ]);
     }
 }

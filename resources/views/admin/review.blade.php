@@ -15,7 +15,7 @@
 </div>
 @endif
 @endforeach
-
+ 
 
 <!-- table section -->
 
@@ -36,7 +36,7 @@
                             <th>Package</th>
                             <th>Rating</th>
                             <th>Comment</th>
-                            <th>status</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
