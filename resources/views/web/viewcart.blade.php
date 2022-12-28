@@ -251,7 +251,7 @@
                                     str+='<div class="rounded-pill bg-soft-primary iq-my-cart">\
                                         <div class="d-flex align-items-center justify-content-between profile-img4">\
                                             <div class="profile-img11">\
-                                                <img alt="' + element['product']['name'] + '" src="'+ element['product']['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="img-fluid rounded-pill avatar-115 blur-shadow position-end"><img alt="' + element['product']['name'] + '" src="'+ element['product']['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="img-fluid rounded-pill avatar-115" >\
+                                                <img alt="' + element['product']['name'] + '" src="/'+ element['product']['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="img-fluid rounded-pill avatar-115 blur-shadow position-end"><img alt="' + element['product']['name'] + '" src="/'+ element['product']['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="img-fluid rounded-pill avatar-115" >\
                                             </div>\
                                             <div class="d-flex align-items-center profile-content">\
                                                 <div>\
@@ -284,7 +284,7 @@
                                     str+='<div class="rounded-pill bg-soft-primary iq-my-cart">\
                                         <div class="d-flex align-items-center justify-content-between profile-img4">\
                                             <div class="profile-img11">\
-                                                <img alt="' + element['product']['name'] + '" src="'+ element['product']['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="img-fluid rounded-pill avatar-115 blur-shadow position-end"><img alt="' + element['product']['name'] + '" src="'+ element['product']['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="img-fluid rounded-pill avatar-115" >\
+                                                <img alt="' + element['product']['name'] + '" src="/'+ element['product']['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="img-fluid rounded-pill avatar-115 blur-shadow position-end"><img alt="' + element['product']['name'] + '" src="/'+ element['product']['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="img-fluid rounded-pill avatar-115" >\
                                             </div>\
                                             <div class="d-flex align-items-center profile-content">\
                                                 <div>\

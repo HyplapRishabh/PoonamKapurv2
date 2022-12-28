@@ -152,8 +152,8 @@
                             str += '<div class="col-md-4 col-sm-4 col-xl-4 active fade-in-card">\
                                         <div class="card card-white dish-card profile-img mb-0">\
                                             <div class="profile-img21"><a style="all:unset" href="/app/dish/'+element['slug']+'">\
-                                                <img src="'+ element['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="fade-in-card img-fluid rounded-pill avatar-170 blur-shadow position-bottom" alt="' + element['name'] + '">\
-                                                <img src="'+ element['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="fade-in-card img-fluid rounded-pill avatar-170 hover-image " alt="' + element['name'] + '" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-scale=".6" data-iq-rotate="180" data-iq-duration="1" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">\
+                                                <img src="/'+ element['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="fade-in-card img-fluid rounded-pill avatar-170 blur-shadow position-bottom" alt="' + element['name'] + '">\
+                                                <img src="/'+ element['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="fade-in-card img-fluid rounded-pill avatar-170 hover-image " alt="' + element['name'] + '" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-scale=".6" data-iq-rotate="180" data-iq-duration="1" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">\
                                             </a></div>\
                                             <div class="card-body menu-image">\
                                                 <h6 class="heading-title fw-bolder mt-4 mb-0"><a style="all:unset" href="/app/dish/'+element['slug']+'">'+ element['name'] + '</a></h6>\
@@ -197,7 +197,7 @@
                                 {
                                     str += '<div class="d-flex justify-content-between align-items-center mb-5">\
                                         <div class="d-flex align-items-center">\
-                                            <img alt="' + element['product']['name'] + '" src="'+ element['product']['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="img-fluid rounded-pill  avatar-50" alt="2">\
+                                            <img alt="' + element['product']['name'] + '" src="/'+ element['product']['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="img-fluid rounded-pill  avatar-50" alt="2">\
                                             <div class="ms-3">\
                                                 <h6 class="heading-title fw-bolder mb-2">'+element['product']['name']+'</h6>\
                                                 <small style="color:#EA6A12;" class="mb-0"><a onclick="displayaddon('+element['id']+','+element['product']['id']+','+element['product']['mealTypeId']+')">Customize> </a>'+element['addoncart']['addon']['description']+' ('+element['addoncart']['addon']['quantity']+' '+element['addoncart']['addon']['unit']+')</small>\
@@ -210,7 +210,7 @@
                                 {
                                     str += '<div class="d-flex justify-content-between align-items-center mb-5">\
                                     <div class="d-flex align-items-center">\
-                                        <img alt="' + element['product']['name'] + '" src="'+ element['product']['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="img-fluid rounded-pill  avatar-50" alt="2">\
+                                        <img alt="' + element['product']['name'] + '" src="/'+ element['product']['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="img-fluid rounded-pill  avatar-50" alt="2">\
                                         <div class="ms-3">\
                                             <h6 class="heading-title fw-bolder mb-2">'+element['product']['name']+'</h6>\
                                             <small style="color:#EA6A12;" class="mb-0"><a onclick="displayaddon('+element['id']+','+element['product']['id']+','+element['product']['mealTypeId']+')">Customize></a></small>\
