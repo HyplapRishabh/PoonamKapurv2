@@ -26,4 +26,9 @@ class Package extends Model
     {
         return $this->hasOne(Mealtype::class, 'id' , 'mealTypeId');
     }
+
+    public function packagemenu()
+    {
+        return $this->hasMany(Packagemenu::class, 'packageUId' , 'UID');
+    }
 }

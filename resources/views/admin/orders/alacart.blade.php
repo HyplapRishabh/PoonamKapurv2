@@ -97,7 +97,13 @@
                         @php($i = 1)
                         <tr class="text-center">
                             <th>Sr.no</th>
+                            @if(Request::is('order/alacart'))
                             <th>Transaction Id</th>
+                            <th>Order Total</th>
+                            <th>Delivery Charges</th>
+                            <th>Discount</th>
+                            <th>GST</th>
+                            @endif
                             <th>Customer Name</th>
                             <th>Customer Phone</th>
                             <th>Total</th>
@@ -113,9 +119,14 @@
                     <tbody>
                         @foreach($alacartorders as $data )
                         <tr>
-                            <td class="align-middle text-center">{{$i}}</td>
-                            @php($i++)
+                            <td class="align-middle text-center">{{$i++}}</td>
+                            @if(Request::is('order/alacart'))
                             <td class="align-middle text-center">{{$data->id}}</td>
+                            <th class="align-middle text-center">{{$data->subtotalamt}}</th>
+                            <th class="align-middle text-center">{{$data->deliveryamt}}</th>
+                            <th class="align-middle text-center">{{$data->discountamt}}</th>
+                            <th class="align-middle text-center">{{$data->gstamt}}</th>
+                            @endif
                             <td class="align-middle text-center">{{$data->cpname}}</td>
                             <td class="align-middle text-center">{{$data->cpno}}</td>
                             <td class="align-middle text-center">{{$data->finalamt}}</td>
@@ -179,6 +190,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
+                                                        <input type="hidden" id="userId{{$orderdetails->id}}" value="{{$data->userId}}">
                                                         <p style="color: black;"> Are you sure you want to cancel this Product? <br> <b>REFUND PROCESS WILL BE INITIATED</b> </p>
                                                     </div>
                                                     <div class="modal-footer">
@@ -214,81 +226,79 @@
                             </div>
                         </div>
                         <!-- End View Modal -->
+
+                        <!--Status Modal -->
+                        <div class="modal fade" id="changeStatus{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" style="font-weight: 600; color: black; font-size: large;">Change Status</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <i class="fas fa-times" style="font-size: 25px; "></i>
+                                        </button>
+                                    </div>
+                                    <input type="hidden" name="hiddenId" value="{{$data->id}}">
+                                    <form action="{{url('/order/status')}}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="hiddenId" value="{{$data->id}}">
+                                        <div class="modal-body">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label style="font-weight: bold;" for="role">Status <span style="color: red;">&#42</span></label>
+                                                    <select class="form-control selectpicker" name="status" id="status">
+                                                        <optgroup label="Status">
+                                                            <option value="Completed" {{$data->deliverystatus == 'Completed' ? 'selected' : ''}}>Completed</option>
+                                                            <option value="In Kitchen" {{$data->deliverystatus == 'In Kitchen' ? 'selected' : ''}}>In Kitchen</option>
+                                                            <option value="Pending" {{$data->deliverystatus == 'Pending' ? 'selected' : ''}}>Pending</option>
+                                                            <option value="Cancelled" {{$data->deliverystatus == 'Cancelled' ? 'selected' : ''}}>Cancelled</option>
+                                                        </optgroup>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">
+                                                Update
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Status modal -->
+
+                        <!--Delete Modal -->
+                        <div class="modal fade" id="deleteModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" style="font-weight: 600; color: black; font-size: large;">Confirmation</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <i class="fas fa-times" style="font-size: 25px; "></i>
+                                        </button>
+                                    </div>
+
+                                    <form action="{{url('/faqs/deleteFaqs')}}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="hiddenId" value="{{$data->id}}">
+                                        <div class="modal-body">
+                                            <p style="color: black;"> Are you sure you want to delete this Faqs? <br> ACTION CAN NOT BE REVERTED </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-trash-alt" style="font-size: 20px;"></i>Delete
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End delete modal -->
+                        @endforeach
                     </tbody>
                 </table>
             </div>
-
-            <!--Status Modal -->
-            <div class="modal fade" id="changeStatus{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" style="font-weight: 600; color: black; font-size: large;">Change Status</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <i class="fas fa-times" style="font-size: 25px; "></i>
-                            </button>
-                        </div>
-                        <input type="hidden" name="hiddenId" value="{{$data->id}}">
-                        <form action="{{url('/order/status')}}" method="post">
-                            @csrf
-                            <input type="hidden" name="hiddenId" value="{{$data->id}}">
-                            <div class="modal-body">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label style="font-weight: bold;" for="role">Status <span style="color: red;">&#42</span></label>
-                                        <select class="form-control selectpicker" name="status" id="status">
-                                            <optgroup label="Status">
-                                                <option value="Completed" {{$data->deliverystatus == 'Completed' ? 'selected' : ''}}>Completed</option>
-                                                <option value="In Kitchen" {{$data->deliverystatus == 'In Kitchen' ? 'selected' : ''}}>In Kitchen</option>
-                                                <option value="Pending" {{$data->deliverystatus == 'Pending' ? 'selected' : ''}}>Pending</option>
-                                                <option value="Cancelled" {{$data->deliverystatus == 'Cancelled' ? 'selected' : ''}}>Cancelled</option>
-                                            </optgroup>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">
-                                    Update
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- End Status modal -->
-
-            <!--Delete Modal -->
-            <div class="modal fade" id="deleteModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" style="font-weight: 600; color: black; font-size: large;">Confirmation</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <i class="fas fa-times" style="font-size: 25px; "></i>
-                            </button>
-                        </div>
-
-                        <form action="{{url('/faqs/deleteFaqs')}}" method="post">
-                            @csrf
-                            <input type="hidden" name="hiddenId" value="{{$data->id}}">
-                            <div class="modal-body">
-                                <p style="color: black;"> Are you sure you want to delete this Faqs? <br> ACTION CAN NOT BE REVERTED </p>
-                            </div>
-                            <div class="modal-footer">
-                                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-trash-alt" style="font-size: 20px;"></i>Delete
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- End delete modal -->
-            @endforeach
-            </tbody>
-            </table>
         </div>
     </div>
 </div>
@@ -308,7 +318,8 @@
                 url: "{{url('/order/alacart/cancel')}}",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    id: id
+                    id: id,
+                    userId: $('#userId' + id).val(),
                 },
                 dataType: "json",
                 success: function(response) {

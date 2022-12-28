@@ -5,6 +5,8 @@ use App\Http\Controllers\webController;
 use App\Models\Blog;
 use Illuminate\Support\Facades\Route;
 
+// crown job routes
+Route::get('generateSubsKt', [AdminController::class, 'dailySubscriptionKt']);
 
 Route::get('logout', [AdminController::class, 'logout'])->name('logout');
 
@@ -329,7 +331,7 @@ Route::group(['middleware' => 'checkUserr'], function () {
             Route::get('/', [AdminController::class, 'indexPackageOrder']);
             Route::get('/today', [AdminController::class, 'indexTodayPackageOrder']);
             Route::get('/completed', [AdminController::class, 'indexCompletedPackageOrder']);
-            Route::get('/cancelled', [AdminController::class, 'indexCancelledPackageOrder']);
+            Route::post('/status', [AdminController::class, 'statusPackageOrder']);
             Route::post('/delete', [AdminController::class, 'deletePackageOrder']);
             Route::post('/update', [AdminController::class, 'updatePackageOrder']);
         });

@@ -17,6 +17,6 @@ class subscriptionorder extends Model
 
     public function pkgdtl()
     {
-        return $this->hasOne(Package::class, 'id', 'packageId');
+        return $this->hasOne(Package::class, 'UID', 'packageId');
     }
 }

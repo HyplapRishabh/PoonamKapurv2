@@ -44,4 +44,5 @@ class transction extends Model
     {
         return $this->hasOne(subscriptionorder::class, 'trxId', 'id');
     }
+    
 }

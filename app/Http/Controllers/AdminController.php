@@ -24,6 +24,8 @@ use App\Models\Rawmaterial;
 use App\Models\Review;
 use App\Models\Role;
 use App\Models\Subcategory;
+use App\Models\Subscriptionkt;
+use App\Models\subscriptionorder;
 use App\Models\Testimonial;
 use App\Models\transction;
 use App\Models\User;
@@ -46,6 +48,100 @@ use PhpParser\Node\Expr\FuncCall;
 
 class AdminController extends Controller
 {
+
+    // cron job functions
+    function dailySubscriptionKt()
+    {
+        $getSubscriptionTrx = transction::where('trxFor','subscription')->pluck('id')->toArray();
+        $today = Carbon::now()->format('d');
+        $getActiveSubscriptions = subscriptionorder::whereIn('trxId',$getSubscriptionTrx)->where('status','Booked')->with(['pkgdtl' => function($query) use ($today) {
+            $query->with(['packagemenu' => function($query) use ($today) {
+                $query->where('day',$today);
+            }]);
+        }])->get();
+
+        // creating subcription kt
+        // return $getActiveSubscriptions;
+        foreach($getActiveSubscriptions as $subscription)
+        {
+            return $subscription; 
+
+            $mealTimeSubscribed = $subscription->subscribedfor;
+            // exploading meal time
+            $mealTimeSubscribed = explode(',',$mealTimeSubscribed);
+            // return $mealTimeSubscribed;
+            
+            $getSubscriptionKt = $subscription->pkgdtl->packagemenu;
+            // return $getSubscriptionKt;
+            foreach($getSubscriptionKt as $kt)
+            {
+                // return $kt;
+                if($subscription->status == 'Booked')
+                {
+                    if(in_array('Breakfast',$mealTimeSubscribed)){
+                        $getProduct = Product::where('UID',$kt->breakFast)->select('UID','name','image')->first();
+                        // return $getProduct;
+                        // return $subscription->pkgdtl->bfPrice;
+                        $addToSubsKt = new Subscriptionkt();
+                        $addToSubsKt->trxId = $subscription->trxId;
+                        $addToSubsKt->subOdrId = $subscription->id;
+                        $addToSubsKt->userId = $subscription->userId;
+                        $addToSubsKt->productId = $getProduct->UID;
+                        $addToSubsKt->productName = $getProduct->name;
+                        $addToSubsKt->productImage = $getProduct->image;
+                        $addToSubsKt->mealTime = 'Breakfast';
+                        $addToSubsKt->mealPrice = $subscription->pkgdtl->bfPrice;
+                        $addToSubsKt->status = 'Pending';
+                        $addToSubsKt->save();
+                    }
+                    if(in_array('Lunch',$mealTimeSubscribed)){
+                        $getProduct = Product::where('UID',$kt->lunch)->select('UID','name','image')->first();
+                        $addToSubsKt = new Subscriptionkt();
+                        $addToSubsKt->trxId = $subscription->trxId;
+                        $addToSubsKt->subOdrId = $subscription->id;
+                        $addToSubsKt->userId = $subscription->userId;
+                        $addToSubsKt->productId = $getProduct->UID;
+                        $addToSubsKt->productName = $getProduct->name;
+                        $addToSubsKt->productImage = $getProduct->image;
+                        $addToSubsKt->mealTime = 'Lunch';
+                        $addToSubsKt->mealPrice = $subscription->pkgdtl->lPrice;
+                        $addToSubsKt->status = 'Pending';
+                        $addToSubsKt->save();
+                    }
+                    if(in_array('Snacks',$mealTimeSubscribed)){
+                        $getProduct = Product::where('UID',$kt->snack)->select('UID','name','image')->first();
+                        $addToSubsKt = new Subscriptionkt();
+                        $addToSubsKt->trxId = $subscription->trxId;
+                        $addToSubsKt->subOdrId = $subscription->id;
+                        $addToSubsKt->userId = $subscription->userId;
+                        $addToSubsKt->productId = $getProduct->UID;
+                        $addToSubsKt->productName = $getProduct->name;
+                        $addToSubsKt->productImage = $getProduct->image;
+                        $addToSubsKt->mealTime = 'Snack';
+                        $addToSubsKt->mealPrice = $subscription->pkgdtl->sPrice;
+                        $addToSubsKt->status = 'Pending';
+                        $addToSubsKt->save();
+                    }
+                    if(in_array('Dinner',$mealTimeSubscribed)){
+                        $getProduct = Product::where('UID',$kt->dinner)->select('UID','name','image')->first();
+                        $addToSubsKt = new Subscriptionkt();
+                        $addToSubsKt->trxId = $subscription->trxId;
+                        $addToSubsKt->subOdrId = $subscription->id;
+                        $addToSubsKt->userId = $subscription->userId;
+                        $addToSubsKt->productId = $getProduct->UID;
+                        $addToSubsKt->productName = $getProduct->name;
+                        $addToSubsKt->productImage = $getProduct->image;
+                        $addToSubsKt->mealTime = 'Dinner';
+                        $addToSubsKt->mealPrice = $subscription->pkgdtl->dPrice;
+                        $addToSubsKt->status = 'Pending';
+                        $addToSubsKt->save();
+                    }
+                }
+            }
+        }
+
+        return 'completed';
+    }
 
     function storeLog($action, $function, $data)
     {
@@ -2917,30 +3013,17 @@ class AdminController extends Controller
         return view('admin.wallet', compact('wallets'));
     }
 
-    public function updateWallet( Request $request)
+    public function updateWallet(Request $request)
     {
-        $wallet = Wallet::find($request->hiddenId);
-        if($request->type == 'Debit')
-        {
-            $wallet->availableBal -= $request->amount;
-            $wallet->totalSpent -= $request->amount;
-        } else if($request->type == 'Credit')
-        {
-            $wallet->availableBal += $request->amount;
-            $wallet->totalAdded += $request->amount;
+        // $wallet = Wallet::find($request->hiddenId);
+        if ($request->type == 'Debit') {
+            $this->debitAmount($request->hiddenUserId, $request->amount, 0, 'Changed By Admin');
+        } else if ($request->type == 'Credit') {
+            $this->creditAmount($request->hiddenUserId, $request->amount, 0, 'Changed By Admin');
         }
-        $wallet->update();
-
-        $walletRemark = new Walletremark();
-        $walletRemark->userId = $request->hiddenUserId;
-        $walletRemark->trxType = $request->type;
-        $walletRemark->amount = $request->amount;
-        $walletRemark->remark = 'Changed By Admin';
-        $walletRemark->save();
-        
 
         Session()->flash('alert-success', "Wallet Updated Succesfully");
-        $this->storeLog('Update', 'updateWallet', $wallet);
+        $this->storeLog('Update', 'updateWallet', 'updated by admin');
         return redirect()->back();
     }
 
@@ -2951,12 +3034,21 @@ class AdminController extends Controller
         $order->deliverystatus = $request->status;
         $order->update();
 
-        $alacartOrders = alacartorder::where('trxId', $request->hiddenId)->get();
-        foreach ($alacartOrders as $alacartOrder) {
-            if ($alacartOrder->status != 'Cancelled') {
-                $alacartOrder->status = $request->status;
-                $alacartOrder->update();
+        if ($order->trxFor == 'Alacart') {
+            $alacartOrders = alacartorder::where('trxId', $request->hiddenId)->get();
+            $total = 0;
+            foreach ($alacartOrders as $alacartOrder) {
+                if ($alacartOrder->status != 'Cancelled') {
+                    $alacartOrder->status = $request->status;
+
+                    $total += ($alacartOrder->productPrice + $alacartOrder->addonprice) * $alacartOrder->qty;
+
+                    $alacartOrder->update();
+                }
             }
+
+            $finalTotal = ($total + $order->deliveryamt + $order->gst) - $order->discount;
+            $this->creditAmount($order->userId, $finalTotal, 0, 'Order Cancelled');
         }
 
 
@@ -2967,10 +3059,15 @@ class AdminController extends Controller
 
     // alacart orders
 
+    public function indexAlacartOrder()
+    {
+        $alacartorders = transction::where('trxFor', 'alacart')->with('trxalacartorder')->with('user')->get();
+        return view('admin.orders.alacart', compact('alacartorders'));
+    }
+
     public function indexTodayAlacartOrder()
     {
         $alacartorders = transction::where('trxFor', 'alacart')->with('trxalacartorder')->with('user')->whereDate('created_at', Carbon::today())->get();
-        // return $alacartorders;
         return view('admin.orders.alacart', compact('alacartorders'));
     }
 
@@ -2991,9 +3088,46 @@ class AdminController extends Controller
         $alacartorders->status = 'Cancelled';
         $alacartorders->update();
 
+        $total = ($alacartorders->productPrice + $alacartorders->addonprice) * $alacartorders->qty;
+
+        $this->creditAmount($request->userId, $total, 0, 'Meal Cancelled');
+
         return response()->json([
             'status' => 200,
             'message' => 'Order Cancelled Successfully',
         ]);
+    }
+
+    // package orders
+
+    public function indexPackageOrder()
+    {
+        $packageorders = transction::where('trxFor', 'subscription')->with('trxsubscriptionorder')->with('user')->get();
+        // return $packageorders;
+        return view('admin.orders.package', compact('packageorders'));
+    }
+
+    public function indexTodayPackageOrder()
+    {
+        // $packageorders = transction::where('trxFor', 'subscription')->with('trxsubscriptionorder')->with('user')->whereDate('created_at', Carbon::today())->get();
+        $packageorders = Subscriptionkt::with('trx')->with('user')->with('subscription')->whereDate('created_at', Carbon::today())->get();
+        
+        // return $packageorders;
+        return view('admin.orders.package', compact('packageorders'));
+    }
+
+    public function updatePackageOrder(Request $request)
+    {
+        $packageorders = Subscriptionkt::find($request->hiddenId);
+        // return $packageorders;
+        $packageorders->status = $request->status;
+        if($request->status == 'Cancelled'){
+            $this->creditAmount($packageorders->userId, 0, $packageorders->mealPrice, 'Package Order Cancelled');
+        }
+        $packageorders->update();
+
+        Session()->flash('alert-success', "Package Order Updated Succesfully");
+        $this->storeLog('Update', 'updatePackageOrder', $packageorders);
+        return redirect()->back();
     }
 }

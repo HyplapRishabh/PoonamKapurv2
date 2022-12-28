@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Wallet;
+use App\Models\Walletremark;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -22,5 +23,39 @@ class Controller extends BaseController
         $wallet->totalAdded = 0;
         $wallet->totalSpent = 0;
         $wallet->save();
-    } 
+    }
+
+    public function debitAmount($userId, $amount, $lockedAmount , $remark)
+    {
+        $wallet = Wallet::where('userId', $userId)->first();
+        $wallet->availableBal -= $amount;
+        $wallet->lockedAmt -= $lockedAmount;
+        $spentTotal = $amount + $lockedAmount;
+        $wallet->totalSpent += $spentTotal;
+        $wallet->update();
+
+        $walletRemark = new Walletremark();
+        $walletRemark->userId = $userId;
+        $walletRemark->trxType = 'Debit';
+        $walletRemark->amount = $spentTotal;
+        $walletRemark->remark = $remark;
+        $walletRemark->save();
+    }
+
+    public function creditAmount($userId, $amount, $lockedAmount , $remark)
+    {
+        $wallet = Wallet::where('userId', $userId)->first();
+        $wallet->availableBal += $amount;
+        $wallet->lockedAmt += $lockedAmount;
+        $addedTotal = $amount + $lockedAmount;
+        $wallet->totalAdded += $addedTotal;
+        $wallet->update();
+
+        $walletRemark = new Walletremark();
+        $walletRemark->userId = $userId;
+        $walletRemark->trxType = 'Credit';
+        $walletRemark->amount = $addedTotal;
+        $walletRemark->remark = $remark;
+        $walletRemark->save();
+    }
 }
