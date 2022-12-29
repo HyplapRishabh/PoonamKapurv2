@@ -20,4 +20,9 @@ class alacartorder extends Model
         'productPrice',
         'addonprice'
     ];
+
+    public function trx()
+    {
+        return $this->hasOne(transction::class,'id', 'trxId');
+    }
 }

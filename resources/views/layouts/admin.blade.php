@@ -39,6 +39,8 @@
 
     <!-- internet css -->
     <link rel="stylesheet" href="{{asset('assets/css/internet.css')}}">
+
+    <script src="https://kit.fontawesome.com/dd1b265f8b.js" crossorigin="anonymous"></script>
     @section('header')
     @show
 

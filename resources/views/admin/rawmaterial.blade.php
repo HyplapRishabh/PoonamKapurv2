@@ -10,6 +10,9 @@
 <!-- Adding Meal-Type modal -->
 
 <div class=" col-sm-12 text-right">
+    <a href="{{url('/inventory')}}" class="btn btn-primary btn-lg m-4 has-ripple">
+        <i class="fas fa-search"></i> Inventory History
+    </a>
     <button type="button" id="createBtn" class="btn btn-primary btn-lg m-4 has-ripple" data-toggle="modal" data-target="#addModal">
         <i class="fas fa-plus"></i> Add Raw Material
     </button>
@@ -138,38 +141,89 @@
                         <tr class="text-center">
                             <th>Sr.no</th>
                             <th>Name</th>
+                            <th>Stock</th>
                             <th>Unit</th>
-                            <th>Warn At</th>
-                            <th>Availability</th>
-                            <!-- <th>Status</th> -->
+                            <!-- <th>Availability</th> -->
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($rawmaterials as $data )
                         <tr>
-                            <td class="align-middle text-center">{{$i}}</td>
-                            @php($i++)
-
+                            <td class="align-middle text-center">{{$i++}}</td>
                             <td class="align-middle text-center">{{$data->name}}</td>
+                            <td class="align-middle text-center">{{$data->stock}}</td>
                             <td class="align-middle text-center">{{$data->unit}}</td>
-                            <td class="align-middle text-center">{{$data->warnAt}}</td>
                             <td class="align-middle text-center">
-                                @if($data->status == 1)
-                                <span class="badge badge-success">Available</span>
+                                @if($data->stock <= $data->warnAt && $data->stock > 0)
+                                <span class="badge badge-warning">Low Stock</span>
+                                @elseif($data->stock == 0)
+                                <span class="badge badge-danger">Finished</span>
                                 @else
-                                <span class="badge badge-danger">Not Available</span>
+                                <span class="badge badge-success">In Stock</span>
                                 @endif
                             </td>
 
                             <td class="table-action text-center">
                                 <div>
-                                    <!-- <a href="" class="btn btn-icon btn-outline-primary has-ripple" data-toggle="modal" data-target="#showModal{{$data->id}}"><i class="far fa-eye"></i><span class="ripple ripple-animate" style="height: 45px; width: 45px; animation-duration: 0.7s; animation-timing-function: linear; background: rgb(255, 255, 255); opacity: 0.4; top: 7.39999px; left: -12.6px;"></span></a> -->
+                                    <a href="" class="btn btn-icon btn-outline-primary has-ripple" data-toggle="modal" data-target="#inventoryModal{{$data->id}}"><i class="fa-shelves"></i><span class="ripple ripple-animate" style="height: 45px; width: 45px; animation-duration: 0.7s; animation-timing-function: linear; background: rgb(255, 255, 255); opacity: 0.4; top: 7.39999px; left: -12.6px;"></span></a>
                                     <a href="" class="btn btn-icon btn-outline-warning has-ripple" data-toggle="modal" data-target="#updateModal{{$data->id}}"><i class="fas fa-pen"></i></a>
                                     <a href="" class="btn btn-icon btn-outline-danger has-ripple" data-toggle="modal" data-target="#deleteModal{{$data->id}}"><i class="far fa-trash-alt"></i></a>
 
                                 </div>
                             </td>
+                            <!--Inventory Modal -->
+                            <div class="modal fade" id="inventoryModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" style="font-weight: 600; color: black; font-size: large;">{{$data->name}}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <i class="fas fa-times" style="font-size: 25px; "></i>
+                                            </button>
+                                        </div>
+
+                                        <form action="{{url('/inventory/update')}}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="hiddenId" value="{{$data->UID}}">
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label style="font-weight: bold;" for="role"> Action <span style="color: red;">&#42</span></label>
+                                                            <select class="form-control selectpicker" name="action">
+                                                                <option value="Add">Add</option>
+                                                                <option value="Waste">Waste</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label style="font-weight: bold;" for="Name">Quantity <span style="color: red;">&#42</span></label>
+                                                            <input type="number" class="form-control" name="qty" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label style="font-weight: bold;" for="Name">Date <span style="color: red;">&#42</span></label>
+                                                            <input type="date" class="form-control" name="date" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="fas fa-edit"></i>
+                                                    Update Inventory
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Inventory Modal -->
 
                             <!--Update Modal -->
                             <div class="modal fade" id="updateModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -269,60 +323,5 @@
 @endsection
 
 @section('scripts')
-<script>
-    $('.toggle-class').on('change', function() {
-        var status = $(this).prop('checked') == true ? '1' : '0';
-        var user_id = $(this).data('id');
 
-        $.ajax({
-            type: "GET",
-            url: "{{url('/mealtype/status')}}",
-            data: {
-                'status': status,
-                'user_id': user_id,
-            },
-            dataType: "json",
-            success: function(data) {
-
-            }
-        });
-    });
-</script>
-
-<script>
-    var namee = document.getElementById("Name");
-
-    namee.addEventListener('invalid', function(event) {
-        if (event.target.validity.valueMissing) {
-            event.target.setCustomValidity('MealType Name is required');
-        } else if (event.target.validity.tooShort) {
-            event.target.setCustomValidity('MealType Name Too short');
-        } else if (event.target.validity.patternMismatch) {
-            event.target.setCustomValidity('Only Alphabets are allowed');
-        }
-    })
-    namee.addEventListener('change', function(event) {
-        event.target.setCustomValidity('');
-    })
-</script>
-
-<script>
-    function getId(id) {
-        var enamee = document.getElementById("EName" + id);
-
-        enamee.addEventListener('invalid', function(event) {
-            if (event.target.validity.valueMissing) {
-                event.target.setCustomValidity('MealType Name is required');
-            } else if (event.target.validity.tooShort) {
-                event.target.setCustomValidity('MealType Name Too short');
-            } else if (event.target.validity.patternMismatch) {
-                event.target.setCustomValidity('Only Alphabets are allowed');
-            }
-        })
-        enamee.addEventListener('change', function(event) {
-            event.target.setCustomValidity('');
-        })
-
-    }
-</script>
 @endsection

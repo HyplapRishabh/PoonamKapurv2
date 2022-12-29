@@ -11,6 +11,7 @@ use App\Models\Coupon;
 use App\Models\Enquiry;
 use App\Models\Faq;
 use App\Models\Goal;
+use App\Models\Inventoryhistory;
 use App\Models\Log;
 use App\Models\Mealtime;
 use App\Models\Mealtype;
@@ -21,6 +22,7 @@ use App\Models\Product;
 use App\Models\Productmacro;
 use App\Models\Productreceipe;
 use App\Models\Rawmaterial;
+use App\Models\Rawmateriallog;
 use App\Models\Review;
 use App\Models\Role;
 use App\Models\Subcategory;
@@ -137,6 +139,30 @@ class AdminController extends Controller
         }
         return 'completed';
     }
+    // end cron job functions
+
+    function manageInventory($productUID, $orderType)
+    {
+        $product = Product::where('UID', $productUID)->with('recipe')->first();
+        foreach($product->recipe as $recipe)
+        {
+            // return $recipe;
+            $rawmaterial = Rawmaterial::where('UID', $recipe->rawMaterialUId)->first();
+            $rawmaterial->stock -= $recipe->quantity;
+            $rawmaterial->update();
+
+            $rawmaterialLog = new Inventoryhistory();
+            $rawmaterialLog->forProduct = $productUID;
+            $rawmaterialLog->orderType = $orderType;
+            $rawmaterialLog->item = $rawmaterial->UID;
+            $rawmaterialLog->action = 'Consumed';
+            $rawmaterialLog->quantity = $recipe->quantity;
+            $rawmaterialLog->date = date('Y-m-d');
+            $rawmaterialLog->save();
+        }
+    }
+    
+    // Log controllers
 
     function storeLog($action, $function, $data)
     {
@@ -1190,6 +1216,44 @@ class AdminController extends Controller
             'status' => 200,
             'message' => 'Status Changed Successfully',
         ]);
+    }
+
+    public function indexInventory()
+    {
+        $rawmaterials = Rawmaterial::where('deleteId', '0')->get();
+        if (request('date') != null) {
+            if (request('product') == 'All')
+                $inventories = Inventoryhistory::with(['rawmaterial', 'product'])->whereDate('created_at', request('date'))->get();
+            else
+                $inventories = Inventoryhistory::with(['rawmaterial', 'product'])->whereDate('created_at', request('date'))->where('item', request('product'))->get();
+        } else {
+            $inventories = Inventoryhistory::with(['rawmaterial', 'product'])->where('id', 0)->get();
+        }
+        // $inventories = Inventoryhistory::with(['rawmaterial','product'])->get();
+        // return $inventories;
+        return view('admin.inventoryHistory', compact('rawmaterials', 'inventories'));
+    }
+
+    public function updateInventory(Request $request)
+    {
+        $rawMaterial = Rawmaterial::where('UID', $request->hiddenId)->first();
+        if ($request->action == 'Add') {
+            $rawMaterial->stock += $request->qty;
+        } else {
+            $rawMaterial->stock -= $request->qty;
+        }
+        $rawMaterial->update();
+
+        $inventory = new Inventoryhistory();
+        $inventory->item = $rawMaterial->UID;
+        $inventory->quantity = $request->qty;
+        $inventory->action = $request->action;
+        $inventory->date = $request->date;
+        $inventory->save();
+
+        Session()->flash('alert-success', "Raw Material Updated Succesfully");
+        $this->storeLog('Update', 'updateRawMaterial', $rawMaterial);
+        return redirect()->back();;
     }
 
     // Product Controller
@@ -3013,9 +3077,9 @@ class AdminController extends Controller
     {
         // $wallet = Wallet::find($request->hiddenId);
         if ($request->type == 'Debit') {
-            $this->debitAmount($request->hiddenUserId, $request->amount, 0, 'Changed By Admin');
+            $this->debitAmount($request->hiddenUserId, $request->amount, 0, null , null, 'Changed By Admin');
         } else if ($request->type == 'Credit') {
-            $this->creditAmount($request->hiddenUserId, $request->amount, 0, 'Changed By Admin');
+            $this->creditAmount($request->hiddenUserId, $request->amount, 0, null , null, 'Changed By Admin');
         }
 
         Session()->flash('alert-success', "Wallet Updated Succesfully");
@@ -3029,6 +3093,7 @@ class AdminController extends Controller
         // return $wallets;
         return view('admin.walletHistory', compact('wallets'));
     }
+
 
     // Orders Controller
     public function updateTrxStatus(Request $request)
@@ -3051,7 +3116,7 @@ class AdminController extends Controller
             }
 
             $finalTotal = ($total + $order->deliveryamt + $order->gst) - $order->discount;
-            $this->creditAmount($order->userId, $finalTotal, 0, 'Order Cancelled');
+            $this->creditAmount($order->userId, $finalTotal, 0, $order->id, null, 'Order Cancelled');
         }
 
 
@@ -3078,6 +3143,10 @@ class AdminController extends Controller
     {
         $alacartorders = alacartorder::find($request->hiddenId);
         $alacartorders->status = $request->status;
+        if($request->status == 'Completed'){
+            $this->debitAmount($request->userId, $request->total, 0, $alacartorders->trxId , 'alacart' , 'Meal Completed');
+            $this->manageInventory($alacartorders->productId,'alacart');
+        }
         $alacartorders->update();
 
         Session()->flash('alert-success', "Alacart Order Updated Succesfully");
@@ -3090,11 +3159,8 @@ class AdminController extends Controller
         $alacartorders = alacartorder::find($request->id);
         $alacartorders->status = 'Cancelled';
         $alacartorders->update();
-
         $total = ($alacartorders->productPrice + $alacartorders->addonprice) * $alacartorders->qty;
-
-        $this->creditAmount($request->userId, $total, 0, 'Meal Cancelled');
-
+        $this->creditAmount($request->userId, $total, 0, $alacartorders->trxId, 'alacart', 'Meal Cancelled');
         return response()->json([
             'status' => 200,
             'message' => 'Order Cancelled Successfully',
@@ -3125,9 +3191,10 @@ class AdminController extends Controller
         // return $packageorders;
         $packageorders->status = $request->status;
         if ($request->status == 'Cancelled') {
-            $this->creditAmount($packageorders->userId, 0, $packageorders->mealPrice, 'Package Order Cancelled');
+            $this->creditAmount($packageorders->userId, 0, $packageorders->mealPrice, $packageorders->trxId , 'subscription', 'Package Order Cancelled');
         } else if ($request->status == 'Completed') {
-            $this->debitAmount($packageorders->userId, 0, $packageorders->mealPrice, 'Package Order Delivered');
+            $this->debitAmount($packageorders->userId, 0, $packageorders->mealPrice, $packageorders->trxId , 'subscription' , 'Package Order Delivered');
+            $this->manageInventory($packageorders->productId,'subscription');
         }
 
         $packageorders->update();

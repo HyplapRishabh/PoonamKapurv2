@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Route;
 // crown job routes
 Route::get('generateSubsKt', [AdminController::class, 'dailySubscriptionKt']);
 
+
+// Route::get('manageInventory/{UID}/{type}', [AdminController::class, 'manageInventory']);
+
 Route::get('logout', [AdminController::class, 'logout'])->name('logout');
 
 Route::get('/login', [AdminController::class, 'login']);
@@ -227,6 +230,15 @@ Route::group(['middleware' => 'checkUserr'], function () {
         Route::get('/', [AdminController::class, 'indexWallet']);
         Route::post('/update', [AdminController::class, 'updateWallet']);
         Route::get('/walletHistory/{id}', [AdminController::class, 'walletHistory']);
+    });
+
+    // inventory
+    Route::group([
+        'prefix' => 'inventory'
+    ], function () {
+        Route::get('/', [AdminController::class, 'indexInventory']);
+        Route::post('/update', [AdminController::class, 'updateInventory']);
+        Route::get('/inventoryHistory/{id}', [AdminController::class, 'inventoryHistory']);
     });
 
     // order
