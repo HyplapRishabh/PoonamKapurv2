@@ -52,94 +52,89 @@ class AdminController extends Controller
     // cron job functions
     function dailySubscriptionKt()
     {
-        $getSubscriptionTrx = transction::where('trxFor','subscription')->pluck('id')->toArray();
+
+        $getSubscriptionTrx = transction::where('trxFor', 'subscription')->pluck('id')->toArray();
         $today = Carbon::now()->format('d');
-        $getActiveSubscriptions = subscriptionorder::whereIn('trxId',$getSubscriptionTrx)->where('status','Booked')->with(['pkgdtl' => function($query) use ($today) {
-            $query->with(['packagemenu' => function($query) use ($today) {
-                $query->where('day',$today);
+        $getActiveSubscriptions = subscriptionorder::whereIn('trxId', $getSubscriptionTrx)->where('status', 'Booked')->with(['pkgdtl' => function ($query) use ($today) {
+            $query->with(['packagemenu' => function ($query) use ($today) {
+                $query->where('day', $today);
             }]);
         }])->get();
-
-        // creating subcription kt
-        // return $getActiveSubscriptions;
-        foreach($getActiveSubscriptions as $subscription)
-        {
-            return $subscription; 
-
+        foreach ($getActiveSubscriptions as $subscription) {
+            return $subscription;
+            $completedMealCount = Subscriptionkt::where('status', 'Completed')->where('userId', $subscription->userId)->count();
             $mealTimeSubscribed = $subscription->subscribedfor;
-            // exploading meal time
-            $mealTimeSubscribed = explode(',',$mealTimeSubscribed);
-            // return $mealTimeSubscribed;
-            
+            $mealTimeSubscribed = explode(',', $mealTimeSubscribed);
             $getSubscriptionKt = $subscription->pkgdtl->packagemenu;
-            // return $getSubscriptionKt;
-            foreach($getSubscriptionKt as $kt)
-            {
-                // return $kt;
-                if($subscription->status == 'Booked')
-                {
-                    if(in_array('Breakfast',$mealTimeSubscribed)){
-                        $getProduct = Product::where('UID',$kt->breakFast)->select('UID','name','image')->first();
-                        // return $getProduct;
-                        // return $subscription->pkgdtl->bfPrice;
-                        $addToSubsKt = new Subscriptionkt();
-                        $addToSubsKt->trxId = $subscription->trxId;
-                        $addToSubsKt->subOdrId = $subscription->id;
-                        $addToSubsKt->userId = $subscription->userId;
-                        $addToSubsKt->productId = $getProduct->UID;
-                        $addToSubsKt->productName = $getProduct->name;
-                        $addToSubsKt->productImage = $getProduct->image;
-                        $addToSubsKt->mealTime = 'Breakfast';
-                        $addToSubsKt->mealPrice = $subscription->pkgdtl->bfPrice;
-                        $addToSubsKt->status = 'Pending';
-                        $addToSubsKt->save();
-                    }
-                    if(in_array('Lunch',$mealTimeSubscribed)){
-                        $getProduct = Product::where('UID',$kt->lunch)->select('UID','name','image')->first();
-                        $addToSubsKt = new Subscriptionkt();
-                        $addToSubsKt->trxId = $subscription->trxId;
-                        $addToSubsKt->subOdrId = $subscription->id;
-                        $addToSubsKt->userId = $subscription->userId;
-                        $addToSubsKt->productId = $getProduct->UID;
-                        $addToSubsKt->productName = $getProduct->name;
-                        $addToSubsKt->productImage = $getProduct->image;
-                        $addToSubsKt->mealTime = 'Lunch';
-                        $addToSubsKt->mealPrice = $subscription->pkgdtl->lPrice;
-                        $addToSubsKt->status = 'Pending';
-                        $addToSubsKt->save();
-                    }
-                    if(in_array('Snacks',$mealTimeSubscribed)){
-                        $getProduct = Product::where('UID',$kt->snack)->select('UID','name','image')->first();
-                        $addToSubsKt = new Subscriptionkt();
-                        $addToSubsKt->trxId = $subscription->trxId;
-                        $addToSubsKt->subOdrId = $subscription->id;
-                        $addToSubsKt->userId = $subscription->userId;
-                        $addToSubsKt->productId = $getProduct->UID;
-                        $addToSubsKt->productName = $getProduct->name;
-                        $addToSubsKt->productImage = $getProduct->image;
-                        $addToSubsKt->mealTime = 'Snack';
-                        $addToSubsKt->mealPrice = $subscription->pkgdtl->sPrice;
-                        $addToSubsKt->status = 'Pending';
-                        $addToSubsKt->save();
-                    }
-                    if(in_array('Dinner',$mealTimeSubscribed)){
-                        $getProduct = Product::where('UID',$kt->dinner)->select('UID','name','image')->first();
-                        $addToSubsKt = new Subscriptionkt();
-                        $addToSubsKt->trxId = $subscription->trxId;
-                        $addToSubsKt->subOdrId = $subscription->id;
-                        $addToSubsKt->userId = $subscription->userId;
-                        $addToSubsKt->productId = $getProduct->UID;
-                        $addToSubsKt->productName = $getProduct->name;
-                        $addToSubsKt->productImage = $getProduct->image;
-                        $addToSubsKt->mealTime = 'Dinner';
-                        $addToSubsKt->mealPrice = $subscription->pkgdtl->dPrice;
-                        $addToSubsKt->status = 'Pending';
-                        $addToSubsKt->save();
+            foreach ($getSubscriptionKt as $kt) {
+                if ($completedMealCount == $subscription->totalmeal) {
+                    $changeStatus = subscriptionorder::where('userId', $subscription->userId)->first();
+                    $changeStatus->status = 'Completed';
+                    $changeStatus->update();
+                } else {
+                    if ($subscription->status == 'Booked') {
+                        if (in_array('Breakfast', $mealTimeSubscribed)) {
+                            $getProduct = Product::where('UID', $kt->breakFast)->select('UID', 'name', 'image')->first();
+                            // return $getProduct;
+                            // return $subscription->pkgdtl->bfPrice;
+                            $addToSubsKt = new Subscriptionkt();
+                            $addToSubsKt->trxId = $subscription->trxId;
+                            $addToSubsKt->subOdrId = $subscription->id;
+                            $addToSubsKt->userId = $subscription->userId;
+                            $addToSubsKt->productId = $getProduct->UID;
+                            $addToSubsKt->productName = $getProduct->name;
+                            $addToSubsKt->productImage = $getProduct->image;
+                            $addToSubsKt->mealTime = 'Breakfast';
+                            $addToSubsKt->mealPrice = $subscription->pkgdtl->bfPrice;
+                            $addToSubsKt->status = 'Pending';
+                            $addToSubsKt->save();
+                        }
+                        if (in_array('Lunch', $mealTimeSubscribed)) {
+                            $getProduct = Product::where('UID', $kt->lunch)->select('UID', 'name', 'image')->first();
+                            $addToSubsKt = new Subscriptionkt();
+                            $addToSubsKt->trxId = $subscription->trxId;
+                            $addToSubsKt->subOdrId = $subscription->id;
+                            $addToSubsKt->userId = $subscription->userId;
+                            $addToSubsKt->productId = $getProduct->UID;
+                            $addToSubsKt->productName = $getProduct->name;
+                            $addToSubsKt->productImage = $getProduct->image;
+                            $addToSubsKt->mealTime = 'Lunch';
+                            $addToSubsKt->mealPrice = $subscription->pkgdtl->lPrice;
+                            $addToSubsKt->status = 'Pending';
+                            $addToSubsKt->save();
+                        }
+                        if (in_array('Snacks', $mealTimeSubscribed)) {
+                            $getProduct = Product::where('UID', $kt->snack)->select('UID', 'name', 'image')->first();
+                            $addToSubsKt = new Subscriptionkt();
+                            $addToSubsKt->trxId = $subscription->trxId;
+                            $addToSubsKt->subOdrId = $subscription->id;
+                            $addToSubsKt->userId = $subscription->userId;
+                            $addToSubsKt->productId = $getProduct->UID;
+                            $addToSubsKt->productName = $getProduct->name;
+                            $addToSubsKt->productImage = $getProduct->image;
+                            $addToSubsKt->mealTime = 'Snack';
+                            $addToSubsKt->mealPrice = $subscription->pkgdtl->sPrice;
+                            $addToSubsKt->status = 'Pending';
+                            $addToSubsKt->save();
+                        }
+                        if (in_array('Dinner', $mealTimeSubscribed)) {
+                            $getProduct = Product::where('UID', $kt->dinner)->select('UID', 'name', 'image')->first();
+                            $addToSubsKt = new Subscriptionkt();
+                            $addToSubsKt->trxId = $subscription->trxId;
+                            $addToSubsKt->subOdrId = $subscription->id;
+                            $addToSubsKt->userId = $subscription->userId;
+                            $addToSubsKt->productId = $getProduct->UID;
+                            $addToSubsKt->productName = $getProduct->name;
+                            $addToSubsKt->productImage = $getProduct->image;
+                            $addToSubsKt->mealTime = 'Dinner';
+                            $addToSubsKt->mealPrice = $subscription->pkgdtl->dPrice;
+                            $addToSubsKt->status = 'Pending';
+                            $addToSubsKt->save();
+                        }
                     }
                 }
             }
         }
-
         return 'completed';
     }
 
@@ -3111,7 +3106,7 @@ class AdminController extends Controller
     {
         // $packageorders = transction::where('trxFor', 'subscription')->with('trxsubscriptionorder')->with('user')->whereDate('created_at', Carbon::today())->get();
         $packageorders = Subscriptionkt::with('trx')->with('user')->with('subscription')->whereDate('created_at', Carbon::today())->get();
-        
+
         // return $packageorders;
         return view('admin.orders.package', compact('packageorders'));
     }
@@ -3121,9 +3116,12 @@ class AdminController extends Controller
         $packageorders = Subscriptionkt::find($request->hiddenId);
         // return $packageorders;
         $packageorders->status = $request->status;
-        if($request->status == 'Cancelled'){
+        if ($request->status == 'Cancelled') {
             $this->creditAmount($packageorders->userId, 0, $packageorders->mealPrice, 'Package Order Cancelled');
+        } else if ($request->status == 'Completed') {
+            $this->debitAmount($packageorders->userId, 0, $packageorders->mealPrice, 'Package Order Delivered');
         }
+
         $packageorders->update();
 
         Session()->flash('alert-success', "Package Order Updated Succesfully");
