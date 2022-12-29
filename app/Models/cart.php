@@ -12,8 +12,8 @@ class cart extends Model
 
     public function product()
     {
-        return $this->hasOne(Product::class, 'id' , 'productId')->where([['deleteId', '0'],['status','1']])
-        ->select('deleteId','status','id','image','name','discountedPrice','slug','mealTypeId');
+        return $this->hasOne(Product::class, 'UID' , 'productId')->where([['deleteId', '0'],['status','1']])
+        ->select('deleteId','status','id','image','name','discountedPrice','slug','mealTypeId','UID');
     }
 
     public function addoncart()

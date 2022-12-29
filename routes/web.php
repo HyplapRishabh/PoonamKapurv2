@@ -388,4 +388,8 @@ Route::group([
     Route::get('/alacartsuccess', [webController::class, 'alacartsuccess']);
     Route::get('/orderdetails', [webController::class, 'orderdetails']);
     Route::get('/deletesubscription/{subid}', [webController::class, 'deletesubscription']);
+    Route::post('/gethashofpayu', [webController::class, 'gethashofpayu']);
+    Route::post('/undefined', [webController::class, 'undefined']);
+    Route::post('/payuresponsepkhk', [webController::class, 'payuresponsepkhk']);
 });
+

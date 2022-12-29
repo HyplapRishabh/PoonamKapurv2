@@ -119,7 +119,7 @@ This following statements selects each category individually that contains an in
                             <div class="mt-3 iq-fetch">
                                     <div class="cat action">
                                         <label>
-                                           <input onclick="clickmt()" checked name="mtck" type="checkbox" value="Breakfast"><span>Breakfast</span>
+                                           <input onclick="clickmt()" checked name="mtck" type="checkbox" value="BreakFast"><span>Breakfast</span>
                                         </label>
                                      </div>
                                      
@@ -131,7 +131,7 @@ This following statements selects each category individually that contains an in
 
                                      <div class="cat action">
                                         <label>
-                                           <input onclick="clickmt()" name="mtck" type="checkbox" value="Snacks"><span>Snacks</span>
+                                           <input onclick="clickmt()" name="mtck" type="checkbox" value="Snack"><span>Snacks</span>
                                         </label>
                                      </div>
 

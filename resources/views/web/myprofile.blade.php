@@ -316,7 +316,7 @@
                                                                     @else
                                                                     @endif
                                                                 </p>
-                                                                <p>Note: Subscription will be discontinue from tomorrow</p>
+                                                                <p>Note: Subscription will be discontinued from tomorrow</p>
                                                             </div>
                                                           <div class="modal-footer" style="text-align: center;justify-content: center;">
                                                              <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>

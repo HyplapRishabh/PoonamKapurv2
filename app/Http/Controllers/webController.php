@@ -217,8 +217,10 @@ class webController extends Controller
             }
             else
             {
+                $dishdtl = Product::where('id',$productId)->first(); 
+
                 $cartId=cart::insertGetId([
-                    'productId' => $productId,
+                    'productId' => $dishdtl['UID'],
                     'qty' => 1,
                     'userID' => Auth::user()->id,
                 ]);
@@ -649,7 +651,10 @@ class webController extends Controller
         $cartlist=cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
         $pincodelist=pincode::where([['deleteId', '0'],['status','1']])->groupBy('pincode')->get();
 
-        return view('web.alacartcheckout', compact('categorylist','goallist','packagelist','cartlist','userdetail','useraddress','pincodelist'));
+        $txnid = 'pk'.rand(99999, 9999999);
+
+
+        return view('web.alacartcheckout', compact('txnid','categorylist','goallist','packagelist','cartlist','userdetail','useraddress','pincodelist'));
     }
 
     public function pincodechg($pincodeval)
@@ -793,5 +798,27 @@ class webController extends Controller
             'status' => 'success',
             'message' => 'Deleted successfully !',
         ]);
+    }
+    public function gethashofpayu(Request $input)
+    {
+        $myresponse=[];
+        $strdata=$input['key'].'|'.$input['txnid'].'|'.$input['amount'].'|'.$input['productinfo'].'|'.$input['firstname'].'|'.$input['email'].'|'.$input['udf1'].'|'.$input['udf2'].'|'.$input['udf3'].'|'.$input['udf4'].'|'.$input['udf5'].'||||||4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW';
+
+        $key = hash("sha512",$strdata);
+        
+        $myresponse['status']='success';
+        $myresponse['encryptpass']=$key;
+        $myresponse['strdata']=$strdata;
+        return $myresponse;
+    }
+
+    public function payuresponsepkhk(Request $input)
+    {
+        return $input;
+    }
+
+    public function undefined(Request $input)
+    {
+        return $input;
     }
 }
