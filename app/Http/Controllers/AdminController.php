@@ -75,7 +75,7 @@ class AdminController extends Controller
                     $changeStatus->update();
                 } else {
                     if ($subscription->status == 'Booked') {
-                        if (in_array('Breakfast', $mealTimeSubscribed)) {
+                        if (in_array('BreakFast', $mealTimeSubscribed)) {
                             $getProduct = Product::where('UID', $kt->breakFast)->select('UID', 'name', 'image')->first();
                             // return $getProduct;
                             // return $subscription->pkgdtl->bfPrice;
@@ -105,7 +105,7 @@ class AdminController extends Controller
                             $addToSubsKt->status = 'Pending';
                             $addToSubsKt->save();
                         }
-                        if (in_array('Snacks', $mealTimeSubscribed)) {
+                        if (in_array('Snack', $mealTimeSubscribed)) {
                             $getProduct = Product::where('UID', $kt->snack)->select('UID', 'name', 'image')->first();
                             $addToSubsKt = new Subscriptionkt();
                             $addToSubsKt->trxId = $subscription->trxId;
@@ -144,8 +144,7 @@ class AdminController extends Controller
     function manageInventory($productUID, $orderType)
     {
         $product = Product::where('UID', $productUID)->with('recipe')->first();
-        foreach($product->recipe as $recipe)
-        {
+        foreach ($product->recipe as $recipe) {
             // return $recipe;
             $rawmaterial = Rawmaterial::where('UID', $recipe->rawMaterialUId)->first();
             $rawmaterial->stock -= $recipe->quantity;
@@ -161,7 +160,7 @@ class AdminController extends Controller
             $rawmaterialLog->save();
         }
     }
-    
+
     // Log controllers
 
     function storeLog($action, $function, $data)
@@ -3077,9 +3076,9 @@ class AdminController extends Controller
     {
         // $wallet = Wallet::find($request->hiddenId);
         if ($request->type == 'Debit') {
-            $this->debitAmount($request->hiddenUserId, $request->amount, 0, null , null, 'Changed By Admin');
-        } else if ($request->type == 'Credit') {
-            $this->creditAmount($request->hiddenUserId, $request->amount, 0, null , null, 'Changed By Admin');
+            $this->debitAmount($request->hiddenUserId, $request->amount, 0, null, null, 'Changed By Admin');
+        } elseif ($request->type == 'Credit') {
+            $this->creditAmount($request->hiddenUserId, $request->amount, 0, null, null, 'Changed By Admin');
         }
 
         Session()->flash('alert-success', "Wallet Updated Succesfully");
@@ -3143,9 +3142,9 @@ class AdminController extends Controller
     {
         $alacartorders = alacartorder::find($request->hiddenId);
         $alacartorders->status = $request->status;
-        if($request->status == 'Completed'){
-            $this->debitAmount($request->userId, $request->total, 0, $alacartorders->trxId , 'alacart' , 'Meal Completed');
-            $this->manageInventory($alacartorders->productId,'alacart');
+        if ($request->status == 'Completed') {
+            // $this->debitAmount($request->userId, $request->total, 0, $alacartorders->trxId , 'alacart' , 'Meal Completed');
+            $this->manageInventory($alacartorders->productId, 'alacart');
         }
         $alacartorders->update();
 
@@ -3168,7 +3167,6 @@ class AdminController extends Controller
     }
 
     // package orders
-
     public function indexPackageOrder()
     {
         $packageorders = transction::where('trxFor', 'subscription')->with('trxsubscriptionorder')->with('user')->get();
@@ -3191,10 +3189,10 @@ class AdminController extends Controller
         // return $packageorders;
         $packageorders->status = $request->status;
         if ($request->status == 'Cancelled') {
-            $this->creditAmount($packageorders->userId, 0, $packageorders->mealPrice, $packageorders->trxId , 'subscription', 'Package Order Cancelled');
+            $this->creditAmount($packageorders->userId, 0, $packageorders->mealPrice, $packageorders->trxId, 'subscription', 'Package Order Cancelled');
         } else if ($request->status == 'Completed') {
-            $this->debitAmount($packageorders->userId, 0, $packageorders->mealPrice, $packageorders->trxId , 'subscription' , 'Package Order Delivered');
-            $this->manageInventory($packageorders->productId,'subscription');
+            $this->debitAmount($packageorders->userId, 0, $packageorders->mealPrice, $packageorders->trxId, 'subscription', 'Package Order Delivered');
+            $this->manageInventory($packageorders->productId, 'subscription');
         }
 
         $packageorders->update();
