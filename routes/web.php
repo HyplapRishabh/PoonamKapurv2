@@ -226,6 +226,7 @@ Route::group(['middleware' => 'checkUserr'], function () {
     ], function () {
         Route::get('/', [AdminController::class, 'indexWallet']);
         Route::post('/update', [AdminController::class, 'updateWallet']);
+        Route::get('/walletHistory/{id}', [AdminController::class, 'walletHistory']);
     });
 
     // order

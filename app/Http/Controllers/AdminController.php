@@ -3005,6 +3005,7 @@ class AdminController extends Controller
     {
         $wallets = Wallet::with('user')->get();
         // $this->createWalletUser(13);
+        // return $wallets;
         return view('admin.wallet', compact('wallets'));
     }
 
@@ -3020,6 +3021,13 @@ class AdminController extends Controller
         Session()->flash('alert-success', "Wallet Updated Succesfully");
         $this->storeLog('Update', 'updateWallet', 'updated by admin');
         return redirect()->back();
+    }
+
+    public function walletHistory($id)
+    {
+        $wallets = Wallet::with('user')->with('walletremarks')->where('userId', $id)->first();
+        // return $wallets;
+        return view('admin.walletHistory', compact('wallets'));
     }
 
     // Orders Controller
