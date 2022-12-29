@@ -167,7 +167,7 @@
 
                             <td class="table-action text-center">
                                 <div>
-                                    <a href="" class="btn btn-icon btn-outline-primary has-ripple" data-toggle="modal" data-target="#inventoryModal{{$data->id}}"><i class="fa-shelves"></i><span class="ripple ripple-animate" style="height: 45px; width: 45px; animation-duration: 0.7s; animation-timing-function: linear; background: rgb(255, 255, 255); opacity: 0.4; top: 7.39999px; left: -12.6px;"></span></a>
+                                    <a href="" class="btn btn-icon btn-outline-primary has-ripple" data-toggle="modal" data-target="#inventoryModal{{$data->id}}"><i class="fas fa-boxes"></i><span class="ripple ripple-animate" style="height: 45px; width: 45px; animation-duration: 0.7s; animation-timing-function: linear; background: rgb(255, 255, 255); opacity: 0.4; top: 7.39999px; left: -12.6px;"></span></a>
                                     <a href="" class="btn btn-icon btn-outline-warning has-ripple" data-toggle="modal" data-target="#updateModal{{$data->id}}"><i class="fas fa-pen"></i></a>
                                     <a href="" class="btn btn-icon btn-outline-danger has-ripple" data-toggle="modal" data-target="#deleteModal{{$data->id}}"><i class="far fa-trash-alt"></i></a>
 
@@ -311,10 +311,7 @@
                             </div>
                         </tr>
                         @endforeach
-
-
                     </tbody>
-
                 </table>
             </div>
         </div>

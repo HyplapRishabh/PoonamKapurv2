@@ -32,7 +32,6 @@ Route::group(['middleware' => 'checkUserr'], function () {
     Route::post('checkPhone', [AdminController::class, 'checkPhone']);
     Route::post('checkPass', [AdminController::class, 'checkPass']);
 
-
     Route::get('dashboard', [AdminController::class, 'indexAdmin']);
 
     //Office User 
@@ -269,13 +268,23 @@ Route::group(['middleware' => 'checkUserr'], function () {
     Route::group([
         'prefix' => 'enquiry'
     ], function () {
-        Route::get('/', [AdminController::class, 'indexEnquiry']);
-        Route::get('/recent', [AdminController::class, 'indexRecentEnquiry']);
-        Route::get('/pending', [AdminController::class, 'indexPendingEnquiry']);
-        Route::get('/completed', [AdminController::class, 'indexCompletedEnquiry']);
-        Route::get('/notReachable', [AdminController::class, 'indexNotReachableEnquiry']);
-        Route::post('/deleteEnquiry', [AdminController::class, 'deleteEnquiry']);
-        Route::post('/updateEnquiry', [AdminController::class, 'updateEnquiry']);
+        // bulk enquiry
+        Route::group([
+            'prefix' => 'bulk'
+        ], function(){
+            Route::get('/', [AdminController::class, 'indexBulkEnquiry']);
+            Route::post('/delete', [AdminController::class, 'deleteBulkEnquiry']);
+            // Route::post('/updateBulkEnquiry', [AdminController::class, 'updateBulkEnquiry']);
+        });
+
+        // franchise enquiry
+        Route::group([
+            'prefix' => 'franchise'
+        ], function(){
+            Route::get('/', [AdminController::class, 'indexFranchiseEnquiry']);
+            Route::post('/delete', [AdminController::class, 'deleteFranchiseEnquiry']);
+            // Route::post('/updateFranchiseEnquiry', [AdminController::class, 'updateFranchiseEnquiry']);
+        });
     });
 
     // blog
@@ -349,6 +358,17 @@ Route::group(['middleware' => 'checkUserr'], function () {
             Route::post('/update', [AdminController::class, 'updatePackageOrder']);
         });
     });
+
+    // banner 
+    Route::group([
+        'prefix' => 'banner'
+    ], function () {
+        Route::get('/', [AdminController::class, 'indexBanner']);
+        Route::post('/add', [AdminController::class, 'storeBanner']);
+        Route::post('/update', [AdminController::class, 'updateBanner']);
+        Route::post('/delete', [AdminController::class, 'deleteBanner']);
+    });
+
 });
 
 
@@ -367,6 +387,7 @@ Route::group([
     Route::get('/contact-us', [webController::class, 'contactus']);
     Route::get('/privacy-policy', [webController::class, 'privacypolicy']);
     Route::get('/terms-of-service', [webController::class, 'termsofservice']);
+    Route::get('/faqs', [webController::class, 'faqs']);
     Route::get('/login', [webController::class, 'login']);
     Route::get('/signup', [webController::class, 'signup']);
     Route::get('/resetpassword', [webController::class, 'resetpassword']);
@@ -404,5 +425,7 @@ Route::group([
     Route::post('/gethashofpayu', [webController::class, 'gethashofpayu']);
     Route::post('/undefined', [webController::class, 'undefined']);
     Route::post('/payuresponsepkhk', [webController::class, 'payuresponsepkhk']);
+    Route::post('/submitBulkEnquiry', [webController::class, 'submitBulkEnquiry']);
+    Route::post('/submitFranchiseEnquiry', [webController::class, 'submitFranchiseEnquiry']);
 });
 

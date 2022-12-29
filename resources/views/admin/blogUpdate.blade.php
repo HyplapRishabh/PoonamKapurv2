@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-Edit Blog
+Update Blog
 @endsection
 
 @section('header')
@@ -19,15 +19,13 @@ Edit Blog
             <div class="modal-body">
                 <div class="col-sm-12">
                     <!--  -->
-                    @foreach($blogss as $blogs)
-                    <form action="/blog/editBlog" method="POST" enctype="multipart/form-data">
+                    <form action="{{url('/blog/updateBlog')}}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="hiddenId" value="{{$blogs->id}}">
+                        <input type="hidden" name="hiddenId" value="{{$blog->id}}">
                         <div class="row">
-
                             <div class="col-sm-12 text-center">
                                 <div class="image-input image-input-outline" id="kt_image_4" style="background-image: url(/media/blank.png)">
-                                    <div class="image-input-wrapper" style="width: 200px; height: 200px;background-image: url(/{{$blogs->coverImage}})"></div>
+                                    <div class="image-input-wrapper" style="width: 200px; height: 200px;background-image: url(/{{$blog->coverImage}})"></div>
 
                                     <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change Image">
                                         <i class="fa fa-pen icon-sm text-muted"></i>
@@ -47,7 +45,7 @@ Edit Blog
 
                             <!-- <div class="col-sm-12">
                                 <div class="form-group text-center">
-                                    <img src="/{{$blogs->coverImage}}" id="image_prev" style="width: 150px;height: 150px;"><br><br>
+                                    <img src="/{{$blog->coverImage}}" id="image_prev" style="width: 150px;height: 150px;"><br><br>
                                     <a id="openGallery" class="btn btn-primary" style="color: white; border-radius: 5px;">Change Image</a>
                                     <input hidden type="file" class="form-control" id="Image" name="image" accept="image/*">
                                 </div>
@@ -55,41 +53,35 @@ Edit Blog
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label style="font-weight: bold;" for="Title">Title <span style="color: red;">&#42</span></label>
-                                    <input type="text" class="form-control" value="{{$blogs->title}}" id="Title" name="title" minlength="5" pattern="[A-Za-z\s]+" required>
+                                    <input type="text" class="form-control" value="{{$blog->title}}" id="Title" name="title" minlength="5" pattern="[A-Za-z\s]+" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label style="font-weight: bold;" for="Subtitle">Subtitle <span style="color: red;">&#42</span></label>
-                                    <input type="text" class="form-control" value="{{$blogs->subtitle}}" id="Subtitle" name="subtitle" minlength="8" pattern="[A-Za-z\s]+" required>
+                                    <input type="text" class="form-control" value="{{$blog->subtitle}}" id="Subtitle" name="subtitle" minlength="8" pattern="[A-Za-z\s]+" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label style="font-weight: bold;" for="Tags">Tags <span style="color: red;">&#42</span> (Seperate it with a comma)</label>
-                                    <input type="text" class="form-control" value="{{$blogs->tags}}" id="Tags" name="tags" minlength="5" required>
+                                    <input type="text" class="form-control" value="{{$blog->tags}}" id="Tags" name="tags" minlength="5" required>
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label style="font-weight: bold;" for="Writer">Writer <span style="color: red;">&#42</span></label>
-                                    <input type="text" class="form-control" value="{{$blogs->writer}}" id="Writer" name="writer" minlength="3" pattern="[A-Za-z\s]+" required>
+                                    <input type="text" class="form-control" value="{{$blog->writer}}" id="Writer" name="writer" minlength="3" pattern="[A-Za-z\s]+" required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label style="font-weight: bold;" for="role">Blog Status <span style="color: red;">&#42</span></label>
                                     <select class="form-control selectpicker" name="status" id="status">
-                                        <optgroup label="Selected">
-                                            <option value="{{$blogs->status}}" selected>{{$blogs->status}}</option>
-                                        </optgroup>
-                                        <optgroup label="Status">
-                                            <option value="active">Active</option>
-                                            <option value="deactive">Deactive</option>
-                                        </optgroup>
 
-
+                                        <option value="1" {{$blog->status == 1 ? 'selected' : ''}}>Active</option>
+                                        <option value="0" {{$blog->status == 0 ? 'selected' : ''}}>Deactive</option>
                                     </select>
                                 </div>
                             </div>
@@ -97,24 +89,22 @@ Edit Blog
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label style="font-weight: bold;" for="Description1">Add Description 1 <span style="color: red;">&#42</span></label><br>
-                                    <textarea id="summernote1" name="desc1" maxlength="25" required>{!!$blogs->discription1!!}</textarea>
+                                    <textarea id="summernote1" name="desc1" maxlength="25" required>{!!$blog->description1!!}</textarea>
                                 </div>
                             </div>
 
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label style="font-weight: bold;" for="Description2">Add Description 2</label><br>
-                                    <textarea id="summernote2" name="desc2">{!!$blogs->discription2!!}</textarea>
+                                    <textarea id="summernote2" name="desc2">{!!$blog->description2!!}</textarea>
                                 </div>
                             </div>
-
 
                             <div class="modal-footer col-sm-12">
                                 <button type="submit" class="btn btn-primary">Update Blog</button>
                             </div>
                         </div>
                     </form>
-                    @endforeach
                 </div>
             </div>
         </div>

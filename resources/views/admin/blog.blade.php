@@ -81,113 +81,17 @@ Blogs
                                     </div>
                                 </td>
 
-                                <!--Show Discription 1 Modal -->
-                                <div class="modal fade" id="showDescription1{{$list->id}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" style="min-width: 80%">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Description 1</h5>
-                                                <button type="button" class="close" data-dismiss="modal"> &times;</button>
-                                            </div>
-                                            <div class="modal-body" style=" overflow: auto; height: 500px; width: 100%">
-                                                {!!$list->discription1!!}
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <!--Show Discription 2 Modal -->
-                                <div class="modal fade" id="showDescription2{{$list->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg" style="min-width: 80%">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Discription 2</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body" style=" overflow: auto; height: 500px; width: 100%">
-                                                {!!$list->discription2!!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <td class="align-middle text-center">
                                     <input type="checkbox" data-id="{{$list->id}}" class="toggle-class" data-style="slow" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Active" data-off="Deactive" {{ $list->status == '1' ? 'checked' : ''}}>
 
                                 </td>
                                 <td>
                                     <div class="align-middle text-center">
-                                        <a href="" class="btn btn-icon btn-outline-primary has-ripple" data-toggle="modal" data-target="#showModal{{$list->id}}"><i class="far fa-eye"></i> </a>
-                                        <a href="{{url('blog/editBlog')}}/{{$list->id}}" class="btn btn-icon btn-outline-warning has-ripple"><i class="fas fa-pen"></i></a>
+                                        <!-- <a href="" class="btn btn-icon btn-outline-primary has-ripple" data-toggle="modal" data-target="#showModal{{$list->id}}"><i class="far fa-eye"></i> </a> -->
+                                        <a href="{{url('blog/updateBlog')}}/{{$list->slug}}" class="btn btn-icon btn-outline-warning has-ripple"><i class="fas fa-pen"></i></a>
                                         <a href="" class="btn btn-icon btn-outline-danger has-ripple" data-toggle="modal" data-target="#deleteModal{{$list->id}}"><i class="far fa-trash-alt"></i></a>
                                     </div>
                                 </td>
-                                <!--Show Modal -->
-                                <div class="modal fade" id="showModal{{$list->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" style="font-weight: 600; color: black; font-size: large;">Blog Details</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body modalSize">
-                                                <form>
-                                                    @csrf
-                                                    <div class="row">
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label style="font-weight: bold;">Blog Id</label><br>
-                                                                <label for="Title">{{$list->id}}</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label style="font-weight: bold;" for="Title">Title</label><br>
-                                                                <label for="Title">{{$list->title}}</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label style="font-weight: bold;" for="Subtitle">Subtitle</label><br>
-                                                                <label for="Subtitle">{{$list->subtitle}}</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label style="font-weight: bold;" for="Tags">Tags</label><br>
-                                                                <label for="Tags">{{$list->tags}}</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label style="font-weight: bold;" for="Creator">Creator</label><br>
-                                                                <label for="Creator">{{$list->creator}}</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label style="font-weight: bold;" for="Writer">Writer</label><br>
-                                                                <label for="Writer">{{$list->writer}}</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-7">
-                                                            <div class="form-group">
-                                                                <label style="font-weight: bold;" for="role">Blog Status</label><br>
-                                                                <label for="role">{{$list->status}}</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <!--Delete Modal -->
                                 <div class="modal fade" id="deleteModal{{$list->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -209,6 +113,39 @@ Blogs
                                                     </div>
                                                 </div>
                                             </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Show Discription 1 Modal -->
+                                <div class="modal fade" id="showDescription1{{$list->id}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" style="min-width: 80%">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Description 1</h5>
+                                                <button type="button" class="close" data-dismiss="modal"> &times;</button>
+                                            </div>
+                                            <div class="modal-body" style=" overflow: auto; height: 500px; width: 100%">
+                                                {!!$list->description1!!}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Show Discription 2 Modal -->
+                                <div class="modal fade" id="showDescription2{{$list->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" style="min-width: 80%">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Discription 2</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body" style=" overflow: auto; height: 500px; width: 100%">
+                                                {!!$list->description2!!}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

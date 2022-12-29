@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Addon;
 use App\Models\alacartorder;
+use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Booking;
 use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Enquiry;
+use App\Models\Enquirybulk;
+use App\Models\Enquiryfranchise;
 use App\Models\Faq;
 use App\Models\Goal;
 use App\Models\Inventoryhistory;
@@ -2671,59 +2674,39 @@ class AdminController extends Controller
         ]);
     }
 
-    // enquiry controller
+    // bulk enquiry controller
 
-    public function indexEnquiry()
+    public function indexBulkEnquiry()
     {
-        $enquiries = Enquiry::all();
-        return view('admin.enquiry', compact('enquiries'));
+        $enquiries = Enquirybulk::all();
+        return view('admin.enquiryBulk', compact('enquiries'));
     }
 
-    public function indexRecentEnquiry()
+    public function deleteBulkEnquiry(Request $request)
     {
-        $enquiries = Enquiry::where('deleteId', '0')->get();
-        return view('admin.enquiry', compact('enquiries'));
+        $model = Enquirybulk::find($request->hiddenId);
+        $model->delete();
+        Session()->flash('alert-success', "Enquiry Deleted Succesfully");
+        $this->storeLog('Delete', 'deleteBulkEnquiry', $model);
+        return redirect()->back();
+    }   
+
+    // franchise enquiry controller
+
+    public function indexFranchiseEnquiry()
+    {
+        $enquiries = Enquiryfranchise::all();
+        return view('admin.enquiryFranchise', compact('enquiries'));
     }
 
-    public function indexPendingEnquiry()
+    public function deleteFranchiseEnquiry(Request $request)
     {
-        $enquiries = Enquiry::where('deleteId', '0')->where('status', 'pending')->get();
-        return view('admin.enquiry', compact('enquiries'));
-    }
-
-    public function indexNotReachableEnquiry()
-    {
-        $enquiries = Enquiry::where('deleteId', '0')->where('status', 'notReachable')->get();
-        return view('admin.enquiry', compact('enquiries'));
-    }
-
-    public function indexCompletedEnquiry()
-    {
-        $enquiries = Enquiry::where('deleteId', '0')->where('status', 'completed')->get();
-        return view('admin.enquiry', compact('enquiries'));
-    }
-
-    public function updateEnquiry(Request $request)
-    {
-        $model = Enquiry::find($request->hiddenId);
-        $model->status = $request->status;
-        $model->adminComment = $request->comment;
-        $model->update();
-        Session()->flash('alert-success', "Enquiry Updated Succesfully");
-        $this->storeLog('Update', 'updateEnquiry', $model);
+        $model = Enquiryfranchise::find($request->hiddenId);
+        $model->delete();
+        Session()->flash('alert-success', "Enquiry Deleted Succesfully");
+        $this->storeLog('Delete', 'deleteFranchiseEnquiry', $model);
         return redirect()->back();
     }
-
-    public function deleteEnquiry(Request $request)
-    {
-        $model = Enquiry::find($request->hiddenId);
-        $model->deleteId = 1;
-        $model->save();
-        Session()->flash('alert-success', "Enquiry Updated Succesfully");
-        $this->storeLog('Delete', 'deleteEnquiry', $model);
-        return redirect()->back();
-    }
-
 
     // Blog Controller
 
@@ -2774,8 +2757,8 @@ class AdminController extends Controller
 
     public function showBlogUpdate($slug)
     {
-        $blogss = blog::where('deleteId', '0')->where('slug', $slug)->first();
-        return view('admin.blogUpdate', compact('blogss'));
+        $blog = blog::where('deleteId', '0')->where('slug', $slug)->first();
+        return view('admin.blogUpdate', compact('blog'));
     }
 
     public function updateBlog(Request $request)
@@ -2922,6 +2905,44 @@ class AdminController extends Controller
             'message' => 'Status Changed Successfully',
         ]);
     }
+
+    // Banner controller
+
+    public function indexBanner()
+    {
+        $banners = Banner::all();
+        return view('admin.banner', compact('banners'));
+    }
+
+    public function storeBanner(Request $request)
+    {
+        $uploadpath = 'media/images/banner';
+        $banner = new Banner;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $image_name = $image->getClientOriginalName();
+            $final_name = time() . $image_name;
+            $image->move($uploadpath, $final_name);
+            chmod('media/images/banner/' . $final_name, 0777);
+            $image_path = "media/images/banner/" . $final_name;
+        } else {
+            $image_path = null;
+        }
+        $banner->image = $image_path;
+        $banner->save();
+        Session()->flash('alert-success', "Banner Added Succesfully");
+        $this->storeLog('Add', 'storeBanner', $banner);
+        return redirect()->back();
+    }
+
+    public function deleteBanner(Request $request)
+    {
+        $model = Banner::find($request->hiddenId)->delete();
+        Session()->flash('alert-success', "Banner Deleted Succesfully");
+        $this->storeLog('Delete', 'deleteBanner', $model);
+        return redirect()->back();
+    }
+    
 
     // coupons controller
 
