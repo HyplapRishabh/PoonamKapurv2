@@ -428,6 +428,5 @@ Route::group([
     Route::post('/payuresponsepkhk', [webController::class, 'payuresponsepkhk']);
     Route::post('/submitBulkEnquiry', [webController::class, 'submitBulkEnquiry']);
     Route::post('/submitFranchiseEnquiry', [webController::class, 'submitFranchiseEnquiry']);
-    Route::post('/payuresponseconsultpkhk', [webController::class, 'payuresponseconsultpkhk']);
 });
 

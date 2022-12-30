@@ -32,6 +32,8 @@ use Carbon\Carbon;
 use App\Models\subscriptionorder;
 use App\Models\alacartorder;
 use App\Models\Enquirybulk;
+use App\Models\failconsultation;
+use App\Models\consultation;
 use App\Models\Enquiryfranchise;
 use App\Models\Faq;
 use App\Models\User;
@@ -643,13 +645,22 @@ class webController extends Controller
     }
     public function consultation()
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        $txnid = 'pk'.rand(99999, 9999999);
-        $mindate = Carbon::now();
-        $mindate=$mindate->addDays(1)->format('Y-m-d');
-        return view('web.consultation', compact('categorylist','goallist','packagelist','txnid','mindate'));
+        if(Auth::user())
+        {
+            $userwallet=Wallet::where('userId',Auth::user()->id)->first();
+            $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+            $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
+            $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+            $txnid = 'pk'.rand(99999, 9999999);
+            $mindate = Carbon::now();
+            $finalamt=500;
+            $mindate=$mindate->addDays(1)->format('Y-m-d');
+            return view('web.consultation', compact('categorylist','goallist','packagelist','txnid','mindate','userwallet','finalamt'));
+        }
+        else
+        {
+            return view('web.login');
+        }
     }
 
     public function allblogs()
@@ -852,7 +863,7 @@ class webController extends Controller
         }
         else if($input['productinfo']=='consultation')
         {
-            $strdata=$input['key'].'|'.$input['txnid'].'|'.$input['amount'].'|'.$input['productinfo'].'|'.$input['firstname'].'|'.$input['email'].'|'.$input['udf1'].'|'.$input['udf2'].'|'.$input['udf3'].'||'.$input['udf5'].'||||||4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW';
+            $strdata=$input['key'].'|'.$input['txnid'].'|'.$input['amount'].'|'.$input['productinfo'].'|'.$input['firstname'].'|'.$input['email'].'|'.$input['udf1'].'|'.$input['udf2'].'|'.$input['udf3'].'|'.$input['udf4'].'|'.$input['udf5'].'||||||4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW';
 
             $key = hash("sha512",$strdata);
         }
@@ -1200,10 +1211,36 @@ class webController extends Controller
 
     public function payuresponseconsultpkhk(Request $input)
     {
-        return $input;
-        $input='{"mihpayid":"403993715528003125","mode":"UPI","status":"failure","unmappedstatus":"failed","key":"gtKFFx","txnid":"pk6542340","amount":"500.00","discount":"0.00","net_amount_debit":"0.00","addedon":"2022-12-30 12:13:22","productinfo":"consultation","firstname":"Sayed Zaid","lastname":null,"address1":null,"address2":null,"city":null,"state":null,"country":null,"zipcode":null,"email":"rishabh.2745@gmail.com","phone":"8433885667","udf1":"500","udf2":"2023-01-01","udf3":"Test pay","udf4":null,"udf5":"1","udf6":null,"udf7":null,"udf8":null,"udf9":null,"udf10":null,"hash":"a96fb4c13c6d1a497049efe6b7263ec208143342d5f5ddbbd8b3e7bfa3a25267ef444a84819ca6746547a2defe2d65b49b64acbcbc95fa503e35589cece70c94","field1":"8976074007@ybl","field2":null,"field3":null,"field4":"RISHABH MAHENDRA KATARIYA","field5":null,"field6":null,"field7":null,"field8":null,"field9":"Transaction Failed at bank end.","payment_source":"payu","PG_TYPE":"HDFCU","bank_ref_num":null,"bankcode":"PP_UPI","error":"E308","error_Message":"Bank was unable to authenticate"}';
+        $input='{"mihpayid":"403993715528003125","mode":"UPI","status":"failure","unmappedstatus":"failed","key":"gtKFFx","txnid":"pks65s42340","amount":"500.00","discount":"0.00","net_amount_debit":"0.00","addedon":"2022-12-30 12:13:22","productinfo":"consultation","firstname":"Sayed Zaid","lastname":null,"address1":null,"address2":null,"city":null,"state":null,"country":null,"zipcode":null,"email":"rishabh.2745@gmail.com","phone":"8433885667","udf1":"500","udf2":"2023-01-01","udf3":"Test pay","udf4":null,"udf5":"1","udf6":null,"udf7":null,"udf8":null,"udf9":null,"udf10":null,"hash":"a96fb4c13c6d1a497049efe6b7263ec208143342d5f5ddbbd8b3e7bfa3a25267ef444a84819ca6746547a2defe2d65b49b64acbcbc95fa503e35589cece70c94","field1":"8976074007@ybl","field2":null,"field3":null,"field4":"RISHABH MAHENDRA KATARIYA","field5":null,"field6":null,"field7":null,"field8":null,"field9":"Transaction Failed at bank end.","payment_source":"payu","PG_TYPE":"HDFCU","bank_ref_num":null,"bankcode":"PP_UPI","error":"E308","error_Message":"Bank was unable to authenticate"}';
         $input=json_decode($input,true);
 
+        $carb= Carbon::now(); 
+
+        $trxdtl=explode (",", $input['udf1']);
+
+            $walletamt=0;
+            $payuamt=0;
+            if ($input['udf4']=='0')
+            {
+                $walletamt=0;
+                $payuamt=$input['udf4'];
+            }
+            else if($input['udf4']=='1')
+            {
+                $walletamt=Wallet::where('userId',$input['udf5'])->first();
+                $walletamt=$walletamt['availableBal'];
+                if($walletamt>=$input['udf1'])
+                {
+                    $walletamt=$input['udf1'];
+                    $payuamt=0;
+                }
+                else
+                {
+                    
+                    $payuamt=$input['udf1']-$walletamt;
+                }
+            }
+            
         if($input['status']=='failure')
         {
             $ftrx=failtransction::where('payutxnid',$input['txnid'])->count();
@@ -1211,22 +1248,18 @@ class webController extends Controller
                 {
                     $trxId=failtransction::insertGetId([
                         'trxdate' => $carb,
-                        'subtotalamt' => $trxdtl[0],
+                        'subtotalamt' =>$input['udf1'],
                         'discountamt' =>'0',
-                        'gstamt' => $trxdtl[1],
+                        'gstamt' => 0,
                         'deliveryamt' => '0',
                         'walletamt'=>$walletamt,
                         'payuamt'=>$payuamt,
-                        'grandtotal' => $trxdtl[5],
-                        'finalamt' => $trxdtl[2],
+                        'grandtotal' => $input['udf1'],
+                        'finalamt' => $input['amount'],
                         'paymenId' => $input['mihpayid'],
-                        'trxFor' => 'subscription',
+                        'trxFor' => 'consultation',
                         'userId' => $input['udf5'],
-                        'address' => $input['address1'],
-                        'landmark' => $input['address2'],
-                        'pincode' => $input['zipcode'],
-                        'deliverystatus'=>'InProcess',
-                        'area' => $input['city'],
+                        'deliverystatus'=>'Pending',
                         'cpname' => $input['firstname'],
                         'cpno' => $input['phone'],
                         'trxStatus' =>$input['status'],
@@ -1236,29 +1269,83 @@ class webController extends Controller
                         'errormsg'=>$input['error_Message'],
                     ]);
             
-                    $onemealprice=$trxdtl[3]/23;
 
-                    $cartlist=failsubscriptionorder::insertGetId([
+                    $cartlist=failconsultation::insertGetId([
                         'trxId' => $trxId,
+                        'name' => $input['firstname'],
+                        'number' =>$input['phone'],
+                        'email' =>$input['email'],
+                        'date' =>$input['udf2'],
+                        'msg' =>$input['udf3'],
+                        'status' => 'Pending',
+                    ]);
+            
+                }
+
+                $result = User::where('id',$input['udf5'])->first();
+                Auth::login($result);
+                $trxdtl=failtransction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
+                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+        }
+        else if($input['status']=='success')
+        {
+            $ftrx=transction::where('payutxnid',$input['txnid'])->count();
+                if($ftrx==0)
+                {
+                    $trxId=transction::insertGetId([
+                        'trxdate' => $carb,
+                        'subtotalamt' =>$input['udf1'],
+                        'discountamt' =>'0',
+                        'gstamt' => 0,
+                        'deliveryamt' => '0',
+                        'walletamt'=>$walletamt,
+                        'payuamt'=>$payuamt,
+                        'grandtotal' => $input['udf1'],
+                        'finalamt' => $input['amount'],
+                        'paymenId' => $input['mihpayid'],
+                        'trxFor' => 'consultation',
                         'userId' => $input['udf5'],
-                        'packageId' =>$pkgdtl[0],
-                        'totaldays' =>$pkgdtl[1],
-                        'totalmeal' =>$pkgdtl[2],
-                        'mealPrice' =>$onemealprice,
-                        'subscribedfor' => $input['udf3'],
-                        'startdate'=>$input['udf4'],
-                        'status' =>$input['status'],
+                        'deliverystatus'=>'Pending',
+                        'cpname' => $input['firstname'],
+                        'cpno' => $input['phone'],
+                        'trxStatus' =>$input['status'],
+                        'mode'=>$input['mode'],
+                        'payutxnid'=>$input['txnid'],
+                        'reason'=>$input['field9'],
+                        'errormsg'=>$input['error_Message'],
+                    ]);
+
+                    $cartlist=consultation::insertGetId([
+                        'trxId' => $trxId,
+                        'name' => $input['firstname'],
+                        'number' =>$input['phone'],
+                        'email' =>$input['email'],
+                        'date' =>$input['udf2'],
+                        'msg' =>$input['udf3'],
+                        'status' => 'Pending',
                     ]);
             
                     $result = User::where('id',$input['udf5'])->first();
                     Auth::login($result);
 
-                    $trxdtl=failtransction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
-                    return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+                    $remark='Money Added for consultation booking #PKHK_'.$input['txnid'];
+                    $this->creditAmount($input['udf5'], $payuamt, 0,$trxId,'consultation', $remark);
+
+                    $remark='Paid for consultation booking #PKHK_'.$input['txnid'];
+                    $this->debitAmount($input['udf5'],$input['udf1'], 0,$trxId,'consultation', $remark);
+
+                    
                 }
+                $result = User::where('id',$input['udf5'])->first();
+                Auth::login($result);
+                $trxdtl=transction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
+                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
         }
-        else if($input['status']=='success')
-        {
-        }
+
+        
+
+       
+        
+        return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
     }
 }
