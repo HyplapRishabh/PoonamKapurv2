@@ -37,6 +37,8 @@ class Controller extends BaseController
         $walletRemark = new Walletremark();
         $walletRemark->userId = $userId;
         $walletRemark->trxType = 'Debit';
+        $walletRemark->trxId = $trxId;
+        $walletRemark->trxFor = $trxFor;
         $walletRemark->amount = $spentTotal;
         $walletRemark->remark = $remark;
         $walletRemark->save();

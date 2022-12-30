@@ -687,8 +687,8 @@ class webController extends Controller
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
         $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        
-        return view('web.consultation', compact('categorylist','goallist','packagelist'));
+        $txnid = 'pk'.rand(99999, 9999999);
+        return view('web.consultation', compact('categorylist','goallist','packagelist','txnid'));
     }
     
     public function allblogs()
@@ -1060,10 +1060,10 @@ class webController extends Controller
                     }
         
                     $remark='Money Added for alacart order #PKHK_'.$input['txnid'];
-                    $this->creditAmount($input['udf5'], $payuamt, 0, $remark);
+                    $this->creditAmount($input['udf5'], $payuamt, 0,$trxId,'alacart', $remark);
 
                     $remark='Paid for alacart order #PKHK_'.$input['txnid'];
-                    $this->debitAmount($input['udf5'],$trxdtl[5], 0, $remark);
+                    $this->debitAmount($input['udf5'],$trxdtl[5], 0,$trxId,'alacart', $remark);
 
                     cart::where('userID', $input['udf5'])->delete();
                 }
@@ -1207,10 +1207,10 @@ class webController extends Controller
                     ]);
 
                     $remark='Money Added for subscription order #PKHK_'.$input['txnid'];
-                    $this->creditAmount($input['udf5'], $payuamt, 0, $remark);
+                    $this->creditAmount($input['udf5'], $payuamt, 0,$trxId,'subscription', $remark);
 
                     $remark='Locked for subscription order #PKHK_'.$input['txnid'];
-                    $this->lockamount($input['udf5'], $trxdtl[5], $trxdtl[5], $remark);
+                    $this->lockamount($input['udf5'], $trxdtl[5], $trxdtl[5],$trxId,'subscription', $remark);
                 }
                 $result = User::where('id',$input['udf5'])->first();
                 Auth::login($result);
