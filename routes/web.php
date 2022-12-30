@@ -415,6 +415,7 @@ Route::group([
     Route::get('/weblogout', [webController::class, 'weblogout']);
     Route::get('/consultation', [webController::class, 'consultation']);
     Route::get('/allblogs', [webController::class, 'allblogs']);
+    Route::get('/allblogs/{slug}', [webController::class, 'singleBlog']);
     Route::get('/alacartcheckout', [webController::class, 'alacartcheckout']);
     Route::get('/pincodechg/{pincode}', [webController::class, 'pincodechg']);
     Route::post('/alacartorderplace', [webController::class, 'alacartorderplace']);

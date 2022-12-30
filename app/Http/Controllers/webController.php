@@ -64,93 +64,89 @@ class webController extends Controller
         $log->ip = request()->ip();
         $log->save();
     }
-    
+
     public function welcomeindex()
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        
-        
-        $testimonials = Testimonial::where([['deleteId', '0'],['status','1']])->get();
-        return view('web.welcomeindex', compact('categorylist', 'packagelist','goallist','testimonials'));
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+
+
+        $testimonials = Testimonial::where([['deleteId', '0'], ['status', '1']])->get();
+        return view('web.welcomeindex', compact('categorylist', 'packagelist', 'goallist', 'testimonials'));
     }
 
     public function allcategory()
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
 
-        $categoryall = Category::where([['deleteId', '0'],['status','1']])->get();
-        return view('web.allcategory', compact('categorylist', 'packagelist','goallist','categoryall'));
+        $categoryall = Category::where([['deleteId', '0'], ['status', '1']])->get();
+        return view('web.allcategory', compact('categorylist', 'packagelist', 'goallist', 'categoryall'));
     }
 
-    public function categorydetail($catslug,Request $input)
+    public function categorydetail($catslug, Request $input)
     {
-        $mealtypedtl=$input['mealtype'];
-        
-        if(isset($mealtypedtl))
-        {
-            $mealtypedtl = mealtype::where([['deleteId', '0'],['status','1']])->where('name',$mealtypedtl)->pluck('id')->first(); 
-        }
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+        $mealtypedtl = $input['mealtype'];
 
-        $checktitle=$this->sanitizeStringForUrl($catslug);
-        $categorydtl = Category::where([['deleteId', '0'],['status','1']])->where('name',$checktitle)->first(); 
+        if (isset($mealtypedtl)) {
+            $mealtypedtl = mealtype::where([['deleteId', '0'], ['status', '1']])->where('name', $mealtypedtl)->pluck('id')->first();
+        }
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+
+        $checktitle = $this->sanitizeStringForUrl($catslug);
+        $categorydtl = Category::where([['deleteId', '0'], ['status', '1']])->where('name', $checktitle)->first();
         $mealTypes = Product::with('webmealtype')->groupBy('mealTypeId')
-        ->select('categoryId','status','deleteId','mealTypeId', DB::raw('count(*) as totalmealTypeId'))
-        ->where([['categoryId',$categorydtl['id']],['deleteId', '0'],['status','1']])->get();
-        
-        return view('web.category', compact('categorylist','goallist','packagelist','categorydtl','mealTypes','input'));
+            ->select('categoryId', 'status', 'deleteId', 'mealTypeId', DB::raw('count(*) as totalmealTypeId'))
+            ->where([['categoryId', $categorydtl['id']], ['deleteId', '0'], ['status', '1']])->get();
+
+        return view('web.category', compact('categorylist', 'goallist', 'packagelist', 'categorydtl', 'mealTypes', 'input'));
     }
 
     public function getcartdata()
     {
-        if(Auth::user())
-        {
-          $cartlist=cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
-        }
-        else
-        {
-          $cartlist=[];
+        if (Auth::user()) {
+            $cartlist = cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
+        } else {
+            $cartlist = [];
         }
 
-        $myresponse['cartlist']=$cartlist;
-        $myresponse['status']='success';
+        $myresponse['cartlist'] = $cartlist;
+        $myresponse['status'] = 'success';
         return $myresponse;
     }
 
     public function getproductfilter(Request $input)
     {
-        $mealtypedtl=$input['mealtype'];
-        
-        if(isset($mealtypedtl))
-        {
-            $mealtypedtl = mealtype::where([['deleteId', '0'],['status','1']])->where('name',$mealtypedtl)->pluck('id')->first(); 
+        $mealtypedtl = $input['mealtype'];
+
+        if (isset($mealtypedtl)) {
+            $mealtypedtl = mealtype::where([['deleteId', '0'], ['status', '1']])->where('name', $mealtypedtl)->pluck('id')->first();
         }
 
-        $categorydtl=$input['category'];
-        
-        if(isset($categorydtl))
-        {
-            $checktitle=$this->sanitizeStringForUrl($categorydtl);
-            $categorydtl = Category::where([['deleteId', '0'],['status','1']])->where('name',$checktitle)->first(); 
+        $categorydtl = $input['category'];
+
+        if (isset($categorydtl)) {
+            $checktitle = $this->sanitizeStringForUrl($categorydtl);
+            $categorydtl = Category::where([['deleteId', '0'], ['status', '1']])->where('name', $checktitle)->first();
         }
 
-        $productdtl = Product::where([['categoryId',$categorydtl['id']],['deleteId', '0'],['status','1']])
-        ->when($mealtypedtl, function ($q) use ($mealtypedtl) { return $q->where('mealTypeId','=',$mealtypedtl);})
-        ->inRandomOrder()->get();
+        $productdtl = Product::where([['categoryId', $categorydtl['id']], ['deleteId', '0'], ['status', '1']])
+            ->when($mealtypedtl, function ($q) use ($mealtypedtl) {
+                return $q->where('mealTypeId', '=', $mealtypedtl);
+            })
+            ->inRandomOrder()->get();
 
-        $myresponse['productdtl']=$productdtl;
-        $myresponse['status']='success';
+        $myresponse['productdtl'] = $productdtl;
+        $myresponse['status'] = 'success';
         return $myresponse;
     }
 
 
-// Franchise Enquiry Submission
+    // Franchise Enquiry Submission
     public function submitFranchiseEnquiry(Request $request)
     {
         $enquiry = new Enquiryfranchise();
@@ -184,108 +180,96 @@ class webController extends Controller
 
     public function getgoalpkg(Request $input)
     {
-        $mealtypedtlval=$input['meal'];
-        
-        if(isset($mealtypedtlval))
-        {
-            $mealtypedtl = mealtype::where([['deleteId', '0'],['status','1']])->where('name',$mealtypedtlval)->first(); 
+        $mealtypedtlval = $input['meal'];
+
+        if (isset($mealtypedtlval)) {
+            $mealtypedtl = mealtype::where([['deleteId', '0'], ['status', '1']])->where('name', $mealtypedtlval)->first();
         }
 
-        $pkgdtl=Package::where([['deleteId', '0'],['status','1'],['goalId',$input['goal']],['mealTypeId',$mealtypedtl['id']]])->with('mealtype')->first();
-    
-        $myresponse['pkgdtl']=$pkgdtl;
-        $myresponse['mealtypedtl']=$mealtypedtl['id'];
-        $myresponse['days']=['3','15','30','60'];
-        $myresponse['status']='success';
+        $pkgdtl = Package::where([['deleteId', '0'], ['status', '1'], ['goalId', $input['goal']], ['mealTypeId', $mealtypedtl['id']]])->with('mealtype')->first();
+
+        $myresponse['pkgdtl'] = $pkgdtl;
+        $myresponse['mealtypedtl'] = $mealtypedtl['id'];
+        $myresponse['days'] = ['3', '15', '30', '60'];
+        $myresponse['status'] = 'success';
         return $myresponse;
     }
-    
+
 
     public function alacart()
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        
-        $categoryall = Category::where([['deleteId', '0'],['status','1']])->get();
-        $productdtl = Product::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('16')->get();
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
 
-        return view('web.alacart', compact('categorylist','goallist','packagelist','categoryall','productdtl'));
+        $categoryall = Category::where([['deleteId', '0'], ['status', '1']])->get();
+        $productdtl = Product::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('16')->get();
+
+        return view('web.alacart', compact('categorylist', 'goallist', 'packagelist', 'categoryall', 'productdtl'));
     }
 
-    
+
     function sanitizeStringForUrl($string)
     {
-        $string = preg_replace('#-#',' ',$string);
+        $string = preg_replace('#-#', ' ', $string);
         return $string;
     }
 
-    function addonlist($productId,$mealId,$cartId)
+    function addonlist($productId, $mealId, $cartId)
     {
-        $myresponse=[];
-        if(Auth::user())
-        {
-           $cartexist=cartaddon::where('cartId',$cartId)->pluck('addonId')->first();
-          $addonlist=Addon::where([['deleteId', '0'],['status','1'],['mealTypeId',$mealId],['alaCartFlag','1']])->with('mealtype')->get();
+        $myresponse = [];
+        if (Auth::user()) {
+            $cartexist = cartaddon::where('cartId', $cartId)->pluck('addonId')->first();
+            $addonlist = Addon::where([['deleteId', '0'], ['status', '1'], ['mealTypeId', $mealId], ['alaCartFlag', '1']])->with('mealtype')->get();
 
-          $myresponse['status']='success';
-          $myresponse['addonlist']=$addonlist;
-          $myresponse['cartexist']=$cartexist;
-          return $myresponse;
-        }
-        else
-        {
-          $myresponse['status']='login';
-          return $myresponse;
+            $myresponse['status'] = 'success';
+            $myresponse['addonlist'] = $addonlist;
+            $myresponse['cartexist'] = $cartexist;
+            return $myresponse;
+        } else {
+            $myresponse['status'] = 'login';
+            return $myresponse;
         }
     }
 
-    function addtocart($productId,$addonval)
+    function addtocart($productId, $addonval)
     {
-        $myresponse=[];
-        if(Auth::user())
-        {
-            $cartexist=cart::where([['productId',$productId],['userID',Auth::user()->id]])->first();
-            
-            
-            if($cartexist)
-            {   
-                $cart = cart::find($cartexist['id']);
-                $cart->qty = $cartexist['qty']+1;
-                $cart->update();
-                $cartId=$cartexist['id'];
-            }
-            else
-            {
-                $dishdtl = Product::where('id',$productId)->first(); 
+        $myresponse = [];
+        if (Auth::user()) {
+            $cartexist = cart::where([['productId', $productId], ['userID', Auth::user()->id]])->first();
 
-                $cartId=cart::insertGetId([
+
+            if ($cartexist) {
+                $cart = cart::find($cartexist['id']);
+                $cart->qty = $cartexist['qty'] + 1;
+                $cart->update();
+                $cartId = $cartexist['id'];
+            } else {
+                $dishdtl = Product::where('id', $productId)->first();
+
+                $cartId = cart::insertGetId([
                     'productId' => $dishdtl['UID'],
                     'qty' => 1,
                     'userID' => Auth::user()->id,
                 ]);
             }
 
-            if($addonval!=0)
-            {
-                $cartexist=cartaddon::where('cartId',$cartId)->delete();
-                $cartaddon=cartaddon::insertGetId([
+            if ($addonval != 0) {
+                $cartexist = cartaddon::where('cartId', $cartId)->delete();
+                $cartaddon = cartaddon::insertGetId([
                     'cartId' => $cartId,
                     'addonId' => $addonval,
                     'qty' => '1',
                 ]);
-
             }
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Added to cart !',
             ]);
-        }
-        else
-        {
-          $myresponse['status']='login';
-          return $myresponse;
+        } else {
+            $myresponse['status'] = 'login';
+            return $myresponse;
         }
     }
 
@@ -300,10 +284,8 @@ class webController extends Controller
         $result = User::where(['phone' => $input['emailId']])->orWhere(['email' => $input['emailId']])->first();
 
         if ($result) {
-            if ($result->status == 1 && $result->deleteId == 0) 
-            {
-                if (Hash::check($input['passwordval'], $result->password)) 
-                {
+            if ($result->status == 1 && $result->deleteId == 0) {
+                if (Hash::check($input['passwordval'], $result->password)) {
                     Auth::login($result);
                     $this->storeLog('Login', 'Login', Auth::user()->id);
                     return response()->json([
@@ -348,25 +330,19 @@ class webController extends Controller
 
         $result = User::where(['phone' => $input['emailId']])->orWhere(['email' => $input['emailId']])->first();
 
-        if ($result) 
-        {
-            if ($result->status == 1 && $result->deleteId == 0) 
-            {
+        if ($result) {
+            if ($result->status == 1 && $result->deleteId == 0) {
                 return response()->json([
                     'status' => 200,
                     'message' => 'Reset password link sent on E-mail.',
                 ]);
-            }
-            else
-            {
+            } else {
                 return response()->json([
                     'status' => 201,
                     'message' => 'Contact site admin to change your password !',
                 ]);
             }
-        }
-        else
-        {
+        } else {
             return response()->json([
                 'status' => 202,
                 'message' => "Email Id doesn't exist !",
@@ -385,22 +361,17 @@ class webController extends Controller
         $resultemail = User::Where(['email' => $request['uemail']])->count();
         $resultphone = User::where(['phone' => $request['uphone']])->count();
 
-        if($resultemail)
-        {
+        if ($resultemail) {
             return response()->json([
                 'status' => 'emailerror',
                 'message' => 'Email Id already exist !',
             ]);
-        }
-        else if($resultphone)
-        {
+        } else if ($resultphone) {
             return response()->json([
                 'status' => 'phoneerror',
                 'message' => 'mobile number already exist !',
             ]);
-        }
-        else
-        {
+        } else {
             $user = new User();
             $user->name = $request->uname;
             $user->email = $request->uemail;
@@ -422,9 +393,8 @@ class webController extends Controller
 
         $resultemail = User::Where(['email' => $request['quemail']])->first();
 
-        if($resultemail)
-        {
-            $user = User::find($resultemail['id']); 
+        if ($resultemail) {
+            $user = User::find($resultemail['id']);
             $user->name = $request->quname;
             $user->weight = $request->qweight;
             $user->age = $request->qage;
@@ -435,11 +405,9 @@ class webController extends Controller
             $user->update();
 
             Auth::login($resultemail);
-        }
-        else
-        {
+        } else {
 
-            $userid=User::insertGetId([
+            $userid = User::insertGetId([
                 'name' => $request->quname,
                 'email' => $request->quemail,
                 'weight' => $request->qweight,
@@ -457,28 +425,25 @@ class webController extends Controller
             Auth::login($resultemail);
         }
 
-        $goallist = Goal::where([['deleteId', '0'],['status','1'],['id',$request->qgoal]])->with('package')->first();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1'], ['id', $request->qgoal]])->with('package')->first();
 
         return response()->json([
             'status' => 200,
-            'message' => '/app/goal/'.Str::slug($goallist->name, '-').'?goal='.$goallist->id.'&pkgId='.$goallist->package->id.'&meal='.$goallist->package->mealtype->name,
+            'message' => '/app/goal/' . Str::slug($goallist->name, '-') . '?goal=' . $goallist->id . '&pkgId=' . $goallist->package->id . '&meal=' . $goallist->package->mealtype->name,
         ]);
     }
-    
+
     public function signupotp(Request $input)
     {
 
         $resultphone = User::where(['phone' => $input['uphone']])->count();
 
-        if($resultphone)
-        {
+        if ($resultphone) {
             return response()->json([
                 'status' => 'phoneerror',
                 'message' => 'mobile number already exist !',
             ]);
-        }
-        else
-        {
+        } else {
             return response()->json([
                 'status' => 200,
                 'message' => 'OTP send successfully !',
@@ -488,105 +453,97 @@ class webController extends Controller
 
     public function viewcart()
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        
-        $productlist = Product::with('category')->where([['deleteId', '0'],['status','1']])->limit('8')->get(); 
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
 
-        $cartlist=cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
+        $productlist = Product::with('category')->where([['deleteId', '0'], ['status', '1']])->limit('8')->get();
 
-        return view('web.viewcart', compact('categorylist','goallist','packagelist','productlist','cartlist'));
+        $cartlist = cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
 
+        return view('web.viewcart', compact('categorylist', 'goallist', 'packagelist', 'productlist', 'cartlist'));
     }
 
     public function dish($pname)
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
 
-        $dishdtl = Product::with('category')->where([['deleteId', '0'],['status','1']])->where('slug',$pname)->first(); 
-        $dishmacros = Productmacro::where('productUId',$dishdtl['UID'])->first(); 
-        $dishaddonlist=Addon::where([['deleteId', '0'],['status','1'],['mealTypeId',$dishdtl['mealTypeId']],['alaCartFlag','1']])->with('mealtype')->get();
-        $similarproduct = Product::with('category')->where([['deleteId', '0'],['status','1'],['categoryId',$dishdtl['categoryId']]])->inRandomOrder()->limit('8')->get();
-        return view('web.dish', compact('categorylist','goallist','packagelist','dishdtl','dishmacros','dishaddonlist','similarproduct'));
+        $dishdtl = Product::with('category')->where([['deleteId', '0'], ['status', '1']])->where('slug', $pname)->first();
+        $dishmacros = Productmacro::where('productUId', $dishdtl['UID'])->first();
+        $dishaddonlist = Addon::where([['deleteId', '0'], ['status', '1'], ['mealTypeId', $dishdtl['mealTypeId']], ['alaCartFlag', '1']])->with('mealtype')->get();
+        $similarproduct = Product::with('category')->where([['deleteId', '0'], ['status', '1'], ['categoryId', $dishdtl['categoryId']]])->inRandomOrder()->limit('8')->get();
+        return view('web.dish', compact('categorylist', 'goallist', 'packagelist', 'dishdtl', 'dishmacros', 'dishaddonlist', 'similarproduct'));
     }
 
     public function deletefromcart($cartid)
     {
-        $cartlist=cart::where('id',$cartid)->delete();
-        $cartexist=cartaddon::where('cartId',$cartid)->delete();
-        $myresponse['status']='success';
+        $cartlist = cart::where('id', $cartid)->delete();
+        $cartexist = cartaddon::where('cartId', $cartid)->delete();
+        $myresponse['status'] = 'success';
         return $myresponse;
     }
 
-    public function updatecart($type,$cartid)
+    public function updatecart($type, $cartid)
     {
-        
-        if($type=='sub')
-        {
-            $cartlist=cart::where('id',$cartid)->first();
-            if($cartlist['qty']-1==0)
-            {
-                $cartlist=cart::where('id',$cartid)->delete();
-                $cartexist=cartaddon::where('cartId',$cartid)->delete();
+
+        if ($type == 'sub') {
+            $cartlist = cart::where('id', $cartid)->first();
+            if ($cartlist['qty'] - 1 == 0) {
+                $cartlist = cart::where('id', $cartid)->delete();
+                $cartexist = cartaddon::where('cartId', $cartid)->delete();
+            } else {
+                $cartlist = cart::where('id', $cartid)->decrement('qty', 1);
             }
-            else
-            {
-                $cartlist=cart::where('id',$cartid)->decrement('qty',1);
-            }
-            
+        } else {
+            $cartlist = cart::where('id', $cartid)->increment('qty', 1);
         }
-        else
-        {
-            $cartlist=cart::where('id',$cartid)->increment('qty',1);
-        }
-        
-        $myresponse['status']='success';
+
+        $myresponse['status'] = 'success';
         return $myresponse;
     }
 
-    public function goaldetail($goal,Request $input)
+    public function goaldetail($goal, Request $input)
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        $checktitle=$this->sanitizeStringForUrl($goal);
-        $goaldtl=Goal::where([['deleteId', '0'],['status','1']])->where('name',$checktitle)->first();
-        $goalpkg=Package::where([['deleteId', '0'],['status','1'],['goalId',$goaldtl['id']]])->with('mealtype')->get();
- 
-        return view('web.goaldetail', compact('categorylist','goallist','packagelist','goaldtl','goalpkg','input'));
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+        $checktitle = $this->sanitizeStringForUrl($goal);
+        $goaldtl = Goal::where([['deleteId', '0'], ['status', '1']])->where('name', $checktitle)->first();
+        $goalpkg = Package::where([['deleteId', '0'], ['status', '1'], ['goalId', $goaldtl['id']]])->with('mealtype')->get();
+
+        return view('web.goaldetail', compact('categorylist', 'goallist', 'packagelist', 'goaldtl', 'goalpkg', 'input'));
     }
 
-    public function packagemenu($pkgId,Request $input)
+    public function packagemenu($pkgId, Request $input)
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        
-        $packageinfo=Package::where([['deleteId', '0'],['status','1'],['id',$pkgId]])->first();
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
 
-        $menuinfo=packagemenu::where('packageUId',$packageinfo['UID'])->with('webbreakfast')->with('weblunch')->with('websnacks')->with('webdinner')->limit($input['days'])->orderBy('day')->get();
-      
-        return view('web.packagemenu', compact('categorylist','goallist','packageinfo','packagelist','menuinfo','input'));
+        $packageinfo = Package::where([['deleteId', '0'], ['status', '1'], ['id', $pkgId]])->first();
+
+        $menuinfo = packagemenu::where('packageUId', $packageinfo['UID'])->with('webbreakfast')->with('weblunch')->with('websnacks')->with('webdinner')->limit($input['days'])->orderBy('day')->get();
+
+        return view('web.packagemenu', compact('categorylist', 'goallist', 'packageinfo', 'packagelist', 'menuinfo', 'input'));
     }
-    
-    public function packagesubscription($pkgId,Request $input)
+
+    public function packagesubscription($pkgId, Request $input)
     {
         if(Auth::user())
         {
-            $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-            $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-            $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-            
-            $mealtimecount=count(explode(",",$input['type']));
-            
-            $packageinfo=Package::where([['deleteId', '0'],['status','1'],['id',$pkgId]])->with('goal')->first();
-            $userdetail=User::where('id',Auth::user()->id)->first();
-            $useraddress=Address::where('userId',Auth::user()->id)->first();
+            $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+            $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+            $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+    
+            $mealtimecount = count(explode(",", $input['type']));
+    
+            $packageinfo = Package::where([['deleteId', '0'], ['status', '1'], ['id', $pkgId]])->with('goal')->first();
+            $userdetail = User::where('id', Auth::user()->id)->first();
+            $useraddress = Address::where('userId', Auth::user()->id)->first();
             $userwallet=Wallet::where('userId',Auth::user()->id)->first();
-            $pincodelist=pincode::where([['deleteId', '0'],['status','1']])->groupBy('pincode')->get();
+            $pincodelist = pincode::where([['deleteId', '0'], ['status', '1']])->groupBy('pincode')->get();
 
             $fprice=$input['days']*$mealtimecount*$packageinfo['lPrice'];
             if($input['days']==3)
@@ -610,7 +567,7 @@ class webController extends Controller
             $mindate=$mindate->addDays(1)->format('Y-m-d');
             $txnid = 'pk'.rand(99999, 9999999);
 
-            return view('web.packagesubscription', compact('userwallet','txnid','mindate','userdetail','useraddress','pincodelist','categorylist','goallist','packageinfo','packagelist','input','mealtimecount','finalamt'));
+            return view('web.packagesubscription', compact('userwallet','txnid','mindate', 'userdetail', 'useraddress', 'pincodelist', 'categorylist', 'goallist', 'packageinfo', 'packagelist', 'input', 'mealtimecount', 'finalamt'));
 
         }
         else
@@ -621,20 +578,20 @@ class webController extends Controller
 
     public function aboutus()
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        
-        return view('web.aboutus', compact('categorylist','goallist','packagelist'));
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+
+        return view('web.aboutus', compact('categorylist', 'goallist', 'packagelist'));
     }
 
     public function contactus()
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        
-        return view('web.contactus', compact('categorylist','goallist','packagelist'));
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+
+        return view('web.contactus', compact('categorylist', 'goallist', 'packagelist'));
     }
 
     public function weblogout()
@@ -646,41 +603,43 @@ class webController extends Controller
 
     public function privacypolicy()
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        
-        return view('web.privacypolicy', compact('categorylist','goallist','packagelist'));
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+
+        return view('web.privacypolicy', compact('categorylist', 'goallist', 'packagelist'));
     }
 
     public function termsofservice()
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        
-        return view('web.termsofservice', compact('categorylist','goallist','packagelist'));
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+
+        return view('web.termsofservice', compact('categorylist', 'goallist', 'packagelist'));
     }
 
     public function faqs()
     {
-        $faqs = Faq::orderBy('sequence','asc')->get();
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        
-        return view('web.faq', compact('faqs','categorylist','goallist','packagelist'));
+        $faqs = Faq::orderBy('sequence', 'asc')->get();
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+
+        return view('web.faq', compact('faqs', 'categorylist', 'goallist', 'packagelist'));
     }
-    
+
     public function myprofile()
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        $orderdetails=transction::where([['userId', Auth::user()->id],['trxFor','alacart']])->with('trxalacartorder')->orderBy('id','DESC')->get();
-        $subscriptiondetails=transction::where([['userId', Auth::user()->id],['trxFor','subscription']])->with(['trxsubscriptionorder'=>function($qs){$qs->with('pkgdtl');}])->orderBy('id','DESC')->get();
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+        $orderdetails = transction::where([['userId', Auth::user()->id], ['trxFor', 'alacart']])->with('trxalacartorder')->orderBy('id', 'DESC')->get();
+        $subscriptiondetails = transction::where([['userId', Auth::user()->id], ['trxFor', 'subscription']])->with(['trxsubscriptionorder' => function ($qs) {
+            $qs->with('pkgdtl');
+        }])->orderBy('id', 'DESC')->get();
 
-        return view('web.myprofile', compact('categorylist','goallist','packagelist','orderdetails','subscriptiondetails'));
+        return view('web.myprofile', compact('categorylist', 'goallist', 'packagelist', 'orderdetails', 'subscriptiondetails'));
     }
     public function consultation()
     {
@@ -690,34 +649,43 @@ class webController extends Controller
         $txnid = 'pk'.rand(99999, 9999999);
         return view('web.consultation', compact('categorylist','goallist','packagelist','txnid'));
     }
-    
+
     public function allblogs()
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        $blogs = Blog::where('status',1)->where('deleteId','0')->orderBy('id','DESC')->get();
-        return view('web.allblogs', compact('categorylist','goallist','packagelist','blogs'));
-        
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+        $blogs = Blog::where('status', 1)->where('deleteId', '0')->orderBy('id', 'DESC')->get();
+        return view('web.allblogs', compact('categorylist', 'goallist', 'packagelist', 'blogs'));
+    }
+
+    public function singleBlog($slug)
+    {
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+        $blogs = Blog::where('status', 1)->where('deleteId', '0')->inRandomOrder()->limit('3')->get();
+        $blog = Blog::where('slug', $slug)->first();
+        return view('web.singleBlog', compact('categorylist', 'goallist', 'packagelist', 'blogs', 'blog'));
     }
 
     public function alacartcheckout()
     {   
         if(Auth::user())
-        {
-            $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-            $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-            $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-            $userdetail=User::where('id',Auth::user()->id)->first();
-            $useraddress=Address::where('userId',Auth::user()->id)->first();
-            $cartlist=cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
-            $pincodelist=pincode::where([['deleteId', '0'],['status','1']])->groupBy('pincode')->get();
+     {
+            $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+            $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+            $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+            $userdetail = User::where('id', Auth::user()->id)->first();
+            $useraddress = Address::where('userId', Auth::user()->id)->first();
+            $cartlist = cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
+            $pincodelist = pincode::where([['deleteId', '0'], ['status', '1']])->groupBy('pincode')->get();
             $userwallet=Wallet::where('userId',Auth::user()->id)->first();
-            $txnid = 'pk'.rand(99999, 9999999);
+            $txnid = 'pk' . rand(99999, 9999999);
             $userwallet=Wallet::where('userId',Auth::user()->id)->first();
 
 
-            return view('web.alacartcheckout', compact('userwallet','txnid','categorylist','goallist','packagelist','cartlist','userdetail','useraddress','pincodelist'));
+            return view('web.alacartcheckout', compact('userwallet','txnid', 'categorylist', 'goallist', 'packagelist', 'cartlist', 'userdetail', 'useraddress', 'pincodelist'));
         }       
         else
         {
@@ -727,23 +695,23 @@ class webController extends Controller
     }
 
     public function pincodechg($pincodeval)
-    {   
-        $pincodelist=pincode::where('pincode', $pincodeval)->get();
+    {
+        $pincodelist = pincode::where('pincode', $pincodeval)->get();
 
-        $myresponse=[];
-        $myresponse['status']='success';
-        $myresponse['pincodelist']=$pincodelist;
+        $myresponse = [];
+        $myresponse['status'] = 'success';
+        $myresponse['pincodelist'] = $pincodelist;
         return $myresponse;
     }
 
     public function alacartorderplace(Request $input)
-    {           
-        $carb= Carbon::now(); 
+    {
+        $carb = Carbon::now();
 
-        $trxId=transction::insertGetId([
+        $trxId = transction::insertGetId([
             'trxdate' => $carb,
             'subtotalamt' => $input['subtotalval'],
-            'discountamt' =>'0',
+            'discountamt' => '0',
             'gstamt' => $input['taxval'],
             'deliveryamt' => $input['deliveryval'],
             'finalamt' => $input['finaltotalval'],
@@ -753,71 +721,67 @@ class webController extends Controller
             'address' => $input['addressdtl'],
             'landmark' => $input['landmark'],
             'pincode' => $input['pincode'],
-            'deliverystatus'=>'InProcess',
+            'deliverystatus' => 'InProcess',
             'area' => $input['area'],
             'cpname' => $input['username'],
             'cpno' => $input['mobilenumber'],
-            'trxStatus' =>'Success'
+            'trxStatus' => 'Success'
         ]);
 
-        transction::where('id',$trxId)->update([
+        transction::where('id', $trxId)->update([
             'invoiceno' => $trxId
         ]);
 
-        $cartlist=cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
+        $cartlist = cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
 
-        foreach ($cartlist as $key => $value) 
-        {
-            $addonval='';
-            if(isset($value['addoncart']))
-            {
-                $productprice=$value['product']['discountedPrice'];
-                $addonprice=$value['addoncart']['addon']['price'];
-                $addonval=$value['addoncart']['addon']['description'].' - ('.$value['addoncart']['addon']['quantity'].' '.$value['addoncart']['addon']['unit'].')';
+        foreach ($cartlist as $key => $value) {
+            $addonval = '';
+            if (isset($value['addoncart'])) {
+                $productprice = $value['product']['discountedPrice'];
+                $addonprice = $value['addoncart']['addon']['price'];
+                $addonval = $value['addoncart']['addon']['description'] . ' - (' . $value['addoncart']['addon']['quantity'] . ' ' . $value['addoncart']['addon']['unit'] . ')';
+            } else {
+                $productprice = $value['product']['discountedPrice'] * $value['qty'];
+                $addonprice = 0;
+                $addonval = '';
             }
-            else
-            {
-                $productprice=$value['product']['discountedPrice']*$value['qty'];
-                $addonprice=0;
-                $addonval='';
-            }
-            $cartlist=alacartorder::insertGetId([
+            $cartlist = alacartorder::insertGetId([
                 'trxId' => $trxId,
                 'productId' => $value['productId'],
                 'productName' => $value['product']['name'],
-                'productImg' =>$value['product']['image'],
+                'productImg' => $value['product']['image'],
                 'qty' => $value['qty'],
                 'addonName' => $addonval,
-                'addonprice'=>$addonprice,
+                'addonprice' => $addonprice,
                 'productPrice' => $productprice,
             ]);
         }
 
         cart::where('userID', Auth::user()->id)->delete();
-        
-        $trxdtl=transction::where('id',$trxId)->with('trxalacartorder')->first();
-        return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+
+        $trxdtl = transction::where('id', $trxId)->with('trxalacartorder')->first();
+        return view('web.alacartsuccess')->with(['trxdtl' => $trxdtl]);
     }
 
     public function orderdetails()
     {
-        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        $orderdetails=transction::where([['userId', Auth::user()->id],['trxFor','alacart']])->with('trxalacartorder')->orderBy('id','DESC')->get();
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+        $orderdetails = transction::where([['userId', Auth::user()->id], ['trxFor', 'alacart']])->with('trxalacartorder')->orderBy('id', 'DESC')->get();
 
-        return view('web.orderdetails', compact('categorylist','goallist','packagelist','orderdetails'));
+        return view('web.orderdetails', compact('categorylist', 'goallist', 'packagelist', 'orderdetails'));
     }
 
     public function subscriptionorderplace(Request $input)
     {
 
-        $carb= Carbon::now(); 
+        $carb = Carbon::now();
 
-        $trxId=transction::insertGetId([
+        $trxId = transction::insertGetId([
             'trxdate' => $carb,
             'subtotalamt' => $input['subtotalval'],
-            'discountamt' =>'0',
+            'discountamt' => '0',
             'gstamt' => $input['taxval'],
             'deliveryamt' => $input['deliveryval'],
             'finalamt' => $input['finaltotalval'],
@@ -827,40 +791,40 @@ class webController extends Controller
             'address' => $input['addressdtl'],
             'landmark' => $input['landmark'],
             'pincode' => $input['pincode'],
-            'deliverystatus'=>'InProcess',
+            'deliverystatus' => 'InProcess',
             'area' => $input['area'],
             'cpname' => $input['username'],
             'cpno' => $input['mobilenumber'],
-            'trxStatus' =>'Success'
+            'trxStatus' => 'Success'
         ]);
 
-        transction::where('id',$trxId)->update([
+        transction::where('id', $trxId)->update([
             'invoiceno' => $trxId
         ]);
 
-        $cartlist=subscriptionorder::insertGetId([
+        $cartlist = subscriptionorder::insertGetId([
             'trxId' => $trxId,
             'userId' => Auth::user()->id,
-            'packageId' =>$input['packageid'],
-            'totaldays' =>$input['days'],
-            'totalmeal' =>$input['totalmeals'],
+            'packageId' => $input['packageid'],
+            'totaldays' => $input['days'],
+            'totalmeal' => $input['totalmeals'],
             'subscribedfor' => $input['subscribefor'],
-            'startdate'=>$input['startdate'],
-            'status' =>"Booked",
+            'startdate' => $input['startdate'],
+            'status' => "Booked",
         ]);
 
-        $trxdtl=transction::where('id',$trxId)->with('trxsubscriptionorder')->first();
-        return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+        $trxdtl = transction::where('id', $trxId)->with('trxsubscriptionorder')->first();
+        return view('web.alacartsuccess')->with(['trxdtl' => $trxdtl]);
     }
 
     public function deletesubscription($subid)
     {
-        transction::where('id',$subid)->update([
+        transction::where('id', $subid)->update([
             'deliverystatus' => 'cancelled'
         ]);
 
-        subscriptionorder::where('trxId',$subid)->update([
-            'status' =>"cancelled",
+        subscriptionorder::where('trxId', $subid)->update([
+            'status' => "cancelled",
         ]);
 
         return response()->json([
@@ -871,7 +835,7 @@ class webController extends Controller
     public function gethashofpayu(Request $input)
     {
         //salt = 4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW  MBFfc0sn
-        $myresponse=[];
+        $myresponse = [];
         if($input['productinfo']=='AlaCartOrder')
         {
             $strdata=$input['key'].'|'.$input['txnid'].'|'.$input['amount'].'|'.$input['productinfo'].'|'.$input['firstname'].'|'.$input['email'].'|'.$input['udf1'].'||||'.$input['udf5'].'||||||4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW';
@@ -880,14 +844,14 @@ class webController extends Controller
         }
         else if($input['productinfo']=='subscription')
         {
-            $strdata=$input['key'].'|'.$input['txnid'].'|'.$input['amount'].'|'.$input['productinfo'].'|'.$input['firstname'].'|'.$input['email'].'|'.$input['udf1'].'|'.$input['udf2'].'|'.$input['udf3'].'|'.$input['udf4'].'|'.$input['udf5'].'||||||4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW';
+            $strdata = $input['key'] . '|' . $input['txnid'] . '|' . $input['amount'] . '|' . $input['productinfo'] . '|' . $input['firstname'] . '|' . $input['email'] . '|' . $input['udf1'] . '|' . $input['udf2'] . '|' . $input['udf3'] . '|' . $input['udf4'] . '|' . $input['udf5'] . '||||||4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW';
 
-            $key = hash("sha512",$strdata);
+            $key = hash("sha512", $strdata);
         }
-        
-        $myresponse['status']='success';
-        $myresponse['encryptpass']=$key;
-        $myresponse['strdata']=$strdata;
+
+        $myresponse['status'] = 'success';
+        $myresponse['encryptpass'] = $key;
+        $myresponse['strdata'] = $strdata;
         return $myresponse;
     }
 
