@@ -56,33 +56,48 @@
                         <div class="text-center">
                             <img src="/{{$blog->coverImage}}" alt="" style="width: 100%; height: 100%;">
                         </div>
-                        <h1 class="">{{$blog->title}}</h1>
-                        <h4 class="">{{$blog->subtitle}}</h4>
-                        <p class="">{!!$blog->description1!!}</p>
-                        <p class="">{!!$blog->description2!!}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="card-header">
-                        <h2 class="card-title list-main">Similar Blogs</h2>
-                    </div>
-                    @foreach($blogs as $blogl)
-                    @if($blogl->id != $blog->id)
-                    <div class="col-sm-12 col-md-4 col-lg-4">
-                        <div class="card">
-                            <img src="/{{$blogl->coverImage}}" class="card-img-top" alt="#">
-                            <div class="card-body">
-                                <h4 class="card-title" style="display: -webkit-box; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{$blogl->title}}</h4>
-                                <p class="card-text" style="display: -webkit-box; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">{{$blogl->subtitle}}</p>
-                                <a href="{{url('/app/allblogs')}}/{{$blogl->slug}}" class="btn btn-primary">View Blog</a>
+                        <!-- blog creation date -->
+
+                        <div class="m-5">
+                            <div class="card ">
+                                <div class="card-body">
+                                    <h2 class="" style="color: #EA6A12;" >{{$blog->title}}</h2>
+                                    <p><i class="fa fa-calendar" style="color: #EA6A12;" aria-hidden="true"></i> {{date('d M, Y', strtotime($blog->created_at))}} <i class="fa fa-user" style="color: #EA6A12;" aria-hidden="true"></i> {{$blog->writer}}</p>
+                                    <h5 class="text-muted">{{$blog->subtitle}}</h5>
+                                    <p class="">{!!$blog->description1!!}</p>
+                                    <p class="">{!!$blog->description2!!}</p>
+                                    <?php
+                                    $tags = explode(',', $blog->tags);
+                                    
+                                    ?>
+                                    @foreach($tags as $tag)
+                                    <a href="#!" class="btn btn-primary">{{$tag}}</a>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
-                    @endif
-                    @endforeach
+                    <div class="row">
+                        <div class="card-header">
+                            <h2 class="card-title list-main">Similar Blogs</h2>
+                        </div>
+                        @foreach($blogs as $blogl)
+                        @if($blogl->id != $blog->id)
+                        <div class="col-sm-12 col-md-4 col-lg-4">
+                            <div class="card">
+                                <img src="/{{$blogl->coverImage}}" class="card-img-top" alt="#">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="display: -webkit-box; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{$blogl->title}}</h5>
+                                    <p class="card-text" style="display: -webkit-box; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">{{$blogl->subtitle}}</p>
+                                    <a href="{{url('/app/allblogs')}}/{{$blogl->slug}}" class="btn btn-primary">View Blog</a>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-            @include('web.weblayout.footerlayout')
+                @include('web.weblayout.footerlayout')
     </main>
     @include('web.weblayout.footerscript')
     @include('web.weblayout.webscript')

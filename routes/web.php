@@ -346,6 +346,7 @@ Route::group(['middleware' => 'checkUserr'], function () {
             Route::post('/cancel', [AdminController::class, 'cancelAlacartOrder']);
             Route::post('/delete', [AdminController::class, 'deleteAlacartOrder']);
             Route::post('/update', [AdminController::class, 'updateAlacartOrder']);
+            Route::get('/failed', [AdminController::class, 'indexFailedAlacartOrder']);
         });
         Route::group([
             'prefix' => 'package'
@@ -356,6 +357,7 @@ Route::group(['middleware' => 'checkUserr'], function () {
             Route::post('/status', [AdminController::class, 'statusPackageOrder']);
             Route::post('/delete', [AdminController::class, 'deletePackageOrder']);
             Route::post('/update', [AdminController::class, 'updatePackageOrder']);
+            Route::get('/failed', [AdminController::class, 'indexFailedPackageOrder']);
         });
     });
 
