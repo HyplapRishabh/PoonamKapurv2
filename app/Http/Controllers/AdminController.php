@@ -12,6 +12,7 @@ use App\Models\Coupon;
 use App\Models\Enquiry;
 use App\Models\Enquirybulk;
 use App\Models\Enquiryfranchise;
+use App\Models\failtransction;
 use App\Models\Faq;
 use App\Models\Goal;
 use App\Models\Inventoryhistory;
@@ -3187,6 +3188,12 @@ class AdminController extends Controller
         ]);
     }
 
+    public function indexFailedAlacartOrder()
+    {
+        $alacartorders = failtransction::where('trxFor', 'alacart')->with('trxalacartorder')->with('user')->get();
+        return view('admin.orders.alacartFailed', compact('alacartorders'));
+    }
+
     // package orders
     public function indexPackageOrder()
     {
@@ -3221,5 +3228,11 @@ class AdminController extends Controller
         Session()->flash('alert-success', "Package Order Updated Succesfully");
         $this->storeLog('Update', 'updatePackageOrder', $packageorders);
         return redirect()->back();
+    }
+
+    public function indexFailedPackageOrder()
+    {
+        $packageorders = failtransction::where('trxFor', 'subscription')->with('trxsubscriptionorder')->with('user')->get();
+        return view('admin.orders.packageFailed', compact('packageorders'));
     }
 }
