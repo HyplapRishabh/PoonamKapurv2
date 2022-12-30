@@ -7,6 +7,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
     <title>Poonamkapur.com | Online Diet Food & Many More in Mumbai</title>
 
     @include('web.weblayout.headlayout')
@@ -60,18 +62,24 @@
                             </div>
                             <div class="card-body">
                                 <div class="new-user-info">
-                                <form action="{{url('/app/subscriptionorderplace')}}" method="post" >
+                                <form action="{{url('/app/subscriptionorderplace')}}" onsubmit="subscriptionpayment(event)" method="post" >
                                         @csrf
                                         <input type="hidden" value="45453" name="paymentId">
                                         <input type="hidden" id="ssubtotalval" name="subtotalval" value="{{$finalamt}}">
                                         <input type="hidden" id="staxval" name="taxval" value="0">
                                         <input type="hidden" id="sfinaltotalval" name="finaltotalval" value="{{$finalamt}}">
+                                        <input type="hidden" id="sgrandtotalval" name="sgrandtotalval" value="{{$finalamt}}">
                                         <input type="hidden" id="sdeliveryval" name="deliveryval" value="0">
+                                        <input type="hidden" id="walletuseflag" name="walletuseflag" value="0">
                                         <input type="hidden" id="goalid" name="goalid" value="{{$packageinfo->goal->id}}">
                                         <input type="hidden" id="packageid" name="packageid" value="{{$packageinfo->UID}}">
                                         <input type="hidden" id="days" name="days" value="{{$input['days']}}">
+                                        <input type="hidden" id="ps" name="ps" value="{{$input['ps']}}">
                                         <input type="hidden" id="totalmeals" name="totalmeals" value="{{$input['days']*$mealtimecount}}">
                                         <input type="hidden" id="subscribefor" name="subscribefor" value="{{$input['type']}}">
+                                        <input type="hidden" id="useremailid" name="useremailid" value="{{Auth::user()->email}}">
+                                        <input type="hidden" id="userid" name="userid" value="{{Auth::user()->id}}">
+                                        <input type="hidden" id="txnid" name="txnid" value="{{$txnid}}">
                                         <div class="row">
                                             <div class="form-group col-md-6">
                                                 <label class="form-label" for="fname">Enter Your Name:</label>
@@ -109,7 +117,7 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="form-label" for="add2">Subscription Start Date</label>
-                                                <input type="date" min="{{$mindate}}" required class="form-control" name="startdate" id="add2"
+                                                <input type="date" min="{{$mindate}}" required class="form-control" name="startdate" id="startdate1"
                                                     placeholder="Select subscription start date">
                                             </div>
                                         </div>
@@ -160,6 +168,17 @@
                                             <h6 class="heading-title fw-bolder">Total Amount</h6>
                                             <h6 class="heading-title fw-bolder text-primary">&#8377 {{$finalamt}}</h6>
                                         </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h6 class="heading-title fw-bolder">
+                                                <input type="checkbox" checked id="walluse" name="walletcheckbox" onchange="calculate()" value="{{$userwallet['availableBal']}}">
+                                                Wallet Balance
+                                            </h6>
+                                            <h6 class="heading-title fw-bolder text-primary">&#8377 {{$userwallet['availableBal']}}</h6>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h6 class="heading-title fw-bolder">Payable</h6>
+                                            <h6 class="heading-title fw-bolder text-primary" id='afterwallet'>&#8377 {{$finalamt}}</h6>
+                                        </div>
                                     </div>
                                     
                                 </div>
@@ -177,14 +196,39 @@
 </body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script id="bolt" src="https://checkout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="e34524"  bolt-logo="https://poonamkapur.com/assets/images/logo_dark.png"></script>
+
 <script>
         $(document).ready(function () {
             $('#pincodeval').select2();
             $('#areanameval').select2();
+            calculate();
         });
 
-        
-
+        function calculate()
+        {
+            walletbal=$('#walluse').val();
+            currenttotal=document.getElementById('sgrandtotalval').value;
+            if ($('#walluse').is(":checked"))
+            {
+                if(walletbal>=currenttotal)
+                {
+                    walletbal=currenttotal;
+                }
+                document.getElementById('afterwallet').innerHTML='₹ '+(currenttotal*1-walletbal*1);
+                document.getElementById('sfinaltotalval').value=currenttotal-walletbal;
+                document.getElementById('walletuseflag').value='1';
+            }
+            else
+            {
+                document.getElementById('afterwallet').innerHTML='₹ '+currenttotal;
+                document.getElementById('sfinaltotalval').value=currenttotal;
+                document.getElementById('walletuseflag').value='0';
+            }
+            console.log(currenttotal);
+            console.log(walletbal);
+            console.log(document.getElementById('afterwallet').innerHTML);
+        }
 
         function pincodechg()
         {
@@ -210,6 +254,94 @@
                 }
             });
         }
+
+
+        
+        function subscriptionpayment(event) {
+            event.preventDefault();
+            trxamtval=document.getElementById('ssubtotalval').value+','+document.getElementById('staxval').value+','+document.getElementById('sfinaltotalval').value+','+document.getElementById('ps').value+','+document.getElementById('walletuseflag').value+','+document.getElementById('sgrandtotalval').value;
+            pkgval=document.getElementById('packageid').value+','+document.getElementById('days').value+','+document.getElementById('totalmeals').value;
+            var data = new FormData();
+            data.append('key', 'gtKFFx');
+            data.append('txnid', document.getElementById('txnid').value);
+            data.append('amount', document.getElementById('sfinaltotalval').value);
+            data.append('udf1',trxamtval);
+            data.append('udf2', pkgval);
+            data.append('udf3', document.getElementById('subscribefor').value);
+            data.append('udf4', document.getElementById('startdate1').value);
+            data.append('udf5', document.getElementById('userid').value);
+
+
+            data.append('firstname', document.getElementById('fname').value);
+            data.append('email', document.getElementById('useremailid').value);
+            data.append('productinfo', 'subscription');
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/app/gethashofpayu', true);
+            xhr.onload = function () {
+                console.log(this.responseText);
+                xhrval = JSON.parse(xhr['response']);
+                runfinalbolt(xhrval['encryptpass']);
+            };
+            xhr.send(data);
+        }
+
+        function runfinalbolt(hash) {
+            console.log(hash);
+            trxamtval=document.getElementById('ssubtotalval').value+','+document.getElementById('staxval').value+','+document.getElementById('sfinaltotalval').value+','+document.getElementById('ps').value+','+document.getElementById('walletuseflag').value+','+document.getElementById('sgrandtotalval').value;
+            pkgval=document.getElementById('packageid').value+','+document.getElementById('days').value+','+document.getElementById('totalmeals').value;
+           
+            boltdata = {
+                //key:'YI0Weq', 
+                key: 'gtKFFx',
+                txnid: document.getElementById('txnid').value,
+                hash: hash,
+                amount: document.getElementById('sfinaltotalval').value,
+                //amount: 1,
+                firstname: document.getElementById('fname').value,
+                email: document.getElementById('useremailid').value,
+                phone: document.getElementById('mobno').value,
+                productinfo: 'subscription',
+                udf1: trxamtval,
+                udf2: pkgval,
+                udf3: document.getElementById('subscribefor').value,
+                udf4: document.getElementById('startdate1').value,
+                udf5: document.getElementById('userid').value,
+                address1: document.getElementById('add1').value,
+                address2: document.getElementById('add2').value,
+                zipcode: document.getElementById('pincodeval').value,
+                city: document.getElementById('areanameval').value,
+
+                surl: 'http://localhost:8000/app/payuresponsepkhk',
+                furl: 'http://localhost:8000/app/payuresponsepkhk',
+            };
+            console.log(boltdata);
+            var fr = '<form action=\"https://test.payu.in/_payment" method=\"post\">' +
+                '<input type=\"hidden\" name=\"key\" value=\"' + boltdata.key + '\" />' +
+                '<input type=\"hidden\" name=\"txnid\" value=\"' + boltdata.txnid + '\" />' +
+                '<input type=\"hidden\" name=\"amount\" value=\"' + boltdata.amount + '\" />' +
+                '<input type=\"hidden\" name=\"productinfo\" value=\"' + boltdata.productinfo + '\" />' +
+                '<input type=\"hidden\" name=\"firstname\" value=\"' + boltdata.firstname + '\" />' +
+                '<input type=\"hidden\" name=\"email\" value=\"' + boltdata.email + '\" />' +
+                '<input type=\"hidden\" name=\"udf1\" value=\"' + boltdata.udf1 + '\" />' +
+                '<input type=\"hidden\" name=\"udf2\" value=\"' + boltdata.udf2 + '\" />' +
+                '<input type=\"hidden\" name=\"udf3\" value=\"' + boltdata.udf3 + '\" />' +
+                '<input type=\"hidden\" name=\"udf4\" value=\"' + boltdata.udf4 + '\" />' +
+                '<input type=\"hidden\" name=\"udf5\" value=\"' + boltdata.udf5 + '\" />' +
+                '<input type=\"hidden\" name=\"address1\" value=\"' + boltdata.address1 + '\" />' +
+                '<input type=\"hidden\" name=\"address2\" value=\"' + boltdata.address2 + '\" />' +
+                '<input type=\"hidden\" name=\"zipcode\" value=\"' + boltdata.zipcode + '\" />' +
+                '<input type=\"hidden\" name=\"city\" value=\"' + boltdata.city + '\" />' +
+                '<input type=\"hidden\" name=\"surl\" value=\"http://localhost:8000/app/payuresponsepkhk\" />' +
+                '<input type=\"hidden\" name=\"furl\" value=\"http://localhost:8000/app/payuresponsepkhk\" />' +
+                '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
+                '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
+                '</form>';
+            console.log('HI' + fr);
+            var form = jQuery(fr);
+            jQuery('body').append(form);
+            form.submit();
+        }
+    
 </script>
 
 </html>

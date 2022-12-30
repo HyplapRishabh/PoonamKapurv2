@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class transction extends Model
+class failtransction extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -35,7 +35,7 @@ class transction extends Model
 
     public function trxalacartorder()
     {
-        return $this->hasMany(alacartorder::class, 'trxId', 'id');
+        return $this->hasMany(failalacartorder::class, 'trxId', 'id');
     }
 
     public function user()
@@ -45,7 +45,7 @@ class transction extends Model
 
     public function trxsubscriptionorder()
     {
-        return $this->hasOne(subscriptionorder::class, 'trxId', 'id');
+        return $this->hasOne(failsubscriptionorder::class, 'trxId', 'id');
     }
     
 }

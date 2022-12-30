@@ -25,6 +25,23 @@ class Controller extends BaseController
         $wallet->save();
     }
 
+    public function lockamount($userId, $amount, $lockedAmount , $remark)
+    {
+        $wallet = Wallet::where('userId', $userId)->first();
+        $wallet->availableBal -= $amount;
+        $wallet->lockedAmt += $lockedAmount;
+        $spentTotal = 0;
+        $wallet->totalSpent += $spentTotal;
+        $wallet->update();
+
+        $walletRemark = new Walletremark();
+        $walletRemark->userId = $userId;
+        $walletRemark->trxType = 'Debit';
+        $walletRemark->amount = $spentTotal;
+        $walletRemark->remark = $remark;
+        $walletRemark->save();
+    }
+
     public function debitAmount($userId, $amount, $lockedAmount , $remark)
     {
         $wallet = Wallet::where('userId', $userId)->first();

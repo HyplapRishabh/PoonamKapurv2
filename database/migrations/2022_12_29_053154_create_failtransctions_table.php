@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transctions', function (Blueprint $table) {
+        Schema::create('failtransctions', function (Blueprint $table) {
             $table->id();
             $table->longText('invoiceno')->nullable();
             $table->longText('trxdate')->nullable();
@@ -41,7 +41,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
- 
+
     /**
      * Reverse the migrations.
      *
@@ -49,6 +49,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transctions');
+        Schema::dropIfExists('failtransctions');
     }
 };
