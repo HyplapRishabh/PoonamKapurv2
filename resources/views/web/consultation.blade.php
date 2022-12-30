@@ -97,18 +97,54 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-lg-4">
-                <div class="card">
-                    <div class="card-header border-0">
-                        <h5>Gallery</h5>
+            <div class="col-md-4 col-lg-4">
+                <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
+                    data-iq-duration=".6" data-iq-delay="1.2" data-iq-trigger="scroll" data-iq-ease="none">
+                    <div class="card-header">
+                        <h4 class="list-main">Subscription</h4>
                     </div>
-                    <div class="card-body pt-0">
-                        <div class="row">
-                            <div class="d-grid gap-card grid-cols-2 ">
-                                <img src="{{asset('webassets/images/layouts/29.png')}}" alt="post-image" class="img-fluid rounded-1" >
-                                <img src="{{asset('webassets/images/layouts/30.png')}}" alt="post-image" class="img-fluid rounded-1" >
+                    <div class="card-body">
+                        
+                        <div class="my-cart-body">
+                            <div class="border border-primary rounded p-3 mt-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="heading-title fw-bolder">Goal</h6>
+                                    <h6 class="heading-title fw-bolder text-primary">{{$packageinfo->goal->name}}</h6>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="heading-title fw-bolder">Package</h6>
+                                    <h6 class="heading-title fw-bolder text-primary">{{$packageinfo->name}}</h6>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="heading-title fw-bolder">Days</h6>
+                                    <h6 class="heading-title fw-bolder text-primary">{{$input['days']}} Days</h6>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="heading-title fw-bolder">Total Meals</h6>
+                                    <h6 class="heading-title fw-bolder text-primary">{{$input['days']*$mealtimecount}} Meals</h6>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="heading-title fw-bolder">Subscribe for</h6>
+                                    <h6 class="heading-title fw-bolder text-primary">{{$input['type']}}</h6>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="heading-title fw-bolder">Total Amount</h6>
+                                    <h6 class="heading-title fw-bolder text-primary">&#8377 {{$finalamt}}</h6>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="heading-title fw-bolder">
+                                        <input type="checkbox" checked id="walluse" name="walletcheckbox" onchange="calculate()" value="{{$userwallet['availableBal']}}">
+                                        Wallet Balance
+                                    </h6>
+                                    <h6 class="heading-title fw-bolder text-primary">&#8377 {{$userwallet['availableBal']}}</h6>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="heading-title fw-bolder">Payable</h6>
+                                    <h6 class="heading-title fw-bolder text-primary" id='afterwallet'>&#8377 {{$finalamt}}</h6>
+                                </div>
                             </div>
-                            <img src="{{asset('webassets/images/layouts/31.png')}}" alt="post-image" class="img-fluid mt-4 rounded-1" >
+                            
                         </div>
                     </div>
                 </div>
