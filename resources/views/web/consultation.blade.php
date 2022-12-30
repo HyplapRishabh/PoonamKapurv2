@@ -55,37 +55,38 @@
                     <div class="card-body">
                         <form method="post" action="{{url('/app/submitBulkEnquiry')}}" onsubmit="payconsultation(event)" class="text-center mt-3">
                             @csrf
-                            <input type="hidden" value="{{$txnid}}" name="txnid">
+                            <input type="hidden" value="{{$txnid}}" id="txnid" name="txnid">
+                            <input type="hidden" id="userid" name="userid" value="{{Auth::user()->id}}">
                             <div class="form-card text-start">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Username: *</label>
-                                            <input type="text" class="form-control" name="name" placeholder="Your Name" value="{{Auth::user()->name}}" required />
+                                            <input type="text" class="form-control" name="name" id="fname" placeholder="Your Name" value="{{Auth::user()->name}}" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Phone: *</label>
-                                            <input type="text" class="form-control" name="phone" maxlength="10" placeholder="Phone" value="{{Auth::user()->phone}}" required />
+                                            <input type="text" class="form-control" id="mobno" name="phone" maxlength="10" placeholder="Phone" value="{{Auth::user()->phone}}" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Email: *</label>
-                                            <input type="email" class="form-control" id="quemail" name="email" placeholder="Email Id" value="{{Auth::user()->email}}" required />
+                                            <input type="email" class="form-control" id="useremailid" name="email" placeholder="Email Id" value="{{Auth::user()->email}}" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Call Back Date: *</label>
-                                            <input type="date" class="form-control" name="callBackTime" placeholder="" required />
+                                            <input type="date" class="form-control" min="{{$mindate}}" id="callbackdate" name="callBackTime" placeholder="" required />
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="form-label">Message: *</label>
-                                            <textarea class="form-control" name="message" placeholder="Enter Your Message" required></textarea>
+                                            <textarea class="form-control" name="message" id="msg" placeholder="Enter Your Message" required></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -299,17 +300,16 @@
             var data = new FormData();
             data.append('key', 'gtKFFx');
             data.append('txnid', document.getElementById('txnid').value);
-            data.append('amount', document.getElementById('sfinaltotalval').value);
-            data.append('udf1',trxamtval);
-            data.append('udf2', pkgval);
-            data.append('udf3', document.getElementById('subscribefor').value);
-            data.append('udf4', document.getElementById('startdate1').value);
+            data.append('amount', 500);
+            data.append('udf1',500);
+            data.append('udf2', document.getElementById('callbackdate').value);
+            data.append('udf3', document.getElementById('msg').value);
             data.append('udf5', document.getElementById('userid').value);
 
 
             data.append('firstname', document.getElementById('fname').value);
             data.append('email', document.getElementById('useremailid').value);
-            data.append('productinfo', 'subscription');
+            data.append('productinfo', 'consultation');
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/app/gethashofpayu', true);
             xhr.onload = function () {
@@ -322,32 +322,24 @@
 
         function runfinalbolt(hash) {
             console.log(hash);
-            trxamtval=document.getElementById('ssubtotalval').value+','+document.getElementById('staxval').value+','+document.getElementById('sfinaltotalval').value+','+document.getElementById('ps').value+','+document.getElementById('walletuseflag').value+','+document.getElementById('sgrandtotalval').value;
-            pkgval=document.getElementById('packageid').value+','+document.getElementById('days').value+','+document.getElementById('totalmeals').value;
-           
             boltdata = {
+
                 //key:'YI0Weq', 
                 key: 'gtKFFx',
                 txnid: document.getElementById('txnid').value,
                 hash: hash,
-                amount: document.getElementById('sfinaltotalval').value,
+                amount: 500,
                 //amount: 1,
                 firstname: document.getElementById('fname').value,
                 email: document.getElementById('useremailid').value,
                 phone: document.getElementById('mobno').value,
-                productinfo: 'subscription',
-                udf1: trxamtval,
-                udf2: pkgval,
-                udf3: document.getElementById('subscribefor').value,
-                udf4: document.getElementById('startdate1').value,
+                productinfo: 'consultation',
+                udf1: 500,
+                udf2: document.getElementById('callbackdate').value,
+                udf3: document.getElementById('msg').value,
                 udf5: document.getElementById('userid').value,
-                address1: document.getElementById('add1').value,
-                address2: document.getElementById('add2').value,
-                zipcode: document.getElementById('pincodeval').value,
-                city: document.getElementById('areanameval').value,
-
-                surl: 'http://localhost:8000/app/payuresponsepkhk',
-                furl: 'http://localhost:8000/app/payuresponsepkhk',
+                surl: 'http://localhost:8000/app/payuresponseconsultpkhk',
+                furl: 'http://localhost:8000/app/payuresponseconsultpkhk',
             };
             console.log(boltdata);
             var fr = '<form action=\"https://test.payu.in/_payment" method=\"post\">' +
@@ -360,14 +352,9 @@
                 '<input type=\"hidden\" name=\"udf1\" value=\"' + boltdata.udf1 + '\" />' +
                 '<input type=\"hidden\" name=\"udf2\" value=\"' + boltdata.udf2 + '\" />' +
                 '<input type=\"hidden\" name=\"udf3\" value=\"' + boltdata.udf3 + '\" />' +
-                '<input type=\"hidden\" name=\"udf4\" value=\"' + boltdata.udf4 + '\" />' +
                 '<input type=\"hidden\" name=\"udf5\" value=\"' + boltdata.udf5 + '\" />' +
-                '<input type=\"hidden\" name=\"address1\" value=\"' + boltdata.address1 + '\" />' +
-                '<input type=\"hidden\" name=\"address2\" value=\"' + boltdata.address2 + '\" />' +
-                '<input type=\"hidden\" name=\"zipcode\" value=\"' + boltdata.zipcode + '\" />' +
-                '<input type=\"hidden\" name=\"city\" value=\"' + boltdata.city + '\" />' +
-                '<input type=\"hidden\" name=\"surl\" value=\"http://localhost:8000/app/payuresponsepkhk\" />' +
-                '<input type=\"hidden\" name=\"furl\" value=\"http://localhost:8000/app/payuresponsepkhk\" />' +
+                '<input type=\"hidden\" name=\"surl\" value=\"http://localhost:8000/app/payuresponseconsultpkhk\" />' +
+                '<input type=\"hidden\" name=\"furl\" value=\"http://localhost:8000/app/payuresponseconsultpkhk\" />' +
                 '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
                 '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
                 '</form>';
