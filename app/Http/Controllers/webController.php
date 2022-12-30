@@ -31,6 +31,9 @@ use App\Models\transction;
 use Carbon\Carbon;
 use App\Models\subscriptionorder;
 use App\Models\alacartorder;
+use App\Models\Enquirybulk;
+use App\Models\Enquiryfranchise;
+use App\Models\Faq;
 use App\Models\User;
 use App\Models\failtransction;
 use App\Models\failalacartorder;
@@ -144,6 +147,39 @@ class webController extends Controller
         $myresponse['productdtl']=$productdtl;
         $myresponse['status']='success';
         return $myresponse;
+    }
+
+
+// Franchise Enquiry Submission
+    public function submitFranchiseEnquiry(Request $request)
+    {
+        $enquiry = new Enquiryfranchise();
+        $enquiry->name = $request->name;
+        $enquiry->email = $request->email;
+        $enquiry->phone = $request->phone;
+        $enquiry->organisationName = $request->organisation;
+        $enquiry->type = $request->type;
+        $enquiry->callBackTime = $request->callBackTime;
+        $enquiry->message = $request->message;
+        $enquiry->save();
+
+        return redirect()->back()->with('success', 'Thank you for your enquiry. We will get back to you soon.');
+    }
+
+    // Bulk  Enquiry Submission
+    public function submitBulkEnquiry(Request $request)
+    {
+        $enquiry = new Enquirybulk();
+        $enquiry->name = $request->name;
+        $enquiry->email = $request->email;
+        $enquiry->phone = $request->phone;
+        $enquiry->organisationName = $request->organisation;
+        $enquiry->type = $request->type;
+        $enquiry->callBackTime = $request->callBackTime;
+        $enquiry->message = $request->message;
+        $enquiry->save();
+
+        return redirect()->back()->with('success', 'Thank you for your enquiry. We will get back to you soon.');
     }
 
     public function getgoalpkg(Request $input)
@@ -625,6 +661,16 @@ class webController extends Controller
         
         return view('web.termsofservice', compact('categorylist','goallist','packagelist'));
     }
+
+    public function faqs()
+    {
+        $faqs = Faq::orderBy('sequence','asc')->get();
+        $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+        
+        return view('web.faq', compact('faqs','categorylist','goallist','packagelist'));
+    }
     
     public function myprofile()
     {
@@ -650,8 +696,8 @@ class webController extends Controller
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
         $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        
-        return view('web.allblogs', compact('categorylist','goallist','packagelist'));
+        $blogs = Blog::where('status',1)->where('deleteId','0')->orderBy('id','DESC')->get();
+        return view('web.allblogs', compact('categorylist','goallist','packagelist','blogs'));
         
     }
 

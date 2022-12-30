@@ -109,8 +109,8 @@
                         <tr>
                             <td class="align-middle text-center">{{$i}}</td>
                             @php($i++)
-                            <td class="align-middle text-center">{{$data->question}}</td>
-                            <td class="align-middle text-center">{{$data->answer}}</td>
+                            <td class="align-middle text-center" style="white-space: initial; width: 250px;">{{$data->question}}</td>
+                            <td class="align-middle text-center" style="white-space: initial; width: 250px;">{{$data->answer}}</td>
                             <td class="align-middle text-center">{{$data->sequence}}</td>
                             <td class="align-middle text-center">
                                 @if($data->status == 1)

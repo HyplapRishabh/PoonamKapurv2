@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Addon;
 use App\Models\alacartorder;
+use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Booking;
 use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Enquiry;
+use App\Models\Enquirybulk;
+use App\Models\Enquiryfranchise;
 use App\Models\Faq;
 use App\Models\Goal;
+use App\Models\Inventoryhistory;
 use App\Models\Log;
 use App\Models\Mealtime;
 use App\Models\Mealtype;
@@ -21,6 +25,7 @@ use App\Models\Product;
 use App\Models\Productmacro;
 use App\Models\Productreceipe;
 use App\Models\Rawmaterial;
+use App\Models\Rawmateriallog;
 use App\Models\Review;
 use App\Models\Role;
 use App\Models\Subcategory;
@@ -73,7 +78,7 @@ class AdminController extends Controller
                     $changeStatus->update();
                 } else {
                     if ($subscription->status == 'Booked') {
-                        if (in_array('Breakfast', $mealTimeSubscribed)) {
+                        if (in_array('BreakFast', $mealTimeSubscribed)) {
                             $getProduct = Product::where('UID', $kt->breakFast)->select('UID', 'name', 'image')->first();
                             // return $getProduct;
                             // return $subscription->pkgdtl->bfPrice;
@@ -103,7 +108,7 @@ class AdminController extends Controller
                             $addToSubsKt->status = 'Pending';
                             $addToSubsKt->save();
                         }
-                        if (in_array('Snacks', $mealTimeSubscribed)) {
+                        if (in_array('Snack', $mealTimeSubscribed)) {
                             $getProduct = Product::where('UID', $kt->snack)->select('UID', 'name', 'image')->first();
                             $addToSubsKt = new Subscriptionkt();
                             $addToSubsKt->trxId = $subscription->trxId;
@@ -137,6 +142,29 @@ class AdminController extends Controller
         }
         return 'completed';
     }
+    // end cron job functions
+
+    function manageInventory($productUID, $orderType)
+    {
+        $product = Product::where('UID', $productUID)->with('recipe')->first();
+        foreach ($product->recipe as $recipe) {
+            // return $recipe;
+            $rawmaterial = Rawmaterial::where('UID', $recipe->rawMaterialUId)->first();
+            $rawmaterial->stock -= $recipe->quantity;
+            $rawmaterial->update();
+
+            $rawmaterialLog = new Inventoryhistory();
+            $rawmaterialLog->forProduct = $productUID;
+            $rawmaterialLog->orderType = $orderType;
+            $rawmaterialLog->item = $rawmaterial->UID;
+            $rawmaterialLog->action = 'Consumed';
+            $rawmaterialLog->quantity = $recipe->quantity;
+            $rawmaterialLog->date = date('Y-m-d');
+            $rawmaterialLog->save();
+        }
+    }
+
+    // Log controllers
 
     function storeLog($action, $function, $data)
     {
@@ -1190,6 +1218,44 @@ class AdminController extends Controller
             'status' => 200,
             'message' => 'Status Changed Successfully',
         ]);
+    }
+
+    public function indexInventory()
+    {
+        $rawmaterials = Rawmaterial::where('deleteId', '0')->get();
+        if (request('date') != null) {
+            if (request('product') == 'All')
+                $inventories = Inventoryhistory::with(['rawmaterial', 'product'])->whereDate('created_at', request('date'))->get();
+            else
+                $inventories = Inventoryhistory::with(['rawmaterial', 'product'])->whereDate('created_at', request('date'))->where('item', request('product'))->get();
+        } else {
+            $inventories = Inventoryhistory::with(['rawmaterial', 'product'])->where('id', 0)->get();
+        }
+        // $inventories = Inventoryhistory::with(['rawmaterial','product'])->get();
+        // return $inventories;
+        return view('admin.inventoryHistory', compact('rawmaterials', 'inventories'));
+    }
+
+    public function updateInventory(Request $request)
+    {
+        $rawMaterial = Rawmaterial::where('UID', $request->hiddenId)->first();
+        if ($request->action == 'Add') {
+            $rawMaterial->stock += $request->qty;
+        } else {
+            $rawMaterial->stock -= $request->qty;
+        }
+        $rawMaterial->update();
+
+        $inventory = new Inventoryhistory();
+        $inventory->item = $rawMaterial->UID;
+        $inventory->quantity = $request->qty;
+        $inventory->action = $request->action;
+        $inventory->date = $request->date;
+        $inventory->save();
+
+        Session()->flash('alert-success', "Raw Material Updated Succesfully");
+        $this->storeLog('Update', 'updateRawMaterial', $rawMaterial);
+        return redirect()->back();;
     }
 
     // Product Controller
@@ -2608,59 +2674,39 @@ class AdminController extends Controller
         ]);
     }
 
-    // enquiry controller
+    // bulk enquiry controller
 
-    public function indexEnquiry()
+    public function indexBulkEnquiry()
     {
-        $enquiries = Enquiry::all();
-        return view('admin.enquiry', compact('enquiries'));
+        $enquiries = Enquirybulk::all();
+        return view('admin.enquiryBulk', compact('enquiries'));
     }
 
-    public function indexRecentEnquiry()
+    public function deleteBulkEnquiry(Request $request)
     {
-        $enquiries = Enquiry::where('deleteId', '0')->get();
-        return view('admin.enquiry', compact('enquiries'));
+        $model = Enquirybulk::find($request->hiddenId);
+        $model->delete();
+        Session()->flash('alert-success', "Enquiry Deleted Succesfully");
+        $this->storeLog('Delete', 'deleteBulkEnquiry', $model);
+        return redirect()->back();
+    }   
+
+    // franchise enquiry controller
+
+    public function indexFranchiseEnquiry()
+    {
+        $enquiries = Enquiryfranchise::all();
+        return view('admin.enquiryFranchise', compact('enquiries'));
     }
 
-    public function indexPendingEnquiry()
+    public function deleteFranchiseEnquiry(Request $request)
     {
-        $enquiries = Enquiry::where('deleteId', '0')->where('status', 'pending')->get();
-        return view('admin.enquiry', compact('enquiries'));
-    }
-
-    public function indexNotReachableEnquiry()
-    {
-        $enquiries = Enquiry::where('deleteId', '0')->where('status', 'notReachable')->get();
-        return view('admin.enquiry', compact('enquiries'));
-    }
-
-    public function indexCompletedEnquiry()
-    {
-        $enquiries = Enquiry::where('deleteId', '0')->where('status', 'completed')->get();
-        return view('admin.enquiry', compact('enquiries'));
-    }
-
-    public function updateEnquiry(Request $request)
-    {
-        $model = Enquiry::find($request->hiddenId);
-        $model->status = $request->status;
-        $model->adminComment = $request->comment;
-        $model->update();
-        Session()->flash('alert-success', "Enquiry Updated Succesfully");
-        $this->storeLog('Update', 'updateEnquiry', $model);
+        $model = Enquiryfranchise::find($request->hiddenId);
+        $model->delete();
+        Session()->flash('alert-success', "Enquiry Deleted Succesfully");
+        $this->storeLog('Delete', 'deleteFranchiseEnquiry', $model);
         return redirect()->back();
     }
-
-    public function deleteEnquiry(Request $request)
-    {
-        $model = Enquiry::find($request->hiddenId);
-        $model->deleteId = 1;
-        $model->save();
-        Session()->flash('alert-success', "Enquiry Updated Succesfully");
-        $this->storeLog('Delete', 'deleteEnquiry', $model);
-        return redirect()->back();
-    }
-
 
     // Blog Controller
 
@@ -2711,8 +2757,8 @@ class AdminController extends Controller
 
     public function showBlogUpdate($slug)
     {
-        $blogss = blog::where('deleteId', '0')->where('slug', $slug)->first();
-        return view('admin.blogUpdate', compact('blogss'));
+        $blog = blog::where('deleteId', '0')->where('slug', $slug)->first();
+        return view('admin.blogUpdate', compact('blog'));
     }
 
     public function updateBlog(Request $request)
@@ -2733,7 +2779,7 @@ class AdminController extends Controller
             $image_path = "media/images/blog/" . $final_name;
         } else {
             $image_path = Blog::where('id', $request->hiddenId)->first();
-            $image_path = $image_path['image'];
+            $image_path = $image_path['coverImage'];
         }
 
         $blog->coverImage = $image_path;
@@ -2859,6 +2905,44 @@ class AdminController extends Controller
             'message' => 'Status Changed Successfully',
         ]);
     }
+
+    // Banner controller
+
+    public function indexBanner()
+    {
+        $banners = Banner::all();
+        return view('admin.banner', compact('banners'));
+    }
+
+    public function storeBanner(Request $request)
+    {
+        $uploadpath = 'media/images/banner';
+        $banner = new Banner;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $image_name = $image->getClientOriginalName();
+            $final_name = time() . $image_name;
+            $image->move($uploadpath, $final_name);
+            chmod('media/images/banner/' . $final_name, 0777);
+            $image_path = "media/images/banner/" . $final_name;
+        } else {
+            $image_path = null;
+        }
+        $banner->image = $image_path;
+        $banner->save();
+        Session()->flash('alert-success', "Banner Added Succesfully");
+        $this->storeLog('Add', 'storeBanner', $banner);
+        return redirect()->back();
+    }
+
+    public function deleteBanner(Request $request)
+    {
+        $model = Banner::find($request->hiddenId)->delete();
+        Session()->flash('alert-success', "Banner Deleted Succesfully");
+        $this->storeLog('Delete', 'deleteBanner', $model);
+        return redirect()->back();
+    }
+    
 
     // coupons controller
 
@@ -3005,6 +3089,7 @@ class AdminController extends Controller
     {
         $wallets = Wallet::with('user')->get();
         // $this->createWalletUser(13);
+        // return $wallets;
         return view('admin.wallet', compact('wallets'));
     }
 
@@ -3012,15 +3097,23 @@ class AdminController extends Controller
     {
         // $wallet = Wallet::find($request->hiddenId);
         if ($request->type == 'Debit') {
-            $this->debitAmount($request->hiddenUserId, $request->amount, 0, 'Changed By Admin');
-        } else if ($request->type == 'Credit') {
-            $this->creditAmount($request->hiddenUserId, $request->amount, 0, 'Changed By Admin');
+            $this->debitAmount($request->hiddenUserId, $request->amount, 0, null, null, 'Changed By Admin');
+        } elseif ($request->type == 'Credit') {
+            $this->creditAmount($request->hiddenUserId, $request->amount, 0, null, null, 'Changed By Admin');
         }
 
         Session()->flash('alert-success', "Wallet Updated Succesfully");
         $this->storeLog('Update', 'updateWallet', 'updated by admin');
         return redirect()->back();
     }
+
+    public function walletHistory($id)
+    {
+        $wallets = Wallet::with('user')->with('walletremarks')->where('userId', $id)->first();
+        // return $wallets;
+        return view('admin.walletHistory', compact('wallets'));
+    }
+
 
     // Orders Controller
     public function updateTrxStatus(Request $request)
@@ -3043,7 +3136,7 @@ class AdminController extends Controller
             }
 
             $finalTotal = ($total + $order->deliveryamt + $order->gst) - $order->discount;
-            $this->creditAmount($order->userId, $finalTotal, 0, 'Order Cancelled');
+            $this->creditAmount($order->userId, $finalTotal, 0, $order->id, null, 'Order Cancelled');
         }
 
 
@@ -3070,6 +3163,10 @@ class AdminController extends Controller
     {
         $alacartorders = alacartorder::find($request->hiddenId);
         $alacartorders->status = $request->status;
+        if ($request->status == 'Completed') {
+            // $this->debitAmount($request->userId, $request->total, 0, $alacartorders->trxId , 'alacart' , 'Meal Completed');
+            $this->manageInventory($alacartorders->productId, 'alacart');
+        }
         $alacartorders->update();
 
         Session()->flash('alert-success', "Alacart Order Updated Succesfully");
@@ -3082,11 +3179,8 @@ class AdminController extends Controller
         $alacartorders = alacartorder::find($request->id);
         $alacartorders->status = 'Cancelled';
         $alacartorders->update();
-
         $total = ($alacartorders->productPrice + $alacartorders->addonprice) * $alacartorders->qty;
-
-        $this->creditAmount($request->userId, $total, 0, 'Meal Cancelled');
-
+        $this->creditAmount($request->userId, $total, 0, $alacartorders->trxId, 'alacart', 'Meal Cancelled');
         return response()->json([
             'status' => 200,
             'message' => 'Order Cancelled Successfully',
@@ -3094,7 +3188,6 @@ class AdminController extends Controller
     }
 
     // package orders
-
     public function indexPackageOrder()
     {
         $packageorders = transction::where('trxFor', 'subscription')->with('trxsubscriptionorder')->with('user')->get();
@@ -3117,9 +3210,10 @@ class AdminController extends Controller
         // return $packageorders;
         $packageorders->status = $request->status;
         if ($request->status == 'Cancelled') {
-            $this->creditAmount($packageorders->userId, 0, $packageorders->mealPrice, 'Package Order Cancelled');
+            $this->creditAmount($packageorders->userId, 0, $packageorders->mealPrice, $packageorders->trxId, 'subscription', 'Package Order Cancelled');
         } else if ($request->status == 'Completed') {
-            $this->debitAmount($packageorders->userId, 0, $packageorders->mealPrice, 'Package Order Delivered');
+            $this->debitAmount($packageorders->userId, 0, $packageorders->mealPrice, $packageorders->trxId, 'subscription', 'Package Order Delivered');
+            $this->manageInventory($packageorders->productId, 'subscription');
         }
 
         $packageorders->update();

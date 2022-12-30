@@ -42,7 +42,7 @@ class Controller extends BaseController
         $walletRemark->save();
     }
 
-    public function debitAmount($userId, $amount, $lockedAmount , $remark)
+    public function debitAmount($userId, $amount, $lockedAmount , $trxId, $trxFor, $remark)
     {
         $wallet = Wallet::where('userId', $userId)->first();
         $wallet->availableBal -= $amount;
@@ -54,12 +54,14 @@ class Controller extends BaseController
         $walletRemark = new Walletremark();
         $walletRemark->userId = $userId;
         $walletRemark->trxType = 'Debit';
+        $walletRemark->trxId = $trxId;
+        $walletRemark->trxFor = $trxFor;
         $walletRemark->amount = $spentTotal;
         $walletRemark->remark = $remark;
         $walletRemark->save();
     }
 
-    public function creditAmount($userId, $amount, $lockedAmount , $remark)
+    public function creditAmount($userId, $amount, $lockedAmount, $trxId, $trxFor, $remark)
     {
         $wallet = Wallet::where('userId', $userId)->first();
         $wallet->availableBal += $amount;
@@ -71,6 +73,8 @@ class Controller extends BaseController
         $walletRemark = new Walletremark();
         $walletRemark->userId = $userId;
         $walletRemark->trxType = 'Credit';
+        $walletRemark->trxId = $trxId;
+        $walletRemark->trxFor = $trxFor;
         $walletRemark->amount = $addedTotal;
         $walletRemark->remark = $remark;
         $walletRemark->save();

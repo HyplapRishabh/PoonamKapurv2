@@ -39,45 +39,34 @@
         </div>
     </div>
 
+    
+
     <main class="main-content">
         <div class="position-relative">
             @include('web.weblayout.headerlayout')
         </div>
         <div class="content-inner mt-5 py-0">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".8" data-iq-trigger="scroll" data-iq-ease="none">
-                        <div class="hero-image p-3" style="background: url('../assets/images/User-profile/01.png') no-repeat center right;background-size: cover;background-position: center;">
-                            <div class="card-body p-5">
-                                <div class="row banner-container">
-                                    <div class="col-lg-12 banner-item">
-
-                                        <div class="banner-text pt-3">
-                                            <h1 class="fw-bold mb-4 ">
-                                                BLOGS
-                                            </h1>
-                                        </div>
-
+            <div id="faqAccordion" class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="accordion custom-accordion" id="accordionExample">
+                            @foreach($faqs as $key=>$value)
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{$key}}" aria-expanded="true" aria-controls="collapseOne">
+                                        {{$value->question}}
+                                    </button>
+                                </h2>
+                                <div id="collapseOne{{$key}}" class="accordion-collapse collapse {{$key == 0 ? 'show' : ''}}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        {{$value->answer}}
                                     </div>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">                
-                @foreach($blogs as $blog)
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="card">
-                        <img src="/{{$blog->coverImage}}" class="card-img-top" alt="#">
-                        <div class="card-body">
-                            <h4 class="card-title" style="display: -webkit-box; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" >{{$blog->title}}</h4>
-                            <p class="card-text" style="display: -webkit-box; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 3; -webkit-box-orient: vertical;" >{{$blog->subtitle}}</p>
-                            <a href="#" class="btn btn-primary">View Blog</a>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
             </div>
         </div>
         @include('web.weblayout.footerlayout')
