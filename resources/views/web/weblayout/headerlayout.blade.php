@@ -204,19 +204,19 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Username: *</label>
-                                            <input type="text" class="form-control" name="name" placeholder="Your Name" value="{{Auth::user()->name}}" required />
+                                            <input type="text" class="form-control" name="name" placeholder="Your Name" value="{{Auth::user() != null ? Auth::user()->name : ''}}" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Phone: *</label>
-                                            <input type="text" class="form-control" name="phone" maxlength="10" placeholder="Phone" value="{{Auth::user()->phone}}" required />
+                                            <input type="text" class="form-control" name="phone" maxlength="10" placeholder="Phone" value="{{Auth::user() != null ? Auth::user()->phone : ''}}" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Email: *</label>
-                                            <input type="email" class="form-control" id="quemail" name="email" placeholder="Email Id" value="{{Auth::user()->email}}" required />
+                                            <input type="email" class="form-control" id="quemail" name="email" placeholder="Email Id" value="{{Auth::user() != null ? Auth::user()->email : ''}}" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -275,19 +275,19 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Username: *</label>
-                                            <input type="text" class="form-control" name="name" value="{{Auth::user()->name}}" placeholder="Your Name" required />
+                                            <input type="text" class="form-control" name="name" value="{{Auth::user() != null ? Auth::user()->name : ''}}" placeholder="Your Name" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Phone: *</label>
-                                            <input type="text" class="form-control" name="phone" maxlength="10" placeholder="Phone" value="{{Auth::user()->phone}}" required />
+                                            <input type="text" class="form-control" name="phone" maxlength="10" placeholder="Phone" value="{{Auth::user() != null ? Auth::user()->phone : ''}}" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Email: *</label>
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Email Id" value="{{Auth::user()->email}}" required />
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Email Id" value="{{Auth::user() != null ? Auth::user()->email : ''}}" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">

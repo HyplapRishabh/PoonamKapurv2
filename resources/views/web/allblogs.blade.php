@@ -71,7 +71,7 @@
                     <div class="card">
                         <img src="/{{$blog->coverImage}}" class="card-img-top" alt="#">
                         <div class="card-body">
-                            <h4 class="card-title" style="display: -webkit-box; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" >{{$blog->title}}</h4>
+                            <h5 class="card-title" style="display: -webkit-box; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" >{{$blog->title}}</h5>
                             <p class="card-text" style="display: -webkit-box; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 3; -webkit-box-orient: vertical;" >{{$blog->subtitle}}</p>
                             <a href="{{url('/app/allblogs')}}/{{$blog->slug}}" class="btn btn-primary">View Blog</a>
                         </div>
