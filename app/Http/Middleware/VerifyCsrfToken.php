@@ -13,6 +13,6 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'auth','/user/*','trymod','app/checklogin','app/checkresetpass','app/checksignup','app/signupotp','app/quizsignup'
-        ,'app/gethashofpayu','app/payuresponsepkhk','app/undefined','app/payuresponseconsultpkhk'
+        ,'app/gethashofpayu','app/payuresponsepkhk','app/undefined','app/payuresponseconsultpkhk','app/payuwalletresponsepkhk'
     ];
 }

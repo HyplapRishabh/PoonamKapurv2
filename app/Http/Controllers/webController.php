@@ -37,6 +37,7 @@ use App\Models\consultation;
 use App\Models\Enquiryfranchise;
 use App\Models\Faq;
 use App\Models\User;
+use  App\Models\Walletremark;
 use App\Models\failtransction;
 use App\Models\failalacartorder;
 use App\Models\failsubscriptionorder;
@@ -867,6 +868,12 @@ class webController extends Controller
 
             $key = hash("sha512",$strdata);
         }
+        else if($input['productinfo']=='walletRecharge')
+        {
+            $strdata=$input['key'].'|'.$input['txnid'].'|'.$input['amount'].'|'.$input['productinfo'].'|'.$input['firstname'].'|'.$input['email'].'|'.$input['udf1'].'||||'.$input['udf5'].'||||||4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW';
+
+            $key = hash("sha512",$strdata);
+        }
 
         $myresponse['status'] = 'success';
         $myresponse['encryptpass'] = $key;
@@ -1211,8 +1218,8 @@ class webController extends Controller
 
     public function payuresponseconsultpkhk(Request $input)
     {
-        $input='{"mihpayid":"403993715528003125","mode":"UPI","status":"failure","unmappedstatus":"failed","key":"gtKFFx","txnid":"pks65s42340","amount":"500.00","discount":"0.00","net_amount_debit":"0.00","addedon":"2022-12-30 12:13:22","productinfo":"consultation","firstname":"Sayed Zaid","lastname":null,"address1":null,"address2":null,"city":null,"state":null,"country":null,"zipcode":null,"email":"rishabh.2745@gmail.com","phone":"8433885667","udf1":"500","udf2":"2023-01-01","udf3":"Test pay","udf4":null,"udf5":"1","udf6":null,"udf7":null,"udf8":null,"udf9":null,"udf10":null,"hash":"a96fb4c13c6d1a497049efe6b7263ec208143342d5f5ddbbd8b3e7bfa3a25267ef444a84819ca6746547a2defe2d65b49b64acbcbc95fa503e35589cece70c94","field1":"8976074007@ybl","field2":null,"field3":null,"field4":"RISHABH MAHENDRA KATARIYA","field5":null,"field6":null,"field7":null,"field8":null,"field9":"Transaction Failed at bank end.","payment_source":"payu","PG_TYPE":"HDFCU","bank_ref_num":null,"bankcode":"PP_UPI","error":"E308","error_Message":"Bank was unable to authenticate"}';
-        $input=json_decode($input,true);
+        // $input='{"mihpayid":"403993715528003125","mode":"UPI","status":"failure","unmappedstatus":"failed","key":"gtKFFx","txnid":"pks65s42340","amount":"500.00","discount":"0.00","net_amount_debit":"0.00","addedon":"2022-12-30 12:13:22","productinfo":"consultation","firstname":"Sayed Zaid","lastname":null,"address1":null,"address2":null,"city":null,"state":null,"country":null,"zipcode":null,"email":"rishabh.2745@gmail.com","phone":"8433885667","udf1":"500","udf2":"2023-01-01","udf3":"Test pay","udf4":null,"udf5":"1","udf6":null,"udf7":null,"udf8":null,"udf9":null,"udf10":null,"hash":"a96fb4c13c6d1a497049efe6b7263ec208143342d5f5ddbbd8b3e7bfa3a25267ef444a84819ca6746547a2defe2d65b49b64acbcbc95fa503e35589cece70c94","field1":"8976074007@ybl","field2":null,"field3":null,"field4":"RISHABH MAHENDRA KATARIYA","field5":null,"field6":null,"field7":null,"field8":null,"field9":"Transaction Failed at bank end.","payment_source":"payu","PG_TYPE":"HDFCU","bank_ref_num":null,"bankcode":"PP_UPI","error":"E308","error_Message":"Bank was unable to authenticate"}';
+        // $input=json_decode($input,true);
 
         $carb= Carbon::now(); 
 
@@ -1342,10 +1349,109 @@ class webController extends Controller
                 return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
         }
 
-        
-
-       
-        
         return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+    }
+
+    public function wallet()
+    {
+        if(Auth::user())
+        {
+            $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+            $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+            $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+    
+            $userdetail = User::where('id', Auth::user()->id)->first();
+            $userwallet=Wallet::where('userId',Auth::user()->id)->first();
+            $wallethistory=Walletremark::where('userId',Auth::user()->id)->orderBy('id','DESC')->get();
+       
+            $txnid = 'pk'.rand(99999, 9999999);
+
+            return view('web.wallet', compact('userwallet','wallethistory','txnid','userdetail','categorylist', 'goallist','packagelist'));
+
+        }
+        else
+        {
+            return view('web.login');
+        }
+    }
+
+    public function payuwalletresponsepkhk(Request $input)
+    {
+        // $input='{"mihpayid":"403993715528008394","mode":"UPI","status":"success","unmappedstatus":"failed","key":"gtKFFx","txnid":"pks4958426","amount":"100.00","discount":"0.00","net_amount_debit":"0.00","addedon":"2022-12-30 23:38:39","productinfo":"walletRecharge","firstname":"Sayed Zaid","lastname":null,"address1":null,"address2":null,"city":null,"state":null,"country":null,"zipcode":null,"email":"rishabh.2745@gmail.com","phone":"8433885667","udf1":"100","udf2":null,"udf3":null,"udf4":null,"udf5":"1","udf6":null,"udf7":null,"udf8":null,"udf9":null,"udf10":null,"hash":"f08d9f14b4daeb320a41088be06f3b65d378232a5a276c577a8af752445f2cf9e9d609f17725aca967c868d7224a6a50b1a1da207dab4fc3bf820b07003c6984","field1":"8976074007@ybl","field2":null,"field3":null,"field4":"RISHABH MAHENDRA KATARIYA","field5":null,"field6":null,"field7":null,"field8":null,"field9":"Transaction Failed at bank end.","payment_source":"payu","PG_TYPE":"HDFCU","bank_ref_num":null,"bankcode":"PP_UPI","error":"E308","error_Message":"Bank was unable to authenticate"}';
+        // $input=json_decode($input,true);
+
+        $carb= Carbon::now(); 
+
+        if($input['status']=='failure')
+        {
+            $ftrx=failtransction::where('payutxnid',$input['txnid'])->count();
+                if($ftrx==0)
+                {
+                    $trxId=failtransction::insertGetId([
+                        'trxdate' => $carb,
+                        'subtotalamt' =>$input['udf1'],
+                        'discountamt' =>'0',
+                        'gstamt' => 0,
+                        'deliveryamt' => '0',
+                        'walletamt'=>0,
+                        'payuamt'=>$input['udf1'],
+                        'grandtotal' =>$input['udf1'],
+                        'finalamt' =>$input['udf1'],
+                        'paymenId' => $input['mihpayid'],
+                        'trxFor' => 'Wallet Recharge',
+                        'userId' => $input['udf5'],
+                        'cpname' => $input['firstname'],
+                        'cpno' => $input['phone'],
+                        'trxStatus' =>$input['status'],
+                        'mode'=>$input['mode'],
+                        'payutxnid'=>$input['txnid'],
+                        'reason'=>$input['field9'],
+                        'errormsg'=>$input['error_Message'],
+                    ]);
+                }
+
+                $result = User::where('id',$input['udf5'])->first();
+                Auth::login($result);
+                
+              return  $this->wallet();
+        }
+        else if($input['status']=='success')
+        {
+            $ftrx=transction::where('payutxnid',$input['txnid'])->count();
+                if($ftrx==0)
+                {
+                    $trxId=transction::insertGetId([
+                        'trxdate' => $carb,
+                        'subtotalamt' =>$input['udf1'],
+                        'discountamt' =>'0',
+                        'gstamt' => 0,
+                        'deliveryamt' => '0',
+                        'walletamt'=>0,
+                        'payuamt'=>$input['udf1'],
+                        'grandtotal' => $input['udf1'],
+                        'finalamt' => $input['udf1'],
+                        'paymenId' => $input['mihpayid'],
+                        'trxFor' => 'Wallet Recharge',
+                        'userId' => $input['udf5'],
+                        'cpname' => $input['firstname'],
+                        'cpno' => $input['phone'],
+                        'trxStatus' =>$input['status'],
+                        'mode'=>$input['mode'],
+                        'payutxnid'=>$input['txnid'],
+                        'reason'=>$input['field9'],
+                        'errormsg'=>$input['error_Message'],
+                    ]);
+
+            
+                    $result = User::where('id',$input['udf5'])->first();
+                    Auth::login($result);
+
+                    $remark='Money Added to wallet #PKHK_'.$input['txnid'];
+                    $this->creditAmount($input['udf5'], $input['udf1'], 0,$trxId,'WalletRecharge', $remark);
+
+                }
+                return  $this->wallet();
+        }
+
     }
 }

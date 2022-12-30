@@ -173,6 +173,7 @@
                             @if(Auth::user())
                             <li><a class="dropdown-item text-dark" href="{{url('/app/myprofile')}}">My Profile</a></li>
                             <li><a class="dropdown-item text-dark" href="{{url('/app/viewcart')}}">View Cart</a></li>
+                            <li><a class="dropdown-item text-dark" href="{{url('/app/wallet')}}">Wallet</a></li>
                             <li><a class="dropdown-item text-dark" href="{{url('/app/weblogout')}}">Log out</a></li>
                             @else
                             <li><a class="dropdown-item text-dark" href="{{url('/app/login')}}">Login</a></li>
