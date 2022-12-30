@@ -2779,7 +2779,7 @@ class AdminController extends Controller
             $image_path = "media/images/blog/" . $final_name;
         } else {
             $image_path = Blog::where('id', $request->hiddenId)->first();
-            $image_path = $image_path['image'];
+            $image_path = $image_path['coverImage'];
         }
 
         $blog->coverImage = $image_path;

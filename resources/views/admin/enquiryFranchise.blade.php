@@ -32,9 +32,9 @@
                         <tr class="text-center">
                             <th>Sr.no</th>
                             <th>User Details</th>
-                            <th>Organisation Name</th>
-                            <th>Type</th>
-                            <th>Call Back Time</th>
+                            <!-- <th>Organisation Name</th> -->
+                            <!-- <th>Type</th> -->
+                            <th>Call Back Date</th>
                             <th>Message</th>
                             <!-- <th>Admin Note</th> -->
                             <!-- <th>Status</th> -->
@@ -50,8 +50,8 @@
                                 {{$data->email}} <br>
                                 {{$data->phone}}
                             </td>
-                            <td class="align-middle text-center">{{$data->organisationName}}</td>
-                            <td class="align-middle text-center">{{$data->type}}</td>
+                            <!-- <td class="align-middle text-center">{{$data->organisationName}}</td> -->
+                            <!-- <td class="align-middle text-center">{{$data->type}}</td> -->
                             <td class="align-middle text-center">{{$data->callBackTime}}</td>
                             <td class="align-middle text-center" style="white-space: initial; width: 250px;">{{$data->message}}</td>
                             <!-- <td class="align-middle text-center" style="white-space: initial; width: 250px;">{{$data->adminComment}}</td> -->

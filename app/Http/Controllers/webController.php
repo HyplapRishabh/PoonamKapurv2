@@ -650,7 +650,7 @@ class webController extends Controller
 
     public function faqs()
     {
-        $faqs = Faq::orderBy('Asc','sequence')->get();
+        $faqs = Faq::orderBy('sequence','asc')->get();
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
         $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
@@ -682,8 +682,8 @@ class webController extends Controller
         $categorylist = Category::where([['deleteId', '0'],['status','1']])->inRandomOrder()->limit('6')->get();
         $goallist = Goal::where([['deleteId', '0'],['status','1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        
-        return view('web.allblogs', compact('categorylist','goallist','packagelist'));
+        $blogs = Blog::where('status',1)->where('deleteId','0')->orderBy('id','DESC')->get();
+        return view('web.allblogs', compact('categorylist','goallist','packagelist','blogs'));
         
     }
 

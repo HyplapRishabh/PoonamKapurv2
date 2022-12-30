@@ -34,7 +34,7 @@
                             <th>User Details</th>
                             <th>Organisation Name</th>
                             <th>Type</th>
-                            <th>Call Back Time</th>
+                            <th>Call Back Date</th>
                             <th>Message</th>
                             <!-- <th>Admin Note</th> -->
                             <!-- <th>Status</th> -->
