@@ -425,7 +425,7 @@ Route::group([
     Route::get('/deletesubscription/{subid}', [webController::class, 'deletesubscription']);
     Route::post('/gethashofpayu', [webController::class, 'gethashofpayu']);
     Route::post('/undefined', [webController::class, 'undefined']);
-    Route::post('/payuresponsepkhk', [webController::class, 'payuresponsepkhk']);
+    Route::get('/payuresponsepkhk', [webController::class, 'payuresponsepkhk']);
     Route::post('/submitBulkEnquiry', [webController::class, 'submitBulkEnquiry']);
     Route::post('/submitFranchiseEnquiry', [webController::class, 'submitFranchiseEnquiry']);
 });

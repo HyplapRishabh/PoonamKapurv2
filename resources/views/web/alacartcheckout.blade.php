@@ -69,6 +69,8 @@
                                         <input type="hidden" id="ssubtotalval" name="subtotalval">
                                         <input type="hidden" id="staxval" name="taxval">
                                         <input type="hidden" id="sfinaltotalval" name="finaltotalval">
+                                        <input type="hidden" id="walletuseflag" name="walletuseflag" value="0">
+                                        <input type="hidden" id="sgrandtotalval" name="grandtotalval">
                                         <input type="hidden" id="useremailid" name="useremailid"
                                             value="{{Auth::user()->email}}">
                                         <input type="hidden" id="userid" name="userid" value="{{Auth::user()->id}}">
@@ -189,13 +191,24 @@
                                         <h6 class="heading-title fw-bolder">Tax</h6>
                                         <h6 class="heading-title fw-bolder text-primary" id="taxval"></h6>
                                     </div>
-                                    <div class="d-flex justify-content-between align-items-center ">
+                                    <div class="d-flex justify-content-between align-items-center  mb-2">
                                         <h6 class="heading-title fw-bolder">Delivery charges</h6>
                                         <h6 class="heading-title fw-bolder text-primary" id="deliverychg">&#8377</h6>
                                     </div>
-                                    <div class="d-flex justify-content-between align-items-center ">
+                                    <div class="d-flex justify-content-between align-items-center  mb-2">
                                         <h6 class="heading-title fw-bolder">Final Total</h6>
                                         <h6 class="heading-title fw-bolder text-primary" id="finaltotalval">&#8377</h6>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h6 class="heading-title fw-bolder">
+                                            <input type="checkbox" checked id="walluse" name="walletcheckbox" onchange="calculate()" value="{{$userwallet['availableBal']}}">
+                                            Wallet Balance
+                                        </h6>
+                                        <h6 class="heading-title fw-bolder text-primary">&#8377 {{$userwallet['availableBal']}}</h6>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="heading-title fw-bolder">Payable</h6>
+                                        <h6 class="heading-title fw-bolder text-primary" id='afterwallet'></h6>
                                     </div>
                                 </div>
                                 <!-- <div class="text-center mt-3">
@@ -261,7 +274,9 @@
                 success: function (data) {
 
                     console.log(data);
-                    if (data['status'] == "success") {
+                    if (data['status'] == "success") 
+                    {
+                        
                         str = "";
                         if (data['cartlist'][0]) {
                             document.getElementById('disptotal').style.display = 'block';
@@ -280,14 +295,34 @@
                             });
 
                             finaltotal = deliverychg * 1 + gst * 1 + total * 1;
+                            document.getElementById('sgrandtotalval').value = finaltotal;
+                            walletbal=$('#walluse').val();
+                            currenttotal=document.getElementById('sgrandtotalval').value;
+                            if ($('#walluse').is(":checked"))
+                            {
+                                if(walletbal>=currenttotal)
+                                {
+                                    walletbal=currenttotal;
+                                }
+                                document.getElementById('walletuseflag').value='1';
+                            }
+                            else
+                            {
+                                walletbal=0;
+                                document.getElementById('walletuseflag').value='0';
+                            }
+
+                            wfinaltotal=deliverychg * 1 + gst * 1 + total * 1 - walletbal*1;
                             document.getElementById('totalval').innerHTML = '&#8377 ' + total;
                             document.getElementById('taxval').innerHTML = '&#8377 ' + gst;
                             document.getElementById('finaltotalval').innerHTML = '&#8377 ' + finaltotal;
                             document.getElementById('deliverychg').innerHTML = '&#8377 ' + deliverychg;
-
+                            document.getElementById('afterwallet').innerHTML = '&#8377 ' + wfinaltotal;
+                            
                             document.getElementById('ssubtotalval').value = total;
                             document.getElementById('staxval').value = gst;
-                            document.getElementById('sfinaltotalval').value = finaltotal;
+                            document.getElementById('sfinaltotalval').value = wfinaltotal;
+                            
                             document.getElementById('sdeliveryval').value = deliverychg;
 
                         }
@@ -306,16 +341,14 @@
 
         function alacartpayment(event) {
             event.preventDefault();
+            trxamtval=document.getElementById('ssubtotalval').value+','+document.getElementById('staxval').value+','+document.getElementById('sfinaltotalval').value+','+document.getElementById('sdeliveryval').value+','+document.getElementById('walletuseflag').value+','+document.getElementById('sgrandtotalval').value;
 
             var data = new FormData();
             data.append('key', 'gtKFFx');
             data.append('txnid', document.getElementById('txnid').value);
-            // data.append('amount', document.getElementById('sfinaltotalval').value);
-            data.append('amount', 5);
-            data.append('udf1', document.getElementById('ssubtotalval').value);
-            data.append('udf2', document.getElementById('staxval').value);
-            data.append('udf3', document.getElementById('sfinaltotalval').value);
-            data.append('udf4', document.getElementById('sdeliveryval').value);
+            data.append('amount', document.getElementById('sfinaltotalval').value);
+            //data.append('amount', 5);
+            data.append('udf1',trxamtval);
             data.append('udf5', document.getElementById('userid').value);
 
 
@@ -337,22 +370,21 @@
             //$salt = 'X4CKGkK4Xw'; 2nd
             $salt = 'eCwWELxi';
             console.log(hash);
+            trxamtval=document.getElementById('ssubtotalval').value+','+document.getElementById('staxval').value+','+document.getElementById('sfinaltotalval').value+','+document.getElementById('sdeliveryval').value+','+document.getElementById('walletuseflag').value+','+document.getElementById('sgrandtotalval').value;
+
             boltdata = {
                 // key: 'YI0Weq', 1st
                 //key:'Px1X5X7x', 2nd
                 key: 'gtKFFx',
                 txnid: document.getElementById('txnid').value,
                 hash: hash,
-                // amount: document.getElementById('sfinaltotalval').value,
-                amount: 5,
+                amount: document.getElementById('sfinaltotalval').value,
+                //amount: 5,
                 firstname: document.getElementById('fname').value,
                 email: document.getElementById('useremailid').value,
                 phone: document.getElementById('mobno').value,
                 productinfo: 'AlaCartOrder',
-                udf1: document.getElementById('ssubtotalval').value,
-                udf2: document.getElementById('staxval').value,
-                udf3: document.getElementById('sfinaltotalval').value,
-                udf4: document.getElementById('sdeliveryval').value,
+                udf1: trxamtval,
                 udf5: document.getElementById('userid').value,
                 address1: document.getElementById('add1').value,
                 address2: document.getElementById('add2').value,
@@ -371,9 +403,6 @@
                 '<input type=\"hidden\" name=\"firstname\" value=\"' + boltdata.firstname + '\" />' +
                 '<input type=\"hidden\" name=\"email\" value=\"' + boltdata.email + '\" />' +
                 '<input type=\"hidden\" name=\"udf1\" value=\"' + boltdata.udf1 + '\" />' +
-                '<input type=\"hidden\" name=\"udf2\" value=\"' + boltdata.udf2 + '\" />' +
-                '<input type=\"hidden\" name=\"udf3\" value=\"' + boltdata.udf3 + '\" />' +
-                '<input type=\"hidden\" name=\"udf4\" value=\"' + boltdata.udf4 + '\" />' +
                 '<input type=\"hidden\" name=\"udf5\" value=\"' + boltdata.udf5 + '\" />' +
                 '<input type=\"hidden\" name=\"address1\" value=\"' + boltdata.address1 + '\" />' +
                 '<input type=\"hidden\" name=\"address2\" value=\"' + boltdata.address2 + '\" />' +

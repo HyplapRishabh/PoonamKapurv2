@@ -16,6 +16,7 @@ use App\Models\Package;
 use App\Models\Packagemenu;
 use App\Models\Pincode;
 use App\Models\Address;
+use App\Models\Wallet;
 use App\Models\Product;
 use App\Models\Productmacro;
 use App\Models\Productreceipe;
@@ -34,6 +35,9 @@ use App\Models\Enquirybulk;
 use App\Models\Enquiryfranchise;
 use App\Models\Faq;
 use App\Models\User;
+use App\Models\failtransction;
+use App\Models\failalacartorder;
+use App\Models\failsubscriptionorder;
 use Barryvdh\DomPDF\PDF;
 use Exception;
 use Illuminate\Http\Request;
@@ -527,33 +531,50 @@ class webController extends Controller
 
     public function packagesubscription($pkgId, Request $input)
     {
-        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+        if(Auth::user())
+        {
+            $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+            $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+            $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+    
+            $mealtimecount = count(explode(",", $input['type']));
+    
+            $packageinfo = Package::where([['deleteId', '0'], ['status', '1'], ['id', $pkgId]])->with('goal')->first();
+            $userdetail = User::where('id', Auth::user()->id)->first();
+            $useraddress = Address::where('userId', Auth::user()->id)->first();
+            $userwallet=Wallet::where('userId',Auth::user()->id)->first();
+            $pincodelist = pincode::where([['deleteId', '0'], ['status', '1']])->groupBy('pincode')->get();
 
-        $mealtimecount = count(explode(",", $input['type']));
+            $fprice=$input['days']*$mealtimecount*$packageinfo['lPrice'];
+            if($input['days']==3)
+            {
+                $finalamt=$fprice;
+            }
+            else if($input['days']==15)
+            {
+                $finalamt=$fprice-$fprice*5/100;
+            }
+            else if($input['days']==30)
+            {
+                $finalamt=$fprice-$fprice*10/100;
+            }
+            else if($input['days']==60)
+            {
+                $finalamt=$fprice-$fprice*15/100;
+            }
+            $finalamt=round($finalamt);
+            $mindate = Carbon::now();
+            $mindate=$mindate->addDays(1)->format('Y-m-d');
+            $txnid = 'pk'.rand(99999, 9999999);
 
-        $packageinfo = Package::where([['deleteId', '0'], ['status', '1'], ['id', $pkgId]])->with('goal')->first();
-        $userdetail = User::where('id', Auth::user()->id)->first();
-        $useraddress = Address::where('userId', Auth::user()->id)->first();
-        $pincodelist = pincode::where([['deleteId', '0'], ['status', '1']])->groupBy('pincode')->get();
+            return view('web.packagesubscription', compact('userwallet','txnid','mindate', 'userdetail', 'useraddress', 'pincodelist', 'categorylist', 'goallist', 'packageinfo', 'packagelist', 'input', 'mealtimecount', 'finalamt'));
 
-        $fprice = $input['days'] * $mealtimecount * $packageinfo['lPrice'];
-        if ($input['days'] == 3) {
-            $finalamt = $fprice;
-        } else if ($input['days'] == 15) {
-            $finalamt = $fprice - $fprice * 5 / 100;
-        } else if ($input['days'] == 30) {
-            $finalamt = $fprice - $fprice * 10 / 100;
-        } else if ($input['days'] == 60) {
-            $finalamt = $fprice - $fprice * 15 / 100;
         }
-        $finalamt = round($finalamt);
-        $mindate = Carbon::now();
-        $mindate = $mindate->addDays(1)->format('Y-m-d');
-
-        return view('web.packagesubscription', compact('mindate', 'userdetail', 'useraddress', 'pincodelist', 'categorylist', 'goallist', 'packageinfo', 'packagelist', 'input', 'mealtimecount', 'finalamt'));
-    }
+        else
+        {
+            return view('web.login');
+        }
+       }
 
     public function aboutus()
     {
@@ -649,19 +670,28 @@ class webController extends Controller
     }
 
     public function alacartcheckout()
-    {
-        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
-        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
-        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-        $userdetail = User::where('id', Auth::user()->id)->first();
-        $useraddress = Address::where('userId', Auth::user()->id)->first();
-        $cartlist = cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
-        $pincodelist = pincode::where([['deleteId', '0'], ['status', '1']])->groupBy('pincode')->get();
+    {   
+        if(Auth::user())
+     {
+            $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+            $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+            $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+            $userdetail = User::where('id', Auth::user()->id)->first();
+            $useraddress = Address::where('userId', Auth::user()->id)->first();
+            $cartlist = cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
+            $pincodelist = pincode::where([['deleteId', '0'], ['status', '1']])->groupBy('pincode')->get();
+            $userwallet=Wallet::where('userId',Auth::user()->id)->first();
+            $txnid = 'pk' . rand(99999, 9999999);
+            $userwallet=Wallet::where('userId',Auth::user()->id)->first();
 
-        $txnid = 'pk' . rand(99999, 9999999);
 
-
-        return view('web.alacartcheckout', compact('txnid', 'categorylist', 'goallist', 'packagelist', 'cartlist', 'userdetail', 'useraddress', 'pincodelist'));
+            return view('web.alacartcheckout', compact('userwallet','txnid', 'categorylist', 'goallist', 'packagelist', 'cartlist', 'userdetail', 'useraddress', 'pincodelist'));
+        }       
+        else
+        {
+            return view('web.login');
+        }
+        
     }
 
     public function pincodechg($pincodeval)
@@ -804,10 +834,20 @@ class webController extends Controller
     }
     public function gethashofpayu(Request $input)
     {
+        //salt = 4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW  MBFfc0sn
         $myresponse = [];
-        $strdata = $input['key'] . '|' . $input['txnid'] . '|' . $input['amount'] . '|' . $input['productinfo'] . '|' . $input['firstname'] . '|' . $input['email'] . '|' . $input['udf1'] . '|' . $input['udf2'] . '|' . $input['udf3'] . '|' . $input['udf4'] . '|' . $input['udf5'] . '||||||4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW';
+        if($input['productinfo']=='AlaCartOrder')
+        {
+            $strdata=$input['key'].'|'.$input['txnid'].'|'.$input['amount'].'|'.$input['productinfo'].'|'.$input['firstname'].'|'.$input['email'].'|'.$input['udf1'].'||||'.$input['udf5'].'||||||4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW';
 
-        $key = hash("sha512", $strdata);
+            $key = hash("sha512",$strdata);
+        }
+        else if($input['productinfo']=='subscription')
+        {
+            $strdata = $input['key'] . '|' . $input['txnid'] . '|' . $input['amount'] . '|' . $input['productinfo'] . '|' . $input['firstname'] . '|' . $input['email'] . '|' . $input['udf1'] . '|' . $input['udf2'] . '|' . $input['udf3'] . '|' . $input['udf4'] . '|' . $input['udf5'] . '||||||4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW';
+
+            $key = hash("sha512", $strdata);
+        }
 
         $myresponse['status'] = 'success';
         $myresponse['encryptpass'] = $key;
@@ -817,7 +857,332 @@ class webController extends Controller
 
     public function payuresponsepkhk(Request $input)
     {
-        return $input;
+       //return $input;
+        //$input='{"mihpayid":"403993715528002169","mode":"UPI","status":"success","unmappedstatus":"failed","key":"gtKFFx","txnid":"pk8719762","amount":"300.00","discount":"0.00","net_amount_debit":"0.00","addedon":"2022-12-30 10:52:57","productinfo":"AlaCartOrder","firstname":"Sayed Zaid","lastname":null,"address1":"Flat 07  anand dhan","address2":"near patel h","city":"B.P LANE","state":null,"country":null,"zipcode":"400003","email":"rishabh.2745@gmail.com","phone":"8433885667","udf1":"270,0,300,30,1,300","udf2":null,"udf3":null,"udf4":null,"udf5":"1","udf6":null,"udf7":null,"udf8":null,"udf9":null,"udf10":null,"hash":"636184f7353536fe36a56b296db0743772e825ceb562cf86f67791538a6a1ee58e310da2fe5fe1526736be276007d889005548fe259f8da1bb4db70393a63669","field1":"8976074007@ybl","field2":null,"field3":null,"field4":"RISHABH MAHENDRA KATARIYA","field5":null,"field6":null,"field7":null,"field8":null,"field9":"Transaction Failed at bank end.","payment_source":"payu","PG_TYPE":"HDFCU","bank_ref_num":null,"bankcode":"PP_UPI","error":"E308","error_Message":"Bank was unable to authenticate"}';
+        //$input=json_decode($input,true);
+        $carb= Carbon::now(); 
+        
+        if($input['productinfo']=='AlaCartOrder')
+        {
+            $trxdtl=explode (",", $input['udf1']);
+
+            $walletamt=0;
+            $payuamt=0;
+            if($trxdtl['4']=='0')
+            {
+                $walletamt=0;
+                $payuamt=$trxdtl[5];
+            }
+            else if($trxdtl['4']=='1')
+            {
+                $walletamt=Wallet::where('userId',$input['udf5'])->first();
+                $walletamt=$walletamt['availableBal'];
+                if($walletamt>=$trxdtl[5])
+                {
+                    $walletamt=$trxdtl[5];
+                    $payuamt=0;
+                }
+                else
+                {
+                    
+                    $payuamt=$trxdtl[5]-$walletamt;
+                }
+            }
+
+            if($input['status']=='failure')
+            {
+                $ftrx=failtransction::where('payutxnid',$input['txnid'])->count();
+                if($ftrx==0)
+                {
+                    $trxId=failtransction::insertGetId([
+                        'trxdate' => $carb,
+                        'subtotalamt' => $trxdtl[0],
+                        'discountamt' =>'0',
+                        'gstamt' => $trxdtl[1],
+                        'deliveryamt' => $trxdtl[3],
+                        'walletamt'=>$walletamt,
+                        'payuamt'=>$payuamt,
+                        'grandtotal' => $trxdtl[5],
+                        'finalamt' => $trxdtl[2],
+                        'paymenId' => $input['mihpayid'],
+                        'trxFor' => 'alacart',
+                        'userId' => $input['udf5'],
+                        'address' => $input['address1'],
+                        'landmark' => $input['address2'],
+                        'pincode' => $input['zipcode'],
+                        'deliverystatus'=>'InProcess',
+                        'area' => $input['city'],
+                        'cpname' => $input['firstname'],
+                        'cpno' => $input['phone'],
+                        'trxStatus' =>$input['status'],
+                        'mode'=>$input['mode'],
+                        'payutxnid'=>$input['txnid'],
+                        'reason'=>$input['field9'],
+                        'errormsg'=>$input['error_Message'],
+                    ]);
+        
+        
+                    $cartlist=cart::with('product')->with('addoncart')->where('userID', $input['udf5'])->get();
+        
+                    foreach ($cartlist as $key => $value) 
+                    {
+                        $addonval='';
+                        if(isset($value['addoncart']))
+                        {
+                            $productprice=$value['product']['discountedPrice'];
+                            $addonprice=$value['addoncart']['addon']['price'];
+                            $addonval=$value['addoncart']['addon']['description'].' - ('.$value['addoncart']['addon']['quantity'].' '.$value['addoncart']['addon']['unit'].')';
+                        }
+                        else
+                        {
+                            $productprice=$value['product']['discountedPrice']*$value['qty'];
+                            $addonprice=0;
+                            $addonval='';
+                        }
+                        $cartlist=failalacartorder::insertGetId([
+                            'trxId' => $trxId,
+                            'productId' => $value['productId'],
+                            'productName' => $value['product']['name'],
+                            'productImg' =>$value['product']['image'],
+                            'qty' => $value['qty'],
+                            'addonName' => $addonval,
+                            'addonprice'=>$addonprice,
+                            'productPrice' => $productprice,
+                        ]);
+                    }
+                }
+
+                $result = User::where('id',$input['udf5'])->first();
+                Auth::login($result);
+
+                $trxdtl=failtransction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
+                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+            }
+            else if($input['status']=='success')
+            {
+                $ftrx=transction::where('payutxnid',$input['txnid'])->count();
+                if($ftrx==0)
+                {
+                    $trxId=transction::insertGetId([
+                        'trxdate' => $carb,
+                        'subtotalamt' => $trxdtl[0],
+                        'discountamt' =>'0',
+                        'gstamt' => $trxdtl[1],
+                        'deliveryamt' =>  $trxdtl[3],
+                        'walletamt'=>$walletamt,
+                        'payuamt'=>$payuamt,
+                        'grandtotal' => $trxdtl[5],
+                        'finalamt' => $trxdtl[2],
+                        'paymenId' => $input['mihpayid'],
+                        'trxFor' => 'alacart',
+                        'userId' => $input['udf5'],
+                        'address' => $input['address1'],
+                        'landmark' => $input['address2'],
+                        'pincode' => $input['zipcode'],
+                        'deliverystatus'=>'InProcess',
+                        'area' => $input['city'],
+                        'cpname' => $input['firstname'],
+                        'cpno' => $input['phone'],
+                        'trxStatus' =>$input['status'],
+                        'mode'=>$input['mode'],
+                        'payutxnid'=>$input['txnid'],
+                        'reason'=>$input['field9'],
+                        'errormsg'=>$input['error_Message'],
+                    ]);
+        
+                    transction::where('id',$trxId)->update([
+                        'invoiceno' => $trxId
+                    ]);
+        
+                    $cartlist=cart::with('product')->with('addoncart')->where('userID', $input['udf5'])->get();
+        
+                    foreach ($cartlist as $key => $value) 
+                    {
+                        $addonval='';
+                        if(isset($value['addoncart']))
+                        {
+                            $productprice=$value['product']['discountedPrice'];
+                            $addonprice=$value['addoncart']['addon']['price'];
+                            $addonval=$value['addoncart']['addon']['description'].' - ('.$value['addoncart']['addon']['quantity'].' '.$value['addoncart']['addon']['unit'].')';
+                        }
+                        else
+                        {
+                            $productprice=$value['product']['discountedPrice']*$value['qty'];
+                            $addonprice=0;
+                            $addonval='';
+                        }
+                        $cartlist=alacartorder::insertGetId([
+                            'trxId' => $trxId,
+                            'productId' => $value['productId'],
+                            'productName' => $value['product']['name'],
+                            'productImg' =>$value['product']['image'],
+                            'qty' => $value['qty'],
+                            'addonName' => $addonval,
+                            'addonprice'=>$addonprice,
+                            'productPrice' => $productprice,
+                        ]);
+                    }
+        
+                    $remark='Money Added for alacart order #PKHK_'.$input['txnid'];
+                    $this->creditAmount($input['udf5'], $payuamt, 0, $remark);
+
+                    $remark='Paid for alacart order #PKHK_'.$input['txnid'];
+                    $this->debitAmount($input['udf5'],$trxdtl[5], 0, $remark);
+
+                    cart::where('userID', $input['udf5'])->delete();
+                }
+                
+                
+                
+                $result = User::where('id',$input['udf5'])->first();
+                Auth::login($result);
+
+                $trxdtl=transction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
+                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+            }
+        }
+        else if($input['productinfo']=='subscription')
+        {
+            $trxdtl=explode (",", $input['udf1']);
+            $pkgdtl=explode (",", $input['udf2']); 
+
+            $walletamt=0;
+            $payuamt=0;
+            if($trxdtl['4']=='0')
+            {
+                $walletamt=0;
+                $payuamt=$trxdtl[5];
+            }
+            else if($trxdtl['4']=='1')
+            {
+                $walletamt=Wallet::where('userId',$input['udf5'])->first();
+                $walletamt=$walletamt['availableBal'];
+                if($walletamt>=$trxdtl[5])
+                {
+                    $walletamt=$trxdtl[5];
+                    $payuamt=0;
+                }
+                else
+                {
+                    $payuamt=$trxdtl[5]-$walletamt;
+                }
+            }
+
+            if($input['status']=='failure')
+            {
+                $ftrx=failtransction::where('payutxnid',$input['txnid'])->count();
+                if($ftrx==0)
+                {
+                    $trxId=failtransction::insertGetId([
+                        'trxdate' => $carb,
+                        'subtotalamt' => $trxdtl[0],
+                        'discountamt' =>'0',
+                        'gstamt' => $trxdtl[1],
+                        'deliveryamt' => '0',
+                        'walletamt'=>$walletamt,
+                        'payuamt'=>$payuamt,
+                        'grandtotal' => $trxdtl[5],
+                        'finalamt' => $trxdtl[2],
+                        'paymenId' => $input['mihpayid'],
+                        'trxFor' => 'subscription',
+                        'userId' => $input['udf5'],
+                        'address' => $input['address1'],
+                        'landmark' => $input['address2'],
+                        'pincode' => $input['zipcode'],
+                        'deliverystatus'=>'InProcess',
+                        'area' => $input['city'],
+                        'cpname' => $input['firstname'],
+                        'cpno' => $input['phone'],
+                        'trxStatus' =>$input['status'],
+                        'mode'=>$input['mode'],
+                        'payutxnid'=>$input['txnid'],
+                        'reason'=>$input['field9'],
+                        'errormsg'=>$input['error_Message'],
+                    ]);
+            
+                    $onemealprice=$trxdtl[3]/23;
+
+                    $cartlist=failsubscriptionorder::insertGetId([
+                        'trxId' => $trxId,
+                        'userId' => $input['udf5'],
+                        'packageId' =>$pkgdtl[0],
+                        'totaldays' =>$pkgdtl[1],
+                        'totalmeal' =>$pkgdtl[2],
+                        'mealPrice' =>$onemealprice,
+                        'subscribedfor' => $input['udf3'],
+                        'startdate'=>$input['udf4'],
+                        'status' =>$input['status'],
+                    ]);
+            
+                    $result = User::where('id',$input['udf5'])->first();
+                    Auth::login($result);
+
+                    $trxdtl=failtransction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
+                    return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+                }
+            }
+            else if($input['status']=='success')
+            {
+                $ftrx=transction::where('payutxnid',$input['txnid'])->count();
+                if($ftrx==0)
+                {
+                    $trxId=transction::insertGetId([
+                        'trxdate' => $carb,
+                        'subtotalamt' => $trxdtl[0],
+                        'discountamt' =>'0',
+                        'gstamt' => $trxdtl[1],
+                        'deliveryamt' => '0',
+                        'walletamt'=>$walletamt,
+                        'payuamt'=>$payuamt,
+                        'grandtotal' => $trxdtl[5],
+                        'finalamt' => $trxdtl[2],
+                        'paymenId' => $input['mihpayid'],
+                        'trxFor' => 'subscription',
+                        'userId' => $input['udf5'],
+                        'address' => $input['address1'],
+                        'landmark' => $input['address2'],
+                        'pincode' => $input['zipcode'],
+                        'deliverystatus'=>'InProcess',
+                        'area' => $input['city'],
+                        'cpname' => $input['firstname'],
+                        'cpno' => $input['phone'],
+                        'trxStatus' =>$input['status'],
+                        'mode'=>$input['mode'],
+                        'payutxnid'=>$input['txnid'],
+                        'reason'=>$input['field9'],
+                        'errormsg'=>$input['error_Message'],
+                    ]);
+
+                    transction::where('id',$trxId)->update([
+                        'invoiceno' => $trxId
+                    ]);
+                    $onemealprice=$trxdtl[3]/23;
+            
+                    $cartlist=subscriptionorder::insertGetId([
+                        'trxId' => $trxId,
+                        'userId' => $input['udf5'],
+                        'packageId' =>$pkgdtl[0],
+                        'totaldays' =>$pkgdtl[1],
+                        'totalmeal' =>$pkgdtl[2],
+                        'mealPrice' =>$onemealprice,
+                        'subscribedfor' => $input['udf3'],
+                        'startdate'=>$input['udf4'],
+                        'status' =>"Booked",
+                    ]);
+
+                    $remark='Money Added for subscription order #PKHK_'.$input['txnid'];
+                    $this->creditAmount($input['udf5'], $payuamt, 0, $remark);
+
+                    $remark='Locked for subscription order #PKHK_'.$input['txnid'];
+                    $this->lockamount($input['udf5'], $trxdtl[5], $trxdtl[5], $remark);
+                }
+                $result = User::where('id',$input['udf5'])->first();
+                Auth::login($result);
+
+                $trxdtl=transction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
+                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+            }
+        }
     }
 
     public function undefined(Request $input)
