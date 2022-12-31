@@ -72,7 +72,7 @@
                             <td class="align-middle text-center">{{$data->id}}</td>
                             <th class="align-middle text-center">{{$data->discountamt}}</th>
                             <th class="align-middle text-center">{{$data->gstamt}}</th>
-                            <td class="align-middle text-center">{{$data->finalamt}}</td>
+                            <td class="align-middle text-center">{{$data->grandtotal}}</td>
                             @endif
                             <td class="align-middle text-center">{{$data->trxsubscriptionorder->packageId}}</td>
                             <td class="align-middle text-center">{{$data->trxsubscriptionorder->subscribedfor}}</td>
