@@ -28,13 +28,22 @@
                         <path d="M40.0136 54.5643L76.8701 18.1495C78.1796 16.8557 80.2738 16.8169 81.6303 18.0614V18.0614C83.0887 19.3993 83.1259 21.687 81.7118 23.0717L40.0135 63.9056L21.8386 46.082C20.6265 44.8933 20.6169 42.9441 21.8173 41.7435V41.7435C22.9764 40.5842 24.8443 40.5472 26.0483 41.6598L40.0136 54.5643Z" fill="#EA6A12"/>
                      </svg>       
                      <h2 class="mt-3 mb-0 ">Success !</h2>
-                     <p class="cnf-mail mb-1">Your order has been placed Order Id is #PKHK_{{$trxdtl->payutxnid}}, <br>
-                     Our executive will call you shortly,<br>
-                     Please check order details section for order status.</p>
-                     <div class="d-inline-block w-100">
-                        <a href="{{url('/app/orderdetails')}}" class="btn btn-primary mt-3">Order Details</a>
-                        <a href="{{url('/')}}" class="btn btn-primary mt-3">Home</a>
-                     </div>
+                     @if($trxdtl->trxFor=='consultation')
+                        <p class="cnf-mail mb-1">Your consultation has been booked successfully your order id is #PKHK_{{$trxdtl->payutxnid}}, <br>
+                        Our executive will call you shortly,<br>
+                        <div class="d-inline-block w-100">
+                           <a href="{{url('/')}}" class="btn btn-primary mt-3">Home</a>
+                        </div>
+                     @else
+                        <p class="cnf-mail mb-1">Your order has been placed Order Id is #PKHK_{{$trxdtl->payutxnid}}, <br>
+                        Our executive will call you shortly,<br>
+                        Please check order details section for order status.</p>
+                        <div class="d-inline-block w-100">
+                           <a href="{{url('/app/orderdetails')}}" class="btn btn-primary mt-3">Order Details</a>
+                           <a href="{{url('/')}}" class="btn btn-primary mt-3">Home</a>
+                        </div>
+                     @endif
+                     
                   @elseif($trxdtl->trxStatus=='failure')  
                      <svg class="bi flex-shrink-0 me-2" width="24" height="24">
                                     <use xlink:href="#exclamation-triangle-fill01"></use>

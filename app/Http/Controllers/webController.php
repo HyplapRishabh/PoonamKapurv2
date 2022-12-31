@@ -17,6 +17,7 @@ use App\Models\Packagemenu;
 use App\Models\Pincode;
 use App\Models\Address;
 use App\Models\Wallet;
+use App\Models\Banner;
 use App\Models\Product;
 use App\Models\Productmacro;
 use App\Models\Productreceipe;
@@ -73,10 +74,10 @@ class webController extends Controller
         $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
         $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-
+        $banners = Banner::all();
 
         $testimonials = Testimonial::where([['deleteId', '0'], ['status', '1']])->get();
-        return view('web.welcomeindex', compact('categorylist', 'packagelist', 'goallist', 'testimonials'));
+        return view('web.welcomeindex', compact('categorylist', 'packagelist', 'goallist', 'testimonials','banners'));
     }
 
     public function allcategory()

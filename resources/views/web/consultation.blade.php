@@ -381,7 +381,7 @@ $(document).ready(function () {
                 email: document.getElementById('useremailid').value,
                 phone: document.getElementById('mobno').value,
                 productinfo: 'consultation',
-                udf1: document.getElementById('sfinaltotalval').value,
+                udf1: document.getElementById('finalamt').value,
                 udf2: document.getElementById('callbackdate').value,
                 udf3: document.getElementById('msg').value,
                 udf4: document.getElementById('walletuseflag').value,
