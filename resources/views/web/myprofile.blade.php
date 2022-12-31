@@ -59,16 +59,16 @@
                         </div>
                         <div class="d-flex align-items-center mb-3 mb-sm-0">
                            <div>
-                              <h6 class="me-2 text-primary">Team HYPLAP</h6>
-                              <span><svg width="19" height="19" class="me-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <h6 class="me-2 text-primary">{{Auth::user() != null ? Auth::user()->name : ''}}</h6>
+                              <!-- <span><svg width="19" height="19" class="me-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                  <path d="M21 10.8421C21 16.9172 12 23 12 23C12 23 3 16.9172 3 10.8421C3 4.76697 7.02944 1 12 1C16.9706 1 21 4.76697 21 10.8421Z" stroke="#07143B" stroke-width="1.5"/>
                                  <circle cx="12" cy="9" r="3" stroke="#07143B" stroke-width="1.5"/>
-                                 </svg><small class="mb-0 text-dark">Andheri, India</small></span>
+                                 </svg><small class="mb-0 text-dark">Andheri, India</small></span> -->
                            </div>
                            <div class="ms-4">
-                              <p class="mb-0 text-dark">hello@hyplap.com</p>
-                              <p class="me-2 mb-0 text-dark">G-15, HAWARE FANTASIA BUSINESS PARK, VASHI, NAVI MUMBAI</p>
-                              <p class="mb-0 text-dark">+91-9082272678</p>
+                              <p class="mb-0 text-dark">{{Auth::user() != null ? Auth::user()->email : ''}}</p>
+                              <!-- <p class="me-2 mb-0 text-dark">G-15, HAWARE FANTASIA BUSINESS PARK, VASHI, NAVI MUMBAI</p> -->
+                              <p class="mb-0 text-dark">+91-{{Auth::user() != null ? Auth::user()->phone : ''}}</p>
                            </div> 
                         </div>
                      </div>
@@ -78,15 +78,15 @@
                            <small class="mb-1 fw-normal">My Goal</small>
                         </li> -->
                         <li class="badge bg-primary py-2 me-2">
-                           <p class="mb-3 mt-2">75KG</p>
-                           <small class="mb-1 fw-normal">Weight</small>
-                        </li>
-                        <li class="badge bg-primary py-2 me-2">
-                           <p class="mb-3 mt-2">180cm</p>
+                           <p class="mb-3 mt-2">{{Auth::user() != null ? Auth::user()->height : ''}} Cm</p>
                            <small class="mb-1 fw-normal">Height</small>
                         </li>
                         <li class="badge bg-primary py-2 me-2">
-                            <p class="mb-3 mt-2">22</p>
+                           <p class="mb-3 mt-2">{{Auth::user() != null ? Auth::user()->weight : ''}} Kg</p>
+                           <small class="mb-1 fw-normal">Weight </small>
+                        </li>
+                        <li class="badge bg-primary py-2 me-2">
+                            <p class="mb-3 mt-2">{{Auth::user() != null ? Auth::user()->bmi : ''}}</p>
                             <small class="mb-1 fw-normal">BMI  & BMR</small>
                          </li>
                      </ul>
