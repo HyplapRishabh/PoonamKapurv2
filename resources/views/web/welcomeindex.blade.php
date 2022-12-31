@@ -141,7 +141,7 @@
                                                 <button style="margin: 5%;padding:5%;width:100%;" type="button"
                                                     class="btn btn-primary rounded-pill" data-bs-toggle="modal"
                                                     data-bs-target="#gridSystemModal">
-                                                    Let's Get Started
+                                                    Customized Meal
                                                 </button>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-12">

@@ -22,6 +22,19 @@
             background-attachment: fixed; 
             background-size: cover;
         }
+        .txtwrp
+        {
+            /* display: -webkit-box; */
+            /* -webkit-box-orient: vertical; */
+            /* -webkit-line-clamp: 1; */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            white-space: nowrap;
+            font-size:1rem;
+            line-height:1;
+            -o-text-overflow:ellipsis;
+        }
     </style>
 </head>
 
@@ -232,8 +245,8 @@
                                                 <a href="{{url('/app/category/')}}/{{Str::slug($catinfo->name)}}?category={{Str::slug($catinfo->name)}}">
                                                     <div class="text-center iq-menu-category">
                                                         <img src="{{asset($catinfo->image)}}"  onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="{{$catinfo->name}}"
-                                                            class="img-fluid rounded-pill mb-3">
-                                                        <h6 class="heading-title fw-bolder pb-4" style="white-space: nowrap;">{{$catinfo->name}}</h6>
+                                                            class="img-fluid rounded-pill avatar-100 mb-3">
+                                                        <p class="heading-title fw-bolder pb-4 txtwrp" >{{$catinfo->name}}</p>
                                                         <div class="category-icon pt-4">
                                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                                 xmlns="http://www.w3.org/2000/svg">
