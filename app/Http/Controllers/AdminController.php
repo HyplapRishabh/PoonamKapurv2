@@ -72,6 +72,7 @@ class AdminController extends Controller
             $mealTimeSubscribed = $subscription->subscribedfor;
             $mealTimeSubscribed = explode(',', $mealTimeSubscribed);
             $getSubscriptionKt = $subscription->pkgdtl->packagemenu;
+            return $getSubscriptionKt;
             foreach ($getSubscriptionKt as $kt) {
                 if ($completedMealCount == $subscription->totalmeal) {
                     $changeStatus = subscriptionorder::where('userId', $subscription->userId)->first();
@@ -208,11 +209,7 @@ class AdminController extends Controller
         $user->phone = $request->phone;
         $user->password = Hash::make($request->password);
         $user->save();
-        $this->createWalletUser($user->id);
-        $result = User::where(['phone' => $request->phone])->orWhere(['email' => $request->email])->first();
-        Auth::login($result);
-
-        return redirect('/');
+        return redirect('/login');
     }
 
     public function showforget(Request $request)
@@ -3208,7 +3205,7 @@ class AdminController extends Controller
     public function indexPackageOrder()
     {
         $packageorders = transction::where('trxFor', 'subscription')->with('trxsubscriptionorder')->with('user')->get();
-      
+        // return $packageorders;
         return view('admin.orders.package', compact('packageorders'));
     }
 

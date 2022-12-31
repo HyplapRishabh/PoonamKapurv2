@@ -46,10 +46,9 @@
                             <th>GST</th>
                             <th>Total</th>
                             @endif
-                            <th>Product Name</th>
-                            <th>Product Time</th>
+                            <th>Package Name</th>
+                            <th>Package Time</th>
                             <th>Customer Details</th>
-
                             @if(Request::is('order/package'))
                             <th>Customer Name</th>
                             <th>Customer Phone</th>
@@ -61,7 +60,7 @@
                             <th>Order Date</th>
                             @endif
                             <th>Address</th>
-                            <th>Delivery Status</th>
+                            <!-- <th>Delivery Status</th> -->
                             <!-- <th>Action</th> -->
                         </tr>
                     </thead>
@@ -75,69 +74,33 @@
                             <th class="align-middle text-center">{{$data->gstamt}}</th>
                             <td class="align-middle text-center">{{$data->finalamt}}</td>
                             @endif
-                            <td class="align-middle text-center">{{$data->productName}}</td>
-                            <td class="align-middle text-center">{{$data->mealTime}}</td>
+                            <td class="align-middle text-center">{{$data->trxsubscriptionorder->packageId}}</td>
+                            <td class="align-middle text-center">{{$data->trxsubscriptionorder->subscribedfor}}</td>
                             <td class="align-middle text-center">
                                 {{$data->cpname}} <br> {{$data->cpno}}
                             </td>
                             @if(Request::is('order/package'))
                             <td class="align-middle text-center">
-                                
                                 {{$data->cpname}}
-                                
                             </td>
-                            <td class="align-middle text-center">
-                                
-                                {{$data->cpno}}
-                                
-                            </td>
-                            <td class="align-middle text-center">
-                                
-                                {{$data->address}}
-                                
-                            </td>
-                            <td class="align-middle text-center">
-                                
-                                {{$data->pincode}}
-                                
-                            </td>
-                            <td class="align-middle text-center">
-                                
-                                {{$data->area}}
-                                
-                            </td>
-                            <td class="align-middle text-center">
-                                
-                                {{$data->landmark}}
-                                
-                            </td>
-                            <td class="align-middle text-center">
-                                
-                                {{$data->city}}
-                                
-                            </td>
-                            <td class="align-middle text-center"></td>
+                            <td class="align-middle text-center">{{$data->cpno}}</td>
+                            <td class="align-middle text-center">{{$data->address}}</td>
+                            <td class="align-middle text-center">{{$data->pincode}}</td>
+                            <td class="align-middle text-center">{{$data->area}}</td>
+                            <td class="align-middle text-center">{{$data->landmark}}</td>
+                            <td class="align-middle text-center">{{$data->city}}</td>
+                            <td class="align-middle text-center">{{date('d M, Y', strtotime($data->created_at))}}</td>
                             @endif
                             <td class="align-middle ">
-                                
                                 {{$data->address}} <br>
-                                
-                                
                                 {{$data->pincode}} <br>
-                                
-                                
                                 {{$data->area}} <br>
-                                
-                                
                                 {{$data->landmark}} <br>
-                                
-                                
                                 {{$data->city}} <br>
-                                
                             </td>
-                            <td class="align-middle text-center">{{$data->status}}
+                            <!-- <td class="align-middle text-center">{{$data->deliverystatus}}
                                 <a href="" class="btn btn-icon has-ripple" data-toggle="modal" data-target="#changeStatus{{$data->id}}" title="Cancel Product"><i class="fas fa-edit"></i></a>
-                            </td>
+                            </td> -->
                             <!-- <td class="table-action text-center"> -->
                             <!-- <div> -->
                             <!-- <a href="" class="btn btn-icon btn-outline-warning has-ripple" data-toggle="modal" data-target="#viewModal{{$data->id}}"><i class="fas fa-eye"></i></a> -->
