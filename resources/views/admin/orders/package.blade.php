@@ -77,55 +77,75 @@
                             @endif
                             <td class="align-middle text-center">{{$data->productName}}</td>
                             <td class="align-middle text-center">{{$data->mealTime}}</td>
-                            @if(isset($data->trx))
-                            <td class="align-middle text-center">{{$data->trx->cpname}} <br> {{$data->trx->cpno}}</td>
-                            @endif
+                            <td class="align-middle text-center">
+                                {{$data->cpname}} <br> {{$data->cpno}}
+                            </td>
                             @if(Request::is('order/package'))
-                                @if(isset($data->trx))
-                                <td class="align-middle text-center">{{$data->trx->address}}</td>
-                                @endif
-                                @if(isset($data->trx))
-                                <td class="align-middle text-center">{{$data->trx->pincode}}</td>
-                                @endif
-                                @if(isset($data->trx))
-                                <td class="align-middle text-center">{{$data->trx->area}}</td>
-                                @endif
-                                @if(isset($data->trx))
-                                <td class="align-middle text-center">{{$data->trx->landmark}}</td>
-                                @endif
-                                @if(isset($data->trx))
-                                <td class="align-middle text-center">{{$data->trx->city}}</td>
-                                @endif
+                            <td class="align-middle text-center">
+                                
+                                {{$data->cpname}}
+                                
+                            </td>
+                            <td class="align-middle text-center">
+                                
+                                {{$data->cpno}}
+                                
+                            </td>
+                            <td class="align-middle text-center">
+                                
+                                {{$data->address}}
+                                
+                            </td>
+                            <td class="align-middle text-center">
+                                
+                                {{$data->pincode}}
+                                
+                            </td>
+                            <td class="align-middle text-center">
+                                
+                                {{$data->area}}
+                                
+                            </td>
+                            <td class="align-middle text-center">
+                                
+                                {{$data->landmark}}
+                                
+                            </td>
+                            <td class="align-middle text-center">
+                                
+                                {{$data->city}}
+                                
+                            </td>
                             <td class="align-middle text-center"></td>
                             @endif
                             <td class="align-middle ">
-                                @if(isset($data->trx))
-                                {{$data->trx->address}} <br>
-                                @endif
-                                @if(isset($data->trx))
-                                {{$data->trx->pincode}} <br>
-                                @endif
-                                @if(isset($data->trx))
-                                {{$data->trx->area}} <br>
-                                @endif
-                                @if(isset($data->trx))
-                                {{$data->trx->landmark}} <br>
-                                @endif
-                                @if(isset($data->trx))
-                                {{$data->trx->city}} <br>
-                                @endif
+                                
+                                {{$data->address}} <br>
+                                
+                                
+                                {{$data->pincode}} <br>
+                                
+                                
+                                {{$data->area}} <br>
+                                
+                                
+                                {{$data->landmark}} <br>
+                                
+                                
+                                {{$data->city}} <br>
+                                
                             </td>
                             <td class="align-middle text-center">{{$data->status}}
                                 <a href="" class="btn btn-icon has-ripple" data-toggle="modal" data-target="#changeStatus{{$data->id}}" title="Cancel Product"><i class="fas fa-edit"></i></a>
                             </td>
                             <!-- <td class="table-action text-center"> -->
-                                <!-- <div> -->
-                                    <!-- <a href="" class="btn btn-icon btn-outline-warning has-ripple" data-toggle="modal" data-target="#viewModal{{$data->id}}"><i class="fas fa-eye"></i></a> -->
-                                    <!-- <a href="" class="btn btn-icon btn-outline-danger has-ripple" data-toggle="modal" data-target="#deleteModal{{$data->id}}"><i class="far fa-trash-alt"></i></a> -->
-                                <!-- </div> -->
+                            <!-- <div> -->
+                            <!-- <a href="" class="btn btn-icon btn-outline-warning has-ripple" data-toggle="modal" data-target="#viewModal{{$data->id}}"><i class="fas fa-eye"></i></a> -->
+                            <!-- <a href="" class="btn btn-icon btn-outline-danger has-ripple" data-toggle="modal" data-target="#deleteModal{{$data->id}}"><i class="far fa-trash-alt"></i></a> -->
+                            <!-- </div> -->
                             <!-- </td> -->
                         </tr>
-                        
+
 
                         <!--Status Modal -->
                         <div class="modal fade" id="changeStatus{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
