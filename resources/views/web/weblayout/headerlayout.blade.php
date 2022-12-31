@@ -18,8 +18,8 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto align-items-center navbar-list mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
-                        <a href="{{url('/')}}" class="nav-link" id="notification-drop" data-bs-toggle="dropdown">
-                            <p style="font-size: 0.9rem" class=" current">Home</p>
+                        <a href="{{url('/')}}" class="nav-link" id="notification-drop">
+                            <p style="font-size: 0.9rem">Home</p>
                             <span class="bg-danger dots"></span>
                         </a>
                     </li>
@@ -370,7 +370,7 @@
     <div class="icon-bar">
         <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
         <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-        <a href="#" class="google"><i class="fa fa-google"></i></a>
+        <a href="#" class="google"><i class="fa fa-instagram"></i></a>
         <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
         <a href="#" class="youtube"><i class="fa fa-youtube"></i></a>
     </div>

@@ -67,11 +67,14 @@
                         <div class="card-body p-0">
                             <div class="p-4 border-bottom">
                                 <div class="text-center">
-                                    <img src="../assets/images/order-details/1.png"
-                                        class="img-fluid avatar-rounded avatar-100" alt="profile-image">
+                                    <!-- <img src="../assets/images/order-details/1.png"
+                                        class="img-fluid avatar-rounded avatar-100" alt="profile-image"> -->
                                     <h6 class="mt-3 heading-title fw-bolder">My Wallet</h6>
                                     <button type="button" class="btn btn-outline-primary mt-3 rounded-pill">Wallet
                                         Balance : {{$userwallet->availableBal}}/-</button>
+
+                                    <button type="button" class="btn btn-outline-primary mt-3 rounded-pill">Locked
+                                        Amount : {{$userwallet->lockedAmt}}/-</button>
                                 </div>
                                 <div class="text-center mt-4">
 
@@ -117,8 +120,8 @@
                                 <tr class="cart_item border-bottom">
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img src="../assets/images/order-details/5.png"
-                                                class="img-fluid avatar-rounded avatar-70" alt="profile-image">
+                                            <!-- <img src="../assets/images/order-details/5.png"
+                                                class="img-fluid avatar-rounded avatar-70" alt="profile-image"> -->
                                             <div class="d-flex ms-4">
                                                 <div>
                                                     <h6 class="heading-title text-primary">{{$waleltinfo->trxType}} for {{$waleltinfo->trxFor}}</h6>
@@ -170,7 +173,7 @@
             if(document.getElementById('addamt').value>99)
             {
                 var data = new FormData();
-                data.append('key', 'gtKFFx');
+                data.append('key', 'YI0Weq');
                 data.append('txnid', document.getElementById('txnid').value);
                 data.append('amount', document.getElementById('addamt').value);
                 data.append('udf1',document.getElementById('addamt').value);
@@ -194,8 +197,8 @@
         function runfinalbolt(hash) {
             console.log(hash);
             boltdata = {
-                //key:'YI0Weq', 
-                key: 'gtKFFx',
+                key:'YI0Weq', 
+                //key: 'gtKFFx',
                 txnid: document.getElementById('txnid').value,
                 hash: hash,
                 amount: document.getElementById('addamt').value,
@@ -207,11 +210,11 @@
                 udf1: document.getElementById('addamt').value,
                 udf5: document.getElementById('userid').value,
 
-                surl: 'http://localhost:8000/app/payuwalletresponsepkhk',
-                furl: 'http://localhost:8000/app/payuwalletresponsepkhk',
+                surl: 'http://poonamkapoor.nyaasah.com/app/payuwalletresponsepkhk',
+                furl: 'http://poonamkapoor.nyaasah.com/app/payuwalletresponsepkhk',
             };
             console.log(boltdata);
-            var fr = '<form action=\"https://test.payu.in/_payment" method=\"post\">' +
+            var fr = '<form action=\"https://secure.payu.in/_payment" method=\"post\">' +
                 '<input type=\"hidden\" name=\"key\" value=\"' + boltdata.key + '\" />' +
                 '<input type=\"hidden\" name=\"txnid\" value=\"' + boltdata.txnid + '\" />' +
                 '<input type=\"hidden\" name=\"amount\" value=\"' + boltdata.amount + '\" />' +
@@ -220,8 +223,8 @@
                 '<input type=\"hidden\" name=\"email\" value=\"' + boltdata.email + '\" />' +
                 '<input type=\"hidden\" name=\"udf1\" value=\"' + boltdata.udf1 + '\" />' +
                 '<input type=\"hidden\" name=\"udf5\" value=\"' + boltdata.udf5 + '\" />' +
-                '<input type=\"hidden\" name=\"surl\" value=\"http://localhost:8000/app/payuwalletresponsepkhk\" />' +
-                '<input type=\"hidden\" name=\"furl\" value=\"http://localhost:8000/app/payuwalletresponsepkhk\" />' +
+                '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapoor.nyaasah.com/app/payuwalletresponsepkhk\" />' +
+                '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapoor.nyaasah.com/app/payuwalletresponsepkhk\" />' +
                 '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
                 '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
                 '</form>';

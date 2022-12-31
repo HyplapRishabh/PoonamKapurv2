@@ -26,6 +26,6 @@ class Wallet extends Model
 
     public function walletremarks()
     {
-        return $this->hasMany(WalletRemark::class, 'userId' , 'userId');
+        return $this->hasMany(Walletremark::class, 'userId' , 'userId');
     }
 }

@@ -113,11 +113,12 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="form-label">Select Area:</label>
-                                                <select name="area" required
+                                                <select name="area" required onChange="cityselected()"
                                                     class="js-example-basic-single selectpicker form-control "
                                                     id="areanameval" data-style="py-0">
-
+                                                    <option value="" selected >Select Area</option>
                                                 </select>
+                                                <span id='areaalert' style="color: red;display: none;">The selected area is not available for delivery at this time</span>
                                             </div>
                                         </div>
                                         <hr>
@@ -128,7 +129,7 @@
                                                 Our
                                                 Terms & Conditions</label>
                                         </div>
-                                        <button type="submit" class="btn btn-primary rounded-pill">Place Order</button>
+                                        <button type="submit"  id='placeorderbtn' class="btn btn-primary rounded-pill">Place Order</button>
                                     </form>
                                 </div>
                             </div>
@@ -240,26 +241,54 @@
 
             $('.js-example-basic-single').select2();
         });
-
         function pincodechg() {
             newpincodeval = document.getElementById('pincodeval').value;
             $.ajax({
                 url: '/app/pincodechg/' + newpincodeval,
                 type: "get",
                 success: function (data) {
-
+                    document.getElementById('areaalert').style.display='none';
                     console.log(data);
                     if (data['status'] == "success") {
-                        str = "";
+                        str='';
+                        str += '<option value="" selected >Select Area</option>';
                         data['pincodelist'].forEach(element => {
                             str += '<option value="' + element['areaName'] + '">' + element['areaName'] + '</option>';
                         });
-
-                        document.getElementById('deliverychg').innerHTML = data['pincodelist'][0]['deliveryCharge'];
                         document.getElementById('areanameval').innerHTML = str;
-                        deliverychg = data['pincodelist'][0]['deliveryCharge'];
+                    }
+                    else {
+
+                    }
+                }
+            });
+        }
+        function cityselected()
+        {
+            newcityval = document.getElementById('areanameval').value;
+            $.ajax({
+                url: '/app/cityvalchg/' + newcityval,
+                type: "get",
+                success: function (data) {
+
+                    console.log(data);
+                    if (data['status'] == "success") {
+
+                        document.getElementById('deliverychg').innerHTML = data['citylist']['deliveryCharge'];
+                        deliverychg = data['citylist']['deliveryCharge'];
                         console.log(deliverychg);
                         calculate();
+
+                        if(data['citylist']['alaCartFlag']==0)
+                        {
+                            document.getElementById('areaalert').style.display='block';
+                            document.getElementById('placeorderbtn').disabled=true;
+                        }
+                        else
+                        {
+                            document.getElementById('areaalert').style.display='none';
+                            document.getElementById('placeorderbtn').disabled=false;
+                        }
                     }
                     else {
 
@@ -339,19 +368,18 @@
             });
         }
 
-        function alacartpayment(event) {
+        function alacartpayment(event) 
+        {
             event.preventDefault();
             trxamtval=document.getElementById('ssubtotalval').value+','+document.getElementById('staxval').value+','+document.getElementById('sfinaltotalval').value+','+document.getElementById('sdeliveryval').value+','+document.getElementById('walletuseflag').value+','+document.getElementById('sgrandtotalval').value;
 
             var data = new FormData();
-            data.append('key', 'gtKFFx');
+            data.append('key', 'YI0Weq');
             data.append('txnid', document.getElementById('txnid').value);
             data.append('amount', document.getElementById('sfinaltotalval').value);
             //data.append('amount', 5);
             data.append('udf1',trxamtval);
             data.append('udf5', document.getElementById('userid').value);
-
-
             data.append('firstname', document.getElementById('fname').value);
             data.append('email', document.getElementById('useremailid').value);
             data.append('productinfo', 'AlaCartOrder');
@@ -366,6 +394,8 @@
             xhr.send(data);
         }
 
+        
+
         function runfinalbolt(hash) {
             //$salt = 'X4CKGkK4Xw'; 2nd
             $salt = 'eCwWELxi';
@@ -373,9 +403,8 @@
             trxamtval=document.getElementById('ssubtotalval').value+','+document.getElementById('staxval').value+','+document.getElementById('sfinaltotalval').value+','+document.getElementById('sdeliveryval').value+','+document.getElementById('walletuseflag').value+','+document.getElementById('sgrandtotalval').value;
 
             boltdata = {
-                // key: 'YI0Weq', 1st
-                //key:'Px1X5X7x', 2nd
-                key: 'gtKFFx',
+                 key: 'YI0Weq',
+               // key: 'gtKFFx',
                 txnid: document.getElementById('txnid').value,
                 hash: hash,
                 amount: document.getElementById('sfinaltotalval').value,
@@ -391,32 +420,63 @@
                 zipcode: document.getElementById('pincodeval').value,
                 city: document.getElementById('areanameval').value,
 
-                surl: 'http://localhost:8000/app/payuresponsepkhk',
-                furl: 'http://localhost:8000/app/payuresponsepkhk',
+                surl: 'http://poonamkapoor.nyaasah.com/app/payuresponsepkhk',
+                furl: 'http://poonamkapoor.nyaasah.com/app/payuresponsepkhk',
             };
-            console.log(boltdata);
-            var fr = '<form action=\"https://test.payu.in/_payment\" method=\"post\">' +
-                '<input type=\"hidden\" name=\"key\" value=\"' + boltdata.key + '\" />' +
-                '<input type=\"hidden\" name=\"txnid\" value=\"' + boltdata.txnid + '\" />' +
-                '<input type=\"hidden\" name=\"amount\" value=\"' + boltdata.amount + '\" />' +
-                '<input type=\"hidden\" name=\"productinfo\" value=\"' + boltdata.productinfo + '\" />' +
-                '<input type=\"hidden\" name=\"firstname\" value=\"' + boltdata.firstname + '\" />' +
-                '<input type=\"hidden\" name=\"email\" value=\"' + boltdata.email + '\" />' +
-                '<input type=\"hidden\" name=\"udf1\" value=\"' + boltdata.udf1 + '\" />' +
-                '<input type=\"hidden\" name=\"udf5\" value=\"' + boltdata.udf5 + '\" />' +
-                '<input type=\"hidden\" name=\"address1\" value=\"' + boltdata.address1 + '\" />' +
-                '<input type=\"hidden\" name=\"address2\" value=\"' + boltdata.address2 + '\" />' +
-                '<input type=\"hidden\" name=\"zipcode\" value=\"' + boltdata.zipcode + '\" />' +
-                '<input type=\"hidden\" name=\"city\" value=\"' + boltdata.city + '\" />' +
-                '<input type=\"hidden\" name=\"surl\" value=\"http://localhost:8000/app/payuresponsepkhk\" />' +
-                '<input type=\"hidden\" name=\"furl\" value=\"http://localhost:8000/app/payuresponsepkhk\" />' +
-                '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
-                '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
-                '</form>';
-            console.log('HI' + fr);
-            var form = jQuery(fr);
-            jQuery('body').append(form);
-            form.submit();
+
+            if(boltdata.amount==0)
+            {
+                console.log(boltdata);
+                var fr = '<form action=\"/app/paywallet" method=\"post\">' +
+                    '<input type=\"hidden\" name=\"key\" value=\"' + boltdata.key + '\" />' +
+                    '<input type=\"hidden\" name=\"txnid\" value=\"' + boltdata.txnid + '\" />' +
+                    '<input type=\"hidden\" name=\"amount\" value=\"' + boltdata.amount + '\" />' +
+                    '<input type=\"hidden\" name=\"productinfo\" value=\"' + boltdata.productinfo + '\" />' +
+                    '<input type=\"hidden\" name=\"firstname\" value=\"' + boltdata.firstname + '\" />' +
+                    '<input type=\"hidden\" name=\"email\" value=\"' + boltdata.email + '\" />' +
+                    '<input type=\"hidden\" name=\"udf1\" value=\"' + boltdata.udf1 + '\" />' +
+                    '<input type=\"hidden\" name=\"udf5\" value=\"' + boltdata.udf5 + '\" />' +
+                    '<input type=\"hidden\" name=\"address1\" value=\"' + boltdata.address1 + '\" />' +
+                    '<input type=\"hidden\" name=\"address2\" value=\"' + boltdata.address2 + '\" />' +
+                    '<input type=\"hidden\" name=\"zipcode\" value=\"' + boltdata.zipcode + '\" />' +
+                    '<input type=\"hidden\" name=\"city\" value=\"' + boltdata.city + '\" />' +
+                    '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponsepkhk\" />' +
+                    '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponsepkhk\" />' +
+                    '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
+                    '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
+                    '</form>';
+                console.log('HI' + fr);
+                var form = jQuery(fr);
+                jQuery('body').append(form);
+                form.submit();
+            }
+            else
+            {
+                console.log(boltdata);
+                var fr = '<form action=\"https://secure.payu.in/_payment" method=\"post\">' +
+                    '<input type=\"hidden\" name=\"key\" value=\"' + boltdata.key + '\" />' +
+                    '<input type=\"hidden\" name=\"txnid\" value=\"' + boltdata.txnid + '\" />' +
+                    '<input type=\"hidden\" name=\"amount\" value=\"' + boltdata.amount + '\" />' +
+                    '<input type=\"hidden\" name=\"productinfo\" value=\"' + boltdata.productinfo + '\" />' +
+                    '<input type=\"hidden\" name=\"firstname\" value=\"' + boltdata.firstname + '\" />' +
+                    '<input type=\"hidden\" name=\"email\" value=\"' + boltdata.email + '\" />' +
+                    '<input type=\"hidden\" name=\"udf1\" value=\"' + boltdata.udf1 + '\" />' +
+                    '<input type=\"hidden\" name=\"udf5\" value=\"' + boltdata.udf5 + '\" />' +
+                    '<input type=\"hidden\" name=\"address1\" value=\"' + boltdata.address1 + '\" />' +
+                    '<input type=\"hidden\" name=\"address2\" value=\"' + boltdata.address2 + '\" />' +
+                    '<input type=\"hidden\" name=\"zipcode\" value=\"' + boltdata.zipcode + '\" />' +
+                    '<input type=\"hidden\" name=\"city\" value=\"' + boltdata.city + '\" />' +
+                    '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponsepkhk\" />' +
+                    '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponsepkhk\" />' +
+                    '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
+                    '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
+                    '</form>';
+                console.log('HI' + fr);
+                var form = jQuery(fr);
+                jQuery('body').append(form);
+                form.submit();
+            }
+            
 
             // var base_url = window.location.origin;
 

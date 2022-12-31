@@ -25,7 +25,7 @@ class Controller extends BaseController
         $wallet->save();
     }
 
-    public function lockamount($userId, $amount, $lockedAmount , $remark)
+    public function lockamount($userId, $amount, $lockedAmount, $trxId, $trxFor, $remark)
     {
         $wallet = Wallet::where('userId', $userId)->first();
         $wallet->availableBal -= $amount;

@@ -388,12 +388,13 @@ Route::group([
     Route::get('/Franchisee', [webController::class, 'Franchisee']); //
     Route::get('/contact-us', [webController::class, 'contactus']);
     Route::get('/privacy-policy', [webController::class, 'privacypolicy']);
-    Route::get('/terms-of-service', [webController::class, 'termsofservice']);
+    Route::get('/terms-of-service', [webController::class, 'privacypolicy']);
     Route::get('/faqs', [webController::class, 'faqs']);
     Route::get('/login', [webController::class, 'login']);
     Route::get('/signup', [webController::class, 'signup']);
     Route::get('/resetpassword', [webController::class, 'resetpassword']);
     Route::get('/goal/{goalslug}', [webController::class, 'goaldetail']);
+    Route::get('/allgoal', [webController::class, 'allgoal']); 
     Route::get('/alltestimonial', [webController::class, 'alltestimonial']); //
     Route::get('/alacart', [webController::class, 'alacart']);
     Route::get('/getproductfilter/{ids}', [webController::class, 'getproductfilter']);
@@ -420,6 +421,7 @@ Route::group([
     Route::get('/allblogs/{slug}', [webController::class, 'singleBlog']);
     Route::get('/alacartcheckout', [webController::class, 'alacartcheckout']);
     Route::get('/pincodechg/{pincode}', [webController::class, 'pincodechg']);
+    Route::get('/cityvalchg/{city}', [webController::class, 'cityvalchg']);
     Route::post('/alacartorderplace', [webController::class, 'alacartorderplace']);
     Route::post('/subscriptionorderplace', [webController::class, 'subscriptionorderplace']);
     Route::get('/alacartsuccess', [webController::class, 'alacartsuccess']);
@@ -431,7 +433,9 @@ Route::group([
     Route::post('/submitBulkEnquiry', [webController::class, 'submitBulkEnquiry']);
     Route::post('/submitFranchiseEnquiry', [webController::class, 'submitFranchiseEnquiry']);
     Route::post('/payuresponseconsultpkhk', [webController::class, 'payuresponseconsultpkhk']);
-    Route::get('/payuwalletresponsepkhk', [webController::class, 'payuwalletresponsepkhk']);
+    Route::post('/payuwalletresponsepkhk', [webController::class, 'payuwalletresponsepkhk']);
     Route::get('/wallet', [webController::class, 'wallet']);
+    Route::get('/trymod/{id}', [webController::class, 'trymod']);
+    Route::post('/paywallet', [webController::class, 'paywallet']);
 });
 

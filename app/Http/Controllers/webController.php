@@ -89,6 +89,16 @@ class webController extends Controller
         return view('web.allcategory', compact('categorylist', 'packagelist', 'goallist', 'categoryall'));
     }
 
+    public function allgoal()
+    {
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+
+        $categoryall = Category::where([['deleteId', '0'], ['status', '1']])->get();
+        return view('web.allgoal', compact('categorylist', 'packagelist', 'goallist', 'categoryall'));
+    }
+
     public function categorydetail($catslug, Request $input)
     {
         $mealtypedtl = $input['mealtype'];
@@ -383,7 +393,8 @@ class webController extends Controller
             $user->status = '1';
             $user->password = Hash::make($request->upassword);
             $user->save();
-
+            $this->createWalletUser($user->id);
+            Auth::login($user->id);
             return response()->json([
                 'status' => 200,
                 'message' => 'Profile Created succesfully !',
@@ -413,6 +424,7 @@ class webController extends Controller
             $userid = User::insertGetId([
                 'name' => $request->quname,
                 'email' => $request->quemail,
+                'phone'=>$request->quemobile,
                 'weight' => $request->qweight,
                 'age' => $request->qage,
                 'height' => $request->qheight,
@@ -424,15 +436,15 @@ class webController extends Controller
                 'password' => Hash::make($request->uemail),
             ]);
             $resultemail = User::Where(['id' => $userid])->first();
-
+            $this->createWalletUser($userid);
             Auth::login($resultemail);
         }
 
-        $goallist = Goal::where([['deleteId', '0'], ['status', '1'], ['id', $request->qgoal]])->with('package')->first();
+        // $goallist = Goal::where([['deleteId', '0'], ['status', '1'], ['id', $request->qgoal]])->with('package')->first();
 
         return response()->json([
             'status' => 200,
-            'message' => '/app/goal/' . Str::slug($goallist->name, '-') . '?goal=' . $goallist->id . '&pkgId=' . $goallist->package->id . '&meal=' . $goallist->package->mealtype->name,
+            'message' => '/app/allgoal',
         ]);
     }
 
@@ -718,6 +730,16 @@ class webController extends Controller
         return $myresponse;
     }
 
+    public function cityvalchg($cityval)
+    {
+        $citylist = pincode::where('areaName', $cityval)->first();
+
+        $myresponse = [];
+        $myresponse['status'] = 'success';
+        $myresponse['citylist'] = $citylist;
+        return $myresponse;
+    }
+    
     public function alacartorderplace(Request $input)
     {
         $carb = Carbon::now();
@@ -774,7 +796,8 @@ class webController extends Controller
         cart::where('userID', Auth::user()->id)->delete();
 
         $trxdtl = transction::where('id', $trxId)->with('trxalacartorder')->first();
-        return view('web.alacartsuccess')->with(['trxdtl' => $trxdtl]);
+        $packagedtl = [];
+                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
     }
 
     public function orderdetails()
@@ -852,25 +875,25 @@ class webController extends Controller
         $myresponse = [];
         if($input['productinfo']=='AlaCartOrder')
         {
-            $strdata=$input['key'].'|'.$input['txnid'].'|'.$input['amount'].'|'.$input['productinfo'].'|'.$input['firstname'].'|'.$input['email'].'|'.$input['udf1'].'||||'.$input['udf5'].'||||||4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW';
+            $strdata=$input['key'].'|'.$input['txnid'].'|'.$input['amount'].'|'.$input['productinfo'].'|'.$input['firstname'].'|'.$input['email'].'|'.$input['udf1'].'||||'.$input['udf5'].'||||||MBFfc0sn';
 
             $key = hash("sha512",$strdata);
         }
         else if($input['productinfo']=='subscription')
         {
-            $strdata = $input['key'] . '|' . $input['txnid'] . '|' . $input['amount'] . '|' . $input['productinfo'] . '|' . $input['firstname'] . '|' . $input['email'] . '|' . $input['udf1'] . '|' . $input['udf2'] . '|' . $input['udf3'] . '|' . $input['udf4'] . '|' . $input['udf5'] . '||||||4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW';
+            $strdata = $input['key'] . '|' . $input['txnid'] . '|' . $input['amount'] . '|' . $input['productinfo'] . '|' . $input['firstname'] . '|' . $input['email'] . '|' . $input['udf1'] . '|' . $input['udf2'] . '|' . $input['udf3'] . '|' . $input['udf4'] . '|' . $input['udf5'] . '||||||MBFfc0sn';
 
             $key = hash("sha512", $strdata);
         }
         else if($input['productinfo']=='consultation')
         {
-            $strdata=$input['key'].'|'.$input['txnid'].'|'.$input['amount'].'|'.$input['productinfo'].'|'.$input['firstname'].'|'.$input['email'].'|'.$input['udf1'].'|'.$input['udf2'].'|'.$input['udf3'].'|'.$input['udf4'].'|'.$input['udf5'].'||||||4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW';
+            $strdata=$input['key'].'|'.$input['txnid'].'|'.$input['amount'].'|'.$input['productinfo'].'|'.$input['firstname'].'|'.$input['email'].'|'.$input['udf1'].'|'.$input['udf2'].'|'.$input['udf3'].'|'.$input['udf4'].'|'.$input['udf5'].'||||||MBFfc0sn';
 
             $key = hash("sha512",$strdata);
         }
         else if($input['productinfo']=='walletRecharge')
         {
-            $strdata=$input['key'].'|'.$input['txnid'].'|'.$input['amount'].'|'.$input['productinfo'].'|'.$input['firstname'].'|'.$input['email'].'|'.$input['udf1'].'||||'.$input['udf5'].'||||||4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW';
+            $strdata=$input['key'].'|'.$input['txnid'].'|'.$input['amount'].'|'.$input['productinfo'].'|'.$input['firstname'].'|'.$input['email'].'|'.$input['udf1'].'||||'.$input['udf5'].'||||||MBFfc0sn';
 
             $key = hash("sha512",$strdata);
         }
@@ -982,7 +1005,8 @@ class webController extends Controller
                 Auth::login($result);
 
                 $trxdtl=failtransction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
-                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+                $packagedtl = [];
+                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
             }
             else if($input['status']=='success')
             {
@@ -1064,7 +1088,8 @@ class webController extends Controller
                 Auth::login($result);
 
                 $trxdtl=transction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
-                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+                $packagedtl = [];
+                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
             }
         }
         else if($input['productinfo']=='subscription')
@@ -1144,7 +1169,8 @@ class webController extends Controller
                     Auth::login($result);
 
                     $trxdtl=failtransction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
-                    return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+                    $packagedtl = Package::where('id', $pkgdtl[0])->with('goal')->with('mealtype')->first();
+                    return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
                 }
             }
             else if($input['status']=='success')
@@ -1205,8 +1231,11 @@ class webController extends Controller
                 $result = User::where('id',$input['udf5'])->first();
                 Auth::login($result);
 
+                
+
                 $trxdtl=transction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
-                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+                $packagedtl = Package::where('id', $pkgdtl[0])->with('goal')->with('mealtype')->first();
+                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
             }
         }
     }
@@ -1292,7 +1321,8 @@ class webController extends Controller
                 $result = User::where('id',$input['udf5'])->first();
                 Auth::login($result);
                 $trxdtl=failtransction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
-                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+                $packagedtl = [];
+                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
         }
         else if($input['status']=='success')
         {
@@ -1346,10 +1376,9 @@ class webController extends Controller
                 $result = User::where('id',$input['udf5'])->first();
                 Auth::login($result);
                 $trxdtl=transction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
-                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
+                $packagedtl = [];
+                return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
         }
-
-        return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl]);
     }
 
     public function wallet()
@@ -1453,5 +1482,18 @@ class webController extends Controller
                 return  $this->wallet();
         }
 
+    }
+
+    public function trymod($txnid)
+    {
+        $trxdtl=failtransction::where('payutxnid',$txnid)->with('trxalacartorder')->first();
+        $packagedtl = Package::where('id', 2)->with('goal')->with('mealtype')->first();
+        return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
+    }
+
+    public function paywallet(Request $input)
+    {
+        return $input;
+        
     }
 }

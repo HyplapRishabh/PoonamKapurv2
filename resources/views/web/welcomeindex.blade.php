@@ -149,7 +149,7 @@
                                                     class="btn  btn-primary rounded-pill"
                                                     style="margin: 5%;padding:5%;width:100%;">Ala-Cart</a>
                                             </div>
-                                            
+
 
                                         </div>
                                     </div>
@@ -171,7 +171,7 @@
                                     <div class="card-body">
                                         <form id="form-wizard1" class="text-center mt-3">
                                             <ul id="top-tab-list" class="p-0 row list-inline">
-                                                <li class="col-lg-3 col-md-6 text-start mb-2 active" id="account">
+                                                <li class="col-lg-4 col-md-6 text-start mb-2 active" id="account">
                                                     <a href="javascript:void();" style="text-align: center;">
                                                         <div class="iq-icon">
                                                             <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg"
@@ -185,7 +185,7 @@
                                                         <p style="font-size: 14px;">Information</p>
                                                     </a>
                                                 </li>
-                                                <li id="personal" class="col-lg-3 col-md-6 mb-2 text-start">
+                                                <!-- <li id="personal" class="col-lg-3 col-md-6 mb-2 text-start">
                                                     <a href="javascript:void();" style="text-align: center;">
                                                         <div class="iq-icon">
                                                             <svg xmlns="http://www.w3.org/2000/svg" height="20"
@@ -198,8 +198,8 @@
                                                         </div>
                                                         <p style="font-size: 14px;">Goal</p>
                                                     </a>
-                                                </li>
-                                                <li id="payment" class="col-lg-3 col-md-6 mb-2 text-start">
+                                                </li> -->
+                                                <li id="payment" class="col-lg-4 col-md-6 mb-2 text-start">
                                                     <a href="javascript:void();" style="text-align: center;">
                                                         <div class="iq-icon">
                                                             <svg xmlns="http://www.w3.org/2000/svg" height="20"
@@ -216,7 +216,7 @@
                                                         <p style="font-size: 14px;">Biography</p>
                                                     </a>
                                                 </li>
-                                                <li id="confirm" class="col-lg-3 col-md-6 mb-2 text-start">
+                                                <li id="confirm" class="col-lg-4 col-md-6 mb-2 text-start">
                                                     <a href="javascript:void();" style="text-align: center;">
                                                         <div class="iq-icon">
                                                             <svg xmlns="http://www.w3.org/2000/svg" height="20"
@@ -235,12 +235,93 @@
                                             <fieldset>
                                                 <div class="form-card text-start">
                                                     <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label class="form-label">Full name: *</label>
+                                                                <input type="text" class="form-control" id="quname"
+                                                                    name="uname" value="{{Auth::user() != null ? Auth::user()->name : ''}}" placeholder="UserName" />
+                                                                <span id='qunameerror' class="errorshow"></span>
+                                                            </div>
+                                                        </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label class="form-label">Username: *</label>
-                                                                <input type="text" class="form-control" id="quname" name="uname"
-                                                                    placeholder="UserName" />
-                                                                    <span id='qunameerror' class="errorshow"></span>
+                                                                <label class="form-label">Email: *</label>
+                                                                <input type="email" value="{{Auth::user() != null ? Auth::user()->email : ''}}" class="form-control" id="quemail"
+                                                                    name="email" placeholder="Email Id" />
+                                                                <span id='quemailerror' class="errorshow"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label">Mobile: *</label>
+                                                                <input type="text" value="{{Auth::user() != null ? Auth::user()->phone : ''}}" pattern="[6789][0-9]{9}" class="form-control" id="qumobile"
+                                                                    name="mobile" placeholder="Phone number" />
+                                                                <span id='quemobileerror' class="errorshow"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="button" name="next" onclick="submitquiz('personal')"
+                                                    class="btn btn-primary text-center rounded">Next</button>
+                                                <button type="button" name="next" id="personalbtn"
+                                                    style="display: none;"
+                                                    class="btn btn-primary next action-button text-center rounded"
+                                                    value="Next">Next</button>
+                                            </fieldset>
+
+                                            <!-- <fieldset>
+                                                <div class="form-card text-start mb-4">
+                                                    <div class="row">
+                                                        <div class="iq-col-masonry m-0">
+                                                            @foreach($goallist as $goalinfo)
+                                                            <a onclick="goalselect('{{$goalinfo->id}}')"
+                                                                type="button btn rounded-pill"
+                                                                class="btn btn-outline-primary rounded iq-col-masonry-block">{{$goalinfo->name}}</a>
+                                                            @endforeach
+                                                            <input type="hidden" name="goalId" value="" id="goalselect">
+                                                            <br>
+                                                        </div>
+                                                        <span id='qgoalerror' class="errorshow"></span>
+                                                    </div>
+
+                                                </div>
+                                                <button type="button" name="previous"
+                                                    class="btn btn-dark previous action-button-previous  me-3 rounded"
+                                                    value="Previous">Previous</button>
+                                                <button type="button" name="next" onclick="submitquiz('goal')"
+                                                    class="btn btn-primary text-center rounded">Next</button>
+                                                <button type="button" name="next" id="goalbtn" style="display: none;"
+                                                    class="btn btn-primary next action-button text-center rounded"
+                                                    value="Next">Next</button>
+
+                                            </fieldset> -->
+                                            <fieldset>
+                                                <div class="form-card text-start">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label">Height: *</label>
+                                                                <input type="number" id="qheight" class="form-control"
+                                                                    name="qheight"
+                                                                    placeholder="Enter Your Height in CM" />
+                                                                <span id='qheighterror' class="errorshow"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label">Weight: *</label>
+                                                                <input type="number" id="qweight" class="form-control"
+                                                                    name="qweight"
+                                                                    placeholder="Enter Your Weight in KG" />
+                                                                <span id='qweighterror' class="errorshow"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label">Age: *</label>
+                                                                <input type="text" id="qage" class="form-control"
+                                                                    name="qage" placeholder="Enter Your Age" />
+                                                                <span id='qageerror' class="errorshow"></span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -251,106 +332,38 @@
                                                                     <option value="Male">Male</option>
                                                                     <option value="Female">Female</option>
                                                                 </select>
-                                                                    <span id='qgendererror' class="errorshow"></span>
+                                                                <span id='qgendererror' class="errorshow"></span>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label">Email: *</label>
-                                                                <input type="email" class="form-control" id="quemail" name="email"
-                                                                    placeholder="Email Id" />
-                                                                    <span id='quemailerror' class="errorshow"></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button type="button" name="next" onclick="submitquiz('personal')"
-                                                    class="btn btn-primary text-center rounded">Next</button>
-                                                    <button type="button" name="next" id="personalbtn" style="display: none;"
-                                                    class="btn btn-primary next action-button text-center rounded"
-                                                    value="Next">Next</button>
-                                            </fieldset>
-
-                                            <fieldset>
-                                                <div class="form-card text-start mb-4">
-                                                    <div class="row">
-                                                        <div class="iq-col-masonry m-0">
-                                                            @foreach($goallist as $goalinfo)
-                                                            <a onclick="goalselect('{{$goalinfo->id}}')" type="button btn rounded-pill" class="btn btn-outline-primary rounded iq-col-masonry-block">{{$goalinfo->name}}</a>
-                                                            @endforeach
-                                                            <input type="hidden" name="goalId" value="" id="goalselect">
-                                                            <br>
-                                                            
-                                                        </div>
-                                                        <span id='qgoalerror' class="errorshow"></span>
-                                                    </div>
-
-                                                </div>
-                                                <button type="button" name="previous"
-                                                    class="btn btn-dark previous action-button-previous  me-3 rounded"
-                                                    value="Previous">Previous</button>
-                                                    <button type="button" name="next" onclick="submitquiz('goal')"
-                                                    class="btn btn-primary text-center rounded">Next</button>
-                                                    <button type="button" name="next" id="goalbtn" style="display: none;"
-                                                    class="btn btn-primary next action-button text-center rounded"
-                                                    value="Next">Next</button>
-
-                                            </fieldset>
-                                            <fieldset>
-                                                <div class="form-card text-start">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label">Height: *</label>
-                                                                <input type="number" id="qheight" class="form-control" name="qheight"
-                                                                    placeholder="Enter Your Height in CM" />
-                                                                    <span id='qheighterror' class="errorshow"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label">Weight: *</label>
-                                                                <input type="number" id="qweight" class="form-control" name="qweight"
-                                                                    placeholder="Enter Your Weight in KG" />
-                                                                    <span id='qweighterror' class="errorshow"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label class="form-label">Age: *</label>
-                                                                <input type="text" id="qage" class="form-control" name="qage"
-                                                                    placeholder="Enter Your Age" />
-                                                                    <span id='qageerror' class="errorshow"></span>
-                                                            </div>
-                                                        </div>
-
                                                     </div>
                                                 </div>
                                                 <button type="button" name="previous"
                                                     class="btn btn-dark previous action-button-previous me-3 rounded"
                                                     value="Previous">Previous</button>
-                                                    <button type="button" name="next" onclick="submitquiz('heightweight')"
+                                                <button type="button" name="next" onclick="submitquiz('heightweight')"
                                                     class="btn btn-primary text-center rounded">Next</button>
-                                                    <button type="button" name="next" id="heightweightbtn" style="display: none;"
+                                                <button type="button" name="next" id="heightweightbtn"
+                                                    style="display: none;"
                                                     class="btn btn-primary next action-button text-center rounded"
                                                     value="Next">Next</button>
 
                                             </fieldset>
                                             <fieldset>
                                                 <div class="form-card">
-                                                    
+
                                                     <h2 class="text-success text-center"><strong>SUCCESS !</strong></h2>
                                                     <br>
                                                     <div class="row justify-content-center">
-                                                        <div class="col-3"> <img
-                                                                src="webassets//images/pages/img-success.png"
-                                                                class="img-fluid" alt="fit-image"> </div>
+                                                        <div class="col-3"></div>
                                                     </div>
                                                     <div class="row mb-4">
                                                         <div class="col-12">
-                                                            <h4 class="purple-text text-center">Your BMI is <span id="BMIShow"></span> kg/m2
+                                                            <p class=" text-center">Your BMI is <span id="BMIShow"></span> & Your BMR is <span id="BMRShow"></span> </p>
+                                                            <h4 id='less19' class="purple-text text-center">We recommend  you  
+                                                                <a name="dsfg" class="" href="/app/goal/indian-balanced-meal?goal=3&pkgId=13&meal=Veg">Balanced meal </a>package  
                                                             </h4>
-                                                            <h4 class="purple-text text-center">Your BMR is <span id="BMRShow"></span> Calories/day
+                                                            <h4 id='more25' class="purple-text text-center">We recommend  you  
+                                                                <a name="dsfg" class="" href="/app/goal/weight-loss?goal=1&pkgId=1&meal=Veg">Weight loss </a>package  
                                                             </h4>
                                                         </div>
                                                     </div>
@@ -360,7 +373,7 @@
                                                     value="Previous">Previous</button>
                                                 <button type="button" name="next" onclick="submitquiz('final')"
                                                     class="btn btn-primary next action-button rounded"
-                                                    value="Submit">Submit</button>
+                                                    value="Submit">Explore other package</button>
                                             </fieldset>
                                         </form>
                                     </div>
@@ -372,66 +385,254 @@
                     <!-- quiz modal ends here -->
                 </div>
                 <div class="row">
-              <div class="col-md-12 col-lg-12">
-                <div class="card-header border-0  ">
-                    <div class="card-transparent bg-transparent mb-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3>How It Works</h3>
-                                       </div>
-                </div>
-                </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="card"style="text-align: center;">
-                        <img src="webassets/images/login.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
-                        <div class="card-body">
-                            <h4 class="card-title">Login</h4>
-                            <p class="card-text">Simple one step login to the ordering platform </p>
-                           
+                    <div class="col-md-12 col-lg-12">
+                        <div class="card-header border-0  ">
+                            <div class="card-transparent bg-transparent mb-0">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h3>How It Works</h3>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="card"style="text-align: center;">
-                        <img src="webassets/images/bmi.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
-                        <div class="card-body">
-                            <h4 class="card-title">BMI & BMR Calculations</h4>
-                            <p class="card-text">Get your BMI & BMR calculations at your fingertips </p>
-                          
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="card" style="text-align: center;">
+                            <img src="webassets/images/login.png" style="width: 100px; margin: auto;text-align: center;"
+                                class="card-img-top" alt="#">
+                            <div class="card-body">
+                                <h4 class="card-title">Login</h4>
+                                <p class="card-text">Simple one step login to the ordering platform </p>
+
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="card"style="text-align: center;">
-                        <img src="webassets/images/star.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top"  alt="#">
-                        <div class="card-body">
-                            <h4 class="card-title">Goal Selection</h4>
-                            <p class="card-text">Select your body goal as per the requirement and recommendation.</p>
-                            <!-- <ul class="list-group list-group-flush">
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="card" style="text-align: center;">
+                            <img src="webassets/images/bmi.png" style="width: 100px; margin: auto;text-align: center;"
+                                class="card-img-top" alt="#">
+                            <div class="card-body">
+                                <h4 class="card-title">BMI & BMR Calculations</h4>
+                                <p class="card-text">Get your BMI & BMR calculations at your fingertips </p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="card" style="text-align: center;">
+                            <img src="webassets/images/star.png" style="width: 100px; margin: auto;text-align: center;"
+                                class="card-img-top" alt="#">
+                            <div class="card-body">
+                                <h4 class="card-title">Goal Selection</h4>
+                                <p class="card-text">Select your body goal as per the requirement and recommendation.
+                                </p>
+                                <!-- <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Cras justo odio</li>
                                 <li class="list-group-item">Vestibulum at eros</li>
                             </ul> -->
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="card" style="text-align: center;">
-                        <img src="webassets/images/lunch-box.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
-                        <div class="card-body">
-                            <h4 class="card-title">Choose Meal Packages</h4>
-                            <p class="card-text">Select your meal packages as per your preference.</p>
-                        </div>
-                        <!-- <ul class="list-group list-group-flush">
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="card" style="text-align: center;">
+                            <img src="webassets/images/lunch-box.png"
+                                style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
+                            <div class="card-body">
+                                <h4 class="card-title">Choose Meal Packages</h4>
+                                <p class="card-text">Select your meal packages as per your preference.</p>
+                            </div>
+                            <!-- <ul class="list-group list-group-flush">
                             <li class="list-group-item">Cras justo odio</li>
                         </ul>
                         <div class="card-body">
                             <a href="#" class="card-link">Card link</a>
                             <a href="#" class="card-link">Another link</a>
                         </div> -->
+                        </div>
                     </div>
                 </div>
-            </div>
-                
+
+                <!--  starts-->
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                        <div class="card-header border-0  ">
+                            <div class="card-transparent bg-transparent mb-0">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h3>Why Choose Us</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
+                            data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>Hygiene</h4>
+                                        </div>
+
+                                        <p class="mt-4">High standards of hygiene are maintained
+                                        </p>
+
+                                    </div>
+                                    <img src="webassets/images/hm//safe.png" class="img-fluid  avatar-80"
+                                        alt="profile-image">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
+                            data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>Food Packaging</h4>
+                                        </div>
+
+                                        <p class="mt-4">Use of food grade Disposables for packaging
+                                        </p>
+
+                                    </div>
+                                    <img src="webassets/images/hm//box.png" class="img-fluid  avatar-80"
+                                        alt="profile-image">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
+                            data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>Separate Kitchens</h4>
+                                        </div>
+
+                                        <p class="mt-4">We keep two sections separate for vegetarian and non vegetarian
+                                            food
+                                        </p>
+
+                                    </div>
+                                    <img src="webassets/images/hm//vegetarian.png" class="img-fluid  avatar-80"
+                                        alt="profile-image">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
+                            data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>Diet goals</h4>
+                                        </div>
+
+                                        <p class="mt-4">MEAL COMBOS ARE CURATED TO SUIT DIFFERENT DIETARY REQUIREMENTS
+                                        </p>
+
+                                    </div>
+                                    <img src="webassets/images/hm//nutrition.png" class="img-fluid  avatar-80"
+                                        alt="profile-image">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
+                            data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>Macro details</h4>
+                                        </div>
+
+                                        <p class="mt-4">ALL MACROS ARE DISPLAYED TO HELP YOU UNDERSTAND YOUR FOOD
+                                        </p>
+
+                                    </div>
+                                    <img src="webassets/images/hm//macros.png" class="img-fluid  avatar-80"
+                                        alt="profile-image">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
+                            data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>No Chemicals</h4>
+                                        </div>
+
+                                        <p class="mt-4">NO ADDED COLOURS, PRESERVATIVES OR OTHER CHEMICAL FOOD ADDITIVES
+                                        </p>
+
+                                    </div>
+                                    <img src="webassets/images/hm//non-toxic.png" class="img-fluid  avatar-80"
+                                        alt="profile-image">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
+                            data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>PROTEIN BREADS</h4>
+                                        </div>
+
+                                        <p class="mt-4">BREADS USED ARE ZERO MAIDA, HIGH PROTEIN BREADS
+                                        </p>
+
+                                    </div>
+                                    <img src="webassets/images/hm//bread.png" class="img-fluid  avatar-80"
+                                        alt="profile-image">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
+                            data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>Better Suggestions</h4>
+                                        </div>
+
+                                        <p class="mt-4">WE BRIDGE THE GAP BETWEEN NUTRITIONIST AND VENDOR. </p>
+
+                                    </div>
+                                    <img src="webassets/images/hm//alternative.png" class="img-fluid  avatar-80"
+                                        alt="profile-image">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- ends -->
+
                 <div class="card-transparent bg-transparent mb-0">
                     <div class="card-header border-0  ">
 
@@ -522,172 +723,169 @@
     @include('web.weblayout.webscript')
 
     <script>
-        function goalselect(goalId)
-        {
-            document.getElementById('goalselect').value=goalId;
+        function goalselect(goalId) {
+            document.getElementById('goalselect').value = goalId;
         }
-        function submitquiz(type)
-        {
+        function submitquiz(type) {
             console.log(type);
 
-            if(type=='personal')
-            {
-                document.getElementById('qunameerror').innerHTML='';
-                document.getElementById('quemailerror').innerHTML='';
-                document.getElementById('qgendererror').innerHTML='';
+            if (type == 'personal') {
+                document.getElementById('qunameerror').innerHTML = '';
+                document.getElementById('quemailerror').innerHTML = '';
+                document.getElementById('quemobileerror').innerHTML = '';
                 
-                quname=document.getElementById('quname').value;
-                quemail=document.getElementById('quemail').value;
-                qgender=document.getElementById('qgender').value;
-                if(quname && quemail && qgender)
-                {
+
+                quname = document.getElementById('quname').value;
+                quemail = document.getElementById('quemail').value;
+                quemobile = document.getElementById('qumobile').value;
+
+                if (quname && quemail && quemobile) {
                     document.getElementById('personalbtn').click();
                 }
-                else
-                {
-                    if(!quname)
-                    {
-                        document.getElementById('qunameerror').innerHTML='Please enter your name';
+                else {
+                    if (!quname) {
+                        document.getElementById('qunameerror').innerHTML = 'Please enter your name';
                     }
-                    if(!quemail)
-                    {
-                        document.getElementById('quemailerror').innerHTML='Please enter your email id';
+                    if (!quemail) {
+                        document.getElementById('quemailerror').innerHTML = 'Please enter your email id';
                     }
-                    if(!qgender)
-                    {
-                        document.getElementById('qgendererror').innerHTML='Please select your gender';
-                    }
-                }
-            }
-            else if(type=='goal')
-            {
-                document.getElementById('qgoalerror').innerHTML='';
-
-                qgoal=document.getElementById('goalselect').value;
-                if(qgoal)
-                {
-                    document.getElementById('goalbtn').click();
-                }
-                else
-                {
-                    document.getElementById('qgoalerror').innerHTML='Please select your goal';
-                }
-            }
-            else if(type=='heightweight')
-            {
-                document.getElementById('qheighterror').innerHTML='';
-                document.getElementById('qweighterror').innerHTML='';
-                document.getElementById('qageerror').innerHTML='';
-
-                qheight=document.getElementById('qheight').value;
-                qweight=document.getElementById('qweight').value;
-                qage=document.getElementById('qage').value;
-                if(qheight && qweight && qage)
-                {
-                    if(!(qheight>92 && qheight<244))
-                    {
-                        document.getElementById('qheighterror').innerHTML='Please enter valid height between 92cm to 244cm';
-                    }
-                    else if(!(qweight>20 && qweight<200))
-                    {
-                        document.getElementById('qweighterror').innerHTML='Please enter valid weight between 20Kg to 200Kg';
-                    }
-                    else if(!(qage>10 && qage<80))
-                    {
-                        document.getElementById('qageerror').innerHTML='Please enter valid age between 10 to 80';
-                    }
-                    else
-                    {
-                        qgender=document.getElementById('qgender').value;
-
-                        BMI=0;
-                        BMI=qweight/(qheight/100*qheight/100);
-                        BMR=0;
-                        if(qgender=='Male')
-                        {
-                            BMR=10*qweight + 6.25*qheight - 5*qage + 5;
-                        }
-                        else if(qgender=='Female')
-                        {
-                            BMR=10*qweight + 6.25*qheight- 5*qage - 161;
-                        }
-
-                        document.getElementById('BMIShow').innerHTML=BMI.toFixed(2);
-                        document.getElementById('BMRShow').innerHTML=BMR.toFixed(2);
-
-                        document.getElementById('heightweightbtn').click();
+                    if (!quemobile) {
+                        document.getElementById('quemobileerror').innerHTML = 'Please enter valid mobile number';
                     }
                     
                 }
-                else
-                {
-                    if(!qheight)
-                    {
-                        document.getElementById('qheighterror').innerHTML='Please enter your height';
+            }
+            else if (type == 'goal') {
+                document.getElementById('qgoalerror').innerHTML = '';
+
+                qgoal = document.getElementById('goalselect').value;
+                if (qgoal) {
+                    document.getElementById('goalbtn').click();
+                }
+                else {
+                    document.getElementById('qgoalerror').innerHTML = 'Please select your goal';
+                }
+            }
+            else if (type == 'heightweight') {
+                document.getElementById('qheighterror').innerHTML = '';
+                document.getElementById('qweighterror').innerHTML = '';
+                document.getElementById('qageerror').innerHTML = '';
+                document.getElementById('qgendererror').innerHTML = '';
+
+                qheight = document.getElementById('qheight').value;
+                qweight = document.getElementById('qweight').value;
+                qage = document.getElementById('qage').value;
+                qgender = document.getElementById('qgender').value;
+
+                if (qheight && qweight && qage && qgender) {
+                    if (!(qheight > 92 && qheight < 244)) {
+                        document.getElementById('qheighterror').innerHTML = 'Please enter valid height between 92cm to 244cm';
                     }
-                    if(!qweight)
-                    {
-                        document.getElementById('qweighterror').innerHTML='Please enter your weight';
+                    else if (!(qweight > 20 && qweight < 200)) {
+                        document.getElementById('qweighterror').innerHTML = 'Please enter valid weight between 20Kg to 200Kg';
                     }
-                    if(!qage)
-                    {
-                        document.getElementById('qageerror').innerHTML='Please enter your age';
+                    else if (!(qage > 10 && qage < 80)) {
+                        document.getElementById('qageerror').innerHTML = 'Please enter valid age between 10 to 80';
+                    }
+                    else {
+                        qgender = document.getElementById('qgender').value;
+
+                        BMI = 0;
+                        BMI = qweight / (qheight / 100 * qheight / 100);
+                        BMR = 0;
+                        if (qgender == 'Male') {
+                            BMR = 10 * qweight + 6.25 * qheight - 5 * qage + 5;
+                        }
+                        else if (qgender == 'Female') {
+                            BMR = 10 * qweight + 6.25 * qheight - 5 * qage - 161;
+                        }
+
+                        if(BMI.toFixed(2)<18)
+                        {
+                            document.getElementById('less19').style.display='inline-block';
+                            document.getElementById('more25').style.display='none';
+                        }
+                        else if(BMI.toFixed(2)>24)
+                        {
+                            document.getElementById('more25').style.display='inline-block';
+                            document.getElementById('less19').style.display='none';
+                        }
+                        else
+                        {
+                            document.getElementById('less19').style.display='none';
+                            document.getElementById('more25').style.display='none';
+                        }
+                        document.getElementById('BMIShow').innerHTML = BMI.toFixed(2);
+                        document.getElementById('BMRShow').innerHTML = BMR.toFixed(2);
+
+                        document.getElementById('heightweightbtn').click();
+                    }
+
+                }
+                else {
+                    if (!qheight) {
+                        document.getElementById('qheighterror').innerHTML = 'Please enter your height';
+                    }
+                    if (!qweight) {
+                        document.getElementById('qweighterror').innerHTML = 'Please enter your weight';
+                    }
+                    if (!qage) {
+                        document.getElementById('qageerror').innerHTML = 'Please enter your age';
+                    }
+                    if (!qgender) {
+                        document.getElementById('qgendererror').innerHTML = 'Please select your gender';
                     }
                 }
             }
-            else if(type=='final')
-            {
-                qheight=document.getElementById('qheight').value;
-                qweight=document.getElementById('qweight').value;
-                qage=document.getElementById('qage').value;
-                qgoal=document.getElementById('goalselect').value;
-                quname=document.getElementById('quname').value;
-                quemail=document.getElementById('quemail').value;
-                qgender=document.getElementById('qgender').value;
-                BMI=document.getElementById('BMIShow').innerHTML;
-                BMR=document.getElementById('BMRShow').innerHTML;
+            else if (type == 'final') {
+                qheight = document.getElementById('qheight').value;
+                qweight = document.getElementById('qweight').value;
+                qage = document.getElementById('qage').value;
+                qgoal = '';
+                quname = document.getElementById('quname').value;
+                quemail = document.getElementById('quemail').value;
+                quemobile = document.getElementById('qumobile').value;
+                qgender = document.getElementById('qgender').value;
+                BMI = document.getElementById('BMIShow').innerHTML;
+                BMR = document.getElementById('BMRShow').innerHTML;
 
                 sendnotify('Thank You !');
 
-                signupdata={
-                    quname:quname,
-                    quemail:quemail,
-                    qgender:qgender,
-                    qgoal:qgoal,
-                    qage:qage,
-                    qweight:qweight,
-                    qheight:qheight,
-                    qheight:qheight,
-                    qheight:qheight,
-                    BMI:BMI,
-                    BMR:BMR,
+                signupdata = {
+                    quname: quname,
+                    quemail: quemail,
+                    quemobile: quemobile,
+                    qgender: qgender,
+                    qgoal: qgoal,
+                    qage: qage,
+                    qweight: qweight,
+                    qheight: qheight,
+                    qheight: qheight,
+                    qheight: qheight,
+                    BMI: BMI,
+                    BMR: BMR,
+                }
+                $.ajax({
+                    url: '/app/quizsignup',
+                    type: "post",
+                    data: signupdata,
+                    success: function (data) {
+                        if (data['status'] == 'emailerror') {
+                            document.getElementById('signupemail').innerHTML = data['message'];
                         }
-                        $.ajax({
-                            url: '/app/quizsignup',
-                            type: "post",
-                            data:signupdata,
-                            success: function (data) 
-                            {
-                                if(data['status']=='emailerror')
-                                {
-                                    document.getElementById('signupemail').innerHTML=data['message'];
-                                }
-                                else if(data['status']=='phoneerror')
-                                {
-                                    document.getElementById('signupphone').innerHTML=data['message'];
-                                }
-                                else if(data['status']!=200)
-                                {
-                                    document.getElementById('showerror').style.display='block';
-                                    document.getElementById('mainerror').innerHTML=data['message'];
-                                }
-                                else if(data['status']==200)
-                                {
-                                    window.location=data['message'];
-                                }
-                            }
-                        });
-                
+                        else if (data['status'] == 'phoneerror') {
+                            document.getElementById('signupphone').innerHTML = data['message'];
+                        }
+                        else if (data['status'] != 200) {
+                            document.getElementById('showerror').style.display = 'block';
+                            document.getElementById('mainerror').innerHTML = data['message'];
+                        }
+                        else if (data['status'] == 200) {
+                            window.location = data['message'];
+                        }
+                    }
+                });
+
             }
         }
     </script>

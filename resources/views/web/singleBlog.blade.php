@@ -50,18 +50,18 @@
                 daw
             </div> -->
 
-            <div class="container">
+            <div class="">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="text-center">
-                            <img src="/{{$blog->coverImage}}" alt="" style="width: 100%; height: 100%;">
+                            <img src="/{{$blog->coverImage}}" alt="" style="height: 60vh; width: 90vw;">
                         </div>
                         <!-- blog creation date -->
 
-                        <div class="m-5">
+                        <div class="mt-5">
                             <div class="card ">
                                 <div class="card-body">
-                                    <h2 class="" style="color: #EA6A12;" >{{$blog->title}}</h2>
+                                    <h2 class="mb-3"  >{{$blog->title}}</h2>
                                     <p><i class="fa fa-calendar" style="color: #EA6A12;" aria-hidden="true"></i> {{date('d M, Y', strtotime($blog->created_at))}} <i class="fa fa-user" style="color: #EA6A12;" aria-hidden="true"></i> {{$blog->writer}}</p>
                                     <h5 class="text-muted">{{$blog->subtitle}}</h5>
                                     <p class="">{!!$blog->description1!!}</p>
