@@ -1403,16 +1403,22 @@ class AdminController extends Controller
                 $rowData[] = fgetcsv($fileD);
             }
             $skip_lov = array();
+            $repeated_lov = array();
             $counter = 0;
             $failed = 0;
-            foreach ($rowData as $value) {
-
+            $repeated = 0;
+            $total = count($rowData);
+            foreach ($rowData as $key => $value) {
                 if (empty($value)) {
                     $counter--;
                 } else {
-                    $product = Product::where('UID', $value[0])->first();
-                    if ($product) {
+                    if ($value[0] == '' || $value[1] == '' || $value[2] == '' || $value[3] == '' || $value[4] == '' || $value[5] == '' || $value[6] == '' || $value[7] == '' || $value[8] == '' || $value[9] == '' || $value[10] == '') {
                         $failed++;
+                        $skip_lov[] = $key + 2;
+                        continue;
+                    } else if (Product::where('UID', $value[0])->exists()) {
+                        $repeated++;
+                        $repeated_lov[] = $key + 2;
                         continue;
                     } else {
                         $fieldData = new Product();  //name of modal
@@ -2690,7 +2696,7 @@ class AdminController extends Controller
         Session()->flash('alert-success', "Enquiry Deleted Succesfully");
         $this->storeLog('Delete', 'deleteBulkEnquiry', $model);
         return redirect()->back();
-    }   
+    }
 
     // franchise enquiry controller
 
@@ -2943,7 +2949,7 @@ class AdminController extends Controller
         $this->storeLog('Delete', 'deleteBanner', $model);
         return redirect()->back();
     }
-    
+
 
     // coupons controller
 
