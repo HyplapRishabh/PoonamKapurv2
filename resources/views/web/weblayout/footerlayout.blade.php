@@ -31,7 +31,7 @@
         <footer class="footer">
             <div class="footer-body">
                 <ul class="left-panel list-inline mb-0 p-0">
-                    <li class="list-inline-item"><a href="{{url('/app/privacy-policy')}}">Privacy Policy</a></li>
+                    <!-- <li class="list-inline-item"><a href="{{url('/app/privacy-policy')}}">Privacy Policy</a></li> -->
                     <li class="list-inline-item"><a href="{{url('/app/terms-of-service')}}">Terms of Use</a></li>
                     <li class="list-inline-item"><a href="{{url('/app/faqs')}}">FAQs</a></li>
                 </ul>

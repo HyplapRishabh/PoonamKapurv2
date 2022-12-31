@@ -56,7 +56,10 @@
                         <form method="post" action="{{url('/app/submitBulkEnquiry')}}" onsubmit="payconsultation(event)" class="text-center mt-3">
                             @csrf
                             <input type="hidden" value="{{$txnid}}" id="txnid" name="txnid">
+                            <input type="hidden" value="{{$finalamt}}" id="finalamt" name="finalamt">
+                            <input type="hidden" value="{{$finalamt}}" id="sfinaltotalval" name="sfinaltotalval">
                             <input type="hidden" id="userid" name="userid" value="{{Auth::user()->id}}">
+                            <input type="hidden" id="walletuseflag" name="walletuseflag" value="0">
                             <div class="form-card text-start">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -107,27 +110,6 @@
                         
                         <div class="my-cart-body">
                             <div class="border border-primary rounded p-3 mt-5">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h6 class="heading-title fw-bolder">Goal</h6>
-                                    <h6 class="heading-title fw-bolder text-primary">{{$packageinfo->goal->name}}</h6>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h6 class="heading-title fw-bolder">Package</h6>
-                                    <h6 class="heading-title fw-bolder text-primary">{{$packageinfo->name}}</h6>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h6 class="heading-title fw-bolder">Days</h6>
-                                    <h6 class="heading-title fw-bolder text-primary">{{$input['days']}} Days</h6>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h6 class="heading-title fw-bolder">Total Meals</h6>
-                                    <h6 class="heading-title fw-bolder text-primary">{{$input['days']*$mealtimecount}} Meals</h6>
-                                </div>
-                                
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h6 class="heading-title fw-bolder">Subscribe for</h6>
-                                    <h6 class="heading-title fw-bolder text-primary">{{$input['type']}}</h6>
-                                </div>
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h6 class="heading-title fw-bolder">Total Amount</h6>
                                     <h6 class="heading-title fw-bolder text-primary">&#8377 {{$finalamt}}</h6>
@@ -141,7 +123,7 @@
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h6 class="heading-title fw-bolder">Payable</h6>
-                                    <h6 class="heading-title fw-bolder text-primary" id='afterwallet'>&#8377 {{$finalamt}}</h6>
+                                    <h6 class="heading-title fw-bolder text-primary" id='afterwallet'></h6>
                                 </div>
                             </div>
                             
@@ -331,15 +313,44 @@
     @include('web.weblayout.webscript')
 
     <script>
+
+$(document).ready(function () {
+            calculate();
+        });
+
+        function calculate()
+        {
+            walletbal=$('#walluse').val();
+            currenttotal=document.getElementById('finalamt').value;
+            if ($('#walluse').is(":checked"))
+            {
+                if(walletbal>=currenttotal)
+                {
+                    walletbal=currenttotal;
+                }
+                document.getElementById('afterwallet').innerHTML='₹ '+(currenttotal*1-walletbal*1);
+                document.getElementById('sfinaltotalval').value=currenttotal-walletbal;
+                document.getElementById('walletuseflag').value='1';
+            }
+            else
+            {
+                document.getElementById('afterwallet').innerHTML='₹ '+currenttotal;
+                document.getElementById('sfinaltotalval').value=currenttotal;
+                document.getElementById('walletuseflag').value='0';
+            }
+        }
+
+
         function payconsultation(event) {
             event.preventDefault();
             var data = new FormData();
-            data.append('key', 'gtKFFx');
+            data.append('key', 'YI0Weq');
             data.append('txnid', document.getElementById('txnid').value);
-            data.append('amount', 500);
-            data.append('udf1',500);
+            data.append('amount', document.getElementById('sfinaltotalval').value);
+            data.append('udf1',document.getElementById('finalamt').value);
             data.append('udf2', document.getElementById('callbackdate').value);
             data.append('udf3', document.getElementById('msg').value);
+            data.append('udf4', document.getElementById('walletuseflag').value);
             data.append('udf5', document.getElementById('userid').value);
 
 
@@ -360,25 +371,26 @@
             console.log(hash);
             boltdata = {
 
-                //key:'YI0Weq', 
-                key: 'gtKFFx',
+                key:'YI0Weq', 
+                //key: 'gtKFFx',
                 txnid: document.getElementById('txnid').value,
                 hash: hash,
-                amount: 500,
+                amount: document.getElementById('sfinaltotalval').value,
                 //amount: 1,
                 firstname: document.getElementById('fname').value,
                 email: document.getElementById('useremailid').value,
                 phone: document.getElementById('mobno').value,
                 productinfo: 'consultation',
-                udf1: 500,
+                udf1: document.getElementById('sfinaltotalval').value,
                 udf2: document.getElementById('callbackdate').value,
                 udf3: document.getElementById('msg').value,
+                udf4: document.getElementById('walletuseflag').value,
                 udf5: document.getElementById('userid').value,
-                surl: 'http://localhost:8000/app/payuresponseconsultpkhk',
-                furl: 'http://localhost:8000/app/payuresponseconsultpkhk',
+                surl: 'http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk',
+                furl: 'http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk',
             };
             console.log(boltdata);
-            var fr = '<form action=\"https://test.payu.in/_payment" method=\"post\">' +
+            var fr = '<form action=\"https://secure.payu.in/_payment" method=\"post\">' +
                 '<input type=\"hidden\" name=\"key\" value=\"' + boltdata.key + '\" />' +
                 '<input type=\"hidden\" name=\"txnid\" value=\"' + boltdata.txnid + '\" />' +
                 '<input type=\"hidden\" name=\"amount\" value=\"' + boltdata.amount + '\" />' +
@@ -388,9 +400,10 @@
                 '<input type=\"hidden\" name=\"udf1\" value=\"' + boltdata.udf1 + '\" />' +
                 '<input type=\"hidden\" name=\"udf2\" value=\"' + boltdata.udf2 + '\" />' +
                 '<input type=\"hidden\" name=\"udf3\" value=\"' + boltdata.udf3 + '\" />' +
+                '<input type=\"hidden\" name=\"udf4\" value=\"' + boltdata.udf4 + '\" />' +
                 '<input type=\"hidden\" name=\"udf5\" value=\"' + boltdata.udf5 + '\" />' +
-                '<input type=\"hidden\" name=\"surl\" value=\"http://localhost:8000/app/payuresponseconsultpkhk\" />' +
-                '<input type=\"hidden\" name=\"furl\" value=\"http://localhost:8000/app/payuresponseconsultpkhk\" />' +
+                '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk\" />' +
+                '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk\" />' +
                 '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
                 '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
                 '</form>';

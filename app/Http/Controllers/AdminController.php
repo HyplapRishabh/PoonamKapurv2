@@ -208,7 +208,11 @@ class AdminController extends Controller
         $user->phone = $request->phone;
         $user->password = Hash::make($request->password);
         $user->save();
-        return redirect('/login');
+        $this->createWalletUser($user->id);
+        $result = User::where(['phone' => $request->phone])->orWhere(['email' => $request->email])->first();
+        Auth::login($result);
+
+        return redirect('/');
     }
 
     public function showforget(Request $request)
@@ -3204,7 +3208,7 @@ class AdminController extends Controller
     public function indexPackageOrder()
     {
         $packageorders = transction::where('trxFor', 'subscription')->with('trxsubscriptionorder')->with('user')->get();
-        // return $packageorders;
+      
         return view('admin.orders.package', compact('packageorders'));
     }
 
