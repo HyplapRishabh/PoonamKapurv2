@@ -129,10 +129,103 @@
 @foreach (['danger', 'warning', 'success', 'info'] as $msg)
 @if(Session::has('alert-' . $msg))
 <div class="col-sm-12">
-    <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+    <div class="alert alert-{{ $msg }} alert-dismissible fade show" role="alert">
+        {{ Session::get('alert-' . $msg) }}.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 </div>
 @endif
 @endforeach
+<div class="row">
+    @if(Session::has('counter'))
+    <div class="col-sm-6">
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            {{ Session::get('counter') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    @endif
+    @if(Session::has('success'))
+    <div class="col-sm-6">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ Session::get('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    @endif
+    <!-- @if(Session::has('repeated'))
+    <div class="col-sm-3">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ Session::get('repeated') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    @endif
+    @if(Session::has('failed'))
+    <div class="col-sm-3">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ Session::get('failed') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    @endif -->
+    @if ($errors->any())
+    <div class="col-sm-12">
+        @foreach ($errors->all() as $error)
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ $error }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endforeach
+    </div>
+    @endif
+</div>
+
+@if(Session::has('failedIds'))
+<!-- count number of failedids -->
+@php
+$failedIds = Session::get('failedIds');
+$failedIdsCount = count($failedIds);
+@endphp
+@if($failedIdsCount > 0)
+<div class="row">
+    <div class="col-sm-12">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Failed to import {{ $failedIdsCount }} Records.</strong> <br>
+            Row :
+            @foreach(Session::get('failedIds') as $failedId)
+            <!-- Add and if last entry or a comma  -->
+            {{ $failedId }}@if(!$loop->last),@endif
+            @endforeach
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+@endif
+@endif
+
+@if(Session::has('repeatedIds'))
+<!-- count number of repeatedIds -->
+@php
+$repeatedIds = Session::get('repeatedIds');
+$repeatedIdsCount = count($repeatedIds);
+@endphp
+@if($repeatedIdsCount > 0)
+<div class="row">
+    <div class="col-sm-12">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>{{ $repeatedIdsCount }} Repeated Records Found.</strong> <br>
+            Row :
+            @foreach(Session::get('repeatedIds') as $repeatedId)
+            <!-- Add and if last entry or a comma  -->
+            {{ $repeatedId }}@if(!$loop->last),@endif
+            @endforeach
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+@endif
+@endif
 
 <?php
 isset($_GET['category']) ? $categoryFilter = $_GET['category'] : $categoryFilter = '';
@@ -160,7 +253,7 @@ isset($_GET['alaCart']) ? $alaCart = $_GET['alaCart'] : $alaCart = '';
                                 <option value="">Select Category</option>
                                 @foreach($categories as $category)
 
-                                <option value="{{$category->id}}" {{$category->id == $categoryFilter ? 'selected' : ''}} >{{$category->name}}</option>
+                                <option value="{{$category->id}}" {{$category->id == $categoryFilter ? 'selected' : ''}}>{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -171,7 +264,7 @@ isset($_GET['alaCart']) ? $alaCart = $_GET['alaCart'] : $alaCart = '';
                             <select class="form-control" name="subCategory" id="subCategoryList">
                                 <option value="">Select Sub Category</option>
                                 @foreach($subcategories as $subCategory)
-                                <option value="{{$subCategory->id}}" class="parent-{{$subCategory->categoryId}} subcategory"  {{$subCategory->id == $subCategoryFilter ? 'selected' : ''}}>{{$subCategory->name}}</option>
+                                <option value="{{$subCategory->id}}" class="parent-{{$subCategory->categoryId}} subcategory" {{$subCategory->id == $subCategoryFilter ? 'selected' : ''}}>{{$subCategory->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -182,7 +275,7 @@ isset($_GET['alaCart']) ? $alaCart = $_GET['alaCart'] : $alaCart = '';
                             <select class="form-control" name="mealType" id="mealTypeList">
                                 <option value="">Select Meal Type</option>
                                 @foreach($mealTypes as $mealType)
-                                <option value="{{$mealType->id}}"  {{$mealType->id == $mealTypeFilter ? 'selected' : ''}}>{{$mealType->name}}</option>
+                                <option value="{{$mealType->id}}" {{$mealType->id == $mealTypeFilter ? 'selected' : ''}}>{{$mealType->name}}</option>
                                 @endforeach
                             </select>
                         </div>

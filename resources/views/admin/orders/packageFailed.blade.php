@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Ala Cart Orders')
+@section('title', 'Subscription Orders')
 
 @section('header')
 
