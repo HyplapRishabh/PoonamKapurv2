@@ -390,7 +390,9 @@ $(document).ready(function () {
                 furl: 'http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk',
             };
             console.log(boltdata);
-            var fr = '<form action=\"https://secure.payu.in/_payment" method=\"post\">' +
+            if(boltdata.amount==0)
+            {
+                var fr = '<form action=\"/app/paywallet" method=\"post\">' +
                 '<input type=\"hidden\" name=\"key\" value=\"' + boltdata.key + '\" />' +
                 '<input type=\"hidden\" name=\"txnid\" value=\"' + boltdata.txnid + '\" />' +
                 '<input type=\"hidden\" name=\"amount\" value=\"' + boltdata.amount + '\" />' +
@@ -407,10 +409,36 @@ $(document).ready(function () {
                 '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
                 '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
                 '</form>';
-            console.log('HI' + fr);
-            var form = jQuery(fr);
-            jQuery('body').append(form);
-            form.submit();
+                console.log('HI' + fr);
+                var form = jQuery(fr);
+                jQuery('body').append(form);
+                form.submit();
+            }
+            else
+            {
+                var fr = '<form action=\"https://secure.payu.in/_payment" method=\"post\">' +
+                '<input type=\"hidden\" name=\"key\" value=\"' + boltdata.key + '\" />' +
+                '<input type=\"hidden\" name=\"txnid\" value=\"' + boltdata.txnid + '\" />' +
+                '<input type=\"hidden\" name=\"amount\" value=\"' + boltdata.amount + '\" />' +
+                '<input type=\"hidden\" name=\"productinfo\" value=\"' + boltdata.productinfo + '\" />' +
+                '<input type=\"hidden\" name=\"firstname\" value=\"' + boltdata.firstname + '\" />' +
+                '<input type=\"hidden\" name=\"email\" value=\"' + boltdata.email + '\" />' +
+                '<input type=\"hidden\" name=\"udf1\" value=\"' + boltdata.udf1 + '\" />' +
+                '<input type=\"hidden\" name=\"udf2\" value=\"' + boltdata.udf2 + '\" />' +
+                '<input type=\"hidden\" name=\"udf3\" value=\"' + boltdata.udf3 + '\" />' +
+                '<input type=\"hidden\" name=\"udf4\" value=\"' + boltdata.udf4 + '\" />' +
+                '<input type=\"hidden\" name=\"udf5\" value=\"' + boltdata.udf5 + '\" />' +
+                '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk\" />' +
+                '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk\" />' +
+                '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
+                '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
+                '</form>';
+                console.log('HI' + fr);
+                var form = jQuery(fr);
+                jQuery('body').append(form);
+                form.submit();
+            }
+
         }
     
     </script>
