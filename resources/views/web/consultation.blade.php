@@ -104,7 +104,7 @@
                 <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
                     data-iq-duration=".6" data-iq-delay="1.2" data-iq-trigger="scroll" data-iq-ease="none">
                     <div class="card-header">
-                        <h4 class="list-main">Subscription</h4>
+                        <h4 class="list-main">Consultation</h4>
                     </div>
                     <div class="card-body">
                         
@@ -328,7 +328,7 @@ $(document).ready(function () {
                 {
                     walletbal=currenttotal;
                 }
-                document.getElementById('afterwallet').innerHTML='₹ '+(walletbal*1);
+                document.getElementById('afterwallet').innerHTML='₹ '+(currenttotal*1-walletbal*1);
                 document.getElementById('sfinaltotalval').value=currenttotal-walletbal;
                 document.getElementById('walletuseflag').value='1';
             }

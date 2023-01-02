@@ -346,7 +346,7 @@
                             document.getElementById('taxval').innerHTML = '&#8377 ' + gst;
                             document.getElementById('finaltotalval').innerHTML = '&#8377 ' + finaltotal;
                             document.getElementById('deliverychg').innerHTML = '&#8377 ' + deliverychg;
-                            document.getElementById('afterwallet').innerHTML = '&#8377 ' + wfinaltotal;
+                            document.getElementById('afterwallet').innerHTML = '&#8377 ' + walletbal;
                             
                             document.getElementById('ssubtotalval').value = total;
                             document.getElementById('staxval').value = gst;
