@@ -582,14 +582,14 @@
 
                         <div class="d-flex justify-content-between align-items-center">
                             <h3>Client Reviews</h3>
-                            <div class="text-dark d-flex"><a href="{{url('/app/alltestimonial')}}">View All</a>
+                            <!-- <div class="text-dark d-flex"><a href="{{url('/app/alltestimonial')}}">View All</a>
                                 <svg width="24" height="24" class="ms-1" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <rect width="24" height="24" rx="12" fill="#EA6A12" />
                                     <path d="M10.25 8.5L13.75 12L10.25 15.5" stroke="white" stroke-width="1.5"
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="card-body p-0">
