@@ -395,7 +395,7 @@
         </div>
 
         <!-- modal code for area location -->
-        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
+        <!-- <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModalLong">
             Launch demo modal
         </button>
         <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog"
@@ -411,12 +411,11 @@
                         <input type="number" class="form-control" placeholder="Enter Your Pin code">
                     </div>
                     <div class="modal-footer" style="text-align: center;justify-content: center;">
-                        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
                         <button type="button" style="" class="btn btn-primary rounded-pill">Save changes</button>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- modal code ends here -->
         <!-- Footer Section Start -->
         @include('web.weblayout.footerlayout')

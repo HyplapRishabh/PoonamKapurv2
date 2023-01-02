@@ -677,17 +677,17 @@ class webController extends Controller
         }
     }
 
-    public function submitConsultation(Request $request)
-    {
-        $consultation = new consultation();
-        $consultation->name = $request->name;
-        $consultation->email = $request->email;
-        $consultation->number = $request->phone;
-        $consultation->date = $request->callBackDate;
-        $consultation->msg = $request->message;
-        $consultation->save();
-        return redirect()->back()->with('success', 'Your request has been submitted successfully');
-    }
+    // public function submitConsultation(Request $request)
+    // {
+    //     $consultation = new consultation();
+    //     $consultation->name = $request->name;
+    //     $consultation->email = $request->email;
+    //     $consultation->number = $request->phone;
+    //     $consultation->date = $request->callBackDate;
+    //     $consultation->msg = $request->message;
+    //     $consultation->save();
+    //     return redirect()->back()->with('success', 'Your request has been submitted successfully');
+    // }
 
     public function allblogs()
     {

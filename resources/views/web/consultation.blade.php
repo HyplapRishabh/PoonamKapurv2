@@ -328,7 +328,7 @@ $(document).ready(function () {
                 {
                     walletbal=currenttotal;
                 }
-                document.getElementById('afterwallet').innerHTML='₹ '+(currenttotal*1-walletbal*1);
+                document.getElementById('afterwallet').innerHTML='₹ '+(walletbal*1);
                 document.getElementById('sfinaltotalval').value=currenttotal-walletbal;
                 document.getElementById('walletuseflag').value='1';
             }

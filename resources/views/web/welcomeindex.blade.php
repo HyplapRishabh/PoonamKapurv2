@@ -178,8 +178,7 @@
                                                             <div class="form-group">
                                                                 <label class="form-label">Email: *</label>
                                                                 <input type="email"
-                                                                    value="{{Auth::user() != null ? Auth::user()->email : ''}}"
-                                                                    class="form-control" id="quemail" name="email"
+                                                                    class="form-control" id="quemailids" name="email"
                                                                     placeholder="Email Id" />
                                                                 <span id='quemailerror' class="errorshow"></span>
                                                             </div>
@@ -790,7 +789,7 @@
         }
         function submitquiz(type) {
             console.log(type);
-
+            console.log(document.getElementById('quemailids').value);
             if (type == 'personal') {
                 document.getElementById('qunameerror').innerHTML = '';
                 document.getElementById('quemailerror').innerHTML = '';
@@ -798,13 +797,14 @@
 
 
                 quname = document.getElementById('quname').value;
-                quemail = document.getElementById('quemail').value;
+                quemail = document.getElementById('quemailids').value;
                 quemobile = document.getElementById('qumobile').value;
-
+                
                 if (quname && quemail && quemobile) {
                     document.getElementById('personalbtn').click();
                 }
                 else {
+                    console.log(quemail);
                     if (!quname) {
                         document.getElementById('qunameerror').innerHTML = 'Please enter your name';
                     }
