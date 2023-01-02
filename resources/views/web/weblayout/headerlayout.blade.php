@@ -88,7 +88,7 @@
                         </div>
                     </li>
 
-                    <li class="nav-item dropdown">
+                    <!-- <li class="nav-item dropdown">
                         <a href="{{url('/app/allpackage')}}" class="nav-link" id="notification-drop" data-bs-toggle="dropdown">
                             <p style="font-size: 0.9rem">Packages</p>
                             <span class="bg-danger dots"></span>
@@ -113,7 +113,6 @@
                                                     @else
                                                     <p class="mb-0">Check Now</p>
                                                     @endif
-                                                    <!-- <small class="float-end font-size-12">Check Now</small> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -122,7 +121,7 @@
                                 </div>
                             </div>
                         </div>
-                    </li>
+                    </li> -->
                     <li class="nav-item dropdown">
                         <a href="{{url('/app/consultation')}}" class="nav-link" id="notification-drop">
                             <p style="font-size: 0.9rem">Consultation</p>
