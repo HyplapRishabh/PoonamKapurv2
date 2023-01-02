@@ -676,6 +676,17 @@ class webController extends Controller
         }
     }
 
+    public function submitConsultation(Request $request)
+    {
+        $consultation = new consultation();
+        $consultation->name = $request->name;
+        $consultation->email = $request->email;
+        $consultation->number = $request->phone;
+        $consultation->date = $request->callBackDate;
+        $consultation->msg = $request->message;
+
+    }
+
     public function allblogs()
     {
         $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();

@@ -53,37 +53,37 @@
                 <div class="dish-card-vertical1">
                     <div class="card dish-card3">
                     <div class="card-body">
-                        <form method="post" action="{{url('/app/submitBulkEnquiry')}}" onsubmit="payconsultation(event)" class="text-center mt-3">
+                        <form method="post" action="{{url('/app/submitConsultation')}}" onsubmit="payconsultation(event)" class="text-center mt-3">
                             @csrf
                             <input type="hidden" value="{{$txnid}}" id="txnid" name="txnid">
                             <input type="hidden" value="{{$finalamt}}" id="finalamt" name="finalamt">
                             <input type="hidden" value="{{$finalamt}}" id="sfinaltotalval" name="sfinaltotalval">
-                            <input type="hidden" id="userid" name="userid" value="{{Auth::user()->id}}">
+                            <input type="hidden" id="userid" name="userid" value="{{Auth::user() != null ? Auth::user()->id : ''}}">
                             <input type="hidden" id="walletuseflag" name="walletuseflag" value="0">
                             <div class="form-card text-start">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Username: *</label>
-                                            <input type="text" class="form-control" name="name" id="fname" placeholder="Your Name" value="{{Auth::user()->name}}" required />
+                                            <input type="text" class="form-control" name="name" id="fname" placeholder="Your Name" value="{{Auth::user() != null ? Auth::user()->name : ''}}" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Phone: *</label>
-                                            <input type="text" class="form-control" id="mobno" name="phone" maxlength="10" placeholder="Phone" value="{{Auth::user()->phone}}" required />
+                                            <input type="text" class="form-control" id="mobno" name="phone" maxlength="10" placeholder="Phone" value="{{Auth::user() != null ? Auth::user()->phone : ''}}" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Email: *</label>
-                                            <input type="email" class="form-control" id="useremailid" name="email" placeholder="Email Id" value="{{Auth::user()->email}}" required />
+                                            <input type="email" class="form-control" id="useremailid" name="email" placeholder="Email Id" value="{{Auth::user() != null ? Auth::user()->email : ''}}" required />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Call Back Date: *</label>
-                                            <input type="date" class="form-control" min="{{$mindate}}" id="callbackdate" name="callBackTime" placeholder="" required />
+                                            <input type="date" class="form-control" min="{{$mindate}}" id="callbackdate" name="callBackDate" placeholder="" required />
                                         </div>
                                     </div>
                                     <div class="col-md-12">
