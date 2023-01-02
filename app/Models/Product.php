@@ -10,11 +10,21 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
+        'UID',
         'name',
+        'slug',
         'price',
-        'description',
-        'image',
-        'category_id',
+        'discountedPrice',
+        'formatedMealTime',
+        'mealTime',
+        'goalId',
+        'mealTypeId',
+        'categoryId',
+        'subCategoryId',
+        'alaCartFlag',
+        'status',
+        'description'
+
     ];
 
     public function macro()

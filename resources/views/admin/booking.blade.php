@@ -11,11 +11,11 @@
 
 <!-- Adding Booking modal -->
 
-<div class=" col-sm-12 text-right">
+<!-- <div class=" col-sm-12 text-right"> 
     <button type="button" id="createBtn" class="btn btn-primary btn-lg m-4 has-ripple" data-toggle="modal" data-target="#addModal">
         <i class="fas fa-plus"></i> Add Bookings
     </button>
-</div>
+</div> -->
 
 <div class="modal fade" id="addModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -129,25 +129,26 @@
                         @php($i = 1)
                         <tr class="text-center">
                             <th>Sr.no</th>
-                            <th>UserId</th>
-                            <th>DietcianId</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
                             <th>Consult Date</th>
-                            <th>Consult Time</th>
-                            <th>Payment Status</th>
-                            <th>Booking Status</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($bookings as $data )
                         <tr>
                             <td class="align-middle text-center">{{$i++}}</td>
-                            <td class="align-middle text-center">{{$data->userId}}</td>
-                            <td class="align-middle text-center">{{$data->dieticianId}}</td>
-                            <td class="align-middle text-center">{{$data->consultDate}}</td>
-                            <td class="align-middle text-center">{{$data->consultTime}}</td>
-                            <td class="align-middle text-center">
-                                <input type="checkbox" data-id="{{$data->id}}" class="toggle-class" data-style="slow" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Active" data-off="InActive" {{ $data->status == '1' ? 'checked' : ''}}>
-                            </td>
+                            <td class="align-middle text-center">{{$data->name}}</td>
+                            <td class="align-middle text-center">{{$data->number}}</td>
+                            <td class="align-middle text-center">{{$data->email}}</td>
+                            <td class="align-middle text-center">{{$data->date}}</td>
+                            <td class="align-middle text-center">{{$data->msg}}</td>
+                            <td class="align-middle text-center">{{$data->status}}</td>
+                            
                             <td class="table-action text-center">
                                 <div>
                                     <!-- <a href="" class="btn btn-icon btn-outline-primary has-ripple" data-toggle="modal" data-target="#showModal{{$data->id}}"><i class="far fa-eye"></i><span class="ripple ripple-animate" style="height: 45px; width: 45px; animation-duration: 0.7s; animation-timing-function: linear; background: rgb(255, 255, 255); opacity: 0.4; top: 7.39999px; left: -12.6px;"></span></a> -->
@@ -159,7 +160,7 @@
 
                             <!--Update Modal -->
                             <div class="modal fade" id="updateModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
+                                <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" style="font-weight: 600; color: black; font-size: large;">Update Dietician</h5>
@@ -172,64 +173,13 @@
                                                 @csrf
                                                 <input type="hidden" name="hiddenId" value="{{$data->id}}">
                                                 <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label style="font-weight: bold;" for="role">User Id <span style="color: red;">&#42</span></label>
-                                                            <select class="form-control selectpicker" name="userId" id="userId" data-live-search="true">
-                                                                <optgroup label="Users">
-                                                                    @foreach($users as $user)
-                                                                    <option value="{{$user->id}}" {{$data->userId  == $user->id ? 'selected' : ''}} >{{$user->name}}</option>
-                                                                    @endforeach>
-                                                                </optgroup>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label style="font-weight: bold;" for="role">Dietcian Id <span style="color: red;">&#42</span></label>
-                                                            <select class="form-control selectpicker" name="dietcianId" id="dietcianId" data-live-search="true">
-                                                                <optgroup label="Dieticians">
-                                                                    @foreach($dieticians as $dietician)
-                                                                    <option value="{{$dietician->id}}" {{$data->dieticianId  == $dietician->id ? 'selected' : ''}} >{{$dietician->name}}</option>
-                                                                    @endforeach
-                                                                </optgroup>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label style="font-weight: bold;" for="Name">Consult Date <span style="color: red;">&#42</span></label>
-                                                            <input type="date" class="form-control" id="consultDate" name="consultDate" value="{{$data->consultDate}}" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label style="font-weight: bold;" for="Name">Consult Time<span style="color: red;">&#42</span></label>
-                                                            <input type="time" class="form-control" id="consultTime" name="consultTime" value="{{$data->consultTime}}" required>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label style="font-weight: bold;" for="role">Payment Status <span style="color: red;">&#42</span></label>
-                                                            <select class="form-control selectpicker" name="paymentStatus" id="paymentStatus">
-                                                                <optgroup label="Status">
-                                                                    <option value="paid" {{$data->paymentStatus == 'paid' ? 'selected' : ''}}>Paid</option>
-                                                                    <option value="unpaid" {{$data->paymentStatus == 'unpaid' ? 'selected' : ''}}>Unpaid</option>
-                                                                </optgroup>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-6">
+                                                    <div class="col-sm-12">
                                                         <div class="form-group">
                                                             <label style="font-weight: bold;" for="role">Booking Status <span style="color: red;">&#42</span></label>
                                                             <select class="form-control selectpicker" name="status" id="status">
                                                                 <optgroup label="Status">
-                                                                    <option value="1" {{$data->status == 1 ? 'selected' : ''}} >Active</option>
-                                                                    <option value="0" {{$data->status == 0 ? 'selected' : ''}} >InActive</option>
+                                                                    <option value="Pending" {{$data->status == 'Pending' ? 'selected' : ''}} >Pending</option>
+                                                                    <option value="Completed" {{$data->status == 'Completed' ? 'selected' : ''}} >Completed</option>
                                                                 </optgroup>
                                                             </select>
                                                         </div>

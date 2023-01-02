@@ -685,7 +685,8 @@ class webController extends Controller
         $consultation->number = $request->phone;
         $consultation->date = $request->callBackDate;
         $consultation->msg = $request->message;
-
+        $consultation->save();
+        return redirect()->back()->with('success', 'Your request has been submitted successfully');
     }
 
     public function allblogs()

@@ -8,6 +8,7 @@ use App\Models\Banner;
 use App\Models\Blog;
 use App\Models\Booking;
 use App\Models\Category;
+use App\Models\consultation;
 use App\Models\Coupon;
 use App\Models\Enquiry;
 use App\Models\Enquirybulk;
@@ -1417,70 +1418,66 @@ class AdminController extends Controller
                         $failed++;
                         $skip_lov[] = $key + 2;
                         continue;
-                    } else if (Product::where('UID', $value[0])->exists()) {
-                        $repeated++;
-                        $repeated_lov[] = $key + 2;
-                        continue;
-                    } else {
-                        $fieldData = new Product();  //name of modal
-                        $fieldData->UID = $value[0]; //name of database feild = colm no in xls
-                        $fieldData->name = $value[1]; //name of database feild = colm no in xls
-                        $fieldData->slug = Str::slug($value[1]);
-                        $fieldData->price = $value[2];
-                        $fieldData->discountedPrice = $value[3];
-
+                    }  else {
                         // meal time
                         $formatedMealTime = $value[4];
                         $formatedMealTime = trim($formatedMealTime);
                         $formatedMealTime = strtolower($formatedMealTime);
                         $formatedMealTime = str_split($formatedMealTime);
                         $formatedMealTime = implode(',', $formatedMealTime);
-                        $fieldData->mealTime = $formatedMealTime;
 
                         // meal type
                         $mealTypeName = $value[5];
                         $mealTypeName = trim($mealTypeName);
-                        error_log($mealTypeName);
+                        // error_log($mealTypeName);
                         $mealType = Mealtype::where('name', $mealTypeName)->select('id')->first();
-                        $fieldData->mealTypeId = $mealType->id;
 
                         // goal
                         $goalName = $value[6];
                         $goalName = trim($goalName);
                         $goal = Goal::where('name', $goalName)->select('id')->first();
-                        $fieldData->goalId = $goal->id;
 
                         // category
                         $categoryName = $value[7];
                         $categoryName = trim($categoryName);
                         $category = Category::where('name', $categoryName)->select('id')->first();
-                        $fieldData->categoryId = $category->id;
 
                         // subcategory
                         $subcategoryName = $value[8];
                         $subcategoryName = trim($subcategoryName);
                         $subcategory = Subcategory::where('name', $subcategoryName)->select('id')->first();
-                        $fieldData->subCategoryId = $subcategory->id;
 
-                        // alacart flag
-                        if ($value[9] == 'Yes') {
-                            $fieldData->alaCartFlag = 1;
-                        } else {
-                            $fieldData->alaCartFlag = 0;
-                        }
-
-                        if ($value[10] == 'Active') {
-                            $fieldData->status = 1;
-                        } else {
-                            $fieldData->status = 0;
-                        }
-                        $fieldData->description = $value[11];
-                        $fieldData->save();
+                        // updateorcreate
+                        Product::updateOrCreate(
+                            [
+                                'UID' => $value[0]
+                            ],
+                            [
+                                'name' => $value[1],
+                                'slug' => Str::slug($value[1]),
+                                'price' => $value[2],
+                                'discountedPrice' => $value[3],
+                                'mealTime' => $formatedMealTime,
+                                'goalId' => $goal->id,
+                                'mealTypeId' => $mealType->id,
+                                'categoryId' => $category->id,
+                                'subCategoryId' => $subcategory->id,
+                                'alaCartFlag' => $value[9] == 'Yes' ? 1 : 0,
+                                'status' => $value[10] == 'Active' ? 1 : 0,
+                                'description' => $value[11],
+                            ]
+                        );
                     }
                 }
                 $counter++;
             }
-            Session()->flash('alert-success', "File Uploaded Succesfully");
+            Session()->flash('alert-success', "File Uploaded Succesfully ");
+            Session()->flash('counter', $total - 1 . " Records Processed ");
+            Session()->flash('success', $counter . " Records Succesfully Added ");
+            Session()->flash('failed', $failed . " Records Failed ");
+            Session()->flash('repeated', $repeated . " Records Repeated ");
+            Session()->flash('failedIds', $skip_lov);
+            Session()->flash('repeatedIds', $repeated_lov);
             // $this->storeLog('Add', 'importProduct', $fieldData);
             // delete excel file
             unlink($filepath);
@@ -2601,7 +2598,7 @@ class AdminController extends Controller
 
     public function indexBooking()
     {
-        $bookings = Booking::where('deleteId', '0')->get();
+        $bookings = consultation::all();
         $users = User::where('deleteId', '0')->whereIn('role', [2])->get();
         $dieticians = User::where('deleteId', '0')->whereIn('role', [3])->get();
         return view('admin.booking', compact('bookings', 'users', 'dieticians'));
@@ -2609,7 +2606,7 @@ class AdminController extends Controller
 
     public function addBooking(Request $request)
     {
-        $model = new Booking;
+        $model = new consultation;
         $model->userId = $request->userId;
         $model->dieticianId = $request->dietcianId;
         $model->consultDate = $request->consultDate;
@@ -2626,13 +2623,7 @@ class AdminController extends Controller
 
     public function updateBooking(Request $request)
     {
-        $model = Booking::find($request->hiddenId);
-        $model->userId = $request->userId;
-        $model->dieticianId = $request->dietcianId;
-        $model->consultDate = $request->consultDate;
-        $model->consultTime = $request->consultTime;
-        $model->paymentStatus = $request->paymentStatus;
-        // $model->trxId = $request->trxId;
+        $model = consultation::find($request->hiddenId);
         if ($request->status != $model->status) {
             $model->status = $request->status;
         }
@@ -2644,10 +2635,7 @@ class AdminController extends Controller
 
     public function deleteBooking(Request $request)
     {
-        $model = Booking::find($request->hiddenId);
-
-        $model->deleteId = 1;
-        $model->save();
+        $model = consultation::find($request->hiddenId)->delete();
         Session()->flash('alert-success', "Booking Updated Succesfully");
         $this->storeLog('Delete', 'deleteBooking', $model);
         return redirect()->back();
