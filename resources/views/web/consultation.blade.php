@@ -104,7 +104,7 @@
                 <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
                     data-iq-duration=".6" data-iq-delay="1.2" data-iq-trigger="scroll" data-iq-ease="none">
                     <div class="card-header">
-                        <h4 class="list-main">Consultation</h4>
+                        <h4 class="list-main">Subscription</h4>
                     </div>
                     <div class="card-body">
                         
@@ -123,7 +123,7 @@
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h6 class="heading-title fw-bolder">Payable</h6>
-                                    <h6 class="heading-title fw-bolder text-primary" id='afterwallet'></h6>
+                                    <h6 class="heading-title fw-bolder text-primary" id='afterwallet'>&#8377 {{$finalamt}}</h6>
                                 </div>
                             </div>
                             
@@ -323,21 +323,23 @@ $(document).ready(function () {
             walletbal=$('#walluse').val();
             currenttotal=document.getElementById('finalamt').value;
             if ($('#walluse').is(":checked"))
-            {
-                if(walletbal>=currenttotal)
-                {
-                    walletbal=currenttotal;
-                }
-                document.getElementById('afterwallet').innerHTML='₹ '+(currenttotal*1-walletbal*1);
-                document.getElementById('sfinaltotalval').value=currenttotal-walletbal;
-                document.getElementById('walletuseflag').value='1';
-            }
-            else
-            {
-                document.getElementById('afterwallet').innerHTML='₹ '+currenttotal;
-                document.getElementById('sfinaltotalval').value=currenttotal;
-                document.getElementById('walletuseflag').value='0';
-            }
+                            {
+                                if(walletbal*1>=currenttotal*1)
+                                {
+                                    walletbal=currenttotal;
+                                    console.log(walletbal);
+                                }
+                                document.getElementById('afterwallet').innerHTML='₹ '+(currenttotal*1-walletbal*1);
+                                document.getElementById('walletuseflag').value='1';
+                                document.getElementById('sfinaltotalval').value=currenttotal-walletbal;
+                            }
+                            else
+                            {
+                                walletbal=0;
+                                document.getElementById('walletuseflag').value='0';
+                                document.getElementById('afterwallet').innerHTML='₹ '+currenttotal;
+                                document.getElementById('sfinaltotalval').value=currenttotal;
+                            }
         }
 
 

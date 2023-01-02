@@ -327,18 +327,23 @@
                             document.getElementById('sgrandtotalval').value = finaltotal;
                             walletbal=$('#walluse').val();
                             currenttotal=document.getElementById('sgrandtotalval').value;
+
+
+
                             if ($('#walluse').is(":checked"))
                             {
                                 if(walletbal>=currenttotal)
                                 {
                                     walletbal=currenttotal;
                                 }
+                                document.getElementById('afterwallet').innerHTML='₹ '+(currenttotal*1-walletbal*1);
                                 document.getElementById('walletuseflag').value='1';
                             }
                             else
                             {
                                 walletbal=0;
                                 document.getElementById('walletuseflag').value='0';
+                                document.getElementById('afterwallet').innerHTML='₹ '+currenttotal;
                             }
 
                             wfinaltotal=deliverychg * 1 + gst * 1 + total * 1 - walletbal*1;
@@ -346,7 +351,6 @@
                             document.getElementById('taxval').innerHTML = '&#8377 ' + gst;
                             document.getElementById('finaltotalval').innerHTML = '&#8377 ' + finaltotal;
                             document.getElementById('deliverychg').innerHTML = '&#8377 ' + deliverychg;
-                            document.getElementById('afterwallet').innerHTML = '&#8377 ' + walletbal;
                             
                             document.getElementById('ssubtotalval').value = total;
                             document.getElementById('staxval').value = gst;
