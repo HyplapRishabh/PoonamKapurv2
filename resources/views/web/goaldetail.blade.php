@@ -285,6 +285,8 @@ This following statements selects each category individually that contains an in
             $("input:checkbox[name=mtck]:checked").each(function(){
                yourArray.push($(this).val());
             });
+            console.log(yourArray)
+            // return false;
             href="/app/packagemenu/"+pkgid+"?days="+days+"&type="+yourArray.toString();
             window.location.href = href;
         }

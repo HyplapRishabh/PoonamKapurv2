@@ -1418,7 +1418,7 @@ class AdminController extends Controller
                         $failed++;
                         $skip_lov[] = $key + 2;
                         continue;
-                    }  else {
+                    } else {
                         // meal time
                         $formatedMealTime = $value[4];
                         $formatedMealTime = trim($formatedMealTime);
@@ -2135,27 +2135,42 @@ class AdminController extends Controller
                 $rowData[] = fgetcsv($fileD);
             }
             $skip_lov = array();
+            $repeated_lov = array();
             $counter = 0;
             $failed = 0;
-            foreach ($rowData as $value) {
+            $repeated = 0;
+            $total = count($rowData);
+            foreach ($rowData as $key => $value) {
 
                 if (empty($value)) {
                     $counter--;
                 } else {
-                    // validate breakfast name
-                    $bf = Product::where('name', $value[2])->select('uid')->first();
-                    $lh = Product::where('name', $value[3])->select('uid')->first();
-                    $sk = Product::where('name', $value[4])->select('uid')->first();
-                    $dn = Product::where('name', $value[5])->select('uid')->first();
+                    if ($value[0] == '' || $value[1] == '' || $value[2] == '' || $value[3] == '' || $value[4] == '' || $value[5] == '') {
+                        $failed++;
+                        $skip_lov[] = $key + 2;
+                        continue;
+                    } else {
+                        // validate breakfast name
+                        $bf = Product::where('name', $value[2])->select('uid')->first();
+                        $lh = Product::where('name', $value[3])->select('uid')->first();
+                        $sk = Product::where('name', $value[4])->select('uid')->first();
+                        $dn = Product::where('name', $value[5])->select('uid')->first();
 
-                    $productMenu = Packagemenu::updateOrCreate(
-                        ['packageUId' => $request->packageUId, 'day' => $value[1]],
-                        ['packageUId' => $value[0], 'day' => $value[1], 'breakFast' => $bf->uid, 'lunch' => $lh->uid, 'snack' => $sk, 'dinner' => $dn]
-                    );
+                        $productMenu = Packagemenu::updateOrCreate(
+                            ['packageUId' => $request->packageUId, 'day' => $value[1]],
+                            ['packageUId' => $value[0], 'day' => $value[1], 'breakFast' => $bf->uid, 'lunch' => $lh->uid, 'snack' => $sk, 'dinner' => $dn]
+                        );
+                    }
                 }
                 $counter++;
             }
-            Session()->flash('alert-success', "File Uploaded Succesfully");
+            Session()->flash('alert-success', "File Uploaded Succesfully ");
+            Session()->flash('counter', $total - 1 . " Records Processed ");
+            Session()->flash('success', $counter . " Records Succesfully Added ");
+            Session()->flash('failed', $failed . " Records Failed ");
+            Session()->flash('repeated', $repeated . " Records Repeated ");
+            Session()->flash('failedIds', $skip_lov);
+            Session()->flash('repeatedIds', $repeated_lov);
             $this->storeLog('Add', 'importProductMenu', $productMenu);
             // delete excel file
             unlink($filepath);

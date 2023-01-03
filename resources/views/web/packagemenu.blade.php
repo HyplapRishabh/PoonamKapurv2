@@ -75,7 +75,7 @@
                                 <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
                                     @foreach($menuinfo as $menulist)
                                         <br>
-                                        @if(str_contains($input['type'], 'Breakfast'))
+                                        @if(str_contains($input['type'], 'BreakFast'))
                                         @if(isset($menulist['webbreakfast']))
                                         <div class="col active">
                                             <div class="card card-white dish-card profile-img mb-0">
@@ -334,7 +334,7 @@
                                         </div>
                                         @endif
                                         @endif
-                                        @if(str_contains($input['type'], 'Snacks'))
+                                        @if(str_contains($input['type'], 'Snack'))
                                         @if(isset($menulist['websnacks']))
                                         <div class="col active">
                                             <div class="card card-white dish-card profile-img mb-0">
@@ -481,7 +481,7 @@
                                                 </div>
                                                 <div class="card-body menu-image">
 
-                                                    <h6 class="heading-title fw-bolder mt-4 mb-0">{{$menulist->webdinner->name}}</h6>
+                                                    <h6 class="heading-title fw-bolder mt-4 mb-0 oneLiner" >{{$menulist->webdinner->name}}</h6>
 
                                                     <div class="card-rating stars-ratings">
 
