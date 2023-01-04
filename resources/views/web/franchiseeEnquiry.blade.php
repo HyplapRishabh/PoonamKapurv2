@@ -12,7 +12,7 @@
     <style>
         .bkgcategory {
 
-            background-image:url("{{url('webassets/images/dietitian.png')}}");
+            background-image:url("{{url('webassets/images/franchisee.png')}}");
             background-repeat: no-repeat;
             height: 300px;
             border-radius: 15px;
@@ -51,50 +51,45 @@
             </div>
             <div class="row">
                 <!-- <div class="col-12 py-4">
-                    <div class="" style="background-image: url('/webassets/images/dietitian.png'); background-size: contain; background-position: center; background-repeat: no-repeat; height: 300px; width: 100%;">
+                    <div class="" style="background-image: url('/webassets/images/franchisee.png'); background-size: contain; background-position: center; background-repeat: no-repeat; height: 300px; width: 100%;">
                     </div>
                 </div> -->
-                <div class="col-md-12 col-lg-8">
+                <div class="col-md-12 col-lg-12">
                     <div class="dish-card-vertical1">
                         <div class="card dish-card3">
                             <div class="card-body">
-                                <form method="post" action="{{url('/app/submitConsultation')}}" onsubmit="payconsultation(event)" class="text-center mt-3">
+                                <form method="post" action="{{url('/app/submitFranchiseEnquiry')}}" class="text-center mt-3">
                                     @csrf
-                                    <input type="hidden" value="{{$txnid}}" id="txnid" name="txnid">
-                                    <input type="hidden" value="{{$finalamt}}" id="finalamt" name="finalamt">
-                                    <input type="hidden" value="{{$finalamt}}" id="sfinaltotalval" name="sfinaltotalval">
-                                    <input type="hidden" id="userid" name="userid" value="{{Auth::user() != null ? Auth::user()->id : ''}}">
-                                    <input type="hidden" id="walletuseflag" name="walletuseflag" value="0">
                                     <div class="form-card text-start">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Username: *</label>
-                                                    <input type="text" class="form-control" name="name" id="fname" placeholder="Your Name" value="{{Auth::user() != null ? Auth::user()->name : ''}}" required />
+                                                    <input type="text" class="form-control" name="name" value="{{Auth::user() != null ? Auth::user()->name : ''}}" placeholder="Your Name" required />
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Phone: *</label>
-                                                    <input type="text" class="form-control" id="mobno" name="phone" maxlength="10" placeholder="Phone" value="{{Auth::user() != null ? Auth::user()->phone : ''}}" required />
+                                                    <input type="text" class="form-control" name="phone" maxlength="10" placeholder="Phone" value="{{Auth::user() != null ? Auth::user()->phone : ''}}" required />
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Email: *</label>
-                                                    <input type="email" class="form-control" id="useremailid" name="email" placeholder="Email Id" value="{{Auth::user() != null ? Auth::user()->email : ''}}" required />
+                                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Id" value="{{Auth::user() != null ? Auth::user()->email : ''}}" required />
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Call Back Date: *</label>
-                                                    <input type="date" class="form-control" min="{{$mindate}}" id="callbackdate" name="callBackDate" placeholder="" required />
+                                                    <input type="date" class="form-control" name="callBackTime" placeholder="" required />
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">Message: *</label>
-                                                    <textarea class="form-control" name="message" id="msg" placeholder="Enter Your Message" required></textarea>
+                                                    <textarea class="form-control" name="message" placeholder="Enter Your Message" required></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -105,36 +100,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-lg-4">
-                    <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay="1.2" data-iq-trigger="scroll" data-iq-ease="none">
-                        <div class="card-header">
-                            <h4 class="list-main">Subscription</h4>
-                        </div>
-                        <div class="card-body">
 
-                            <div class="my-cart-body">
-                                <div class="border border-primary rounded p-3 mt-5">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h6 class="heading-title fw-bolder">Total Amount</h6>
-                                        <h6 class="heading-title fw-bolder text-primary">&#8377 {{$finalamt}}</h6>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h6 class="heading-title fw-bolder">
-                                            <input type="checkbox" checked id="walluse" name="walletcheckbox" onchange="calculate()" value="{{$userwallet['availableBal']}}">
-                                            Wallet Balance
-                                        </h6>
-                                        <h6 class="heading-title fw-bolder text-primary">&#8377 {{$userwallet['availableBal']}}</h6>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h6 class="heading-title fw-bolder">Payable</h6>
-                                        <h6 class="heading-title fw-bolder text-primary" id='afterwallet'>&#8377 {{$finalamt}}</h6>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-md-12 col-xl-12 col-lg-12">
                     <div class="card">
                         <div class="card-header ">
@@ -289,128 +255,6 @@
     @include('web.weblayout.footerscript')
     @include('web.weblayout.webscript')
 
-    <script>
-        $(document).ready(function() {
-            calculate();
-        });
-
-        function calculate() {
-            walletbal = $('#walluse').val();
-            currenttotal = document.getElementById('finalamt').value;
-            if ($('#walluse').is(":checked")) {
-                if (walletbal * 1 >= currenttotal * 1) {
-                    walletbal = currenttotal;
-                    console.log(walletbal);
-                }
-                document.getElementById('afterwallet').innerHTML = '₹ ' + (currenttotal * 1 - walletbal * 1);
-                document.getElementById('walletuseflag').value = '1';
-                document.getElementById('sfinaltotalval').value = currenttotal - walletbal;
-            } else {
-                walletbal = 0;
-                document.getElementById('walletuseflag').value = '0';
-                document.getElementById('afterwallet').innerHTML = '₹ ' + currenttotal;
-                document.getElementById('sfinaltotalval').value = currenttotal;
-            }
-        }
-
-
-        function payconsultation(event) {
-            event.preventDefault();
-            var data = new FormData();
-            data.append('key', 'YI0Weq');
-            data.append('txnid', document.getElementById('txnid').value);
-            data.append('amount', document.getElementById('sfinaltotalval').value);
-            data.append('udf1', document.getElementById('finalamt').value);
-            data.append('udf2', document.getElementById('callbackdate').value);
-            data.append('udf3', document.getElementById('msg').value);
-            data.append('udf4', document.getElementById('walletuseflag').value);
-            data.append('udf5', document.getElementById('userid').value);
-
-
-            data.append('firstname', document.getElementById('fname').value);
-            data.append('email', document.getElementById('useremailid').value);
-            data.append('productinfo', 'consultation');
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/app/gethashofpayu', true);
-            xhr.onload = function() {
-                console.log(this.responseText);
-                xhrval = JSON.parse(xhr['response']);
-                runfinalbolt(xhrval['encryptpass']);
-            };
-            xhr.send(data);
-        }
-
-        function runfinalbolt(hash) {
-            console.log(hash);
-            boltdata = {
-
-                key: 'YI0Weq',
-                //key: 'gtKFFx',
-                txnid: document.getElementById('txnid').value,
-                hash: hash,
-                amount: document.getElementById('sfinaltotalval').value,
-                //amount: 1,
-                firstname: document.getElementById('fname').value,
-                email: document.getElementById('useremailid').value,
-                phone: document.getElementById('mobno').value,
-                productinfo: 'consultation',
-                udf1: document.getElementById('finalamt').value,
-                udf2: document.getElementById('callbackdate').value,
-                udf3: document.getElementById('msg').value,
-                udf4: document.getElementById('walletuseflag').value,
-                udf5: document.getElementById('userid').value,
-                surl: 'http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk',
-                furl: 'http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk',
-            };
-            console.log(boltdata);
-            if (boltdata.amount == 0) {
-                var fr = '<form action=\"/app/paywallet" method=\"post\">' +
-                    '<input type=\"hidden\" name=\"key\" value=\"' + boltdata.key + '\" />' +
-                    '<input type=\"hidden\" name=\"txnid\" value=\"' + boltdata.txnid + '\" />' +
-                    '<input type=\"hidden\" name=\"amount\" value=\"' + boltdata.amount + '\" />' +
-                    '<input type=\"hidden\" name=\"productinfo\" value=\"' + boltdata.productinfo + '\" />' +
-                    '<input type=\"hidden\" name=\"firstname\" value=\"' + boltdata.firstname + '\" />' +
-                    '<input type=\"hidden\" name=\"email\" value=\"' + boltdata.email + '\" />' +
-                    '<input type=\"hidden\" name=\"udf1\" value=\"' + boltdata.udf1 + '\" />' +
-                    '<input type=\"hidden\" name=\"udf2\" value=\"' + boltdata.udf2 + '\" />' +
-                    '<input type=\"hidden\" name=\"udf3\" value=\"' + boltdata.udf3 + '\" />' +
-                    '<input type=\"hidden\" name=\"udf4\" value=\"' + boltdata.udf4 + '\" />' +
-                    '<input type=\"hidden\" name=\"udf5\" value=\"' + boltdata.udf5 + '\" />' +
-                    '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk\" />' +
-                    '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk\" />' +
-                    '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
-                    '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
-                    '</form>';
-                console.log('HI' + fr);
-                var form = jQuery(fr);
-                jQuery('body').append(form);
-                form.submit();
-            } else {
-                var fr = '<form action=\"https://secure.payu.in/_payment" method=\"post\">' +
-                    '<input type=\"hidden\" name=\"key\" value=\"' + boltdata.key + '\" />' +
-                    '<input type=\"hidden\" name=\"txnid\" value=\"' + boltdata.txnid + '\" />' +
-                    '<input type=\"hidden\" name=\"amount\" value=\"' + boltdata.amount + '\" />' +
-                    '<input type=\"hidden\" name=\"productinfo\" value=\"' + boltdata.productinfo + '\" />' +
-                    '<input type=\"hidden\" name=\"firstname\" value=\"' + boltdata.firstname + '\" />' +
-                    '<input type=\"hidden\" name=\"email\" value=\"' + boltdata.email + '\" />' +
-                    '<input type=\"hidden\" name=\"udf1\" value=\"' + boltdata.udf1 + '\" />' +
-                    '<input type=\"hidden\" name=\"udf2\" value=\"' + boltdata.udf2 + '\" />' +
-                    '<input type=\"hidden\" name=\"udf3\" value=\"' + boltdata.udf3 + '\" />' +
-                    '<input type=\"hidden\" name=\"udf4\" value=\"' + boltdata.udf4 + '\" />' +
-                    '<input type=\"hidden\" name=\"udf5\" value=\"' + boltdata.udf5 + '\" />' +
-                    '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk\" />' +
-                    '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk\" />' +
-                    '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
-                    '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
-                    '</form>';
-                console.log('HI' + fr);
-                var form = jQuery(fr);
-                jQuery('body').append(form);
-                form.submit();
-            }
-
-        }
-    </script>
 </body>
 
 </html>

@@ -316,7 +316,7 @@
                                                     value="Previous">Previous</button>
                                                 <button type="button" name="next" onclick="submitquiz('final')"
                                                     class="btn btn-primary next action-button rounded"
-                                                    value="Submit">Explore other package</button>
+                                                    value="Submit">Explore Our Packages</button>
                                             </fieldset>
                                         </form>
                                     </div>

@@ -159,6 +159,14 @@ class webController extends Controller
         return $myresponse;
     }
 
+    public function indexFranchisee()
+    {
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+
+        return view('web.franchiseeEnquiry', compact('categorylist', 'packagelist', 'goallist'));
+    }
 
     // Franchise Enquiry Submission
     public function submitFranchiseEnquiry(Request $request)
@@ -177,6 +185,16 @@ class webController extends Controller
     }
 
     // Bulk  Enquiry Submission
+
+    public function indexBulk()
+    {
+        $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
+        $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
+        $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
+
+        return view('web.bulkEnquiry', compact('categorylist', 'packagelist', 'goallist'));
+    }
+
     public function submitBulkEnquiry(Request $request)
     {
         $enquiry = new Enquirybulk();
@@ -522,12 +540,14 @@ class webController extends Controller
 
     public function goaldetail($goal, Request $input)
     {
+        // return $input->all();
         $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
         $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
         $checktitle = $this->sanitizeStringForUrl($goal);
         $goaldtl = Goal::where([['deleteId', '0'], ['status', '1']])->where('name', $checktitle)->first();
         $goalpkg = Package::where([['deleteId', '0'], ['status', '1'], ['goalId', $goaldtl['id']]])->with('mealtype')->get();
+        // return $goalpkg;
 
         return view('web.goaldetail', compact('categorylist', 'goallist', 'packagelist', 'goaldtl', 'goalpkg', 'input'));
     }
@@ -537,10 +557,9 @@ class webController extends Controller
         $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
         $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-
         $packageinfo = Package::where([['deleteId', '0'], ['status', '1'], ['id', $pkgId]])->first();
-
         $menuinfo = packagemenu::where('packageUId', $packageinfo['UID'])->with('webbreakfast')->with('weblunch')->with('websnacks')->with('webdinner')->limit($input['days'])->orderBy('day')->get();
+        
 
         return view('web.packagemenu', compact('categorylist', 'goallist', 'packageinfo', 'packagelist', 'menuinfo', 'input'));
     }

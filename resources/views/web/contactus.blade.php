@@ -10,22 +10,23 @@
 
     @include('web.weblayout.headlayout')
     <style>
-        .bkgcategory
-        {
+        .bkgcategory {
 
-            background-image:url("{{url('webassets/images/layouts/01.png')}}");
-            background-repeat: no-repeat; 
-            
-            background-size: cover;background-position: center right;
+            background-image:url("{{url('webassets/images/contactus.png')}}");
+            background-repeat: no-repeat;
+            height: 300px;
+            border-radius: 15px;
+            background-size: cover;
+            background-position: center right;
         }
-        .bodycss
-        {
-            background-image:url("{{url('webassets/images/dashboard.png')}}"); 
-            background-attachment: fixed; 
+
+        .bodycss {
+            background-image:url("{{url('webassets/images/dashboard.png')}}");
+            background-attachment: fixed;
             background-size: cover;
         }
     </style>
-    
+
 </head>
 
 <body class="bodycss">
@@ -33,12 +34,8 @@
     <div class="position-relative">
         <div class="user-img1">
             <svg width="1857" viewBox="0 0 1857 327" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M4.05078 189.348C86.8841 109.514 348.951 -25.2523 734.551 74.3477C1120.15 173.948 1641.22 91.181 1853.55 37.3477"
-                    stroke="#EA6A12" stroke-opacity="0.3" />
-                <path
-                    d="M0.99839 152.331C90.9502 80.6133 364.495 -28.9952 739.062 106.31C1113.63 241.616 1640.16 208.056 1856.6 174.363"
-                    stroke="#EA6A12" stroke-opacity="0.3" />
+                <path d="M4.05078 189.348C86.8841 109.514 348.951 -25.2523 734.551 74.3477C1120.15 173.948 1641.22 91.181 1853.55 37.3477" stroke="#EA6A12" stroke-opacity="0.3" />
+                <path d="M0.99839 152.331C90.9502 80.6133 364.495 -28.9952 739.062 106.31C1113.63 241.616 1640.16 208.056 1856.6 174.363" stroke="#EA6A12" stroke-opacity="0.3" />
             </svg>
         </div>
     </div>
@@ -48,21 +45,25 @@
             @include('web.weblayout.headerlayout')
         </div>
         <div class="content-inner mt-5 py-0">
-        <div class="row">
-            <div class="col-md-12 col-lg-8">
-                <div class="dish-card-vertical1">
-                    <div class="card dish-card3">
-                        <div class="card-body ">
-                            <div class="d-flex profile-img41">
-                                <!-- <div class="profile-img42">
+            <div class="card " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".8" data-iq-trigger="scroll" data-iq-ease="none">
+                <div class=" p-3 bkgcategory">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-lg-8">
+                    <div class="dish-card-vertical1">
+                        <div class="card dish-card3">
+                            <div class="card-body ">
+                                <div class="d-flex profile-img41">
+                                    <!-- <div class="profile-img42">
                                     <img src="{{asset('webassets/images/layouts/32.png')}}" class="img-fluid rounded-pill avatar-130" alt="profile-image">
                                 </div> -->
-                                <div class="d-flex align-items-center mb-4 mb-md-0">
-                                    <img src="{{asset('webassets/images/layouts/37.png')}}" class="img-fluid avatar-rounded avatar-60" alt="profile-image">
-                                    <div class="d-flex ms-3">
-                                        <div>
-                                            <h5 class="mb-1d">GRISHMA FOODS PRIVATE LIMITED</h5>
-                                            <!-- <div class="d-flex mb-2">
+                                    <div class="d-flex align-items-center mb-4 mb-md-0">
+                                        <img src="{{asset('webassets/images/layouts/37.png')}}" class="img-fluid avatar-rounded avatar-60" alt="profile-image">
+                                        <div class="d-flex ms-3">
+                                            <div>
+                                                <h5 class="mb-1d">GRISHMA FOODS PRIVATE LIMITED</h5>
+                                                <!-- <div class="d-flex mb-2">
                                                 <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.1043 4.17701L14.9317 7.82776C15.1108 8.18616 15.4565 8.43467 15.8573 8.49218L19.9453 9.08062C20.9554 9.22644 21.3573 10.4505 20.6263 11.1519L17.6702 13.9924C17.3797 14.2718 17.2474 14.6733 17.3162 15.0676L18.0138 19.0778C18.1856 20.0698 17.1298 20.8267 16.227 20.3574L12.5732 18.4627C12.215 18.2768 11.786 18.2768 11.4268 18.4627L7.773 20.3574C6.87023 20.8267 5.81439 20.0698 5.98724 19.0778L6.68385 15.0676C6.75257 14.6733 6.62033 14.2718 6.32982 13.9924L3.37368 11.1519C2.64272 10.4505 3.04464 9.22644 4.05466 9.08062L8.14265 8.49218C8.54354 8.43467 8.89028 8.18616 9.06937 7.82776L10.8957 4.17701C11.3477 3.27433 12.6523 3.27433 13.1043 4.17701Z" fill="#FDB913"/>
                                                 </svg>
@@ -80,34 +81,34 @@
                                                 </svg>
                                                 <small class="ms-1 text-dark">3.0</small>
                                             </div> -->
+                                            </div>
                                         </div>
                                     </div>
-                                </div>             
-                            </div>
-                            <div class="py-4">
-                                <h6 class="heading-title fw-bolder">One Stop Solution For Cafe, Healthy Food, Beverages, Salad, Desserts and many more</h6>        
-                                <div class="d-flex align-items-center">
-                                    <p class="mb-0">9:30 AM -11:30 PM (Everyday)</p>
-                                    <!-- <span class="badge bg-soft-primary ms-5 text-dark">Free Delivery</span> -->
-                                </div>  
-                            </div>
-                            <div class="py-2">
-                                <h6 class="heading-title fw-bolder">Our Location</h6>        
-                                <div class="d-flex mt-2">
-                                    <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M21 10.8421C21 16.9172 12 23 12 23C12 23 3 16.9172 3 10.8421C3 4.76697 7.02944 1 12 1C16.9706 1 21 4.76697 21 10.8421Z" stroke="#07143B" stroke-width="1.5"/>
-                                    <circle cx="12" cy="9" r="3" stroke="#07143B" stroke-width="1.5"/>
-                                    </svg>
-                                    <p class="mb-0 ms-3">4 Bungalow Road, Andheri West, Mumbai</p>
                                 </div>
-                                <div class="d-flex mt-2">
-                                    <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.5317 12.4724C15.5208 16.4604 16.4258 11.8467 18.9656 14.3848C21.4143 16.8328 22.8216 17.3232 19.7192 20.4247C19.3306 20.737 16.8616 24.4943 8.1846 15.8197C-0.493478 7.144 3.26158 4.67244 3.57397 4.28395C6.68387 1.17385 7.16586 2.58938 9.61449 5.03733C12.1544 7.5765 7.54266 8.48441 11.5317 12.4724Z" stroke="#232D42" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                    <p class="mb-0 ms-3">+91-98200-97377</p>
+                                <div class="py-4">
+                                    <h6 class="heading-title fw-bolder">One Stop Solution For Cafe, Healthy Food, Beverages, Salad, Desserts and many more</h6>
+                                    <div class="d-flex align-items-center">
+                                        <p class="mb-0">9:30 AM -11:30 PM (Everyday)</p>
+                                        <!-- <span class="badge bg-soft-primary ms-5 text-dark">Free Delivery</span> -->
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- <div class="py-3">
+                                <div class="py-2">
+                                    <h6 class="heading-title fw-bolder">Our Location</h6>
+                                    <div class="d-flex mt-2">
+                                        <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M21 10.8421C21 16.9172 12 23 12 23C12 23 3 16.9172 3 10.8421C3 4.76697 7.02944 1 12 1C16.9706 1 21 4.76697 21 10.8421Z" stroke="#07143B" stroke-width="1.5" />
+                                            <circle cx="12" cy="9" r="3" stroke="#07143B" stroke-width="1.5" />
+                                        </svg>
+                                        <p class="mb-0 ms-3">4 Bungalow Road, Andheri West, Mumbai</p>
+                                    </div>
+                                    <div class="d-flex mt-2">
+                                        <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.5317 12.4724C15.5208 16.4604 16.4258 11.8467 18.9656 14.3848C21.4143 16.8328 22.8216 17.3232 19.7192 20.4247C19.3306 20.737 16.8616 24.4943 8.1846 15.8197C-0.493478 7.144 3.26158 4.67244 3.57397 4.28395C6.68387 1.17385 7.16586 2.58938 9.61449 5.03733C12.1544 7.5765 7.54266 8.48441 11.5317 12.4724Z" stroke="#232D42" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        <p class="mb-0 ms-3">+91-98200-97377</p>
+                                    </div>
+                                </div>
+                                <!-- <div class="py-3">
                                 <h6 class="heading-title fw-bolder">Other location</h6>        
                                 <div class="d-flex mt-2">
                                     <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -131,58 +132,48 @@
                                     <p class="mb-0 ms-3">2464 Royal Ln. Mesa, New Jersey 45463</p>
                                 </div>
                             </div> -->
-                            <div class="d-flex flex-wrap mt-4">
-                                <a href="{{url('/')}}" class="btn btn-primary rounded-pill me-2 mb-2 mb-sm-0">Order Now</a>
-                                <a href="tel:+919820097377" class="btn btn-primary rounded-pill me-2 mb-2 mb-sm-0">Call Now</a> 
-                                <!-- <button type="button" class="btn btn-primary rounded-pill ">Book a table</button> -->
+                                <div class="d-flex flex-wrap mt-4">
+                                    <a href="{{url('/')}}" class="btn btn-primary rounded-pill me-2 mb-2 mb-sm-0">Order Now</a>
+                                    <a href="tel:+919820097377" class="btn btn-primary rounded-pill me-2 mb-2 mb-sm-0">Call Now</a>
+                                    <!-- <button type="button" class="btn btn-primary rounded-pill ">Book a table</button> -->
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12 col-lg-4">
-                <div class="card">
-                    <div class="card-header border-0">
-                        <h5>Gallery</h5>
-                    </div>
-                    <div class="card-body pt-0">
-                        <div class="row">
-                            <div class="d-grid gap-card grid-cols-2 ">
-                                <img src="{{asset('webassets/images/layouts/29.png')}}" alt="post-image" class="img-fluid rounded-1" >
-                                <img src="{{asset('webassets/images/layouts/30.png')}}" alt="post-image" class="img-fluid rounded-1" >
+                <div class="col-md-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h5>Gallery</h5>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="row">
+                                <div class="d-grid gap-card grid-cols-2 ">
+                                    <img src="{{asset('webassets/images/layouts/29.png')}}" alt="post-image" class="img-fluid rounded-1">
+                                    <img src="{{asset('webassets/images/layouts/30.png')}}" alt="post-image" class="img-fluid rounded-1">
+                                </div>
+                                <img src="{{asset('webassets/images/layouts/31.png')}}" alt="post-image" class="img-fluid mt-4 rounded-1">
                             </div>
-                            <img src="{{asset('webassets/images/layouts/31.png')}}" alt="post-image" class="img-fluid mt-4 rounded-1" >
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12 col-xl-12 col-lg-12">
-                <div class="card">
-                    <div class="card-header ">
-                    <h4 class="card-title list-main">Our Other Brands</h4>
-                    </div>
-                    <div class="card-body ">
-                        <div class="swiper swiper-container d-slider4 dish-card-horizontal ">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="card card-white dish-card profile-img mb-0">
-                                        <div class="profile-img21">
-                                            <img src="{{asset('webassets/images/layouts/33.png')}}" class="img-fluid rounded-pill avatar-170 blur-shadow position-bottom"
-                                                alt="profile-image">
-                                            <img src="{{asset('webassets/images/layouts/33.png')}}" class="img-fluid rounded-pill avatar-170 hover-image " alt="profile-image"
-                                            data-iq-gsap="onStart"
-                                            data-iq-opacity="0"
-                                            data-iq-scale=".6"
-                                            data-iq-rotate="180"
-                                            data-iq-duration="1"
-                                            data-iq-delay=".6"
-                                            data-iq-trigger="scroll"
-                                            data-iq-ease="none"
-                                            >
-                                        </div>
-                                        <div class="card-body menu-image">
-                                        <h6 class="heading-title fw-bolder mt-4 mb-0" style="text-align: center;">Juicy Tales</h6>
-                                            <!-- <div class="card-rating stars-ratings">
+                <div class="col-md-12 col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header ">
+                            <h4 class="card-title list-main">Our Other Brands</h4>
+                        </div>
+                        <div class="card-body ">
+                            <div class="swiper swiper-container d-slider4 dish-card-horizontal ">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <div class="card card-white dish-card profile-img mb-0">
+                                            <div class="profile-img21">
+                                                <img src="{{asset('webassets/images/JuicyTalesLogo.png')}}" class="img-fluid rounded-pill avatar-170 blur-shadow position-bottom" alt="profile-image">
+                                                <img src="{{asset('webassets/images/JuicyTalesLogo.png')}}" class="img-fluid rounded-pill avatar-170 hover-image " alt="profile-image" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-scale=".6" data-iq-rotate="180" data-iq-duration="1" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                            </div>
+                                            <div class="card-body menu-image">
+                                                <h6 class="heading-title fw-bolder mt-4 mb-0" style="text-align: center;">Juicy Tales</h6>
+                                                <!-- <div class="card-rating stars-ratings">
                                                             
                                                                 <svg width="18" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M8.22826 17.4264L6.41543 25.2763C6.35929 25.514 6.37615 25.7631 6.46379 25.9911C6.55142 26.2191 6.70578 26.4153 6.90668 26.5542C7.10759 26.6931 7.34571 26.7682 7.58994 26.7696C7.83418 26.7711 8.07317 26.6988 8.27571 26.5623L14.9005 22.1458L21.5252 26.5623C21.7325 26.6999 21.9769 26.7708 22.2256 26.7653C22.4743 26.7599 22.7153 26.6784 22.9163 26.5318C23.1174 26.3853 23.2687 26.1807 23.3499 25.9456C23.4312 25.7105 23.4385 25.4561 23.3709 25.2167L21.1456 17.43L26.6644 12.4636C26.8412 12.3045 26.9674 12.097 27.0275 11.8668C27.0876 11.6367 27.0789 11.394 27.0025 11.1688C26.9261 10.9435 26.7854 10.7456 26.5977 10.5995C26.4101 10.4533 26.1837 10.3654 25.9466 10.3466L19.0104 9.79424L16.0088 3.15003C15.9131 2.93608 15.7576 2.75441 15.5609 2.62693C15.3642 2.49946 15.1348 2.43163 14.9005 2.43163C14.6661 2.43163 14.4367 2.49946 14.24 2.62693C14.0434 2.75441 13.8878 2.93608 13.7921 3.15003L10.7906 9.79424L3.85435 10.3454C3.6213 10.3639 3.39851 10.4491 3.21262 10.5908C3.02674 10.7326 2.88563 10.9249 2.80618 11.1448C2.72673 11.3646 2.71231 11.6027 2.76463 11.8306C2.81696 12.0584 2.93382 12.2664 3.10123 12.4295L8.22826 17.4264ZM11.6994 12.1631C11.9166 12.146 12.1251 12.0708 12.3032 11.9453C12.4813 11.8199 12.6224 11.6488 12.7117 11.4501L14.9005 6.60658L17.0892 11.4501C17.1785 11.6488 17.3196 11.8199 17.4977 11.9453C17.6758 12.0708 17.8843 12.146 18.1015 12.1631L22.9341 12.5463L18.9544 16.1282C18.6089 16.4397 18.4714 16.919 18.5979 17.3668L20.1224 22.7019L15.5769 19.6711C15.3774 19.5372 15.1426 19.4657 14.9023 19.4657C14.662 19.4657 14.4272 19.5372 14.2276 19.6711L9.47778 22.8381L10.7553 17.3072C10.8021 17.1037 10.7958 16.8917 10.737 16.6914C10.6782 16.4911 10.5689 16.3093 10.4195 16.1635L6.72325 12.5597L11.6994 12.1631Z" fill="currentColor"/>
@@ -204,7 +195,7 @@
                                                                     <path d="M8.22826 17.4264L6.41543 25.2763C6.35929 25.514 6.37615 25.7631 6.46379 25.9911C6.55142 26.2191 6.70578 26.4153 6.90668 26.5542C7.10759 26.6931 7.34571 26.7682 7.58994 26.7696C7.83418 26.7711 8.07317 26.6988 8.27571 26.5623L14.9005 22.1458L21.5252 26.5623C21.7325 26.6999 21.9769 26.7708 22.2256 26.7653C22.4743 26.7599 22.7153 26.6784 22.9163 26.5318C23.1174 26.3853 23.2687 26.1807 23.3499 25.9456C23.4312 25.7105 23.4385 25.4561 23.3709 25.2167L21.1456 17.43L26.6644 12.4636C26.8412 12.3045 26.9674 12.097 27.0275 11.8668C27.0876 11.6367 27.0789 11.394 27.0025 11.1688C26.9261 10.9435 26.7854 10.7456 26.5977 10.5995C26.4101 10.4533 26.1837 10.3654 25.9466 10.3466L19.0104 9.79424L16.0088 3.15003C15.9131 2.93608 15.7576 2.75441 15.5609 2.62693C15.3642 2.49946 15.1348 2.43163 14.9005 2.43163C14.6661 2.43163 14.4367 2.49946 14.24 2.62693C14.0434 2.75441 13.8878 2.93608 13.7921 3.15003L10.7906 9.79424L3.85435 10.3454C3.6213 10.3639 3.39851 10.4491 3.21262 10.5908C3.02674 10.7326 2.88563 10.9249 2.80618 11.1448C2.72673 11.3646 2.71231 11.6027 2.76463 11.8306C2.81696 12.0584 2.93382 12.2664 3.10123 12.4295L8.22826 17.4264ZM11.6994 12.1631C11.9166 12.146 12.1251 12.0708 12.3032 11.9453C12.4813 11.8199 12.6224 11.6488 12.7117 11.4501L14.9005 6.60658L17.0892 11.4501C17.1785 11.6488 17.3196 11.8199 17.4977 11.9453C17.6758 12.0708 17.8843 12.146 18.1015 12.1631L22.9341 12.5463L18.9544 16.1282C18.6089 16.4397 18.4714 16.919 18.5979 17.3668L20.1224 22.7019L15.5769 19.6711C15.3774 19.5372 15.1426 19.4657 14.9023 19.4657C14.662 19.4657 14.4272 19.5372 14.2276 19.6711L9.47778 22.8381L10.7553 17.3072C10.8021 17.1037 10.7958 16.8917 10.737 16.6914C10.6782 16.4911 10.5689 16.3093 10.4195 16.1635L6.72325 12.5597L11.6994 12.1631Z" fill="currentColor"/>
                                                                 </svg>
                                             </div> -->
-                                            <!-- <div class="d-flex justify-content-between mt-3">
+                                                <!-- <div class="d-flex justify-content-between mt-3">
                                                 <div class="d-flex align-items-center">
                                                     <span class="text-primary fw-bolder me-2">&#8377 750/-</span>
                                                     <small class="text-decoration-line-through">$8.49</small>
@@ -215,27 +206,18 @@
                                                     <rect class="circle-3" x="7" y="12.834" width="1.66666" height="10" rx="0.833332" transform="rotate(-90 7 12.834)" fill="currentColor"/>
                                                 </svg>
                                             </div> -->
+                                            </div>
                                         </div>
-                                    </div>                        </div>
-                                <div class="swiper-slide">
-                                    <div class="card card-white dish-card profile-img mb-0">
-                                        <div class="profile-img21">
-                                            <img src="{{asset('webassets/images/layouts/23.png')}}" class="img-fluid rounded-pill avatar-170 blur-shadow position-bottom"
-                                                alt="profile-image">
-                                            <img src="{{asset('webassets/images/layouts/23.png')}}" class="img-fluid rounded-pill avatar-170 hover-image " alt="profile-image"
-                                            data-iq-gsap="onStart"
-                                            data-iq-opacity="0"
-                                            data-iq-scale=".6"
-                                            data-iq-rotate="180"
-                                            data-iq-duration="1"
-                                            data-iq-delay=".6"
-                                            data-iq-trigger="scroll"
-                                            data-iq-ease="none"
-                                            >
-                                        </div>
-                                        <div class="card-body menu-image">
-                                            <h6 class="heading-title fw-bolder mt-4 mb-0" style="text-align: center;">Juicy Tales</h6>
-                                                                                <!-- <div class="card-rating stars-ratings">
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="card card-white dish-card profile-img mb-0">
+                                            <div class="profile-img21">
+                                                <img src="{{asset('webassets/images/GHF-Logo.png')}}" class="img-fluid rounded-pill avatar-170 blur-shadow position-bottom" alt="profile-image">
+                                                <img src="{{asset('webassets/images/GHF-Logo.png')}}" class="img-fluid rounded-pill avatar-170 hover-image " alt="profile-image" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-scale=".6" data-iq-rotate="180" data-iq-duration="1" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                            </div>
+                                            <div class="card-body menu-image">
+                                                <h6 class="heading-title fw-bolder mt-4 mb-0" style="text-align: center;">Grishma Healthy Food</h6>
+                                                <!-- <div class="card-rating stars-ratings">
                                                             
                                                                 <svg width="18" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M8.22826 17.4264L6.41543 25.2763C6.35929 25.514 6.37615 25.7631 6.46379 25.9911C6.55142 26.2191 6.70578 26.4153 6.90668 26.5542C7.10759 26.6931 7.34571 26.7682 7.58994 26.7696C7.83418 26.7711 8.07317 26.6988 8.27571 26.5623L14.9005 22.1458L21.5252 26.5623C21.7325 26.6999 21.9769 26.7708 22.2256 26.7653C22.4743 26.7599 22.7153 26.6784 22.9163 26.5318C23.1174 26.3853 23.2687 26.1807 23.3499 25.9456C23.4312 25.7105 23.4385 25.4561 23.3709 25.2167L21.1456 17.43L26.6644 12.4636C26.8412 12.3045 26.9674 12.097 27.0275 11.8668C27.0876 11.6367 27.0789 11.394 27.0025 11.1688C26.9261 10.9435 26.7854 10.7456 26.5977 10.5995C26.4101 10.4533 26.1837 10.3654 25.9466 10.3466L19.0104 9.79424L16.0088 3.15003C15.9131 2.93608 15.7576 2.75441 15.5609 2.62693C15.3642 2.49946 15.1348 2.43163 14.9005 2.43163C14.6661 2.43163 14.4367 2.49946 14.24 2.62693C14.0434 2.75441 13.8878 2.93608 13.7921 3.15003L10.7906 9.79424L3.85435 10.3454C3.6213 10.3639 3.39851 10.4491 3.21262 10.5908C3.02674 10.7326 2.88563 10.9249 2.80618 11.1448C2.72673 11.3646 2.71231 11.6027 2.76463 11.8306C2.81696 12.0584 2.93382 12.2664 3.10123 12.4295L8.22826 17.4264ZM11.6994 12.1631C11.9166 12.146 12.1251 12.0708 12.3032 11.9453C12.4813 11.8199 12.6224 11.6488 12.7117 11.4501L14.9005 6.60658L17.0892 11.4501C17.1785 11.6488 17.3196 11.8199 17.4977 11.9453C17.6758 12.0708 17.8843 12.146 18.1015 12.1631L22.9341 12.5463L18.9544 16.1282C18.6089 16.4397 18.4714 16.919 18.5979 17.3668L20.1224 22.7019L15.5769 19.6711C15.3774 19.5372 15.1426 19.4657 14.9023 19.4657C14.662 19.4657 14.4272 19.5372 14.2276 19.6711L9.47778 22.8381L10.7553 17.3072C10.8021 17.1037 10.7958 16.8917 10.737 16.6914C10.6782 16.4911 10.5689 16.3093 10.4195 16.1635L6.72325 12.5597L11.6994 12.1631Z" fill="currentColor"/>
@@ -257,7 +239,7 @@
                                                                     <path d="M8.22826 17.4264L6.41543 25.2763C6.35929 25.514 6.37615 25.7631 6.46379 25.9911C6.55142 26.2191 6.70578 26.4153 6.90668 26.5542C7.10759 26.6931 7.34571 26.7682 7.58994 26.7696C7.83418 26.7711 8.07317 26.6988 8.27571 26.5623L14.9005 22.1458L21.5252 26.5623C21.7325 26.6999 21.9769 26.7708 22.2256 26.7653C22.4743 26.7599 22.7153 26.6784 22.9163 26.5318C23.1174 26.3853 23.2687 26.1807 23.3499 25.9456C23.4312 25.7105 23.4385 25.4561 23.3709 25.2167L21.1456 17.43L26.6644 12.4636C26.8412 12.3045 26.9674 12.097 27.0275 11.8668C27.0876 11.6367 27.0789 11.394 27.0025 11.1688C26.9261 10.9435 26.7854 10.7456 26.5977 10.5995C26.4101 10.4533 26.1837 10.3654 25.9466 10.3466L19.0104 9.79424L16.0088 3.15003C15.9131 2.93608 15.7576 2.75441 15.5609 2.62693C15.3642 2.49946 15.1348 2.43163 14.9005 2.43163C14.6661 2.43163 14.4367 2.49946 14.24 2.62693C14.0434 2.75441 13.8878 2.93608 13.7921 3.15003L10.7906 9.79424L3.85435 10.3454C3.6213 10.3639 3.39851 10.4491 3.21262 10.5908C3.02674 10.7326 2.88563 10.9249 2.80618 11.1448C2.72673 11.3646 2.71231 11.6027 2.76463 11.8306C2.81696 12.0584 2.93382 12.2664 3.10123 12.4295L8.22826 17.4264ZM11.6994 12.1631C11.9166 12.146 12.1251 12.0708 12.3032 11.9453C12.4813 11.8199 12.6224 11.6488 12.7117 11.4501L14.9005 6.60658L17.0892 11.4501C17.1785 11.6488 17.3196 11.8199 17.4977 11.9453C17.6758 12.0708 17.8843 12.146 18.1015 12.1631L22.9341 12.5463L18.9544 16.1282C18.6089 16.4397 18.4714 16.919 18.5979 17.3668L20.1224 22.7019L15.5769 19.6711C15.3774 19.5372 15.1426 19.4657 14.9023 19.4657C14.662 19.4657 14.4272 19.5372 14.2276 19.6711L9.47778 22.8381L10.7553 17.3072C10.8021 17.1037 10.7958 16.8917 10.737 16.6914C10.6782 16.4911 10.5689 16.3093 10.4195 16.1635L6.72325 12.5597L11.6994 12.1631Z" fill="currentColor"/>
                                                                 </svg>
                                             </div> -->
-                                            <!-- <div class="d-flex justify-content-between mt-3">
+                                                <!-- <div class="d-flex justify-content-between mt-3">
                                                 <div class="d-flex align-items-center">
                                                     <span class="text-primary fw-bolder me-2">&#8377 750/-</span>
                                                     <small class="text-decoration-line-through">$8.49</small>
@@ -268,27 +250,18 @@
                                                     <rect class="circle-3" x="7" y="12.834" width="1.66666" height="10" rx="0.833332" transform="rotate(-90 7 12.834)" fill="currentColor"/>
                                                 </svg>
                                             </div> -->
+                                            </div>
                                         </div>
-                                    </div>                        </div>
-                                <div class="swiper-slide">
-                                    <div class="card card-white dish-card profile-img mb-0">
-                                        <div class="profile-img21">
-                                            <img src="{{asset('webassets/images/layouts/35.png')}}" class="img-fluid rounded-pill avatar-170 blur-shadow position-bottom"
-                                                alt="profile-image">
-                                            <img src="{{asset('webassets/images/layouts/35.png')}}" class="img-fluid rounded-pill avatar-170 hover-image " alt="profile-image"
-                                            data-iq-gsap="onStart"
-                                            data-iq-opacity="0"
-                                            data-iq-scale=".6"
-                                            data-iq-rotate="180"
-                                            data-iq-duration="1"
-                                            data-iq-delay=".6"
-                                            data-iq-trigger="scroll"
-                                            data-iq-ease="none"
-                                            >
-                                        </div>
-                                        <div class="card-body menu-image">
-                                            <h6 class="heading-title fw-bolder mt-4 mb-0" style="text-align: center;">Juicy Tales</h6>
-                                                                                <!-- <div class="card-rating stars-ratings">
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="card card-white dish-card profile-img mb-0">
+                                            <div class="profile-img21">
+                                                <img src="{{asset('webassets/images/Prowok-logo.png')}}" class="img-fluid rounded-pill avatar-170 blur-shadow position-bottom" alt="profile-image">
+                                                <img src="{{asset('webassets/images/Prowok-logo.png')}}" class="img-fluid rounded-pill avatar-170 hover-image " alt="profile-image" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-scale=".6" data-iq-rotate="180" data-iq-duration="1" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                            </div>
+                                            <div class="card-body menu-image">
+                                                <h6 class="heading-title fw-bolder mt-4 mb-0" style="text-align: center;">Prowok</h6>
+                                                <!-- <div class="card-rating stars-ratings">
                                                             
                                                                 <svg width="18" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M8.22826 17.4264L6.41543 25.2763C6.35929 25.514 6.37615 25.7631 6.46379 25.9911C6.55142 26.2191 6.70578 26.4153 6.90668 26.5542C7.10759 26.6931 7.34571 26.7682 7.58994 26.7696C7.83418 26.7711 8.07317 26.6988 8.27571 26.5623L14.9005 22.1458L21.5252 26.5623C21.7325 26.6999 21.9769 26.7708 22.2256 26.7653C22.4743 26.7599 22.7153 26.6784 22.9163 26.5318C23.1174 26.3853 23.2687 26.1807 23.3499 25.9456C23.4312 25.7105 23.4385 25.4561 23.3709 25.2167L21.1456 17.43L26.6644 12.4636C26.8412 12.3045 26.9674 12.097 27.0275 11.8668C27.0876 11.6367 27.0789 11.394 27.0025 11.1688C26.9261 10.9435 26.7854 10.7456 26.5977 10.5995C26.4101 10.4533 26.1837 10.3654 25.9466 10.3466L19.0104 9.79424L16.0088 3.15003C15.9131 2.93608 15.7576 2.75441 15.5609 2.62693C15.3642 2.49946 15.1348 2.43163 14.9005 2.43163C14.6661 2.43163 14.4367 2.49946 14.24 2.62693C14.0434 2.75441 13.8878 2.93608 13.7921 3.15003L10.7906 9.79424L3.85435 10.3454C3.6213 10.3639 3.39851 10.4491 3.21262 10.5908C3.02674 10.7326 2.88563 10.9249 2.80618 11.1448C2.72673 11.3646 2.71231 11.6027 2.76463 11.8306C2.81696 12.0584 2.93382 12.2664 3.10123 12.4295L8.22826 17.4264ZM11.6994 12.1631C11.9166 12.146 12.1251 12.0708 12.3032 11.9453C12.4813 11.8199 12.6224 11.6488 12.7117 11.4501L14.9005 6.60658L17.0892 11.4501C17.1785 11.6488 17.3196 11.8199 17.4977 11.9453C17.6758 12.0708 17.8843 12.146 18.1015 12.1631L22.9341 12.5463L18.9544 16.1282C18.6089 16.4397 18.4714 16.919 18.5979 17.3668L20.1224 22.7019L15.5769 19.6711C15.3774 19.5372 15.1426 19.4657 14.9023 19.4657C14.662 19.4657 14.4272 19.5372 14.2276 19.6711L9.47778 22.8381L10.7553 17.3072C10.8021 17.1037 10.7958 16.8917 10.737 16.6914C10.6782 16.4911 10.5689 16.3093 10.4195 16.1635L6.72325 12.5597L11.6994 12.1631Z" fill="currentColor"/>
@@ -310,7 +283,7 @@
                                                                     <path d="M8.22826 17.4264L6.41543 25.2763C6.35929 25.514 6.37615 25.7631 6.46379 25.9911C6.55142 26.2191 6.70578 26.4153 6.90668 26.5542C7.10759 26.6931 7.34571 26.7682 7.58994 26.7696C7.83418 26.7711 8.07317 26.6988 8.27571 26.5623L14.9005 22.1458L21.5252 26.5623C21.7325 26.6999 21.9769 26.7708 22.2256 26.7653C22.4743 26.7599 22.7153 26.6784 22.9163 26.5318C23.1174 26.3853 23.2687 26.1807 23.3499 25.9456C23.4312 25.7105 23.4385 25.4561 23.3709 25.2167L21.1456 17.43L26.6644 12.4636C26.8412 12.3045 26.9674 12.097 27.0275 11.8668C27.0876 11.6367 27.0789 11.394 27.0025 11.1688C26.9261 10.9435 26.7854 10.7456 26.5977 10.5995C26.4101 10.4533 26.1837 10.3654 25.9466 10.3466L19.0104 9.79424L16.0088 3.15003C15.9131 2.93608 15.7576 2.75441 15.5609 2.62693C15.3642 2.49946 15.1348 2.43163 14.9005 2.43163C14.6661 2.43163 14.4367 2.49946 14.24 2.62693C14.0434 2.75441 13.8878 2.93608 13.7921 3.15003L10.7906 9.79424L3.85435 10.3454C3.6213 10.3639 3.39851 10.4491 3.21262 10.5908C3.02674 10.7326 2.88563 10.9249 2.80618 11.1448C2.72673 11.3646 2.71231 11.6027 2.76463 11.8306C2.81696 12.0584 2.93382 12.2664 3.10123 12.4295L8.22826 17.4264ZM11.6994 12.1631C11.9166 12.146 12.1251 12.0708 12.3032 11.9453C12.4813 11.8199 12.6224 11.6488 12.7117 11.4501L14.9005 6.60658L17.0892 11.4501C17.1785 11.6488 17.3196 11.8199 17.4977 11.9453C17.6758 12.0708 17.8843 12.146 18.1015 12.1631L22.9341 12.5463L18.9544 16.1282C18.6089 16.4397 18.4714 16.919 18.5979 17.3668L20.1224 22.7019L15.5769 19.6711C15.3774 19.5372 15.1426 19.4657 14.9023 19.4657C14.662 19.4657 14.4272 19.5372 14.2276 19.6711L9.47778 22.8381L10.7553 17.3072C10.8021 17.1037 10.7958 16.8917 10.737 16.6914C10.6782 16.4911 10.5689 16.3093 10.4195 16.1635L6.72325 12.5597L11.6994 12.1631Z" fill="currentColor"/>
                                                                 </svg>
                                             </div> -->
-                                            <!-- <div class="d-flex justify-content-between mt-3">
+                                                <!-- <div class="d-flex justify-content-between mt-3">
                                                 <div class="d-flex align-items-center">
                                                     <span class="text-primary fw-bolder me-2">&#8377 750/-</span>
                                                     <small class="text-decoration-line-through">$8.49</small>
@@ -321,20 +294,22 @@
                                                     <rect class="circle-3" x="7" y="12.834" width="1.66666" height="10" rx="0.833332" transform="rotate(-90 7 12.834)" fill="currentColor"/>
                                                 </svg>
                                             </div> -->
+                                            </div>
                                         </div>
-                                    </div>                        </div>
-                    
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
-        
         </div>
-      </div>
         @include('web.weblayout.footerlayout')
     </main>
     @include('web.weblayout.footerscript')
     @include('web.weblayout.webscript')
 </body>
+
 </html>

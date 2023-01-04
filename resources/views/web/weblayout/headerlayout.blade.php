@@ -130,13 +130,15 @@
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a href="" class="nav-link" id="notification-drop" data-bs-toggle="modal" data-bs-target="#bulkEnquiry">
+                    <!-- <a href="" class="nav-link" id="notification-drop" data-bs-toggle="modal" data-bs-target="#bulkEnquiry"> -->
+                    <a href="{{url('/app/Bulk')}}" class="nav-link" >
                         <p style="font-size: 0.9rem">Bulk enquires</p>
                         <span class="bg-danger dots"></span>
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a href="{{url('/app/Franchisee')}}" class="nav-link" id="notification-drop" data-bs-toggle="modal" data-bs-target="#franchiseEnquiry">
+                    <!-- <a href="{{url('/app/Franchisee')}}" class="nav-link" id="notification-drop" data-bs-toggle="modal" data-bs-target="#franchiseEnquiry"> -->
+                    <a href="{{url('/app/Franchisee')}}" class="nav-link">
                         <p style="font-size: 0.9rem">Our Franchisee</p>
                         <span class="bg-danger dots"></span>
                     </a>
@@ -383,5 +385,20 @@
         -webkit-line-clamp: 1; 
         -webkit-box-orient: vertical;
     }
+
+    /* custom scroll bar */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #fff;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #EA6A12;
+        border-radius: 10px;
+    }
+    
 </style>
 <!-- </div> -->

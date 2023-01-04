@@ -385,7 +385,10 @@ Route::group([
     Route::get('/allcategory', [webController::class, 'allcategory']);
     Route::get('/category/{catslug}', [webController::class, 'categorydetail']);
     Route::get('/aboutus', [webController::class, 'aboutus']);
-    Route::get('/Franchisee', [webController::class, 'Franchisee']); //
+    Route::get('/Bulk', [webController::class, 'indexBulk']); 
+    Route::post('/submitBulkEnquiry', [webController::class, 'submitBulkEnquiry']);
+    Route::get('/Franchisee', [webController::class, 'indexFranchisee']); 
+    Route::post('/submitFranchiseEnquiry', [webController::class, 'submitFranchiseEnquiry']);
     Route::get('/contact-us', [webController::class, 'contactus']);
     Route::get('/privacy-policy', [webController::class, 'privacypolicy']);
     Route::get('/terms-of-service', [webController::class, 'privacypolicy']);
@@ -431,8 +434,7 @@ Route::group([
     Route::post('/gethashofpayu', [webController::class, 'gethashofpayu']);
     Route::post('/undefined', [webController::class, 'undefined']);
     Route::post('/payuresponsepkhk', [webController::class, 'payuresponsepkhk']);
-    Route::post('/submitBulkEnquiry', [webController::class, 'submitBulkEnquiry']);
-    Route::post('/submitFranchiseEnquiry', [webController::class, 'submitFranchiseEnquiry']);
+    
     Route::post('/payuresponseconsultpkhk', [webController::class, 'payuresponseconsultpkhk']);
     Route::post('/payuwalletresponsepkhk', [webController::class, 'payuwalletresponsepkhk']);
     Route::get('/wallet', [webController::class, 'wallet']);
