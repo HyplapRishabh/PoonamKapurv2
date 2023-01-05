@@ -3028,7 +3028,7 @@ class AdminController extends Controller
 
     public function indexBanner()
     {
-        $banners = Banner::orderBy('sequence', 'Acs')->get();
+        $banners = Banner::orderBy('sequence', 'Asc')->get();
         return view('admin.banner', compact('banners'));
     }
 
