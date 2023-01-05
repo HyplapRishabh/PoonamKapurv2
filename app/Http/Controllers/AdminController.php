@@ -1520,31 +1520,49 @@ class AdminController extends Controller
                 $rowData[] = fgetcsv($fileD);
             }
             $skip_lov = array();
+            $repeated_lov = array();
             $counter = 0;
             $failed = 0;
-            foreach ($rowData as $value) {
-
+            $repeated = 0;
+            $total = count($rowData);
+            foreach ($rowData as $key => $value) {
                 if (empty($value)) {
                     $counter--;
                 } else {
-                    $fieldData = new Productmacro();  //name of modal
-                    $fieldData->productUId = $value[0]; //name of database feild = colm no in xls
-                    $fieldData->calories = $value[1] != '' ? $value[1] : 0;
-                    $fieldData->carbs = $value[2] != '' ? $value[2] : 0;
-                    $fieldData->sugar = $value[3] != '' ? $value[3] : 0;
-                    $fieldData->fat = $value[4] != '' ? $value[4] : 0;
-                    $fieldData->protien = $value[5] != '' ? $value[5] : 0;
-                    $fieldData->zinc = $value[6]    != '' ? $value[6] : 0;
-                    $fieldData->iron = $value[7]   != '' ? $value[7] : 0;
-                    $fieldData->mag = $value[8]  != '' ? $value[8] : 0;
-                    $fieldData->sodium = $value[9] != '' ? $value[9] : 0;
-                    $fieldData->copper = $value[10]     != '' ? $value[10] : 0;
-                    $fieldData->potasium = $value[11]  != '' ? $value[11] : 0;
-                    $fieldData->save();
+                    if ($value[0] == '' || $value[1] == '' || $value[2] == '' || $value[3] == '') {
+                        $failed++;
+                        $skip_lov[] = $key + 2;
+                        continue;
+                    } else if (Productmacro::where('productUId', $value[0])->exists()) {
+                        $repeated++;
+                        $repeated_lov[] = $key + 2;
+                        continue;
+                    } else {
+                        $fieldData = new Productmacro();  //name of modal
+                        $fieldData->productUId = $value[0]; //name of database feild = colm no in xls
+                        $fieldData->calories = $value[1] != '' ? $value[1] : 0;
+                        $fieldData->carbs = $value[2] != '' ? $value[2] : 0;
+                        $fieldData->sugar = $value[3] != '' ? $value[3] : 0;
+                        $fieldData->fat = $value[4] != '' ? $value[4] : 0;
+                        $fieldData->protien = $value[5] != '' ? $value[5] : 0;
+                        $fieldData->zinc = $value[6]    != '' ? $value[6] : 0;
+                        $fieldData->iron = $value[7]   != '' ? $value[7] : 0;
+                        $fieldData->mag = $value[8]  != '' ? $value[8] : 0;
+                        $fieldData->sodium = $value[9] != '' ? $value[9] : 0;
+                        $fieldData->copper = $value[10]     != '' ? $value[10] : 0;
+                        $fieldData->potasium = $value[11]  != '' ? $value[11] : 0;
+                        $fieldData->save();
+                    }
                 }
                 $counter++;
             }
-            Session()->flash('alert-success', "File Uploaded Succesfully");
+            Session()->flash('alert-success', "File Uploaded Succesfully ");
+            Session()->flash('counter', $total - 1 . " Records Processed ");
+            Session()->flash('success', $counter . " Records Succesfully Added ");
+            Session()->flash('failed', $failed . " Records Failed ");
+            Session()->flash('repeated', $repeated . " Records Repeated ");
+            Session()->flash('failedIds', $skip_lov);
+            Session()->flash('repeatedIds', $repeated_lov);
             $this->storeLog('Add', 'importProductMacro', $fieldData);
             // delete excel file
             if (file_exists($filepath)) {
@@ -1588,22 +1606,51 @@ class AdminController extends Controller
                 $rowData[] = fgetcsv($fileD);
             }
             $skip_lov = array();
+            $repeated_lov = array();
             $counter = 0;
             $failed = 0;
-            foreach ($rowData as $value) {
+            $repeated = 0;
+            $total = count($rowData);
 
+            foreach ($rowData as $key => $value) {
                 if (empty($value)) {
                     $counter--;
                 } else {
-                    $fieldData = new Productreceipe();  //name of modal
-                    $fieldData->productUId = $value[0]; //name of database feild = colm no in xls
-                    $fieldData->rawMaterialUID = $value[2];
-                    $fieldData->quantity = $value[4];
-                    $fieldData->unit = $value[5];
+                    if ($value[0] == '' || $value[1] == '' || $value[2] == '' || $value[3] == '') {
+                        $failed++;
+                        $skip_lov[] = $key + 2;
+                        continue;
+                    } else if (Productreceipe::where('productUId', $value[0])->exists()) {
+                        $repeated++;
+                        $repeated_lov[] = $key + 2;
+                        continue;
+                    } else {
+                        $totalColumn = count($value) - 1;
+                        $i = 1;
+                        while ($i <= $totalColumn) {
+                            if ($value[$i] == null)
+                                break;
+                            $fieldData = new Productreceipe();
+                            $fieldData->productUId = $value[0];
+                            $fieldData->rawMaterialUID = $value[$i];
+                            $i = $i + 1;
+                            $fieldData->quantity = $value[$i];
+                            $i = $i + 1;
+                            $fieldData->unit = $value[$i];
+                            $i = $i + 1;
+                            $fieldData->save();
+                        }
+                    }
                 }
                 $counter++;
             }
-            Session()->flash('alert-success', "File Uploaded Succesfully");
+            Session()->flash('alert-success', "File Uploaded Succesfully ");
+            Session()->flash('counter', $total - 1 . " Records Processed ");
+            Session()->flash('success', $counter . " Records Succesfully Added ");
+            Session()->flash('failed', $failed . " Records Failed ");
+            Session()->flash('repeated', $repeated . " Records Repeated ");
+            Session()->flash('failedIds', $skip_lov);
+            Session()->flash('repeatedIds', $repeated_lov);
             $this->storeLog('Add', 'importProductRecipe', $fieldData);
             // delete excel file
             unlink($filepath);
@@ -1654,6 +1701,7 @@ class AdminController extends Controller
             'status' => 'successfully updated',
         ]);
     }
+
     public function deleteRecipe($id)
     {
         $data = Productreceipe::find($id);
@@ -1662,6 +1710,65 @@ class AdminController extends Controller
         return response()->json([
             'status' => 'successfully deleted',
         ]);
+    }
+
+    public function exportProductExcel($Product_data)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', '4000M');
+        try {
+            $spreadSheet = new Spreadsheet();
+            $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(20);
+            $spreadSheet->getActiveSheet()->fromArray($Product_data);
+            $Excel_writer = new Xls($spreadSheet);
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="Product_ExportedData.xls"');
+            header('Cache-Control: max-age=0');
+            ob_end_clean();
+            $Excel_writer->save('php://output');
+            exit();
+        } catch (Exception $e) {
+            return;
+        }
+    }
+
+    function exportProductData()
+    {
+        $this->storeLog('Export', 'exportProductData', '-');
+        $data = Product::all();
+
+        $data_array[] = array("Product UID", "Name", "Price", "Discounted Price", "Meal Time", "Meal Type", "Goal", "Category", "Sub Category", "Display in alacart", "Description", "Status", "Deleted", "Created At", "Updated At");
+        foreach ($data as $data_item) {
+
+            $productData = Product::where('UID', $data_item->UID)->first();
+
+            $mealTime = $productData->mealTime;
+            $mealTime = str_replace(',', '', $mealTime);
+            $mealTime = strtoupper($mealTime);
+            $mealType = Mealtype::find($productData->mealTypeId);
+            $goal = Goal::find($productData->goalId);
+            $category = Category::find($productData->categoryId);
+            $subcategory = Subcategory::find($productData->subCategoryId);
+
+            $data_array[] = array(
+                'Product UID' => $data_item->UID,
+                'Name' => $data_item->name,
+                'Price' => $data_item->price,
+                'Discounted Price' => $data_item->discountedPrice,
+                'Meal Time' => $mealTime,
+                'Meal Type' => $mealType->name,
+                'Goal' => $goal->name,
+                'Category' => $category->name,
+                'Sub Category' => $subcategory->name,
+                'Display in alacart' => $data_item->alaCartFlag == 1 ? 'Yes' : 'No',
+                'Description' => $data_item->description,
+                'Status' => $data_item->status == 1 ? 'Active' : 'Inactive',
+                'deleteId' => $data_item->deleteId == 1 ? 'Deleted' : 'Not Deleted',
+                'Created At' => $data_item->created_at,
+                'Updated At' => $data_item->updated_at,
+            );
+        }
+        $this->exportProductExcel($data_array);
     }
 
     public function updateProduct(Request $request)
@@ -2921,7 +3028,7 @@ class AdminController extends Controller
 
     public function indexBanner()
     {
-        $banners = Banner::all();
+        $banners = Banner::orderBy('sequence', 'Acs')->get();
         return view('admin.banner', compact('banners'));
     }
 
@@ -2940,9 +3047,33 @@ class AdminController extends Controller
             $image_path = null;
         }
         $banner->image = $image_path;
+        $banner->sequence = $request->sequence;
         $banner->save();
         Session()->flash('alert-success', "Banner Added Succesfully");
         $this->storeLog('Add', 'storeBanner', $banner);
+        return redirect()->back();
+    }
+
+    public function updateBanner(Request $request)
+    {
+        $uploadpath = 'media/images/banner';
+        $banner = Banner::find($request->hiddenId);
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $image_name = $image->getClientOriginalName();
+            $final_name = time() . $image_name;
+            $image->move($uploadpath, $final_name);
+            chmod('media/images/banner/' . $final_name, 0777);
+            $image_path = "media/images/banner/" . $final_name;
+        } else {
+            $image_path = Banner::where('id', $request->hiddenId)->first();
+            $image_path = $image_path['image'];
+        }
+        $banner->image = $image_path;
+        $banner->sequence = $request->sequence;
+        $banner->update();
+        Session()->flash('alert-success', "Banner Updated Succesfully");
+        $this->storeLog('Update', 'updateBanner', $banner);
         return redirect()->back();
     }
 

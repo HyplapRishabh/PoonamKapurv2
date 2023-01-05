@@ -11,6 +11,8 @@
     @show
     </title>
     <meta name="description" content="Login page example" />
+    <link rel="shortcut icon" href="{{asset('webassets/images/favicon.png')}}" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />

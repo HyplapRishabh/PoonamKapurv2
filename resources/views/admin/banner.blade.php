@@ -49,12 +49,18 @@
                                 </span>
                             </div>
                         </div>
+                        <div class="col-sm-12 mt-3">
+                            <div class="form-group">
+                                <label for="sequence">Sequence</label>
+                                <input type="number" class="form-control" id="sequence" name="sequence" placeholder="Enter Sequence" required>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
                 <div class="modal-footer card-footer">
                     <button type="submit" id="addBtn" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add Banners
+                        <i class="fas fa-plus"></i> Add Banner
                     </button>
                 </div>
             </form>
@@ -88,6 +94,7 @@
                         <tr class="text-center">
                             <th>Sr.no</th>
                             <th>Image</th>
+                            <th>Sequence</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -100,15 +107,69 @@
                                     <img src="{{$data->image != null ? $data->image : '\media\imageNotAdded.jpg'}}" onerror="this.src='media/imageNotAdded.jpg'" alt="Banner" style="height: 50px; width: 50px;">
                                 </a>
                             </td>
+                            <td class="align-middle text-center">{{$data->sequence}}</td>
                             <td class="table-action text-center">
                                 <div>
                                     <!-- <a href="" class="btn btn-icon btn-outline-primary has-ripple" data-toggle="modal" data-target="#showModal{{$data->id}}"><i class="far fa-eye"></i><span class="ripple ripple-animate" style="height: 45px; width: 45px; animation-duration: 0.7s; animation-timing-function: linear; background: rgb(255, 255, 255); opacity: 0.4; top: 7.39999px; left: -12.6px;"></span></a> -->
-                                    <!-- <a href="" class="btn btn-icon btn-outline-warning has-ripple" data-toggle="modal" data-target="#updateModal{{$data->id}}"><i class="fas fa-pen"></i></a> -->
+                                    <a href="" class="btn btn-icon btn-outline-warning has-ripple" data-toggle="modal" data-target="#updateModal{{$data->id}}"><i class="fas fa-pen"></i></a>
                                     <a href="" class="btn btn-icon btn-outline-danger has-ripple" data-toggle="modal" data-target="#deleteModal{{$data->id}}"><i class="far fa-trash-alt"></i></a>
                                 </div>
                             </td>
                         </tr>
 
+                        <!--Update Modal -->
+                        <div class="modal fade" id="updateModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" style="font-weight: 600; color: black; font-size: large;">Update Modal</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <i class="fas fa-times" style="font-size: 25px; "></i>
+                                        </button>
+                                    </div>
+
+                                    <form action="{{url('/banner/update')}}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="hiddenId" value="{{$data->id}}">
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-sm-12 text-center">
+                                                    <div class="image-input image-input-outline" id="kt_image_4" style=" background-image: url(/media/imgBack.png)">
+                                                        <div class="image-input-wrapper" style="width: 200px; height: 200px; background-image: url(/{{$data->image}})"></div>
+
+                                                        <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change Image">
+                                                            <i class="fas fa-plus icon-sm text-muted"></i>
+                                                            <input type="file" name="image" accept=".png, .jpg, .jpeg" />
+                                                            <input type="hidden" name="profile_avatar_remove" />
+                                                        </label>
+
+                                                        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel Image">
+                                                            <i class="ki ki-bold-close icon-xs text-muted"></i>
+                                                        </span>
+
+                                                        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="remove" data-toggle="tooltip" title="Remove Image">
+                                                            <i class="ki ki-bold-close icon-xs text-muted"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="sequence">Sequence</label>
+                                                        <input type="number" class="form-control" name="sequence" id="sequence" value="{{$data->sequence}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End Update Modal -->
                         <!--Delete Modal -->
                         <div class="modal fade" id="deleteModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">

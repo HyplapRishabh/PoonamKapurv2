@@ -329,7 +329,7 @@ isset($_GET['alaCart']) ? $alaCart = $_GET['alaCart'] : $alaCart = '';
                                 </a>
                             </li> -->
                             <li class="navi-item">
-                                <a href="{{url('/user/exportUserExcel')}}" class="navi-link">
+                                <a href="{{url('/product/exportProductExcel')}}" class="navi-link">
                                     <span class="navi-icon">
                                         <i class="la la-file-excel-o"></i>
                                     </span>

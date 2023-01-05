@@ -30,6 +30,7 @@
     <!-- status switch css -->
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 
+    <link rel="shortcut icon" href="{{asset('webassets/images/favicon.png')}}" />
 
     <!-- Data Table -->
     <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />

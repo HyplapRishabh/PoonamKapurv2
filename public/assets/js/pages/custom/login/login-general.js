@@ -96,7 +96,7 @@ var KTLogin = (function () {
                         });
                     } else if (response.status == 202) {
                         swal.fire({
-                            text: "User not found in out records",
+                            text: "User not found in our records",
                             icon: "error",
                             buttonsStyling: false,
                             confirmButtonText: "Try Again",
