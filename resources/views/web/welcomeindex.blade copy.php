@@ -24,8 +24,11 @@
     <main class="main-content">
         @include('web.weblayout.headerlayout')
         <div class="content-inner mt-5 py-0">
+
             <div class="row">
                 <div class="col-sm-12 col-lg-12">
+
+
                     <div class="bd-example">
                         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                             <ol class="carousel-indicators">
@@ -50,6 +53,8 @@
                                             </div>
                                         </div>
                                     </div>
+
+
                                 </div>
                                 @endforeach
                             </div>
@@ -61,10 +66,13 @@
                             </a>
                         </div>
                     </div>
+
+
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 col-lg-12">
+
                     <!-- quiz modal here -->
                     <div id="gridSystemModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
@@ -259,310 +267,241 @@
                     </div>
                     <!-- quiz modal ends here -->
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 col-lg-12">
-                    <div class="card-header border-0  ">
-                        <div class="card-transparent bg-transparent mb-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h3>How It Works</h3>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                        <div class="card-header border-0  ">
+                            <div class="card-transparent bg-transparent mb-0">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h3>How It Works</h3>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="card" style="text-align: center;">
-                        <img src="webassets/images/icons_login.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
-                        <div class="card-body">
-                            <h4 class="card-title">Login</h4>
-                            <p class="card-text">Simple one step login to the ordering platform </p>
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="card" style="text-align: center;">
+                            <img src="webassets/images/icons_login.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
+                            <div class="card-body">
+                                <h4 class="card-title">Login</h4>
+                                <p class="card-text">Simple one step login to the ordering platform </p>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="card" style="text-align: center;">
-                        <img src="webassets/images/bmi.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
-                        <div class="card-body">
-                            <h4 class="card-title">BMI & BMR Calculations</h4>
-                            <p class="card-text">Get your BMI & BMR calculations at your fingertips </p>
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="card" style="text-align: center;">
+                            <img src="webassets/images/bmi.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
+                            <div class="card-body">
+                                <h4 class="card-title">BMI & BMR Calculations</h4>
+                                <p class="card-text">Get your BMI & BMR calculations at your fingertips </p>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="card" style="text-align: center;">
-                        <img src="webassets/images/icons_goal.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
-                        <div class="card-body">
-                            <h4 class="card-title">Goal Selection</h4>
-                            <p class="card-text">Select your body goal as per the requirement & recommendation.
-                            </p>
-                            <!-- <ul class="list-group list-group-flush">
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="card" style="text-align: center;">
+                            <img src="webassets/images/icons_goal.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
+                            <div class="card-body">
+                                <h4 class="card-title">Goal Selection</h4>
+                                <p class="card-text">Select your body goal as per the requirement & recommendation.
+                                </p>
+                                <!-- <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Cras justo odio</li>
                                 <li class="list-group-item">Vestibulum at eros</li>
                             </ul> -->
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="card" style="text-align: center;">
-                        <img src="webassets/images/icons_meal.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
-                        <div class="card-body">
-                            <h4 class="card-title">Choose Meal Packages</h4>
-                            <p class="card-text">Select your meal packages as per your preference.</p>
-                        </div>
-                        <!-- <ul class="list-group list-group-flush">
+                    <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="card" style="text-align: center;">
+                            <img src="webassets/images/icons_meal.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
+                            <div class="card-body">
+                                <h4 class="card-title">Choose Meal Packages</h4>
+                                <p class="card-text">Select your meal packages as per your preference.</p>
+                            </div>
+                            <!-- <ul class="list-group list-group-flush">
                             <li class="list-group-item">Cras justo odio</li>
                         </ul>
                         <div class="card-body">
                             <a href="#" class="card-link">Card link</a>
                             <a href="#" class="card-link">Another link</a>
                         </div> -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12 my-2 col-md-6" >
-                    <a href="{{url('/app/alacart')}}" >
-                        <!-- <div style="background-image: url('webassets/images/alacartCard.png'); background-repeat: no-repeat; height: 400px; border-radius: 15px; background-size: contain; background-position: center right"></div> -->
-                        <img src="webassets/images/alacartCard.png" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="Banner" class="d-block w-100" alt="#" style="border-radius: 20px;">
-
-                    </a>
-                </div>
-                <div class="col-sm-12 my-2 col-md-6" >
-                    <a href="" data-bs-toggle="modal" data-bs-target="#gridSystemModal" >
-                        <!-- <div style="background-image: url('webassets/images/customizedMealsCard.png'); background-repeat: no-repeat; height: 400px; border-radius: 15px; background-size: contain; background-position: center right"></div> -->
-                        <img src="webassets/images/customizedMealsCard.png" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="Banner" class="d-block w-100" alt="#" style="border-radius: 20px;">
-
-                    </a>
-                </div>
-            </div>
-
-            <!--  starts-->
-            <div class="row">
-                <div class="col-md-12 col-lg-12">
-                    <div class="card-header border-0">
-                        <div class="card-transparent bg-transparent mb-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h3>Why Choose Us</h3>
-                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- starts -->
-                <div class="col-lg-4">
-                    <div class="card-profile-progress">
-                        <div class="circle-progress circle-progress-basic circle-progress-primary" data-min-value="0"></div>
-                        <img src="webassets/images/hm/hygiene.png" class="img-fluid rounded-circle card-img" alt="image" />
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <div class="d-flex flex-column text-center align-items-center justify-content-between">
-                                    <div class="fs-italic">
-                                        <h5>Hygiene</h5>
-                                    </div>
 
-                                    <div class="mt-3 text-center text-black-50">
-                                        <p>
-                                            We maintain High standards of hygiene and regular kitchen
-                                            inspections.
-                                        </p>
-                                    </div>
+                <!--  starts-->
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                        <div class="card-header border-0  ">
+                            <div class="card-transparent bg-transparent mb-0">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h3>Why Choose Us</h3>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>Hygiene</h4>
+                                        </div>
 
-                <div class="col-lg-4">
-                    <div class="card-profile-progress">
-                        <div class="circle-progress circle-progress-basic circle-progress-primary" data-min-value="0" data-max-value="100" data-value="80" data-type="percent"></div>
-                        <img src="webassets/images/hm/box.png" class="img-fluid rounded-circle card-img" alt="image" />
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <div class="d-flex flex-column text-center align-items-center justify-content-between">
-                                    <div class="fs-italic">
-                                        <h5>Food Packaging</h5>
-                                    </div>
-
-                                    <div class="mt-3 text-center text-black-50">
-                                        <p>
-                                            Use of food grade Disposables for packaging to keep you more
-                                            healthy.
+                                        <p class="mt-4">High standards of hygiene are maintained
                                         </p>
+
                                     </div>
+                                    <img src="webassets/images/hm/safe.png" class="img-fluid  avatar-80" alt="profile-image">
                                 </div>
+
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>Food Packaging</h4>
+                                        </div>
 
-                <div class="col-lg-4">
-                    <div class="card-profile-progress">
-                        <div class="circle-progress circle-progress-basic circle-progress-primary" data-min-value="0" data-max-value="100" data-value="80" data-type="percent"></div>
-                        <img src="webassets/images/hm/kitchen.png" class="img-fluid rounded-circle card-img" alt="image" />
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <div class="d-flex flex-column text-center align-items-center justify-content-between">
-                                    <div class="fs-italic">
-                                        <h5>Separate Kitchens</h5>
+                                        <p class="mt-4">Use of food grade Disposables for packaging
+                                        </p>
+
                                     </div>
+                                    <img src="webassets/images/hm/box.png" class="img-fluid  avatar-80" alt="profile-image">
+                                </div>
 
-                                    <div class="mt-3 text-center text-black-50">
-                                        <p>
-                                            We keep two sections separate for vegetarian and non vegetarian
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>Separate Kitchens</h4>
+                                        </div>
+
+                                        <p class="mt-4">We keep two sections separate for vegetarian and non vegetarian
                                             food
                                         </p>
+
                                     </div>
+                                    <img src="webassets/images/hm/vegetarian.png" class="img-fluid  avatar-80" alt="profile-image">
                                 </div>
+
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>Diet goals</h4>
+                                        </div>
 
-                <div class="col-lg-4">
-                    <div class="card-profile-progress">
-                        <div class="circle-progress circle-progress-basic circle-progress-primary" data-min-value="0" data-max-value="100" data-value="80" data-type="percent"></div>
-                        <img src="webassets/images/hm/diet.png" class="img-fluid rounded-circle card-img" alt="image" />
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <div class="d-flex flex-column text-center align-items-center justify-content-between">
-                                    <div class="fs-italic">
-                                        <h5>Diet goals</h5>
-                                    </div>
-
-                                    <div class="mt-3 text-center text-black-50">
-                                        <p>
-                                            MEAL COMBOS ARE CURATED TO SUIT DIFFERENT DIETARY REQUIREMENTS
+                                        <p class="mt-4">MEAL COMBOS ARE CURATED TO SUIT DIFFERENT DIETARY REQUIREMENTS
                                         </p>
+
                                     </div>
+                                    <img src="webassets/images/hm/nutrition.png" class="img-fluid  avatar-80" alt="profile-image">
                                 </div>
+
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>Macro details</h4>
+                                        </div>
 
-                <div class="col-lg-4">
-                    <div class="card-profile-progress">
-                        <div class="circle-progress circle-progress-basic circle-progress-primary" data-min-value="0" data-max-value="100" data-value="80" data-type="percent"></div>
-                        <img src="webassets/images/hm/macros.png" class="img-fluid rounded-circle card-img" alt="image" />
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <div class="d-flex flex-column text-center align-items-center justify-content-between">
-                                    <div class="fs-italic">
-                                        <h5>Macro details</h5>
-                                    </div>
-
-                                    <div class="mt-3 text-center text-black-50">
-                                        <p>ALL MACROS ARE DISPLAYED TO HELP YOU UNDERSTAND YOUR FOOD</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card-profile-progress">
-                        <div class="circle-progress circle-progress-basic circle-progress-primary" data-min-value="0" data-max-value="100" data-value="80" data-type="percent"></div>
-                        <img src="webassets/images/hm/non-toxic.png" class="img-fluid rounded-circle card-img" alt="image" />
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <div class="d-flex flex-column text-center align-items-center justify-content-between">
-                                    <div class="fs-italic">
-                                        <h5>No Chemicals</h5>
-                                    </div>
-
-                                    <div class="mt-3 text-center text-black-50">
-                                        <p>
-                                            NO ADDED COLOURS, PRESERVATIVES OR OTHER CHEMICAL FOOD ADDITIVES
+                                        <p class="mt-4">ALL MACROS ARE DISPLAYED TO HELP YOU UNDERSTAND YOUR FOOD
                                         </p>
+
                                     </div>
+                                    <img src="webassets/images/hm/macros.png" class="img-fluid  avatar-80" alt="profile-image">
                                 </div>
+
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>No Chemicals</h4>
+                                        </div>
 
-                <div class="col-lg-4">
-                    <div class="card-profile-progress">
-                        <div class="circle-progress circle-progress-basic circle-progress-primary" data-min-value="0" data-max-value="100" data-value="80" data-type="percent"></div>
-                        <img src="webassets/images/hm/bread.png" class="img-fluid rounded-circle card-img" alt="image" />
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <div class="d-flex flex-column text-center align-items-center justify-content-between">
-                                    <div class="fs-italic">
-                                        <h5>PROTEIN BREADS</h5>
-                                    </div>
+                                        <p class="mt-4">NO ADDED COLOURS, PRESERVATIVES OR OTHER CHEMICAL FOOD ADDITIVES
+                                        </p>
 
-                                    <div class="mt-3 text-center text-black-50">
-                                        <p>BREADS USED ARE ZERO MAIDA, HIGH PROTEIN BREADS</p>
                                     </div>
+                                    <img src="webassets/images/hm/non-toxic.png" class="img-fluid  avatar-80" alt="profile-image">
                                 </div>
+
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>PROTEIN BREADS</h4>
+                                        </div>
 
-                <div class="col-lg-4">
-                    <div class="card-profile-progress">
-                        <div class="circle-progress circle-progress-basic circle-progress-primary" data-min-value="0" data-max-value="100" data-value="80" data-type="percent"></div>
-                        <img src="webassets/images/hm/nutrition.png" class="img-fluid rounded-circle card-img" alt="image" />
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <div class="d-flex flex-column text-center align-items-center justify-content-between">
-                                    <div class="fs-italic">
-                                        <h5>Better Suggestions</h5>
+                                        <p class="mt-4">BREADS USED ARE ZERO MAIDA, HIGH PROTEIN BREADS
+                                        </p>
+
                                     </div>
-                                    <div class="mt-3 text-center text-black-50">
-                                        <p>WE BRIDGE THE GAP BETWEEN NUTRITIONIST AND VENDOR.</p>
-                                    </div>
+                                    <img src="webassets/images/hm/bread.png" class="img-fluid  avatar-80" alt="profile-image">
                                 </div>
+
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-3 ">
+                                    <div>
+                                        <div class="heading-title">
+                                            <h4>Better Suggestions</h4>
+                                        </div>
+
+                                        <p class="mt-4">WE BRIDGE THE GAP BETWEEN NUTRITIONIST AND VENDOR. </p>
+
+                                    </div>
+                                    <img src="webassets/images/hm/alternative.png" class="img-fluid  avatar-80" alt="profile-image">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <!-- ends -->
-            </div>
-            <!-- ends -->
 
-            <div class="row">
-                <div class="col-sm-12 col-lg-12">
-                    <div class="bd-example">
-                        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <a href="{{url('/app/consultation')}}">
-                                        <img src="webassets/images/BOOKDIETTITIAN.png" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="Banner" class="d-block w-100" alt="#">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <div class="card-transparent bg-transparent mb-0">
+                    <div class="card-header border-0  ">
 
-            <div class="card-transparent bg-transparent mb-0">
-                <div class="card-header border-0  ">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3>We Have Served</h3>
-                        <!-- <div class="text-dark d-flex"><a href="{{url('/app/alltestimonial')}}">View All</a>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>Client Reviews</h3>
+                            <!-- <div class="text-dark d-flex"><a href="{{url('/app/alltestimonial')}}">View All</a>
                                 <svg width="24" height="24" class="ms-1" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <rect width="24" height="24" rx="12" fill="#EA6A12" />
@@ -570,181 +509,173 @@
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </div> -->
-                    </div>
-                </div>
-                <div class="card-body p-0">
-                    <div class="swiper-container d-slider2">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
-                                    <div class="card-body">
-                                        <div class="text-center iq-menu-category">
-                                            <img src="webassets/images/hm/client1.png" class="img-fluid rounded-pill avatar-100 mb-3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
-                                    <div class="card-body">
-                                        <div class="text-center iq-menu-category">
-                                            <img src="webassets/images/hm/client2.png" class="img-fluid rounded-pill avatar-100 mb-3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
-                                    <div class="card-body">
-                                        <div class="text-center iq-menu-category">
-                                            <img src="webassets/images/hm/client3.png" class="img-fluid rounded-pill avatar-100 mb-3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
-                                    <div class="card-body">
-                                        <div class="text-center iq-menu-category">
-                                            <img src="webassets/images/hm/client4.png" class="img-fluid rounded-pill avatar-100 mb-3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
-                                    <div class="card-body">
-                                        <div class="text-center iq-menu-category">
-                                            <img src="webassets/images/hm/client5.png" class="img-fluid rounded-pill avatar-100 mb-3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
-                                    <div class="card-body">
-                                        <div class="text-center iq-menu-category">
-                                            <img src="webassets/images/hm/client6.png" class="img-fluid rounded-pill avatar-100 mb-3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
-                                    <div class="card-body">
-                                        <div class="text-center iq-menu-category">
-                                            <img src="webassets/images/hm/client7.png" class="img-fluid rounded-pill avatar-100 mb-3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
-                                    <div class="card-body">
-                                        <div class="text-center iq-menu-category">
-                                            <img src="webassets/images/hm/client8.png" class="img-fluid rounded-pill avatar-100 mb-3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
-                                    <div class="card-body">
-                                        <div class="text-center iq-menu-category">
-                                            <img src="webassets/images/hm/client9.png" class="img-fluid rounded-pill avatar-100 mb-3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
-                                    <div class="card-body">
-                                        <div class="text-center iq-menu-category">
-                                            <img src="webassets/images/hm/client10.png" class="img-fluid rounded-pill avatar-100 mb-3">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="card-body p-0">
+                        <div class="swiper-container d-slider4">
+                            <div class="swiper-wrapper">
 
-                <!-- <div class="card-header border-0  ">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3>Client Reviews</h3>
-                        <div class="text-dark d-flex"><a href="{{url('/app/alltestimonial')}}">View All</a>
-                                <svg width="24" height="24" class="ms-1" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="24" height="24" rx="12" fill="#EA6A12" />
-                                    <path d="M10.25 8.5L13.75 12L10.25 15.5" stroke="white" stroke-width="1.5"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </div>
-                    </div>
-                </div> -->
-                <!-- <div class="card-body p-0">
-                    <div class="swiper-container d-slider4">
-                        <div class="swiper-wrapper">
-                            @foreach($testimonials as $testimonialInfo)
-                            <div class="swiper-slide">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <img src="{{asset($testimonialInfo->media)}}" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="{{$testimonialInfo->name}}" class="img-fluid rounded-circle avatar-100 mb-2"><br>
-                                            <p class="heading-title fw-bolder text-dark ms-3 ms-lg-0">{{$testimonialInfo->name}}</p>
-                                        </div>
-                                        <div class="col-12 ps-lg-0">
-                                            <p style="text-align:justify">{{$testimonialInfo->comment}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div> -->
-            </div>
+                                @foreach($testimonials as $testimonialInfo)
+                                <div class="swiper-slide">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <img src="{{asset($testimonialInfo->media)}}" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="{{$testimonialInfo->name}}" class="img-fluid rounded-circle avatar-100 mb-2"><br>
+                                                <p class="heading-title fw-bolder text-dark ms-3 ms-lg-0">
+                                                    {{$testimonialInfo->name}}
+                                                </p>
+                                            </div>
+                                            <div class="col-12 ps-lg-0">
+                                                <!-- <div class="d-flex justify-content-between">
+                                                    <div class="d-flex">
+                                                        <small class="text-dark fw-bolder me-1">4.5</small>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px"
+                                                            fill="orange" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                                        </svg>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px"
+                                                            fill="orange" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                                        </svg>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px"
+                                                            fill="orange" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                                        </svg>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px"
+                                                            fill="orange" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                                        </svg>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" fill="none"
+                                                            viewBox="0 0 24 24" stroke="currentcolor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                                        </svg>
+                                                    </div>
 
-            <div class="card-transparent bg-transparent mb-0 d-none d-md-block">
-                <div class="card-header border-0  ">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3>Client Reviews</h3>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-lg-12">
-                    <div class="bd-example">
-                        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-                            <ol class="carousel-indicators">
-                                @foreach($testimonials as $key=>$testimonialInfo)
-                                <li data-bs-target="#carouselExample" data-bs-slide-to="{{$key}}" class="active"></li>
-                                @endforeach
-                            </ol>
-                            <div class="carousel-inner">
-                                @foreach($testimonials as $key=>$testimonialInfo)
-                                <div class="carousel-item {{$key == 0 ? 'active' : ''}}">
-                                    <img src="webassets/images/testimonialbanner.jpg" class="d-block w-100" alt="#">
-                                    <div class="carousel-caption" style="bottom: 5rem;">
-                                        <img src="{{asset($testimonialInfo->media)}}" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="{{$testimonialInfo->name}}" class="img-fluid rounded-circle avatar-100 mb-2"><br>
-                                        <p class="heading-title fw-bolder text-dark ms-3 ms-lg-0">{{$testimonialInfo->name}}</p>
-                                        <p style="text-align:justify">{{$testimonialInfo->comment}}</p>
+                                                </div> -->
+                                                <!-- <h6 class="heading-title mt-3 mb-2">Nice place and excellent food</h6> -->
+                                                <p style="text-align:justify">{{$testimonialInfo->comment}}</p>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 @endforeach
                             </div>
-                            <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            </a>
+                        </div>
+
+                    </div>
+                    <h3>We Have Served</h3>
+                    <div class="card-body p-0">
+                        <div class="swiper-container d-slider2">
+                            <div class="swiper-wrapper">
+
+                                <div class="swiper-slide">
+                                    <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                        <div class="card-body">
+                                            <div class="text-center iq-menu-category">
+                                                <img src="webassets/images/hm/client1.png" class="img-fluid rounded-pill avatar-100 mb-3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                        <div class="card-body">
+                                            <div class="text-center iq-menu-category">
+                                                <img src="webassets/images/hm/client2.png" class="img-fluid rounded-pill avatar-100 mb-3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                        <div class="card-body">
+                                            <div class="text-center iq-menu-category">
+                                                <img src="webassets/images/hm/client3.png" class="img-fluid rounded-pill avatar-100 mb-3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                        <div class="card-body">
+                                            <div class="text-center iq-menu-category">
+                                                <img src="webassets/images/hm/client4.png" class="img-fluid rounded-pill avatar-100 mb-3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                        <div class="card-body">
+                                            <div class="text-center iq-menu-category">
+                                                <img src="webassets/images/hm/client5.png" class="img-fluid rounded-pill avatar-100 mb-3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                        <div class="card-body">
+                                            <div class="text-center iq-menu-category">
+                                                <img src="webassets/images/hm/client6.png" class="img-fluid rounded-pill avatar-100 mb-3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                        <div class="card-body">
+                                            <div class="text-center iq-menu-category">
+                                                <img src="webassets/images/hm/client7.png" class="img-fluid rounded-pill avatar-100 mb-3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                        <div class="card-body">
+                                            <div class="text-center iq-menu-category">
+                                                <img src="webassets/images/hm/client8.png" class="img-fluid rounded-pill avatar-100 mb-3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                        <div class="card-body">
+                                            <div class="text-center iq-menu-category">
+                                                <img src="webassets/images/hm/client9.png" class="img-fluid rounded-pill avatar-100 mb-3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                        <div class="card-body">
+                                            <div class="text-center iq-menu-category">
+                                                <img src="webassets/images/hm/client10.png" class="img-fluid rounded-pill avatar-100 mb-3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Base buttons -->
-        <!-- <div class="row " id="enqRow">
+        <div class="row " id="enqRow" >
             <div class="col-sm-6 text-center">
                 <div class="login-block" id="enqBtnfooter">
                     <a href="{{url('/app/alacart')}}" class=" show" style="color: #ff6633;">Ala Cart</a>
@@ -798,7 +729,7 @@
                     visibility: hidden;
                 }
             }
-        </style> -->
+        </style>
         @include('web.weblayout.footerlayout')
     </main>
     @include('web.weblayout.footerscript')
