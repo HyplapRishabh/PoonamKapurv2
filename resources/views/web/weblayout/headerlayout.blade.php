@@ -131,7 +131,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <!-- <a href="" class="nav-link" id="notification-drop" data-bs-toggle="modal" data-bs-target="#bulkEnquiry"> -->
-                    <a href="{{url('/app/Bulk')}}" class="nav-link" >
+                    <a href="{{url('/app/Bulk')}}" class="nav-link">
                         <p style="font-size: 0.9rem">Bulk enquires</p>
                         <span class="bg-danger dots"></span>
                     </a>
@@ -353,8 +353,8 @@
         color: white;
     }
 
-    .google {
-        background: #dd4b39;
+    .instagram {
+        background: #ff0b46;
         color: white;
     }
 
@@ -370,19 +370,49 @@
 </style>
 
 <div class="icon-bar">
-    <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-    <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-    <a href="#" class="google"><i class="fa fa-instagram"></i></a>
-    <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
-    <a href="#" class="youtube"><i class="fa fa-youtube"></i></a>
+    <a href="https://www.facebook.com/PoonamKapurTiffinsAndDietMeals?mibextid=LQQJ4d" target="_blank" class="facebook"><i class="fa fa-facebook"></i></a>
+    <a href="https://twitter.com/poonamkapur12?s=11&t=Io0OgmHClxzw8pvoMTxySg" target="_blank" class="twitter"><i class="fa fa-twitter"></i></a>
+    <a href="https://instagram.com/poonamkapurshealthykitchen?utm_medium=copy_link" target="_blank" class="instagram"><i class="fa fa-instagram"></i></a>
+    <a href="https://www.linkedin.com/posts/poonam-kapurs-kitchen-healthy-customized-diet-meals-services-in-mumbai-45b78113_poonamkapurshealthykitchen-prowok-highproteinmeals-activity-6941378619260690433-9LOn?utm_source=linkedin_share&utm_medium=android_app" target="_blank" class="linkedin"><i class="fa fa-linkedin"></i></a>
+    <!-- <a href="#" class="youtube"><i class="fa fa-youtube"></i></a> -->
 </div>
+<a href="https://wa.me/9820097377?text=Hello%2C%20can%20you%20please%20help%20me%20with%20the%20diet%20plan%20%3F" class="float" target="_blank">
+    <i class="fa fa-whatsapp my-float"></i>
+</a>
+<style>
+    .float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 40px;
+        right: 10px;
+        background-color: #25d366;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 30px;
+        box-shadow: 2px 2px 3px #999;
+        z-index: 100;
+    }
+
+    .my-float {
+        margin-top: 16px;
+    }
+
+    /* media query */
+    @media only screen and (max-width: 576px) {
+        .float {
+            bottom: 90px;
+        }
+    }
+</style>
 
 <style>
-    .oneLiner{
-        display: -webkit-box; 
-        text-overflow: ellipsis; 
-        overflow: hidden; 
-        -webkit-line-clamp: 1; 
+    .oneLiner {
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
     }
 
@@ -399,6 +429,5 @@
         background: #EA6A12;
         border-radius: 10px;
     }
-    
 </style>
 <!-- </div> -->
