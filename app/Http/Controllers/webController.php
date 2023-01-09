@@ -413,7 +413,9 @@ class webController extends Controller
             $user->password = Hash::make($request->upassword);
             $user->save();
             $this->createWalletUser($user->id);
-            Auth::login($request->uemail);
+            $resultemail = User::Where(['email' => $request['uemail']])->first();
+
+            Auth::login($resultemail);
             return response()->json([
                 'status' => 200,
                 'message' => 'Profile Created succesfully !',
