@@ -210,8 +210,8 @@
                 udf1: document.getElementById('addamt').value,
                 udf5: document.getElementById('userid').value,
 
-                surl: 'http://poonamkapur.com/app/payuwalletresponsepkhk',
-                furl: 'http://poonamkapur.com/app/payuwalletresponsepkhk',
+                surl: 'https://poonamkapur.com/app/payuwalletresponsepkhk',
+                furl: 'https://poonamkapur.com/app/payuwalletresponsepkhk',
             };
             console.log(boltdata);
             var fr = '<form action=\"https://secure.payu.in/_payment" method=\"post\">' +
@@ -223,8 +223,8 @@
                 '<input type=\"hidden\" name=\"email\" value=\"' + boltdata.email + '\" />' +
                 '<input type=\"hidden\" name=\"udf1\" value=\"' + boltdata.udf1 + '\" />' +
                 '<input type=\"hidden\" name=\"udf5\" value=\"' + boltdata.udf5 + '\" />' +
-                '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapur.com/app/payuwalletresponsepkhk\" />' +
-                '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapur.com/app/payuwalletresponsepkhk\" />' +
+                '<input type=\"hidden\" name=\"surl\" value=\"https://poonamkapur.com/app/payuwalletresponsepkhk\" />' +
+                '<input type=\"hidden\" name=\"furl\" value=\"https://poonamkapur.com/app/payuwalletresponsepkhk\" />' +
                 '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
                 '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
                 '</form>';
