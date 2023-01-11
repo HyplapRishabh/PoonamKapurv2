@@ -378,8 +378,8 @@
                 zipcode: document.getElementById('pincodeval').value,
                 city: document.getElementById('areanameval').value,
 
-                surl: 'http://poonamkapoor.nyaasah.com/app/payuresponsepkhk',
-                furl: 'http://poonamkapoor.nyaasah.com/app/payuresponsepkhk',
+                surl: 'http://poonamkapur.com/app/payuresponsepkhk',
+                furl: 'http://poonamkapur.com/app/payuresponsepkhk',
             };
             console.log(boltdata);
             if(boltdata.amount==0)
@@ -400,8 +400,8 @@
                 '<input type=\"hidden\" name=\"address2\" value=\"' + boltdata.address2 + '\" />' +
                 '<input type=\"hidden\" name=\"zipcode\" value=\"' + boltdata.zipcode + '\" />' +
                 '<input type=\"hidden\" name=\"city\" value=\"' + boltdata.city + '\" />' +
-                '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponsepkhk\" />' +
-                '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponsepkhk\" />' +
+                '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapur.com/app/payuresponsepkhk\" />' +
+                '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapur.com/app/payuresponsepkhk\" />' +
                 '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
                 '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
                 '</form>';
@@ -428,8 +428,8 @@
                 '<input type=\"hidden\" name=\"address2\" value=\"' + boltdata.address2 + '\" />' +
                 '<input type=\"hidden\" name=\"zipcode\" value=\"' + boltdata.zipcode + '\" />' +
                 '<input type=\"hidden\" name=\"city\" value=\"' + boltdata.city + '\" />' +
-                '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponsepkhk\" />' +
-                '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponsepkhk\" />' +
+                '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapur.com/app/payuresponsepkhk\" />' +
+                '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapur.com/app/payuresponsepkhk\" />' +
                 '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
                 '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
                 '</form>';

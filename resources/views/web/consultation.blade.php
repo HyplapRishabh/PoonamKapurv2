@@ -320,8 +320,8 @@
                 udf3: document.getElementById('msg').value,
                 udf4: document.getElementById('walletuseflag').value,
                 udf5: document.getElementById('userid').value,
-                surl: 'http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk',
-                furl: 'http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk',
+                surl: 'http://poonamkapur.com/app/payuresponseconsultpkhk',
+                furl: 'http://poonamkapur.com/app/payuresponseconsultpkhk',
             };
             console.log(boltdata);
             if (boltdata.amount == 0) {
@@ -337,8 +337,8 @@
                     '<input type=\"hidden\" name=\"udf3\" value=\"' + boltdata.udf3 + '\" />' +
                     '<input type=\"hidden\" name=\"udf4\" value=\"' + boltdata.udf4 + '\" />' +
                     '<input type=\"hidden\" name=\"udf5\" value=\"' + boltdata.udf5 + '\" />' +
-                    '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk\" />' +
-                    '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk\" />' +
+                    '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapur.com/app/payuresponseconsultpkhk\" />' +
+                    '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapur.com/app/payuresponseconsultpkhk\" />' +
                     '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
                     '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
                     '</form>';
@@ -359,8 +359,8 @@
                     '<input type=\"hidden\" name=\"udf3\" value=\"' + boltdata.udf3 + '\" />' +
                     '<input type=\"hidden\" name=\"udf4\" value=\"' + boltdata.udf4 + '\" />' +
                     '<input type=\"hidden\" name=\"udf5\" value=\"' + boltdata.udf5 + '\" />' +
-                    '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk\" />' +
-                    '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapoor.nyaasah.com/app/payuresponseconsultpkhk\" />' +
+                    '<input type=\"hidden\" name=\"surl\" value=\"http://poonamkapur.com/app/payuresponseconsultpkhk\" />' +
+                    '<input type=\"hidden\" name=\"furl\" value=\"http://poonamkapur.com/app/payuresponseconsultpkhk\" />' +
                     '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
                     '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
                     '</form>';
