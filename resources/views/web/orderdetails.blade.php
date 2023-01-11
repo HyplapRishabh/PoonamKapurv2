@@ -84,7 +84,7 @@
                                 <tr class="cart_item border-bottom">
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <img  src="/{{asset($alacartinfo->productImg)}}"  onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="{{$alacartinfo->productName}}"
+                                            <img  src="{{asset($alacartinfo->productImg)}}"  onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="{{$alacartinfo->productName}}"
                                                 class="img-fluid avatar-rounded avatar-70">
                                             <div class="d-flex ms-4">
                                                 <div>
