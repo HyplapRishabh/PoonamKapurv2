@@ -578,6 +578,129 @@
                                 <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
                                     <div class="card-body">
                                         <div class="text-center iq-menu-category">
+                                            <img src="webassets/images/hm/clients logo_client1.png" class="img-fluid  avatar-100 mb-3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                    <div class="card-body">
+                                        <div class="text-center iq-menu-category">
+                                            <img src="webassets/images/hm/clients logo_client2.png" class="img-fluid  avatar-100 mb-3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                    <div class="card-body">
+                                        <div class="text-center iq-menu-category">
+                                            <img src="webassets/images/hm/clients logo_client3.png" class="img-fluid  avatar-100 mb-3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                    <div class="card-body">
+                                        <div class="text-center iq-menu-category">
+                                            <img src="webassets/images/hm/clients logo_client4.png" class="img-fluid  avatar-100 mb-3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                    <div class="card-body">
+                                        <div class="text-center iq-menu-category">
+                                            <img src="webassets/images/hm/clients logo_client5.png" class="img-fluid  avatar-100 mb-3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                    <div class="card-body">
+                                        <div class="text-center iq-menu-category">
+                                            <img src="webassets/images/hm/clients logo_client6.png" class="img-fluid  avatar-100 mb-3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                    <div class="card-body">
+                                        <div class="text-center iq-menu-category">
+                                            <img src="webassets/images/hm/clients logo_client7.png" class="img-fluid  avatar-100 mb-3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                    <div class="card-body">
+                                        <div class="text-center iq-menu-category">
+                                            <img src="webassets/images/hm/clients logo_client8.png" class="img-fluid  avatar-100 mb-3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                    <div class="card-body">
+                                        <div class="text-center iq-menu-category">
+                                            <img src="webassets/images/hm/clients logo_client9.png" class="img-fluid  avatar-100 mb-3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                    <div class="card-body">
+                                        <div class="text-center iq-menu-category">
+                                            <img src="webassets/images/hm/clients logo_client10.png" class="img-fluid  avatar-100 mb-3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                    <div class="card-body">
+                                        <div class="text-center iq-menu-category">
+                                            <img src="webassets/images/hm/clients logo_client11.png" class="img-fluid  avatar-100 mb-3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                    <div class="card-body">
+                                        <div class="text-center iq-menu-category">
+                                            <img src="webassets/images/hm/clients logo_client12.png" class="img-fluid  avatar-100 mb-3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                    <div class="card-body">
+                                        <div class="text-center iq-menu-category">
+                                            <img src="webassets/images/hm/clients logo_client13.png" class="img-fluid  avatar-100 mb-3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="card-body p-0">
+                    <div class="swiper-container d-slider2">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="card category-menu" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                    <div class="card-body">
+                                        <div class="text-center iq-menu-category">
                                             <img src="webassets/images/hm/client1.png" class="img-fluid rounded-pill avatar-100 mb-3">
                                         </div>
                                     </div>
@@ -666,7 +789,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- <div class="card-header border-0  ">
                     <div class="d-flex justify-content-between align-items-center">
@@ -722,10 +845,11 @@
                                 @foreach($testimonials as $key=>$testimonialInfo)
                                 <div class="carousel-item {{$key == 0 ? 'active' : ''}}">
                                     <img src="webassets/images/testimonialbanner.jpg" class="d-block w-100" alt="#">
-                                    <div class="carousel-caption" style="bottom: 5rem;">
-                                        <img src="{{asset($testimonialInfo->media)}}" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="{{$testimonialInfo->name}}" class="img-fluid rounded-circle avatar-100 mb-2"><br>
+                                    <div class="carousel-caption" style="bottom: 10rem; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 50%;">
+                                        <!-- <img src="{{asset($testimonialInfo->media)}}" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="{{$testimonialInfo->name}}" class="img-fluid rounded-circle avatar-100 mb-2"><br> -->
+                                        <div class="img-fluid rounded-circle avatar-100 mb-2" style="background-image: url('webassets/images/customizedMealsCard.png'); background-position: center; background-size: contain; background-repeat: no-repeat;" ></div>
                                         <p class="heading-title fw-bolder text-dark ms-3 ms-lg-0">{{$testimonialInfo->name}}</p>
-                                        <p style="text-align:justify">{{$testimonialInfo->comment}}</p>
+                                        <p style="text-align:justify; overflow-y: scroll; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4;" >{{$testimonialInfo->comment}}</p>
                                     </div>
                                 </div>
                                 @endforeach
