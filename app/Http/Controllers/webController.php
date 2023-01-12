@@ -181,6 +181,87 @@ class webController extends Controller
         $enquiry->message = $request->message;
         $enquiry->save();
 
+        $data = array(
+            "sender" => array(
+                "email" => 'poonamkapur77@gmail.com',
+                "name" => 'GRISHMA FOODS PRIVATE LIMITED'
+            ),
+            "to" => array(
+                array(
+                    "email" => "$request->email",
+                    "name" => "$request->name"
+                )
+            ),
+            "name" => "Welcome To GRISHMA FOODS PRIVATE LIMITED",
+            "subject" => 'Enquiry For Bulk Order',
+            "htmlContent" => '<html><head></head><body><p>Hello '.$request->name.',</p>Thank you for your interest in our Franchise Enquiry. We have received your request and our representative will get back to you shortly.<br>Incase the request is urgent you can give us a call on +91-98200-97377.<br> Appreciate your patience.</p><br><br><br><br>Regards<br>Team GRISHMA FOODS PRIVATE LIMITED</body></html>'
+        );
+        $dataSelf = array(
+            "sender" => array(
+                "email" => 'poonamkapur77@gmail.com',
+                "name" => 'GRISHMA FOODS PRIVATE LIMITED'
+            ),
+            "to" => array(
+                array(
+                    "email" => 'poonamkapur77@gmail.com',
+                    "name" => "Poonam Kapur"
+                )
+            ),
+            "name" => "Welcome To GRISHMA FOODS PRIVATE LIMITED",
+            "subject" => 'Enquiry For Franchise Order',
+            "htmlContent" => '<html><head></head><body><p>Hello Poonam Maam,</p> <br>You have received a Franchise Enquiry from '.$request->name.'.<br>You can contact the user by: <br> <b> Call: </b> '.$request->phone.'<br> <b>Email : </b> '.$request->email.' </p><br><br><br></body></html>'
+        );
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.sendinblue.com/v3/smtp/email',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($dataSelf),
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'Api-Key: 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'
+            ),
+        ));
+        // $response = curl_exec($curl);
+        $result = curl_exec($curl);
+        if (curl_errno($curl)) {
+            echo 'Error:' . curl_error($curl);
+        }
+        error_log('this comes ->'.$result);
+        curl_close($curl);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.sendinblue.com/v3/smtp/email',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'Api-Key: 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'
+            ),
+        ));
+        // $response = curl_exec($curl);
+        $result = curl_exec($curl);
+        if (curl_errno($curl)) {
+            echo 'Error:' . curl_error($curl);
+        }
+        curl_close($curl);
+        error_log('this comes ->'.$result);
+        curl_close($curl);
+
+
         return redirect()->back()->with('success', 'Thank you for your enquiry. We will get back to you soon.');
     }
 
@@ -206,6 +287,85 @@ class webController extends Controller
         $enquiry->callBackTime = $request->callBackTime;
         $enquiry->message = $request->message;
         $enquiry->save();
+
+        $data = array(
+            "sender" => array(
+                "email" => 'poonamkapur77@gmail.com',
+                "name" => 'GRISHMA FOODS PRIVATE LIMITED'
+            ),
+            "to" => array(
+                array(
+                    "email" => "$request->email",
+                    "name" => "$request->name"
+                )
+            ),
+            "name" => "Welcome To GRISHMA FOODS PRIVATE LIMITED",
+            "subject" => 'Enquiry For Bulk Order',
+            "htmlContent" => '<html><head></head><body><p>Hello '.$request->name.',</p>Thank you for your interest in our Bulk Orders. We have received your request and our representative will get back to you shortly.<br>Incase the request is urgent you can give us a call on +91-98200-97377.<br> Appreciate your patience.</p><br><br><br><br>Regards<br>Team GRISHMA FOODS PRIVATE LIMITED</body></html>'
+        );
+        $dataSelf = array(
+            "sender" => array(
+                "email" => 'poonamkapur77@gmail.com',
+                "name" => 'GRISHMA FOODS PRIVATE LIMITED'
+            ),
+            "to" => array(
+                array(
+                    "email" => 'poonamkapur77@gmail.com',
+                    "name" => "Poonam Kapur"
+                )
+            ),
+            "name" => "Welcome To GRISHMA FOODS PRIVATE LIMITED",
+            "subject" => 'Enquiry For Bulk Order',
+            "htmlContent" => '<html><head></head><body><p>Hello Poonam Maam,</p> <br>You have received a Bulk Enquiry from '.$request->name.'.<br>You can contact the user by: <br> <b> Call: </b> '.$request->phone.'<br> <b>Email : </b> '.$request->email.' </p><br><br><br></body></html>'
+        );
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.sendinblue.com/v3/smtp/email',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'Api-Key: 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'
+            ),
+        ));
+        // $response = curl_exec($curl);
+        $result = curl_exec($curl);
+        if (curl_errno($curl)) {
+            echo 'Error:' . curl_error($curl);
+        }
+        error_log('this comes ->'.$result);
+        curl_close($curl);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.sendinblue.com/v3/smtp/email',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($dataSelf),
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'Api-Key: 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'
+            ),
+        ));
+        // $response = curl_exec($curl);
+        $result = curl_exec($curl);
+        if (curl_errno($curl)) {
+            echo 'Error:' . curl_error($curl);
+        }
+        error_log('this comes ->'.$result);
+        curl_close($curl);
 
         return redirect()->back()->with('success', 'Thank you for your enquiry. We will get back to you soon.');
     }
@@ -690,6 +850,7 @@ class webController extends Controller
             $mindate = Carbon::now();
             $finalamt=500;
             $mindate=$mindate->addDays(1)->format('Y-m-d');
+            
             return view('web.consultation', compact('categorylist','goallist','packagelist','txnid','mindate','userwallet','finalamt'));
         }
         else
@@ -831,6 +992,10 @@ class webController extends Controller
 
         $trxdtl = transction::where('id', $trxId)->with('trxalacartorder')->first();
         $packagedtl = [];
+
+        // email 
+        
+
                 return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
     }
 
@@ -940,7 +1105,7 @@ class webController extends Controller
 
     public function payuresponsepkhk(Request $input)
     {
-       //return $input;
+    //    return $input;
         //$input='{"mihpayid":"403993715528002169","mode":"UPI","status":"success","unmappedstatus":"failed","key":"gtKFFx","txnid":"pk8719762","amount":"300.00","discount":"0.00","net_amount_debit":"0.00","addedon":"2022-12-30 10:52:57","productinfo":"AlaCartOrder","firstname":"Sayed Zaid","lastname":null,"address1":"Flat 07  anand dhan","address2":"near patel h","city":"B.P LANE","state":null,"country":null,"zipcode":"400003","email":"rishabh.2745@gmail.com","phone":"8433885667","udf1":"270,0,300,30,1,300","udf2":null,"udf3":null,"udf4":null,"udf5":"1","udf6":null,"udf7":null,"udf8":null,"udf9":null,"udf10":null,"hash":"636184f7353536fe36a56b296db0743772e825ceb562cf86f67791538a6a1ee58e310da2fe5fe1526736be276007d889005548fe259f8da1bb4db70393a63669","field1":"8976074007@ybl","field2":null,"field3":null,"field4":"RISHABH MAHENDRA KATARIYA","field5":null,"field6":null,"field7":null,"field8":null,"field9":"Transaction Failed at bank end.","payment_source":"payu","PG_TYPE":"HDFCU","bank_ref_num":null,"bankcode":"PP_UPI","error":"E308","error_Message":"Bank was unable to authenticate"}';
         //$input=json_decode($input,true);
         $carb= Carbon::now(); 
@@ -1116,8 +1281,6 @@ class webController extends Controller
                     cart::where('userID', $input['udf5'])->delete();
                 }
                 
-                
-                
                 $result = User::where('id',$input['udf5'])->first();
                 Auth::login($result);
 
@@ -1272,6 +1435,45 @@ class webController extends Controller
                 return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
             }
         }
+
+        $data = array(
+            "sender" => array(
+                "email" => 'poonamkapur77@gmail.com',
+                "name" => 'GRISHMA FOODS PRIVATE LIMITED'
+            ),
+            "to" => array(
+                    "email" => 'szaid444666@gmail.com',
+                    "name" => "$input->username"
+            ),
+            "name" => "Welcome To GRISHMA FOODS PRIVATE LIMITED",
+            "subject" => 'Order Placed',
+            "htmlContent" => '<html><head></head><body><p>Hello '.$input->username.',</p>We have received your order <b>'.$trxId.' .</b> <br> <b>From:</b> '.$input['addressdtl'].', '.$input['area'].', '.$input['pincode'].' </p><br>Thank you for your order, and we hope you love it.<br><br><br>Regards<br>Team GRISHMA FOODS PRIVATE LIMITED</body></html>'
+        );
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.sendinblue.com/v3/smtp/email',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'Api-Key: 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'
+            ),
+        ));
+        // $response = curl_exec($curl);
+        $result = curl_exec($curl);
+        if (curl_errno($curl)) {
+            echo 'Error:' . curl_error($curl);
+        }
+        curl_close($curl);
+        error_log('this comes ->'.$result);
+        curl_close($curl);
     }
 
     public function undefined(Request $input)

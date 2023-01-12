@@ -386,9 +386,9 @@ Route::group([
     Route::get('/category/{catslug}', [webController::class, 'categorydetail']);
     Route::get('/aboutus', [webController::class, 'aboutus']);
     Route::get('/Bulk', [webController::class, 'indexBulk']); 
-    Route::post('/submitBulkEnquiry', [webController::class, 'submitBulkEnquiry']);
+    Route::post('/submitBulkEnquiry', [webController::class, 'submitBulkEnquiry']); //
     Route::get('/Franchisee', [webController::class, 'indexFranchisee']); 
-    Route::post('/submitFranchiseEnquiry', [webController::class, 'submitFranchiseEnquiry']);
+    Route::post('/submitFranchiseEnquiry', [webController::class, 'submitFranchiseEnquiry']); //
     Route::get('/contact-us', [webController::class, 'contactus']);
     Route::get('/privacy-policy', [webController::class, 'privacypolicy']);
     Route::get('/terms-of-service', [webController::class, 'privacypolicy']);
@@ -419,15 +419,15 @@ Route::group([
     Route::get('/myprofile', [webController::class, 'myprofile']);
     Route::get('/deletefromcart/{cartid}', [webController::class, 'deletefromcart']);
     Route::get('/weblogout', [webController::class, 'weblogout']);
-    Route::get('/consultation', [webController::class, 'consultation']);
+    Route::get('/consultation', [webController::class, 'consultation']); //
     // Route::post('/submitConsultation', [webController::class, 'submitConsultation']);
     Route::get('/allblogs', [webController::class, 'allblogs']);
     Route::get('/allblogs/{slug}', [webController::class, 'singleBlog']);
     Route::get('/alacartcheckout', [webController::class, 'alacartcheckout']);
     Route::get('/pincodechg/{pincode}', [webController::class, 'pincodechg']);
     Route::get('/cityvalchg/{city}', [webController::class, 'cityvalchg']);
-    Route::post('/alacartorderplace', [webController::class, 'alacartorderplace']);
-    Route::post('/subscriptionorderplace', [webController::class, 'subscriptionorderplace']);
+    Route::post('/alacartorderplace', [webController::class, 'alacartorderplace']); //
+    Route::post('/subscriptionorderplace', [webController::class, 'subscriptionorderplace']); //
     Route::get('/alacartsuccess', [webController::class, 'alacartsuccess']);
     Route::get('/orderdetails', [webController::class, 'orderdetails']);
     Route::get('/deletesubscription/{subid}', [webController::class, 'deletesubscription']);

@@ -332,10 +332,14 @@
 
                             if ($('#walluse').is(":checked"))
                             {
-                                if(walletbal>=currenttotal)
+                                console.log(currenttotal);
+                                console.log(walletbal);
+                                if(walletbal*1>=currenttotal*1)
                                 {
+                                    console.log('hello');
                                     walletbal=currenttotal;
                                 }
+                                console.log(walletbal);
                                 document.getElementById('afterwallet').innerHTML='₹ '+(currenttotal*1-walletbal*1);
                                 document.getElementById('walletuseflag').value='1';
                             }
@@ -480,10 +484,13 @@
                 jQuery('body').append(form);
                 form.submit();
             }
+
+            
+
+
             
 
             // var base_url = window.location.origin;
-
             // bolt.launch(boltdata, {
             //     responseHandler: function (BOLT) {
             //         console.log('hi'+BOLT);
