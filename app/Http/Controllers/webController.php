@@ -695,7 +695,7 @@ class webController extends Controller
             $packagelist = Package::where([['deleteId', '0'],['status','1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
             $txnid = 'pk'.rand(99999, 9999999);
             $mindate = Carbon::now();
-            $finalamt=5;
+            $finalamt=500;
             $mindate=$mindate->addDays(1)->format('Y-m-d');
             
             return view('web.consultation', compact('categorylist','goallist','packagelist','txnid','mindate','userwallet','finalamt'));
