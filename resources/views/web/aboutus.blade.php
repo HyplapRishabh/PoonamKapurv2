@@ -194,8 +194,7 @@
                                             </div>
                                             <div class="d-flex justify-content-between mt-3">
                                                 <div class="d-flex align-items-center">
-                                                    <p style="text-align: justify; overflow-y: auto; height: 150px;"> A
-                                                        passionate Food Technologist and a practicing
+                                                    <p style="text-align: justify; overflow-y: auto; height: 150px;"> 
                                                         Naresh R Dhoot is one of our associates at Mumbai who is
                                                         qualified CA having experience of more than 35 years in
                                                         Audit/Direct and Indirect Taxation/ Company law matters/Project
