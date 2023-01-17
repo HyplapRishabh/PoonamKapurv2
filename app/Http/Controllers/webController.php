@@ -273,12 +273,15 @@ class webController extends Controller
 
     function addtocart($productId, $addonval)
     {
+        $productUID = Product::where('id', $productId)->first()->UID;
+        error_log('productId' . $productUID);
         $myresponse = [];
         if (Auth::user()) {
-            $cartexist = cart::where([['productId', $productId], ['userID', Auth::user()->id]])->first();
-
+            $cartexist = cart::where([['productId', $productUID], ['userID', Auth::user()->id]])->first();
+            error_log('cartexist' . $cartexist);
 
             if ($cartexist) {
+                error_log('cartexist' . $cartexist['id']);
                 $cart = cart::find($cartexist['id']);
                 $cart->qty = $cartexist['qty'] + 1;
                 $cart->update();
