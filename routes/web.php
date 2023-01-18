@@ -25,7 +25,7 @@ Route::get('forgetPassword', [AdminController::class, 'showforget']);
 Route::post('forgetPassword', [AdminController::class, 'forgetpassword']);
 Route::post('changePassword', [AdminController::class, 'changepassword']);
 
-Route::group(['middleware' => 'checkUserr'], function () {
+Route::group(['middleware' => ['checkUserr','AdminStatCount']], function () {
 
     Route::get('resetP', [AdminController::class, 'resetPassIndex']);
     Route::post('resetPass', [AdminController::class, 'resetPass']);
@@ -377,11 +377,10 @@ Route::group(['middleware' => 'checkUserr'], function () {
 
 //webcontroller
 
-Route::get('/', [webController::class, 'welcomeindex']);
+Route::get('/', [webController::class, 'welcomeindex'])->middleware('CartCount');
 
-Route::group([
-    'prefix' => 'app'
-], function () {
+Route::middleware(['CartCount'])->prefix('app')->group(function () {
+
     Route::get('/allcategory', [webController::class, 'allcategory']);
     Route::get('/category/{catslug}', [webController::class, 'categorydetail']);
     Route::get('/aboutus', [webController::class, 'aboutus']);
@@ -396,6 +395,8 @@ Route::group([
     Route::get('/login', [webController::class, 'login']);
     Route::get('/signup', [webController::class, 'signup']);
     Route::get('/resetpassword', [webController::class, 'resetpassword']);
+    Route::get('/resetpassword/{token}', [webController::class, 'resetpass']);
+    Route::post('/confirmresetpass', [webController::class, 'confirmresetpass']);
     Route::get('/goal/{goalslug}', [webController::class, 'goaldetail']);
     Route::get('/allgoal', [webController::class, 'allgoal']); 
     Route::get('/alltestimonial', [webController::class, 'alltestimonial']); //

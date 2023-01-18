@@ -12,6 +12,20 @@ DashBoard
 @section('content')
 
 <div class="row">
+    <div class="col-md-3">
+        <div class="card card-custom gutter-b text-start">
+            <div class="card-header">
+                <h4 class="card-title">Total Orders</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text" style="font-size: 50px; font-weight: 600;">{{$orders}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
     <div class="col-lg-6">
         <!--begin::Card-->
         <div class="card card-custom gutter-b">

@@ -156,16 +156,15 @@
                                                 <img src="/'+ element['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="fade-in-card img-fluid rounded-pill avatar-170 hover-image " alt="' + element['name'] + '" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-scale=".6" data-iq-rotate="180" data-iq-duration="1" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">\
                                             </a></div>\
                                             <div class="card-body menu-image">\
-                                                <h6 class="heading-title fw-bolder mt-4 mb-0"><a style="all:unset" href="/app/dish/'+element['slug']+'">'+ element['name'] + '</a></h6>\
+                                                <h6 class="heading-title fw-bolder mt-4 mb-0 twoLiner" style="height: 40px"><a style="all:unset" href="/app/dish/'+element['slug']+'">'+ element['name'] + '</a></h6>\
                                                 <div class="d-flex justify-content-between mt-3">\
                                                     <div class="d-flex align-items-center">\
                                                         <span class="text-primary fw-bolder me-2">&#8377 '+ element['discountedPrice'] + '</span>\
                                                         <small class="text-decoration-line-through">&#837 '+ element['price'] + '</small>\
                                                     </div>\
-                                                    <a onclick="displayaddon(`0`,`'+ element['id'] + '`,`' + element['mealTypeId'] + '`)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect class="circle-1" width="24" height="24" rx="12" fill="currentColor" />\
-                                                        <rect class="circle-2" x="11.168" y="7" width="1.66667" height="10" rx="0.833333" fill="currentColor" />\
-                                                        <rect class="circle-3" x="7" y="12.834" width="1.66666"  height="10" rx="0.833332" transform="rotate(-90 7 12.834)" fill="currentColor" />\
-                                                    </svg></a>\
+                                                </div>\
+                                                <div>\
+                                                    <a  onclick="displayaddon(`0`,`'+ element['id'] + '`,`' + element['mealTypeId'] + '`)" class="btn btn-outline-primary rounded-pill w-100 mt-2">Add</a>\
                                                 </div>\
                                             </div>\
                                         </div>\

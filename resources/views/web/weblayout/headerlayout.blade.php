@@ -189,134 +189,6 @@
 </nav> <!-- Nav Header Component Start -->
 <!-- Nav Header Component End -->
 <!--Nav End-->
-
-<!-- Bulk Enquiry modal here -->
-<div id="bulkEnquiry" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="card-title" id="gridModalLabel">Bulk Enquiry</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card-body">
-                    <form method="post" action="{{url('/app/submitBulkEnquiry')}}" class="text-center mt-3">
-                        @csrf
-                        <div class="form-card text-start">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Username: *</label>
-                                        <input type="text" class="form-control" name="name" placeholder="Your Name" value="{{Auth::user() != null ? Auth::user()->name : ''}}" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Phone: *</label>
-                                        <input type="text" class="form-control" name="phone" maxlength="10" placeholder="Phone" value="{{Auth::user() != null ? Auth::user()->phone : ''}}" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Email: *</label>
-                                        <input type="email" class="form-control" id="quemail" name="email" placeholder="Email Id" value="{{Auth::user() != null ? Auth::user()->email : ''}}" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Organisation Name: *</label>
-                                        <input type="text" class="form-control" name="organisation" placeholder="Organisation Name" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Daily/Once: *</label>
-                                        <select type="text" class="form-control" name="type" placeholder="" required>
-                                            <option value="Daily">Daily</option>
-                                            <option value="Once">Once</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Call Back Date: *</label>
-                                        <input type="date" class="form-control" name="callBackTime" placeholder="" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Message: *</label>
-                                        <textarea class="form-control" name="message" placeholder="Enter Your Message" required></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary  text-center rounded">Submit</button>
-                    </form>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<!-- Bulk Enquiry modal ends here -->
-
-<!-- Franchise Enquiry modal here -->
-<div id="franchiseEnquiry" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="card-title" id="gridModalLabel">Franchise Enquiry</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card-body">
-                    <form method="post" action="{{url('/app/submitFranchiseEnquiry')}}" class="text-center mt-3">
-                        @csrf
-                        <div class="form-card text-start">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Username: *</label>
-                                        <input type="text" class="form-control" name="name" value="{{Auth::user() != null ? Auth::user()->name : ''}}" placeholder="Your Name" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Phone: *</label>
-                                        <input type="text" class="form-control" name="phone" maxlength="10" placeholder="Phone" value="{{Auth::user() != null ? Auth::user()->phone : ''}}" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Email: *</label>
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email Id" value="{{Auth::user() != null ? Auth::user()->email : ''}}" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Call Back Date: *</label>
-                                        <input type="date" class="form-control" name="callBackTime" placeholder="" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Message: *</label>
-                                        <textarea class="form-control" name="message" placeholder="Enter Your Message" required></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary  text-center rounded">Submit</button>
-                    </form>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<!-- Franchise Enquiry modal ends here -->
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
     .icon-bar {
@@ -367,6 +239,10 @@
         background: #bb0000;
         color: white;
     }
+    .whatsapp {
+        background: #2cb153;
+        color: white;
+    }
 </style>
 
 <div class="icon-bar">
@@ -374,11 +250,15 @@
     <a href="https://twitter.com/poonamkapur12?s=11&t=Io0OgmHClxzw8pvoMTxySg" target="_blank" class="twitter"><i class="fa fa-twitter"></i></a>
     <a href="https://instagram.com/poonamkapurshealthykitchen?utm_medium=copy_link" target="_blank" class="instagram"><i class="fa fa-instagram"></i></a>
     <a href="https://www.linkedin.com/posts/poonam-kapurs-kitchen-healthy-customized-diet-meals-services-in-mumbai-45b78113_poonamkapurshealthykitchen-prowok-highproteinmeals-activity-6941378619260690433-9LOn?utm_source=linkedin_share&utm_medium=android_app" target="_blank" class="linkedin"><i class="fa fa-linkedin"></i></a>
-    <!-- <a href="#" class="youtube"><i class="fa fa-youtube"></i></a> -->
+    <a href="https://wa.me/9820097377?text=Hello%2C%20can%20you%20please%20help%20me%20with%20the%20diet%20plan%20%3F" target="_blank" class="whatsapp"><i class="fa fa-whatsapp"></i></a>
 </div>
-<a href="https://wa.me/9820097377?text=Hello%2C%20can%20you%20please%20help%20me%20with%20the%20diet%20plan%20%3F" class="float" target="_blank">
-    <i class="fa fa-whatsapp my-float"></i>
-</a>
+@if (Auth::user())
+    <a href="{{url('/app/viewcart')}}" class="float">
+        <span class="badge badge-pill badge-danger notification" id="badgeforcart" style="position: absolute; top: 0px; right: 0px; font-size: 10px; background-color: #000;">{{config('cartCount')}}</span>
+        <i class="fa fa-shopping-cart my-float"></i>
+    </a>
+@endif
+
 <style>
     .float {
         position: fixed;
@@ -386,7 +266,7 @@
         height: 60px;
         bottom: 40px;
         right: 10px;
-        background-color: #25d366;
+        background-color: #e98a34;
         color: #FFF;
         border-radius: 50px;
         text-align: center;
@@ -416,6 +296,14 @@
         -webkit-box-orient: vertical;
     }
 
+    .twoLiner {
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
     /* custom scroll bar */
     ::-webkit-scrollbar {
         width: 10px;
@@ -431,3 +319,13 @@
     }
 </style>
 <!-- </div> -->
+
+<script>
+    // refresh div after 5 seconds
+    setInterval(function() {
+            // div refresh
+            $('#badgeforcart').load(location.href + ' #badgeforcart');
+        }, 2000);
+
+
+</script>

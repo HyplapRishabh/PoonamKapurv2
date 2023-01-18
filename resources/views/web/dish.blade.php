@@ -242,7 +242,7 @@
                                                 
                                             </div>
                                             <div class="card-body menu-image">
-                                                <h6 class="heading-title fw-bolder mt-4 mb-0">
+                                                <h6 class="heading-title fw-bolder mt-4 mb-0 oneLiner">
                                                     <a style="all:unset" href="{{url('/app/dish/')}}/{{$productlist->slug}}" >
                                                         {{$productlist->name}}
                                                     </a></h6>
@@ -252,7 +252,9 @@
                                                         <span class="text-primary fw-bolder me-2">&#8377 {{$productlist->discountedPrice}}</span>
                                                         <small class="text-decoration-line-through">&#8377 {{$productlist->price}}</small>
                                                     </div>
-                                                    <a onclick="displayaddon('0','{{$productlist->id}}','{{$productlist->mealTypeId}}')">
+                                                    <a  onclick="displayaddon('0','{{$productlist->id}}','{{$productlist->mealTypeId}}')" class="btn btn-outline-primary rounded-pill">Add</a>
+
+                                                    <!-- <a onclick="displayaddon('0','{{$productlist->id}}','{{$productlist->mealTypeId}}')">
                                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
                                                         <rect class="circle-1" width="24" height="24" rx="12"
@@ -262,7 +264,7 @@
                                                         <rect class="circle-3" x="7" y="12.834" width="1.66666"
                                                             height="10" rx="0.833332" transform="rotate(-90 7 12.834)"
                                                             fill="currentColor" />
-                                                    </svg>
+                                                    </svg> -->
                                                     </a>
                                                     <!-- <div class="d-flex align-items-center">
                                                     <div class="number">

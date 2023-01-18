@@ -416,7 +416,7 @@
                                     <div class="mt-3 text-center text-black-50">
                                         <p>
                                             We keep two sections separate for vegetarian and non vegetarian
-                                            food
+                                            food.
                                         </p>
                                     </div>
                                 </div>
@@ -435,12 +435,13 @@
                             <div class="d-flex align-items-center justify-content-center">
                                 <div class="d-flex flex-column text-center align-items-center justify-content-between">
                                     <div class="fs-italic">
-                                        <h5>Diet goals</h5>
+                                        <h5>Diet Goals</h5>
                                     </div>
 
                                     <div class="mt-3 text-center text-black-50">
                                         <p>
-                                            MEAL COMBOS ARE CURATED TO SUIT DIFFERENT DIETARY REQUIREMENTS
+                                        Meal combos are curated to suit different dietary requirements.
+
                                         </p>
                                     </div>
                                 </div>
@@ -459,11 +460,11 @@
                             <div class="d-flex align-items-center justify-content-center">
                                 <div class="d-flex flex-column text-center align-items-center justify-content-between">
                                     <div class="fs-italic">
-                                        <h5>Macro details</h5>
+                                        <h5>Macro Details</h5>
                                     </div>
 
                                     <div class="mt-3 text-center text-black-50">
-                                        <p>ALL MACROS ARE DISPLAYED TO HELP YOU UNDERSTAND YOUR FOOD</p>
+                                        <p>All macros are displayed to help you understand your food.</p>
                                     </div>
                                 </div>
                             </div>
@@ -486,7 +487,7 @@
 
                                     <div class="mt-3 text-center text-black-50">
                                         <p>
-                                            NO ADDED COLOURS, PRESERVATIVES OR OTHER CHEMICAL FOOD ADDITIVES
+                                        No added colours, Preservatives or other chemical food additives.
                                         </p>
                                     </div>
                                 </div>
@@ -505,11 +506,11 @@
                             <div class="d-flex align-items-center justify-content-center">
                                 <div class="d-flex flex-column text-center align-items-center justify-content-between">
                                     <div class="fs-italic">
-                                        <h5>PROTEIN BREADS</h5>
+                                        <h5>Protien Breads</h5>
                                     </div>
 
                                     <div class="mt-3 text-center text-black-50">
-                                        <p>BREADS USED ARE ZERO MAIDA, HIGH PROTEIN BREADS</p>
+                                        <p>Breads used are zero maida, High protein breads.</p>
                                     </div>
                                 </div>
                             </div>
@@ -530,7 +531,7 @@
                                         <h5>Better Suggestions</h5>
                                     </div>
                                     <div class="mt-3 text-center text-black-50">
-                                        <p>WE BRIDGE THE GAP BETWEEN NUTRITIONIST AND VENDOR.</p>
+                                        <p>We bridge the gap between nutritionist and vendor.</p>
                                     </div>
                                 </div>
                             </div>

@@ -14923,7 +14923,7 @@ fieldset:disabled .btn {
 
 .card {
     margin-bottom: 2rem;
-    background: rgba(255, 255, 255, 0.6);
+    background: #fff;
     -webkit-backdrop-filter: blur(42px);
     backdrop-filter: blur(42px)
 }

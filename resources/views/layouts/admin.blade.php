@@ -509,6 +509,10 @@
 
                                     </span>
                                     <span class="menu-text">Dietician Appointments</span>
+                                    <!-- badge -->
+                                    <span class="menu-badge" id="menu-badge1">
+                                        <span class="badge badge-danger badge-pill">{{config('consultationCount')}}</span>
+                                    </span>
                                 </a>
                             </li>
 
@@ -528,6 +532,10 @@
 
                                     </span>
                                     <span class="menu-text">Bulk</span>
+                                    <!-- badge -->
+                                    <span class="menu-badge" id="menu-badge2">
+                                        <span class="badge badge-danger badge-pill">{{config('bulkEnquiryCount')}}</span>
+                                    </span>
                                 </a>
                             </li>
                             <li class="menu-item {{ Request::is('order/franchise') ? 'menu-item-active' : '' }}" aria-haspopup="true">
@@ -541,6 +549,10 @@
                                         </svg>
                                     </span>
                                     <span class="menu-text">Franchise</span>
+                                    <!-- badge -->
+                                    <span class="menu-badge" id="menu-badge3">
+                                        <span class="badge badge-danger badge-pill">{{config('franchiseEnquiryCount')}}</span>
+                                    </span>
                                 </a>
                             </li>
 
@@ -836,6 +848,16 @@
 
     <!-- datatable script -->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <!-- refresh every 5 seconds -->
+    <script>
+        setInterval(function() {
+            // div refresh
+            $('#menu-badge1').load(location.href + ' #menu-badge1');
+            $('#menu-badge2').load(location.href + ' #menu-badge2');
+            $('#menu-badge3').load(location.href + ' #menu-badge3');
+        }, 5000);
+    </script>
 
     <script type="text/javascript">
         $(document).ready(function() {

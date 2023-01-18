@@ -42,10 +42,12 @@ use  App\Models\Walletremark;
 use App\Models\failtransction;
 use App\Models\failalacartorder;
 use App\Models\failsubscriptionorder;
+use App\Models\Resetpassword;
 use Barryvdh\DomPDF\PDF;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -58,6 +60,16 @@ use PhpParser\Node\Expr\FuncCall;
 
 class webController extends Controller
 {
+    public function __construct()
+    {
+        if (Auth::check()) {
+            $cartCount = cart::where('userId', Auth::user()->id)->count();
+        } else {
+            $cartCount = 0;
+        }
+        view()->share('cartCount', $cartCount);
+    }
+
     function storeLog($action, $function, $data)
     {
         $log = new Log();
@@ -370,10 +382,17 @@ class webController extends Controller
     public function checkresetpass(Request $input)
     {
 
-        $result = User::where(['phone' => $input['emailId']])->orWhere(['email' => $input['emailId']])->first();
+        $result = User::where(['email' => $input['emailId']])->first();
 
         if ($result) {
             if ($result->status == 1 && $result->deleteId == 0) {
+
+                $tokenGenerate = Resetpassword::updateOrCreate(
+                    ['userId' => $result->id]
+                ); 
+                $token = Crypt::encryptString($tokenGenerate->id);
+                $this->sendEmail('ForgetPassword', $input->emailId, $result->name, $result->name, $result->phone, $result->email, '', $token, '', '' );
+
                 return response()->json([
                     'status' => 200,
                     'message' => 'Reset password link sent on E-mail.',
@@ -389,6 +408,32 @@ class webController extends Controller
                 'status' => 202,
                 'message' => "Email Id doesn't exist !",
             ]);
+        }
+    }
+
+    public function resetpass($token)
+    {
+        $token = Crypt::decryptString($token);
+        $resetPassDetails = Resetpassword::where('id', $token)->first();
+        // return $getTimestamp;
+        $receivedTimestamp = strtotime($resetPassDetails->updated_at);
+        // return $receivedTimestamp;
+        
+        // check if token is 2 hours old
+        if (time() - $receivedTimestamp > 1) {
+            return 'Your link has expired. Please try generating a new reset password link!!';
+        } else {
+            return view('web.resetpass', compact('resetPassDetails'));
+        }
+    }
+
+    public function confirmresetpass(Request $input)
+    {
+        $result = User::where(['id' => $input['hiddenUserId']])->first();
+        if ($result) {
+            $result->password = Hash::make($input['password']);
+            $result->update();
+            return redirect('/');
         }
     }
 
@@ -1055,6 +1100,7 @@ class webController extends Controller
 
                 $trxdtl=failtransction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
                 $packagedtl = [];
+                $this->sendEmail('OrderFailedToPoonam', 'poonamkapur77@gmail.com','Poonam Kapur', $input->firstname, $input->phone, $input->email, '', $input->address1, $input->address2, $input->zipcode );
                 return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
             }
             else if($input['status']=='success')
@@ -1136,6 +1182,8 @@ class webController extends Controller
 
                 $trxdtl=transction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
                 $packagedtl = [];
+                $this->sendEmail('OrderPlacedToUser', $result->email, $trxdtl->cpname, $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
+                $this->sendEmail('OrderPlacedToPoonam', 'poonamkapur77@gmail.com', 'Poonam Kapur', $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
                 return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
             }
         }
@@ -1217,6 +1265,7 @@ class webController extends Controller
 
                     $trxdtl=failtransction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
                     $packagedtl = Package::where('id', $pkgdtl[0])->with('goal')->with('mealtype')->first();
+                    $this->sendEmail('SubscriptionFailedToPoonam', 'poonamkapoor77@gmail.com', 'Poonam Kapoor', $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
                     return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
                 }
             }
@@ -1282,6 +1331,9 @@ class webController extends Controller
 
                 $trxdtl=transction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
                 $packagedtl = Package::where('id', $pkgdtl[0])->with('goal')->with('mealtype')->first();
+                $this->sendEmail('SubscribedToUser', $result->email, $trxdtl->cpname, $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
+                // not working
+                $this->sendEmail('SubscribedToPoonam', 'szaid444666@gmail.com', 'Poonam Kapur', $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
                 return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
             }
         }
@@ -1862,7 +1914,7 @@ class webController extends Controller
         {
             $name = 'GRISHMA FOODS PRIVATE LIMITED';
             $subject = 'Enquiry For Bulk Order';
-            $body = '<html><head></head><body><p>Hello Poonam Maam,</p> <br>You have received a Bulk Enquiry from '.$username.'.<br>You can contact the user by: <br> <b> Call: </b> '.$phone.'<br> <b>Email : </b> '.$email.' </p><br><br><br></body></html>';
+            $body = '<html><head></head><body><p>Hello Poonam Maam,</p> <br>You have received a Bulk Enquiry from '.$username.'.<br>You can contact the user by: <br> <b> Call: </b> '.$phone.'<br> <b>Email : </b> '.$email.' </p><br><br>For more information <a href="https://poonamkapur.com/enquiry/bulk" target="_blank">Click Here</a> <br></body></html>';
         } 
         else if($type == 'BulkToUser')
         {
@@ -1874,7 +1926,7 @@ class webController extends Controller
         {
             $name = "Welcome To GRISHMA FOODS PRIVATE LIMITED";
             $subject = 'Enquiry For Franchise Order';
-            $body = '<html><head></head><body><p>Hello Poonam Maam,</p> <br>You have received a Franchise Enquiry from '.$username.'.<br>You can contact the user by: <br> <b> Call: </b> '.$phone.'<br> <b>Email : </b> '.$email.' </p><br><br><br></body></html>';
+            $body = '<html><head></head><body><p>Hello Poonam Maam,</p> <br>You have received a Franchise Enquiry from '.$username.'.<br>You can contact the user by: <br> <b> Call: </b> '.$phone.'<br> <b>Email : </b> '.$email.' </p><br><br>For more information <a href="https://poonamkapur.com/enquiry/franchise" target="_blank">Click Here</a><br></body></html>';
         }
         else if($type == 'FranchiseToUser')
         {
@@ -1887,7 +1939,7 @@ class webController extends Controller
         {
             $name = "Welcome To GRISHMA FOODS PRIVATE LIMITED";
             $subject = 'Consultation Request';
-            $body = '<html><head></head><body><p>Hello Poonam Maam,</p> <br>You have received a Consultation Request from '.$username.'.<br>You can contact the user by: <br> <b> Call: </b> '.$phone.'<br> <b>Email : </b> '.$email.' </p><br><br><br></body></html>';
+            $body = '<html><head></head><body><p>Hello Poonam Maam,</p> <br>You have received a Consultation Request from '.$username.'.<br>You can contact the user by: <br> <b> Call: </b> '.$phone.'<br> <b>Email : </b> '.$email.' </p><br><br>For more information <a href="https://poonamkapur.com/booking" target="_blank">Click Here</a><br></body></html>';
         }
         else if($type == 'ConsultationToUser')
         {
@@ -1905,7 +1957,7 @@ class webController extends Controller
         {
             $name = "Welcome To GRISHMA FOODS PRIVATE LIMITED";
             $subject = 'Order Placed';
-            $body = '<html><head></head><body><p>Hello '.$username.',</p>We have received your order <b>#'.$trxId.' .</b> <br> <b>From:</b> '.$address.', '.$area.', '.$pincode.' </p><br>Thank you for your order, and we look forward to serving you again soon.</p><br><br><br><br>Regards<br>Team GRISHMA FOODS PRIVATE LIMITED</body></html>';
+            $body = '<html><head></head><body><p>Hello '.$username.',</p>We have received your order <b>#'.$trxId.' .</b> <br> <b>From:</b> '.$address.', '.$area.', '.$pincode.' </p><br>Thank you for your order, and we look forward to serving you again soon.<br>To see your order details <a href="https://poonamkapur.com/app/myprofile" target="_blank"> Click Here </a> </p><br><br><br><br>Regards<br>Team GRISHMA FOODS PRIVATE LIMITED</body></html>';
         }
         else if($type == 'OrderFailedToPoonam')
         {
@@ -1917,13 +1969,19 @@ class webController extends Controller
         {
             $name = "Welcome To GRISHMA FOODS PRIVATE LIMITED";
             $subject = 'Subscribed';
-            $body = '<html><head></head><body><p>Hello Poonam Maam,</p> <br>You have received a Subscription from '.$username.'.<br>You can contact the user by: <br> <b> Call: </b> '.$phone.'<br> <b>Email : </b> '.$email.' </p><br><br><br></body></html>';
+            $body = '<html><head></head><body><p>Hello Poonam Maam,</p> <br>You have received a Subscription from '.$username.'.<br> You can check the order details on <a href="https://poonamkapur.com/order/package" target="_blank"> Here </a> or you can contact the user by: <br> <b> Call: </b> '.$phone.'<br> <b>Email : </b> '.$email.' </p><br><br><br></body></html>';
         }
         else if($type == 'SubscribedToUser')
         {
             $name = "Welcome To GRISHMA FOODS PRIVATE LIMITED";
             $subject = 'Subscribed';
-            $body = '<html><head></head><body><p>Hello '.$username.',</p>Thank you for your interest in our Subscription. We have confirmed your subscription, We hope that you love our food.<br>Incase you have any query, give us a call at +91-98200-97377.</p><br><br><br><br>Regards<br>Team GRISHMA FOODS PRIVATE LIMITED</body></html>';
+            $body = '<html><head></head><body><p>Hello '.$username.',</p>Thank you for your interest in our Subscription. We have confirmed your subscription, We hope that you love our food.<br>To see your order details <a href="https://poonamkapur.com/app/myprofile" target="_blank"> Click Here </a> <br>Incase you have any query, give us a call at +91-98200-97377.</p><br><br><br><br>Regards<br>Team GRISHMA FOODS PRIVATE LIMITED</body></html>';
+        } 
+        else if($type == "ForgetPassword")
+        {
+            $name = "Welcome To GRISHMA FOODS PRIVATE LIMITED";
+            $subject = 'Forget Password';
+            $body = '<html><head></head><body><p>Hello '.$username.',</p> <br> You have requested for a password reset. Please click on the link below to reset your password. <br> <a href="https://poonamkapur.com/app/resetpassword/'.$address.'""> Reset Password </a> </p><br><br><br></body></html>';
         }
         
 
@@ -1956,7 +2014,7 @@ class webController extends Controller
             CURLOPT_HTTPHEADER => array(
                 'Accept: application/json',
                 'Content-Type: application/json',
-                'Api-Key: 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'
+                'Api-Key: '. env('SENDINBLUE_API_KEY')
             ),
         ));
         // $response = curl_exec($curl);

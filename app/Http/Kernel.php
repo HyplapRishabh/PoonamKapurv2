@@ -53,7 +53,11 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\notAllowSuperManager::class,
         ], 'CheckSingleSession' => [
             \App\Http\Middleware\CheckSingleSession::class,
-        ],
+        ], 'CartCount' => [
+            \App\Http\Middleware\CartCount::class,
+        ], 'AdminStatCount' => [
+            \App\Http\Middleware\AdminStatCount::class,
+        ]
     ];
 
     /**

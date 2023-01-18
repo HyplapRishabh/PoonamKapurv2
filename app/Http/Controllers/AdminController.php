@@ -189,7 +189,8 @@ class AdminController extends Controller
     public function indexAdmin()
     {
         $endusers = User::where('deleteId', '0')->where('role', '5')->orWhere('role', '6')->orWhere('role', '7')->count();
-        return view('admin.dashboard', compact('endusers'));
+        $orders = alacartorder::count();
+        return view('admin.dashboard', compact('endusers', 'orders'));
     }
 
     public function indexHompage()

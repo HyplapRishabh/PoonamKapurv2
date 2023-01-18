@@ -21,8 +21,8 @@
                         </table>
                     </div>
                     <div class="modal-footer" style="text-align: center;justify-content: center;">
+                        <button type="button" onclick="addonaddtocart()" class="btn btn-outline-primary rounded-pill">Skip</button>
                         <button type="button" onclick="addonaddtocart()" class="btn btn-primary rounded-pill">Continue</button>
-                        <button type="button" onclick="addonaddtocart()" class="btn btn-primary rounded-pill">Skip</button>
                     </div>
                 </div>
             </div>
