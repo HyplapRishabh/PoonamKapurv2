@@ -846,9 +846,9 @@
                                 @foreach($testimonials as $key=>$testimonialInfo)
                                 <div class="carousel-item {{$key == 0 ? 'active' : ''}}">
                                     <img src="webassets/images/testimonialbanner.jpg" class="d-block w-100" alt="#">
-                                    <div class="carousel-caption" style="bottom: 10rem; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 50%;">
+                                    <div class="carousel-caption" style="bottom: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 50%; margin: auto;">
                                         <!-- <img src="{{asset($testimonialInfo->media)}}" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="{{$testimonialInfo->name}}" class="img-fluid rounded-circle avatar-100 mb-2"><br> -->
-                                        <div class="img-fluid rounded-circle avatar-100 mb-2" style="background-image: url('webassets/images/customizedMealsCard.png'); background-position: center; background-size: contain; background-repeat: no-repeat;" ></div>
+                                        <div class="img-fluid rounded-circle avatar-100 mb-2" style="background-image: url('{{$testimonialInfo->media}}'); background-position: center; background-size: contain; background-repeat: no-repeat;" ></div>
                                         <p class="heading-title fw-bolder text-dark ms-3 ms-lg-0">{{$testimonialInfo->name}}</p>
                                         <p style="text-align:justify; overflow-y: scroll; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4;" >{{$testimonialInfo->comment}}</p>
                                     </div>
@@ -869,14 +869,14 @@
 
         <!-- Base buttons -->
         <div class="row " id="enqRow">
-            <div class="col-sm-6 text-center">
+            <div class="col-6 text-center">
                 <div class="login-block" id="enqBtnfooter">
                     <a href="{{url('/app/alacart')}}" class=" show" style="color: #ff6633;">Ala Cart</a>
                 </div>
             </div>
-            <div class="col-sm-6 text-center">
+            <div class="col-6 text-center">
                 <div class="login-block" id="regBtnfooter">
-                    <a data-bs-toggle="modal" data-bs-target="#gridSystemModal" style="color: #fff;">Customized Meal</a>
+                    <a data-bs-toggle="modal" data-bs-target="#gridSystemModal" style="color: #fff;">Customized</a>
                 </div>
             </div>
         </div>
@@ -885,7 +885,7 @@
                 border-radius: 5px;
                 width: 100%;
                 text-align: center;
-                /* padding: 0.5rem 1rem; */
+                padding: 0.5rem 1rem;
                 margin: 0.5rem;
                 font-size: 14px;
                 /* border: 1px solid #fff; */
@@ -899,7 +899,7 @@
                 width: 100%;
                 text-align: center;
                 border-radius: 5px;
-                /* padding: 0.5rem 1rem; */
+                padding: 0.5rem 1rem;
                 margin: 0.5rem;
                 border: 1px solid #ff6633;
                 font-size: 14px;

@@ -254,12 +254,12 @@
 </div>
 @if (Auth::user())
 <a href="{{url('/app/viewcart')}}" class="float">
-    <span class="badge badge-pill badge-danger notification" id="badgeforcart" style="position: absolute; top: 0px; right: 0px; font-size: 10px; background-color: #000;">{{config('cartCount')}}</span>
+    <span class="badge badge-pill badge-danger notification" id="badgeforcart" style=" position: absolute; top: 0px; right: 0px; font-size: 10px; background-color: #000;">{{config('cartCount')}}</span>
     <i class="fa fa-shopping-cart my-float"></i>
 </a>
 @else
 <a href="{{url('/app/login')}}" class="float">
-    <span class="badge badge-pill badge-danger notification" id="badgeforcart" style="position: absolute; top: 0px; right: 0px; font-size: 10px; background-color: #000;">{{config('cartCount')}}</span>
+    <span class="badge badge-pill badge-danger notification" id="badgeforcart" style=" position: absolute; top: 0px; right: 0px; font-size: 10px; background-color: #000;">{{config('cartCount')}}</span>
     <i class="fa fa-shopping-cart my-float"></i>
 </a>
 @endif
@@ -285,9 +285,9 @@
     }
 
     /* media query */
-    @media only screen and (max-width: 576px) {
+    @media only screen and (max-width: 913px) {
         .float {
-            bottom: 90px;
+            bottom: 80px;
         }
     }
 </style>

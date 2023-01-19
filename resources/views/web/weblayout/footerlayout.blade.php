@@ -28,7 +28,7 @@
             </div>
         </div>
         <!-- Footer Section Start -->
-        <footer class="footer">
+        <footer class="footer mt-5">
             <div class="footer-body">
                 <ul class="left-panel list-inline mb-0 p-0">
                     <!-- <li class="list-inline-item"><a href="{{url('/app/privacy-policy')}}">Privacy Policy</a></li> -->
