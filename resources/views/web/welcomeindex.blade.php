@@ -868,7 +868,7 @@
         </div>
 
         <!-- Base buttons -->
-        <!-- <div class="row " id="enqRow">
+        <div class="row " id="enqRow">
             <div class="col-sm-6 text-center">
                 <div class="login-block" id="enqBtnfooter">
                     <a href="{{url('/app/alacart')}}" class=" show" style="color: #ff6633;">Ala Cart</a>
@@ -922,7 +922,7 @@
                     visibility: hidden;
                 }
             }
-        </style> -->
+        </style>
         @include('web.weblayout.footerlayout')
     </main>
     @include('web.weblayout.footerscript')

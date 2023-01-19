@@ -186,8 +186,7 @@
             </ul>
         </div>
     </div>
-</nav> <!-- Nav Header Component Start -->
-<!-- Nav Header Component End -->
+</nav> 
 <!--Nav End-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
@@ -239,6 +238,7 @@
         background: #bb0000;
         color: white;
     }
+
     .whatsapp {
         background: #2cb153;
         color: white;
@@ -253,10 +253,15 @@
     <a href="https://wa.me/9820097377?text=Hello%2C%20can%20you%20please%20help%20me%20with%20the%20diet%20plan%20%3F" target="_blank" class="whatsapp"><i class="fa fa-whatsapp"></i></a>
 </div>
 @if (Auth::user())
-    <a href="{{url('/app/viewcart')}}" class="float">
-        <span class="badge badge-pill badge-danger notification" id="badgeforcart" style="position: absolute; top: 0px; right: 0px; font-size: 10px; background-color: #000;">{{config('cartCount')}}</span>
-        <i class="fa fa-shopping-cart my-float"></i>
-    </a>
+<a href="{{url('/app/viewcart')}}" class="float">
+    <span class="badge badge-pill badge-danger notification" id="badgeforcart" style="position: absolute; top: 0px; right: 0px; font-size: 10px; background-color: #000;">{{config('cartCount')}}</span>
+    <i class="fa fa-shopping-cart my-float"></i>
+</a>
+@else
+<a href="{{url('/app/login')}}" class="float">
+    <span class="badge badge-pill badge-danger notification" id="badgeforcart" style="position: absolute; top: 0px; right: 0px; font-size: 10px; background-color: #000;">{{config('cartCount')}}</span>
+    <i class="fa fa-shopping-cart my-float"></i>
+</a>
 @endif
 
 <style>
@@ -323,9 +328,7 @@
 <script>
     // refresh div after 5 seconds
     setInterval(function() {
-            // div refresh
-            $('#badgeforcart').load(location.href + ' #badgeforcart');
-        }, 2000);
-
-
+        // div refresh
+        $('#badgeforcart').load(location.href + ' #badgeforcart');
+    }, 2000);
 </script>
