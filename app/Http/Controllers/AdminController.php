@@ -1530,13 +1530,27 @@ class AdminController extends Controller
                 if (empty($value)) {
                     $counter--;
                 } else {
-                    if ($value[0] == '' || $value[1] == '' || $value[2] == '' || $value[3] == '') {
+                    if ($value[0] == '' || $value[1] == '') {
                         $failed++;
                         $skip_lov[] = $key + 2;
                         continue;
                     } else if (Productmacro::where('productUId', $value[0])->exists()) {
-                        $repeated++;
-                        $repeated_lov[] = $key + 2;
+                        // $repeated++;
+                        // $repeated_lov[] = $key + 2;
+                        
+                        $fieldData = Productmacro::where('productUId', $value[0])->first();
+                        $fieldData->calories = $value[1] != '' ? $value[1] : 0;
+                        $fieldData->carbs = $value[2] != '' ? $value[2] : 0;
+                        $fieldData->sugar = $value[3] != '' ? $value[3] : 0;
+                        $fieldData->fat = $value[4] != '' ? $value[4] : 0;
+                        $fieldData->protien = $value[5] != '' ? $value[5] : 0;
+                        $fieldData->zinc = $value[6] != '' ? $value[6] : 0;
+                        $fieldData->iron = $value[7] != '' ? $value[7] : 0;
+                        $fieldData->mag = $value[8]  != '' ? $value[8] : 0;
+                        $fieldData->sodium = $value[9] != '' ? $value[9] : 0;
+                        $fieldData->copper = $value[10]  != '' ? $value[10] : 0;
+                        $fieldData->potasium = $value[11]  != '' ? $value[11] : 0;
+                        $fieldData->update();
                         continue;
                     } else {
                         $fieldData = new Productmacro();  //name of modal
@@ -1550,7 +1564,7 @@ class AdminController extends Controller
                         $fieldData->iron = $value[7]   != '' ? $value[7] : 0;
                         $fieldData->mag = $value[8]  != '' ? $value[8] : 0;
                         $fieldData->sodium = $value[9] != '' ? $value[9] : 0;
-                        $fieldData->copper = $value[10]     != '' ? $value[10] : 0;
+                        $fieldData->copper = $value[10]  != '' ? $value[10] : 0;
                         $fieldData->potasium = $value[11]  != '' ? $value[11] : 0;
                         $fieldData->save();
                     }

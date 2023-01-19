@@ -85,6 +85,28 @@
                                             <div class="col">
                                                 <div class="card rounded-1">
                                                     <div class="card-body p-2 text-center">
+                                                        <h6 class="mb-1 text-primary heading-title">{{$dishmacros['protien']}}</h6>
+                                                        <h6 class="mb-1 heading-title">Protien</h6>
+                                                        <span class="text-dark">
+                                                            <small>gm</small>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card rounded-1">
+                                                    <div class="card-body p-2 text-center">
+                                                        <h6 class="mb-1 text-primary heading-title">{{$dishmacros['carbs']}}</h6>
+                                                        <h6 class="mb-1 heading-title">Carbs</h6>
+                                                        <span class="text-dark">
+                                                            <small>gm</small>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card rounded-1">
+                                                    <div class="card-body p-2 text-center">
                                                         <h6 class="mb-1 text-primary heading-title">{{$dishmacros['sugar']}}</h6>
                                                         <h6 class="mb-1 heading-title">Sugar</h6>
                                                         <span class="text-dark">

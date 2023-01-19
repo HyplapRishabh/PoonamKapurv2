@@ -327,8 +327,8 @@
 
 <script>
     // refresh div after 5 seconds
-    setInterval(function() {
-        // div refresh
-        $('#badgeforcart').load(location.href + ' #badgeforcart');
-    }, 2000);
+    // setInterval(function() {
+    //     // div refresh
+    //     $('#badgeforcart').load(location.href + ' #badgeforcart');
+    // }, 2000);
 </script>

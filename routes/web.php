@@ -393,6 +393,8 @@ Route::middleware(['CartCount'])->prefix('app')->group(function () {
     Route::get('/terms-of-service', [webController::class, 'privacypolicy']);
     Route::get('/faqs', [webController::class, 'faqs']);
     Route::get('/login', [webController::class, 'login']);
+    Route::get('/quiz/savePersonalDtl', [webController::class, 'savePersonalDtl']);
+
     Route::get('/signup', [webController::class, 'signup']);
     Route::get('/resetpassword', [webController::class, 'resetpassword']);
     Route::get('/resetpassword/{token}', [webController::class, 'resetpass']);

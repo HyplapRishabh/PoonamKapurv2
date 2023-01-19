@@ -128,24 +128,31 @@
                                             <fieldset>
                                                 <div class="form-card text-start">
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="form-label">Full name: *</label>
-                                                                <input type="text" class="form-control" id="quname" name="uname" value="{{Auth::user() != null ? Auth::user()->name : ''}}" placeholder="UserName" />
+                                                                <input type="text" class="form-control" id="quname" name="uname" value="{{Auth::user() != null ? Auth::user()->name : ''}}" placeholder="User Name" />
                                                                 <span id='qunameerror' class="errorshow"></span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="form-label">Email: *</label>
-                                                                <input type="email" class="form-control" id="quemailids" name="email" placeholder="Email Id" />
+                                                                <input type="email" class="form-control" id="quemailids" name="email" value="{{Auth::user() != null ? Auth::user()->email : null}}" placeholder="Email Id" />
                                                                 <span id='quemailerror' class="errorshow"></span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
+                                                                <label class="form-label">Password: *</label>
+                                                                <input type="text" class="form-control" id="qupass" name="upass"  placeholder="Password" />
+                                                                <span id='qupasserror' class="errorshow"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
                                                                 <label class="form-label">Mobile: *</label>
-                                                                <input type="text" value="{{Auth::user() != null ? Auth::user()->phone : ''}}" pattern="[6789][0-9]{9}" class="form-control" id="qumobile" name="mobile" placeholder="Phone number" />
+                                                                <input type="text" value="{{Auth::user() != null ? Auth::user()->phone : ''}}" pattern="[6789][0-9]{9}" maxlength="10" class="form-control" id="qumobile" name="mobile" placeholder="Phone number" />
                                                                 <span id='quemobileerror' class="errorshow"></span>
                                                             </div>
                                                         </div>
@@ -248,7 +255,7 @@
                                                     </div>
                                                 </div>
                                                 <button type="button" name="previous" class="btn btn-dark previous action-button-previous  me-3 rounded" value="Previous">Previous</button>
-                                                <button type="button" name="next" onclick="submitquiz('final')" class="btn btn-primary next action-button rounded" value="Submit">Explore Our Packages</button>
+                                                <button type="button" name="next" onclick="submitquiz('final')" class="btn btn-primary next action-button rounded" value="Submit">Explore Packages</button>
                                             </fieldset>
                                         </form>
                                     </div>
@@ -953,14 +960,34 @@
                 document.getElementById('qunameerror').innerHTML = '';
                 document.getElementById('quemailerror').innerHTML = '';
                 document.getElementById('quemobileerror').innerHTML = '';
-
+                document.getElementById('qupasserror').innerHTML = '';
 
                 quname = document.getElementById('quname').value;
                 quemail = document.getElementById('quemailids').value;
                 quemobile = document.getElementById('qumobile').value;
+                qupass = document.getElementById('qupass').value;
 
-                if (quname && quemail && quemobile) {
-                    document.getElementById('personalbtn').click();
+                if (quname && quemail && quemobile && qupass) {
+
+                    $.ajax({
+                        type: "post",
+                        url: "{{(url('/app/quiz/savePersonalDtl'))}}",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            "name": quname,
+                            "email": quemail,
+                            "mobile": quemobile,
+                            "pass": qupass,
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            document.getElementById('personalbtn').click();
+                        }, error: function (error) {
+                            console.log(error);
+                        }
+                    });
+
                 } else {
                     console.log(quemail);
                     if (!quname) {
@@ -972,8 +999,13 @@
                     if (!quemobile) {
                         document.getElementById('quemobileerror').innerHTML = 'Please enter valid mobile number';
                     }
+                    if (!qupass) {
+                        document.getElementById('qupasserror').innerHTML = 'Please enter your password';
+                    }
 
                 }
+
+
             } else if (type == 'goal') {
                 document.getElementById('qgoalerror').innerHTML = '';
 

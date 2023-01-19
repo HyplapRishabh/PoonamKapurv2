@@ -374,6 +374,22 @@ class webController extends Controller
         }
     }
 
+    function savePersonalDtl(Request $request)
+    {
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->mobile;
+        $user->password = Hash::make($request->pass);
+        $user->save();
+        $this->storeLog('Register', 'savePersonalDtl', $user);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Registered succesfully',
+        ]);
+
+    }
+
     public function resetpassword()
     {
         return view('web.resetpassword');
