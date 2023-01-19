@@ -30,7 +30,7 @@
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a href="{{url('/app/allcategory')}}" class="nav-link" id="notification-drop" data-bs-toggle="dropdown">
+                    <a href="{{url('/app/allcategory')}}" class="nav-link" id="notification-drop">
                         <p style="font-size: 0.9rem">Categories</p>
                         <span class="bg-danger dots"></span>
                     </a>

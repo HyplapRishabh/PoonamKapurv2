@@ -323,15 +323,24 @@
             </div>
 
             <div class="row">
-                <div class="col-sm-12 my-2 col-md-6" >
-                    <a href="{{url('/app/alacart')}}" >
+                <div class="col-md-12 col-lg-12">
+                    <div class="card-header border-0  ">
+                        <div class="card-transparent bg-transparent mb-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3>Select Your Preference</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 my-2 col-md-6">
+                    <a href="{{url('/app/alacart')}}">
                         <!-- <div style="background-image: url('webassets/images/alacartCard.png'); background-repeat: no-repeat; height: 400px; border-radius: 15px; background-size: contain; background-position: center right"></div> -->
                         <img src="webassets/images/alacartCard.png" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="Banner" class="d-block w-100" alt="#" style="border-radius: 20px;">
 
                     </a>
                 </div>
-                <div class="col-sm-12 my-2 col-md-6" >
-                    <a href="" data-bs-toggle="modal" data-bs-target="#gridSystemModal" >
+                <div class="col-sm-12 my-2 col-md-6">
+                    <a href="" data-bs-toggle="modal" data-bs-target="#gridSystemModal">
                         <!-- <div style="background-image: url('webassets/images/customizedMealsCard.png'); background-repeat: no-repeat; height: 400px; border-radius: 15px; background-size: contain; background-position: center right"></div> -->
                         <img src="webassets/images/customizedMealsCard.png" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="Banner" class="d-block w-100" alt="#" style="border-radius: 20px;">
                     </a>
@@ -440,7 +449,7 @@
 
                                     <div class="mt-3 text-center text-black-50">
                                         <p>
-                                        Meal combos are curated to suit different dietary requirements.
+                                            Meal combos are curated to suit different dietary requirements.
 
                                         </p>
                                     </div>
@@ -487,7 +496,7 @@
 
                                     <div class="mt-3 text-center text-black-50">
                                         <p>
-                                        No added colours, Preservatives or other chemical food additives.
+                                            No added colours, Preservatives or other chemical food additives.
                                         </p>
                                     </div>
                                 </div>
@@ -848,9 +857,9 @@
                                     <img src="webassets/images/testimonialbanner.jpg" class="d-block w-100" alt="#">
                                     <div class="carousel-caption" style="bottom: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 50%; margin: auto;">
                                         <!-- <img src="{{asset($testimonialInfo->media)}}" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="{{$testimonialInfo->name}}" class="img-fluid rounded-circle avatar-100 mb-2"><br> -->
-                                        <div class="img-fluid rounded-circle avatar-100 mb-2" style="background-image: url('{{$testimonialInfo->media}}'); background-position: center; background-size: contain; background-repeat: no-repeat;" ></div>
+                                        <div class="img-fluid rounded-circle avatar-100 mb-2" style="background-image: url('{{$testimonialInfo->media}}'); background-position: center; background-size: contain; background-repeat: no-repeat;"></div>
                                         <p class="heading-title fw-bolder text-dark ms-3 ms-lg-0">{{$testimonialInfo->name}}</p>
-                                        <p style="text-align:justify; overflow-y: scroll; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4;" >{{$testimonialInfo->comment}}</p>
+                                        <p style="text-align:justify; overflow-y: scroll; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4;">{{$testimonialInfo->comment}}</p>
                                     </div>
                                 </div>
                                 @endforeach
@@ -870,14 +879,18 @@
         <!-- Base buttons -->
         <div class="row " id="enqRow">
             <div class="col-6 text-center">
-                <div class="login-block" id="enqBtnfooter">
-                    <a href="{{url('/app/alacart')}}" class=" show" style="color: #ff6633;">Ala Cart</a>
-                </div>
+                <a href="{{url('/app/alacart')}}" class=" show">
+                    <div class="login-block" id="enqBtnfooter">
+                        <span style="color: #EA6A12;">Ala Cart </span>
+                    </div>
+                </a>
             </div>
             <div class="col-6 text-center">
-                <div class="login-block" id="regBtnfooter">
-                    <a data-bs-toggle="modal" data-bs-target="#gridSystemModal" style="color: #fff;">Customized</a>
-                </div>
+                <a data-bs-toggle="modal" data-bs-target="#gridSystemModal">
+                    <div class="login-block" id="regBtnfooter">
+                        <span style="color: #fff;">Customized </span>
+                    </div>
+                </a>
             </div>
         </div>
         <style>
@@ -890,18 +903,18 @@
                 font-size: 14px;
                 /* border: 1px solid #fff; */
                 font-weight: 600;
-                background-color: #ff6633;
+                background-color: #EA6A12;
             }
 
 
             #enqBtnfooter {
-                color: #ff6633;
+                color: #EA6A12;
                 width: 100%;
                 text-align: center;
                 border-radius: 5px;
                 padding: 0.5rem 1rem;
                 margin: 0.5rem;
-                border: 1px solid #ff6633;
+                border: 1px solid #EA6A12;
                 font-size: 14px;
             }
 
