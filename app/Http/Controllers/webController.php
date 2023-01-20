@@ -368,7 +368,7 @@ class webController extends Controller
         } else {
 
             return response()->json([
-                'status' => 202,
+                'status' => 202, 
                 'message' => 'Invalid Details',
             ]);
         }
@@ -376,18 +376,59 @@ class webController extends Controller
 
     function savePersonalDtl(Request $request)
     {
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->mobile;
-        $user->password = Hash::make($request->pass);
-        $user->save();
-        $this->storeLog('Register', 'savePersonalDtl', $user);
+        // update or create user
+        $user = User::where('phone', $request->mobile)->orWhere('email', $request->email)->first();
+        if($user)
+        {
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->mobile;
+            $user->status = 1;
+            $user->deleteId = 0;
+            $user->role = 4;
+            $user->update();
+            if(!Auth::user())
+            {
+                Auth::login($user);
+            }
+        }
+        else
+        {
+            $user = new User;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->mobile;
+            $user->status = 1;
+            $user->deleteId = 0;
+            $user->role = 4;
+            $user->save();
+            Auth::login($user);
+            $this->createWalletUser($user->id);
+
+        }
+
         return response()->json([
             'status' => 200,
+            'userId'=> $user->id,
             'message' => 'Registered succesfully',
         ]);
 
+    }
+
+    public function saveHeightWeightDtl(Request $request)
+    {
+        $user = User::find($request->userId);
+        $user->height = $request->height;
+        $user->weight = $request->weight;
+        $user->age = $request->age;
+        $user->gender = $request->gender;
+        $user->bmi = $request->bmi;
+        $user->bmr = $request->bmr;
+        $user->update();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Added All remaining details succesfully',
+        ]);
     }
 
     public function resetpassword()

@@ -145,7 +145,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="form-label">Password: *</label>
-                                                                <input type="text" class="form-control" id="qupass" name="upass"  placeholder="Password" />
+                                                                <input type="text" class="form-control" id="qupass" name="upass" {{Auth::user() != null ? 'disabled value=********' : ''}}  placeholder="Password" />
                                                                 <span id='qupasserror' class="errorshow"></span>
                                                             </div>
                                                         </div>
@@ -194,7 +194,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="form-label">Height: *</label>
-                                                                <input type="number" id="qheight" class="form-control" name="qheight" placeholder="Enter Your Height in CM" />
+                                                                <input type="number" id="qheight" class="form-control" name="qheight" placeholder="Enter Your Height in INCH" />
                                                                 <span id='qheighterror' class="errorshow"></span>
                                                             </div>
                                                         </div>
@@ -949,6 +949,7 @@
     @include('web.weblayout.webscript')
 
     <script>
+        var userId = '';
         function goalselect(goalId) {
             document.getElementById('goalselect').value = goalId;
         }
@@ -971,7 +972,7 @@
 
                     $.ajax({
                         type: "post",
-                        url: "{{(url('/app/quiz/savePersonalDtl'))}}",
+                        url: "{{url('/app/quiz/savePersonalDtl')}}",
                         data: {
                             "_token": "{{ csrf_token() }}",
                             "name": quname,
@@ -983,6 +984,7 @@
                         success: function (response) {
                             console.log(response);
                             document.getElementById('personalbtn').click();
+                            userId = response.userId;
                         }, error: function (error) {
                             console.log(error);
                         }
@@ -1022,13 +1024,15 @@
                 document.getElementById('qgendererror').innerHTML = '';
 
                 qheight = document.getElementById('qheight').value;
+                qheight = qheight * 2.54;
+                qheight = Math.round(qheight);
                 qweight = document.getElementById('qweight').value;
                 qage = document.getElementById('qage').value;
                 qgender = document.getElementById('qgender').value;
 
                 if (qheight && qweight && qage && qgender) {
                     if (!(qheight > 92 && qheight < 244)) {
-                        document.getElementById('qheighterror').innerHTML = 'Please enter valid height between 92cm to 244cm';
+                        document.getElementById('qheighterror').innerHTML = 'Please enter valid height between 36 inches to 96 inches';
                     } else if (!(qweight > 20 && qweight < 200)) {
                         document.getElementById('qweighterror').innerHTML = 'Please enter valid weight between 20Kg to 200Kg';
                     } else if (!(qage > 10 && qage < 80)) {
@@ -1058,7 +1062,30 @@
                         document.getElementById('BMIShow').innerHTML = BMI.toFixed(2);
                         document.getElementById('BMRShow').innerHTML = BMR.toFixed(2);
 
-                        document.getElementById('heightweightbtn').click();
+                        $.ajax({
+                            type: "post",
+                            url: "{{url('/app/quiz/saveHeightWeightDtl')}}",
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "height": qheight,
+                                "weight": qweight,
+                                "age": qage,
+                                "gender": qgender,
+                                "bmi": BMI.toFixed(2),
+                                "bmr": BMR.toFixed(2),
+                                "userId": userId,
+                            },
+                            dataType: "json",
+                            success: function (response) {
+                            console.log(response);
+                            document.getElementById('heightweightbtn').click();
+
+                        }, error: function (error) {
+                            console.log(error);
+                        }
+                        });
+
+
                     }
 
                 } else {
