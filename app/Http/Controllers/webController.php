@@ -1564,8 +1564,8 @@ class webController extends Controller
                 $trxdtl=transction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
                 $packagedtl = [];
 
-                $this->sendEmail('ConsultationToUser', $result->email, $result->name, $result->name, '', '', '', '', '', '' );
-                $this->sendEmail('ConsultationToPoonam', 'poonamkapur77@gmail.com', 'Poonam Kapur', $result->name, '', '', '', '', '', '' );
+                $this->sendEmail('ConsultationToUser', $input['email'], $result->name, $result->name, '', '', '', '', '', '' );
+                $this->sendEmail('ConsultationToPoonam', 'poonamkapur77@gmail.com', 'Poonam Kapur', $input['email'], '', '', '', '', '', '' );
 
                 return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
         }
@@ -1837,7 +1837,7 @@ class webController extends Controller
             }
 
             if($input['status']=='success')
-            {
+            { 
                 $ftrx=transction::where('payutxnid',$input['txnid'])->count();
                 if($ftrx==0)
                 {
@@ -1982,9 +1982,8 @@ class webController extends Controller
                     Auth::login($result);
                     $trxdtl=transction::where('payutxnid',$input['txnid'])->with('trxalacartorder')->first();
                     $packagedtl = [];
-                    // return $trxdtl;
-                    $this->sendEmail('ConsultationToUser', $result->email, $trxdtl->cpname, $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
-                    $this->sendEmail('ConsultationToPoonam', 'poonamkapur77@gmail.com', 'Poonam Kapur', $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
+                    $this->sendEmail('ConsultationToUser', $input['email'], $trxdtl->cpname, $trxdtl->cpname, $trxdtl->cpno, $input['email'], $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
+                    $this->sendEmail('ConsultationToPoonam', 'poonamkapur77@gmail.com', 'Poonam Kapur', $trxdtl->cpname, $trxdtl->cpno, $input['email'], $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
 
                     return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
             }

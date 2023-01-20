@@ -197,6 +197,7 @@
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
+        z-index: 999;
     }
 
     /* Style the icon bar links */
@@ -207,6 +208,7 @@
         transition: all 0.3s ease;
         color: white;
         font-size: 13px;
+
     }
 
     /* Style the social media icons with color, if you want */

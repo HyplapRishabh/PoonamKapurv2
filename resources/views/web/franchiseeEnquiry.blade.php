@@ -45,8 +45,19 @@
             @include('web.weblayout.headerlayout')
         </div>
         <div class="content-inner mt-5 py-0">
-            <div class="card " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".8" data-iq-trigger="scroll" data-iq-ease="none">
-                <div class=" p-3 bkgcategory">
+            <div class="row mb-3">
+                <div class="col-sm-12 col-lg-12">
+                    <div class="bd-example">
+                        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <a>
+                                        <img src="{{url('webassets/images/franchisee.png')}}" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="Banner" class="d-block w-100" alt="#">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -155,7 +166,7 @@
                                             </div>
                                         </a>
                                     </div>
-                                    
+
                                     <div class="swiper-slide">
                                         <a href="//www.grishmahealthfoods.com" target="_blank" rel="noopener noreferrer">
                                             <div class="card card-white dish-card profile-img mb-0">
