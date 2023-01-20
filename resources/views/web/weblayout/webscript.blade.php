@@ -121,6 +121,7 @@ $(document).ready(function () {
                         $('#addonmodal').modal('hide');  
                         sendnotify(data['message']);
                         loadcart(); 
+                        $('#badgeforcart').load(location.href + ' #badgeforcart');
                     }
                     else if (data['status'] == "login") {
                         window.location.href = "/app/login";

@@ -393,6 +393,8 @@ Route::middleware(['CartCount'])->prefix('app')->group(function () {
     Route::get('/terms-of-service', [webController::class, 'privacypolicy']);
     Route::get('/faqs', [webController::class, 'faqs']);
     Route::get('/login', [webController::class, 'login']);
+    Route::post('/checkOldUser', [webController::class, 'checkOldUser']);
+    Route::post('/checkPassword', [webController::class, 'checkPassword']);
     Route::post('/quiz/savePersonalDtl', [webController::class, 'savePersonalDtl']);
     Route::post('/quiz/saveHeightWeightDtl', [webController::class, 'saveHeightWeightDtl']);
 

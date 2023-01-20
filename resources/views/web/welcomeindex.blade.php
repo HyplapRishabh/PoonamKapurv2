@@ -77,7 +77,7 @@
                                     <div class="card-body">
                                         <form id="form-wizard1" class="text-center mt-3">
                                             <ul id="top-tab-list" class="p-0 row list-inline">
-                                                <li class="col-lg-4 col-md-6 text-start mb-2 active" id="account">
+                                                <li class="col-lg-4 col-md-6 text-start mb-2 {{Auth::user() == null ? 'active' : 'active done'}}" id="account">
                                                     <a href="javascript:void();" style="text-align: center;">
                                                         <div class="iq-icon">
                                                             <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" height="20" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -125,7 +125,7 @@
 
                                             </ul>
                                             <!-- fieldsets -->
-                                            <fieldset>
+                                            <fieldset @if(Auth::user()) style="display: none; opacity: 0;" @endif>
                                                 <div class="form-card text-start">
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -133,6 +133,13 @@
                                                                 <label class="form-label">Full name: *</label>
                                                                 <input type="text" class="form-control" id="quname" name="uname" value="{{Auth::user() != null ? Auth::user()->name : ''}}" placeholder="User Name" />
                                                                 <span id='qunameerror' class="errorshow"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label">Mobile: *</label>
+                                                                <input type="text" value="{{Auth::user() != null ? Auth::user()->phone : ''}}" pattern="[6789][0-9]{9}" onkeyup="checkOldUser()" maxlength="10" class="form-control" id="qumobile" name="mobile" placeholder="Phone number" />
+                                                                <span id='quemobileerror' class="errorshow"></span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -145,17 +152,12 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="form-label">Password: *</label>
-                                                                <input type="text" class="form-control" id="qupass" name="upass" {{Auth::user() != null ? 'disabled value=********' : ''}}  placeholder="Password" />
+                                                                <input type="text" class="form-control" id="qupass" name="upass" placeholder="Password" />
                                                                 <span id='qupasserror' class="errorshow"></span>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label class="form-label">Mobile: *</label>
-                                                                <input type="text" value="{{Auth::user() != null ? Auth::user()->phone : ''}}" pattern="[6789][0-9]{9}" maxlength="10" class="form-control" id="qumobile" name="mobile" placeholder="Phone number" />
-                                                                <span id='quemobileerror' class="errorshow"></span>
-                                                            </div>
-                                                        </div>
+
+
                                                     </div>
                                                 </div>
                                                 <button type="button" name="next" onclick="submitquiz('personal')" class="btn btn-primary text-center rounded">Next</button>
@@ -188,7 +190,7 @@
                                                     value="Next">Next</button>
 
                                             </fieldset> -->
-                                            <fieldset>
+                                            <fieldset @if(Auth::user()) style="display: block; opacity: 1;" @endif>
                                                 <div class="form-card text-start">
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -225,7 +227,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button type="button" name="previous" class="btn btn-dark previous action-button-previous me-3 rounded" value="Previous">Previous</button>
+                                                @if (!Auth::user())
+                                                <!-- <button type="button" name="previous" class="btn btn-dark previous action-button-previous me-3 rounded" value="Previous">Previous</button> -->
+                                                @endif
                                                 <button type="button" name="next" onclick="submitquiz('heightweight')" class="btn btn-primary text-center rounded">Next</button>
                                                 <button type="button" name="next" id="heightweightbtn" style="display: none;" class="btn btn-primary next action-button text-center rounded" value="Next">Next</button>
 
@@ -254,8 +258,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button type="button" name="previous" class="btn btn-dark previous action-button-previous  me-3 rounded" value="Previous">Previous</button>
-                                                <button type="button" name="next" onclick="submitquiz('final')" class="btn btn-primary next action-button rounded" value="Submit">Explore Packages</button>
+                                                <button type="button" name="previous" class="btn btn-dark previous action-button-previous me-3 rounded" value="Previous">Previous</button>
+                                                <!-- <button type="button" name="next" onclick="submitquiz('final')" class="btn btn-primary next action-button rounded" value="Submit">Explore Packages</button> -->
+                                                <a href="{{url('app/allgoal')}}" class="btn btn-primary next action-button rounded">Explore Packages</a>
                                             </fieldset>
                                         </form>
                                     </div>
@@ -949,10 +954,67 @@
     @include('web.weblayout.webscript')
 
     <script>
+        var userFlag = 0;
         var userId = '';
+
         function goalselect(goalId) {
             document.getElementById('goalselect').value = goalId;
         }
+
+        function checkOldUser() {
+            var mobile = $('#qumobile').val();
+            // indian mobile number regex
+            var mobileRegex = /^[6-9]\d{9}$/;
+            if (mobileRegex.test(mobile)) {
+                $.ajax({
+                    type: "post",
+                    url: "{{url('/app/checkOldUser')}}",
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        mobile: mobile,
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+                        if (response.status == 200) {
+
+                            var maskid = "";
+                            var myemailId = response.user.email;
+                            var prefix = myemailId.substring(0, myemailId.lastIndexOf("@"));
+                            var postfix = myemailId.substring(myemailId.lastIndexOf("@"));
+
+                            for (var i = 0; i < prefix.length; i++) {
+                                if (i == 0 || i == prefix.length - 1) { ////////
+                                    maskid = maskid + prefix[i].toString();
+                                } else {
+                                    maskid = maskid + "*";
+                                }
+                            }
+                            maskid = maskid + postfix;
+                            document.getElementById('quemobileerror').innerHTML = 'User already exists. Enter password to continue.';
+                            document.getElementById('quemailids').value = response.user.email;
+                            document.getElementById('quname').value = response.user.name;
+                            document.getElementById('quemailids').readOnly = true;
+                            userFlag = 1;
+                        } else {
+                            document.getElementById('quemobileerror').innerHTML = '';
+                            document.getElementById('quemailids').value = '';
+                            document.getElementById('quemailids').readOnly = false;
+                            userFlag = 0;
+                        }
+
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            } else {
+                document.getElementById('quemobileerror').innerHTML = 'Please enter valid mobile number.';
+                userFlag = 0;
+            }
+
+        }
+
 
         function submitquiz(type) {
             console.log(type);
@@ -970,25 +1032,58 @@
 
                 if (quname && quemail && quemobile && qupass) {
 
-                    $.ajax({
-                        type: "post",
-                        url: "{{url('/app/quiz/savePersonalDtl')}}",
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            "name": quname,
-                            "email": quemail,
-                            "mobile": quemobile,
-                            "pass": qupass,
-                        },
-                        dataType: "json",
-                        success: function (response) {
-                            console.log(response);
-                            document.getElementById('personalbtn').click();
-                            userId = response.userId;
-                        }, error: function (error) {
-                            console.log(error);
-                        }
-                    });
+                    if (userFlag == 1) {
+                        $.ajax({
+                            type: "post",
+                            url: "{{url('/app/checkPassword')}}",
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "email": quemail,
+                                "pass": qupass,
+                            },
+                            dataType: "json",
+                            success: function(response1) {
+                                console.log(response1.status);
+                                if (response1.status == 200) {
+                                    document.getElementById('personalbtn').click();
+                                } else if (response1.status == 202) {
+                                    document.getElementById('qupasserror').innerHTML = `Password is incorrect <a href="{{url('/app/resetpassword')}}">Forgot Password?</a> `;
+                                } else if (response1.status == 201) {
+                                    document.getElementById('quemailerror').innerHTML = 'Email is incorrect';
+                                }
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
+                        });
+                    } else {
+                        $.ajax({
+                            type: "post",
+                            url: "{{url('/app/quiz/savePersonalDtl')}}",
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "name": quname,
+                                "email": quemail,
+                                "mobile": quemobile,
+                                "pass": qupass,
+                            },
+                            dataType: "json",
+                            success: function(response) {
+                                console.log(response);
+                                if (response.status == 200) {
+                                    document.getElementById('personalbtn').click();
+                                }
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
+                        });
+                    }
+
+
+
+
+
 
                 } else {
                     console.log(quemail);
@@ -1004,10 +1099,7 @@
                     if (!qupass) {
                         document.getElementById('qupasserror').innerHTML = 'Please enter your password';
                     }
-
                 }
-
-
             } else if (type == 'goal') {
                 document.getElementById('qgoalerror').innerHTML = '';
 
@@ -1073,16 +1165,17 @@
                                 "gender": qgender,
                                 "bmi": BMI.toFixed(2),
                                 "bmr": BMR.toFixed(2),
-                                "userId": userId,
+                                // "userId": userId,
                             },
                             dataType: "json",
-                            success: function (response) {
-                            console.log(response);
-                            document.getElementById('heightweightbtn').click();
+                            success: function(response) {
+                                console.log(response);
+                                document.getElementById('heightweightbtn').click();
 
-                        }, error: function (error) {
-                            console.log(error);
-                        }
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
                         });
 
 

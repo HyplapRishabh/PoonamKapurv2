@@ -374,50 +374,77 @@ class webController extends Controller
         }
     }
 
-    function savePersonalDtl(Request $request)
+    function checkOldUser(Request $request)
     {
-        // update or create user
-        $user = User::where('phone', $request->mobile)->orWhere('email', $request->email)->first();
+        $user = User::where('phone', $request->mobile)->first();
         if($user)
         {
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->phone = $request->mobile;
-            $user->status = 1;
-            $user->deleteId = 0;
-            $user->role = 4;
-            $user->update();
-            if(!Auth::user())
-            {
-                Auth::login($user);
-            }
+            return response()->json([
+                'status' => 200,
+                'user'=> $user,
+                'message' => 'Already a user',
+            ]);
         }
         else
         {
+            return response()->json([
+                'status' => 201,
+                'message' => 'New user',
+            ]);
+        }
+    }
+
+    function savePersonalDtl(Request $request)
+    {
+        
             $user = new User;
             $user->name = $request->name;
             $user->email = $request->email;
             $user->phone = $request->mobile;
+            $user->password = Hash::make($request->pass);
             $user->status = 1;
             $user->deleteId = 0;
             $user->role = 4;
             $user->save();
             Auth::login($user);
             $this->createWalletUser($user->id);
+            return response()->json([
+                'status' => 200,
+                'userId'=> $user->id,
+                'message' => 'Registered succesfully',
+            ]);
+    }
 
+    public function checkPassword(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        if($user)
+        {
+            if (Hash::check($request->pass, $user->password)) {
+                Auth::login($user);
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Password Matched',
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 202,
+                    'message' => 'Password Not Matched',
+                ]);
+            }
         }
-
-        return response()->json([
-            'status' => 200,
-            'userId'=> $user->id,
-            'message' => 'Registered succesfully',
-        ]);
-
+        else{
+            return response()->json([
+                'status' => 201,
+                'message' => 'Incorrect Email',
+            ]);
+        }
+        
     }
 
     public function saveHeightWeightDtl(Request $request)
     {
-        $user = User::find($request->userId);
+        $user = User::find(Auth::user()->id);
         $user->height = $request->height;
         $user->weight = $request->weight;
         $user->age = $request->age;
@@ -445,8 +472,10 @@ class webController extends Controller
             if ($result->status == 1 && $result->deleteId == 0) {
 
                 $tokenGenerate = Resetpassword::updateOrCreate(
-                    ['userId' => $result->id]
+                    ['userId' => $result->id],
+                    ['token' => Str::random(60)]
                 ); 
+                // error_log($tokenGenerate->id);
                 $token = Crypt::encryptString($tokenGenerate->id);
                 $this->sendEmail('ForgetPassword', $input->emailId, $result->name, $result->name, $result->phone, $result->email, '', $token, '', '' );
 
@@ -477,7 +506,7 @@ class webController extends Controller
         // return $receivedTimestamp;
         
         // check if token is 2 hours old
-        if (time() - $receivedTimestamp > 1) {
+        if (time() - $receivedTimestamp > 7200) {
             return 'Your link has expired. Please try generating a new reset password link!!';
         } else {
             return view('web.resetpass', compact('resetPassDetails'));
