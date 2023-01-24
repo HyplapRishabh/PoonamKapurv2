@@ -35,19 +35,15 @@
     <div class="position-relative">
         <div class="user-img1">
             <svg width="1857" viewBox="0 0 1857 327" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M4.05078 189.348C86.8841 109.514 348.951 -25.2523 734.551 74.3477C1120.15 173.948 1641.22 91.181 1853.55 37.3477"
-                    stroke="#EA6A12" stroke-opacity="0.3" />
-                <path
-                    d="M0.99839 152.331C90.9502 80.6133 364.495 -28.9952 739.062 106.31C1113.63 241.616 1640.16 208.056 1856.6 174.363"
-                    stroke="#EA6A12" stroke-opacity="0.3" />
+                <path d="M4.05078 189.348C86.8841 109.514 348.951 -25.2523 734.551 74.3477C1120.15 173.948 1641.22 91.181 1853.55 37.3477" stroke="#EA6A12" stroke-opacity="0.3" />
+                <path d="M0.99839 152.331C90.9502 80.6133 364.495 -28.9952 739.062 106.31C1113.63 241.616 1640.16 208.056 1856.6 174.363" stroke="#EA6A12" stroke-opacity="0.3" />
             </svg>
         </div>
     </div>
 
     <main class="main-content">
         <div class="position-relative">
-        @include('web.weblayout.headerlayout')
+            @include('web.weblayout.headerlayout')
         </div>
         <div class="content-inner mt-5 py-0">
             <div>
@@ -62,7 +58,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="new-user-info">
-                                <form action="{{url('/app/subscriptionorderplace')}}" onsubmit="subscriptionpayment(event)" method="post" >
+                                    <form action="{{url('/app/subscriptionorderplace')}}" onsubmit="subscriptionpayment(event)" method="post">
                                         @csrf
                                         <input type="hidden" value="45453" name="paymentId">
                                         <input type="hidden" id="ssubtotalval" name="subtotalval" value="{{$finalamt}}">
@@ -87,47 +83,47 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="form-label" for="mobno">Mobile Number:</label>
-                                                <input type="text" required class="form-control" name="mobilenumber" value="{{$userdetail->phone}}" id="mobno"
-                                                    placeholder="Mobile Number">
+                                                <input type="text" required class="form-control" name="mobilenumber" value="{{$userdetail->phone}}" id="mobno" placeholder="Mobile Number">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="form-label" for="add1">Street Address 1:</label>
-                                                <input type="text" required class="form-control" name="addressdtl" id="add1"
-                                                    placeholder="Street Address 1">
+                                                <input type="text" required class="form-control" name="addressdtl" id="add1" placeholder="Street Address 1">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="form-label" for="add2">Landmark</label>
-                                                <input type="text" required class="form-control" name="landmark" id="add2"
-                                                    placeholder="Enter Nearby Landmark">
+                                                <input type="text" required class="form-control" name="landmark" id="add2" placeholder="Enter Nearby Landmark">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="form-label" for="pno">Pin Code:</label>
                                                 <select name="pincode" required id="pincodeval" class="selectpicker form-control" onChange="pincodechg()" data-style="py-0">
                                                     <option value="" selected>Select Pincode</option>
+                                                    <?php
+                                                    if (isset($_COOKIE['pincode'])) {
+                                                        $oldpincode = $_COOKIE['pincode'];
+                                                    } else {
+                                                        $oldpincode = null;
+                                                    }
+                                                    ?>
                                                     @foreach($pincodelist as $pinlist)
-                                                        <option value="{{$pinlist->pincode}}">{{$pinlist->pincode}}</option>
+                                                    <option value="{{$pinlist->pincode}}" {{$pinlist->pincode == $oldpincode ? 'selected' : ''}}>{{$pinlist->pincode}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="form-label">Select Area:</label>
-                                                <select name="area" required onChange="cityselected()"
-                                                    class="js-example-basic-single selectpicker form-control "
-                                                    id="areanameval" data-style="py-0">
-                                                    <option value="" selected >Select Area</option>
+                                                <select name="area" required onChange="cityselected()" class="js-example-basic-single selectpicker form-control " id="areanameval" data-style="py-0">
+                                                    <option value="" selected>Select Area</option>
                                                 </select>
-                                                <span id='areaalert' style="color: red;display: none;">The selected area is not available for delivery at this time</span>
+                                                <span id='areaalert' style="color: red;display: none;"></span>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="form-label" for="add2">Subscription Start Date</label>
-                                                <input type="date" min="{{$mindate}}" required class="form-control" name="startdate" id="startdate1"
-                                                    placeholder="Select subscription start date">
+                                                <input type="date" min="{{$mindate}}" required class="form-control" name="startdate" id="startdate1" placeholder="Select subscription start date">
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="checkbox">
-                                            <label class="form-label"><input class="form-check-input me-2"
-                                                    type="checkbox" value="" required id="flexCheckChecked">You Agree To Our
+                                            <label class="form-label"><input class="form-check-input me-2" type="checkbox" value="" required id="flexCheckChecked">You Agree To Our
                                                 Terms & Conditions</label>
                                         </div>
                                         <button type="submit" id='placeorderbtn' class="btn btn-primary rounded-pill">Place Order</button>
@@ -137,16 +133,15 @@
                         </div>
                     </div>
                     <div class="col-md-4 col-lg-4">
-                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
-                            data-iq-duration=".6" data-iq-delay="1.2" data-iq-trigger="scroll" data-iq-ease="none">
+                        <div class="card" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay="1.2" data-iq-trigger="scroll" data-iq-ease="none">
                             <div class="card-header">
                                 <h4 class="list-main">Subscription</h4>
                             </div>
                             <div class="card-body">
-                                
+
                                 <div class="my-cart-body">
                                     <div class="border border-primary rounded p-3 mt-5">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h6 class="heading-title fw-bolder">Goal</h6>
                                             <h6 class="heading-title fw-bolder text-primary">{{$packageinfo->goal->name}}</h6>
                                         </div>
@@ -162,7 +157,7 @@
                                             <h6 class="heading-title fw-bolder">Total Meals</h6>
                                             <h6 class="heading-title fw-bolder text-primary">{{$input['days']*$mealtimecount}} Meals</h6>
                                         </div>
-                                        
+
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h6 class="heading-title fw-bolder">Subscribe for</h6>
                                             <h6 class="heading-title fw-bolder text-primary" id='subscribeforval'>{{$input['type']}}</h6>
@@ -183,7 +178,7 @@
                                             <h6 class="heading-title fw-bolder text-primary" id='afterwallet'>&#8377 {{$finalamt}}</h6>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -197,194 +192,238 @@
     @include('web.weblayout.footerscript')
     @include('web.weblayout.webscript')
 </body>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script id="bolt" src="https://checkout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="e34524"  bolt-logo="https://poonamkapur.com/assets/images/logo_dark.png"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script id="bolt" src="https://checkout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="e34524" bolt-logo="https://poonamkapur.com/assets/images/logo_dark.png"></script>
 
 <script>
-        $(document).ready(function () {
-            $('#pincodeval').select2();
-            $('#areanameval').select2();
-            calculate();
+    $(document).ready(function() {
+        $('#pincodeval').select2();
+        $('#areanameval').select2();
+        calculate();
+        var areaNameSelected = [];
+
+        $.ajax({
+            url: '/app/pincodechg/' + localStorage.getItem('pincode'),
+            type: "get",
+            success: function(data) {
+                document.getElementById('areaalert').style.display = 'none';
+                console.log(data);
+                if (data['status'] == "success") {
+
+                    $('#areanameval').empty();
+                    $('#areanameval').append('<option value="" selected >Select Area</option>');
+                    $.each(data['pincodelist'], function(i, item) {
+                        $('#areanameval').append($('<option>', {
+                            value: item.areaName,
+                            text: item.areaName,
+                            selected: item.areaName == localStorage.getItem('area') ? true : false
+                        }));
+
+                    });
+                }
+            }
         });
 
-        function pincodechg() {
-            newpincodeval = document.getElementById('pincodeval').value;
-            $.ajax({
-                url: '/app/pincodechg/' + newpincodeval,
-                type: "get",
-                success: function (data) {
-                    document.getElementById('areaalert').style.display='none';
-                    console.log(data);
-                    if (data['status'] == "success") {
-                        str='';
-                        str += '<option value="" selected >Select Area</option>';
-                        data['pincodelist'].forEach(element => {
-                            str += '<option value="' + element['areaName'] + '">' + element['areaName'] + '</option>';
-                        });
-                        console.log(str);
-                        document.getElementById('areanameval').innerHTML = str;
-                    }
-                    else {
+        var mealtypes = $('#subscribeforval').text();
+        var mealtypesarr = mealtypes.split(',');
 
-                    }
+
+
+    });
+
+    function pincodechg() {
+        newpincodeval = document.getElementById('pincodeval').value;
+        $.ajax({
+            url: '/app/pincodechg/' + newpincodeval,
+            type: "get",
+            success: function(data) {
+                document.getElementById('areaalert').style.display = 'none';
+                console.log(data);
+
+                if (data['status'] == "success") {
+                    // str = '';
+                    // str += '<option value="" selected >Select Area</option>';
+                    // data['pincodelist'].forEach(element => {
+                    //     str += '<option value="' + element['areaName'] + '">' + element['areaName'] + '</option>';
+                    // });
+                    // console.log(str);
+                    // document.getElementById('areanameval').innerHTML = str;
+
+                    $('#areanameval').empty();
+                    $('#areanameval').append('<option value="" selected >Select Area</option>');
+                    $.each(data['pincodelist'], function(i, item) {
+                        $('#areanameval').append($('<option>', {
+                            value: item.areaName,
+                            text: item.areaName,
+                            selected: item.areaName == localStorage.getItem('areaName') ? true : false
+                        }));
+                        // make array of areaName
+                        areaNameSelected.push(item.areaName);
+
+                    });
+                    console.log(areaNameSelected);
+
+                } else {
+
                 }
-            });
-        }
-        function cityselected()
-        {
-            newcityval = document.getElementById('areanameval').value;
-            $.ajax({
-                url: '/app/cityvalchg/' + newcityval,
-                type: "get",
-                success: function (data) {
-
-                    console.log(data);
-                    if (data['status'] == "success") {
-
-                        // document.getElementById('deliverychg').innerHTML = data['citylist']['deliveryCharge'];
-                        // deliverychg = data['citylist']['deliveryCharge'];
-                        // console.log(deliverychg);
-                        // calculate();
-
-                        var subscribeforval=document.getElementById('subscribeforval').innerHTML;
-                        subscribeforval=subscribeforval.split(',');
-                        breakfastf=1;
-                        lunchf=1;
-                        snacksf=1;
-                        dinnerf=1;
-                        subscribeforval.forEach(element => {
-                            if(element=='BreakFast')
-                            {
-                                breakfastf=data['citylist']['breakFastFlag'];
-                            }
-                            if(element=='Lunch')
-                            {
-                                lunchf=data['citylist']['lunchFlag'];
-                            }
-                            if(element=='Snack')
-                            {
-                                snacksf=data['citylist']['snackFlag'];
-                            }
-                            if(element=='Dinner')
-                            {
-                                dinnerf=data['citylist']['dinnerFlag'];
-                            }
-                        });
-                        console.log(breakfastf);
-                        console.log(lunchf);
-                        console.log(snacksf);
-                        console.log(dinnerf);
-                        if(breakfastf==1 && lunchf==1 && snacksf==1 && dinnerf==1)
-                        {
-                            console.log('hidf');
-                            document.getElementById('areaalert').style.display='none';
-                            document.getElementById('placeorderbtn').disabled=false;
-                            
-                        }
-                        else
-                        {
-                            console.log('hidf1');
-                            document.getElementById('areaalert').style.display='block';
-                            document.getElementById('placeorderbtn').disabled=true;
-                        }
-                    }
-                    else {
-
-                    }
-                }
-            });
-        }
-
-        function calculate()
-        {
-            walletbal=$('#walluse').val();
-            currenttotal=document.getElementById('sgrandtotalval').value;
-            if ($('#walluse').is(":checked"))
-            {
-                if(walletbal>=currenttotal)
-                {
-                    walletbal=currenttotal;
-                }
-                document.getElementById('afterwallet').innerHTML='₹ '+(currenttotal*1-walletbal*1);
-                document.getElementById('sfinaltotalval').value=currenttotal-walletbal;
-                document.getElementById('walletuseflag').value='1';
             }
-            else
-            {
-                document.getElementById('afterwallet').innerHTML='₹ '+currenttotal;
-                document.getElementById('sfinaltotalval').value=currenttotal;
-                document.getElementById('walletuseflag').value='0';
+        });
+    }
+
+    function cityselected() {
+        newcityval = document.getElementById('areanameval').value;
+        $.ajax({
+            url: '/app/cityvalchg/' + newcityval,
+            type: "get",
+            success: function(data) {
+
+                console.log(data);
+                if (data['status'] == "success") {
+
+                    // document.getElementById('deliverychg').innerHTML = data['citylist']['deliveryCharge'];
+                    // deliverychg = data['citylist']['deliveryCharge'];
+                    // console.log(deliverychg);
+                    // calculate();
+
+                    var subscribeforval = document.getElementById('subscribeforval').innerHTML;
+                    subscribeforval = subscribeforval.split(',');
+                    breakfastf = 1;
+                    lunchf = 1;
+                    snacksf = 1;
+                    dinnerf = 1;
+                    subscribeforval.forEach(element => {
+                        if (element == 'BreakFast') {
+                            breakfastf = data['citylist']['breakFastFlag'];
+                        }
+                        if (element == 'Lunch') {
+                            lunchf = data['citylist']['lunchFlag'];
+                        }
+                        if (element == 'Snack') {
+                            snacksf = data['citylist']['snackFlag'];
+                        }
+                        if (element == 'Dinner') {
+                            dinnerf = data['citylist']['dinnerFlag'];
+                        }
+                    });
+                    console.log(breakfastf);
+                    console.log(lunchf);
+                    console.log(snacksf);
+                    console.log(dinnerf);
+                    if (breakfastf == 1 && lunchf == 1 && snacksf == 1 && dinnerf == 1) {
+                        console.log('hidf');
+                        document.getElementById('areaalert').style.display = 'none';
+                        document.getElementById('placeorderbtn').disabled = false;
+
+                    } else {
+                        console.log('hidf1');
+                        document.getElementById('areaalert').style.display = 'block';
+                        if (data.citylist.breakFastFlag == 1 || data.citylist.lunchFlag == 1 || data.citylist.snackFlag == 1 || data.citylist.dinnerFlag == 1) {
+                            document.getElementById('areaalert').innerHTML = 'The selected area is only available for'
+                            if (data.citylist.breakFastFlag == 1) {
+                                document.getElementById('areaalert').innerHTML += ' BreakFast';
+                            }
+                            if (data.citylist.lunchFlag == 1) {
+                                document.getElementById('areaalert').innerHTML += ' Lunch';
+                            }
+                            if (data.citylist.snackFlag == 1) {
+                                document.getElementById('areaalert').innerHTML += ' Snack';
+                            }
+                            if (data.citylist.dinnerFlag == 1) {
+                                document.getElementById('areaalert').innerHTML += ' Dinner';
+                            }
+                        } else {
+                            document.getElementById('areaalert').innerHTML = 'The selected area is not available for delivery at the moment';
+                        }
+                        document.getElementById('placeorderbtn').disabled = true;
+                    }
+                } else {
+
+                }
             }
-            console.log(currenttotal);
-            console.log(walletbal);
-            console.log(document.getElementById('afterwallet').innerHTML);
+        });
+    }
+
+    function calculate() {
+        walletbal = $('#walluse').val();
+        currenttotal = document.getElementById('sgrandtotalval').value;
+        if ($('#walluse').is(":checked")) {
+            if (walletbal >= currenttotal) {
+                walletbal = currenttotal;
+            }
+            document.getElementById('afterwallet').innerHTML = '₹ ' + (currenttotal * 1 - walletbal * 1);
+            document.getElementById('sfinaltotalval').value = currenttotal - walletbal;
+            document.getElementById('walletuseflag').value = '1';
+        } else {
+            document.getElementById('afterwallet').innerHTML = '₹ ' + currenttotal;
+            document.getElementById('sfinaltotalval').value = currenttotal;
+            document.getElementById('walletuseflag').value = '0';
         }
+        console.log(currenttotal);
+        console.log(walletbal);
+        console.log(document.getElementById('afterwallet').innerHTML);
+    }
 
-      
-
-        
-        function subscriptionpayment(event) {
-            event.preventDefault();
-            trxamtval=document.getElementById('ssubtotalval').value+','+document.getElementById('staxval').value+','+document.getElementById('sfinaltotalval').value+','+document.getElementById('ps').value+','+document.getElementById('walletuseflag').value+','+document.getElementById('sgrandtotalval').value;
-            pkgval=document.getElementById('packageid').value+','+document.getElementById('days').value+','+document.getElementById('totalmeals').value;
-            var data = new FormData();
-            data.append('key', 'YI0Weq');
-            data.append('txnid', document.getElementById('txnid').value);
-            data.append('amount', document.getElementById('sfinaltotalval').value);
-            data.append('udf1',trxamtval);
-            data.append('udf2', pkgval);
-            data.append('udf3', document.getElementById('subscribefor').value);
-            data.append('udf4', document.getElementById('startdate1').value);
-            data.append('udf5', document.getElementById('userid').value);
+    function subscriptionpayment(event) {
+        event.preventDefault();
+        trxamtval = document.getElementById('ssubtotalval').value + ',' + document.getElementById('staxval').value + ',' + document.getElementById('sfinaltotalval').value + ',' + document.getElementById('ps').value + ',' + document.getElementById('walletuseflag').value + ',' + document.getElementById('sgrandtotalval').value;
+        pkgval = document.getElementById('packageid').value + ',' + document.getElementById('days').value + ',' + document.getElementById('totalmeals').value;
+        var data = new FormData();
+        data.append('key', 'YI0Weq');
+        data.append('txnid', document.getElementById('txnid').value);
+        data.append('amount', document.getElementById('sfinaltotalval').value);
+        data.append('udf1', trxamtval);
+        data.append('udf2', pkgval);
+        data.append('udf3', document.getElementById('subscribefor').value);
+        data.append('udf4', document.getElementById('startdate1').value);
+        data.append('udf5', document.getElementById('userid').value);
 
 
-            data.append('firstname', document.getElementById('fname').value);
-            data.append('email', document.getElementById('useremailid').value);
-            data.append('productinfo', 'subscription');
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/app/gethashofpayu', true);
-            xhr.onload = function () {
-                console.log(this.responseText);
-                xhrval = JSON.parse(xhr['response']);
-                runfinalbolt(xhrval['encryptpass']);
-            };
-            xhr.send(data);
-        }
+        data.append('firstname', document.getElementById('fname').value);
+        data.append('email', document.getElementById('useremailid').value);
+        data.append('productinfo', 'subscription');
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/app/gethashofpayu', true);
+        xhr.onload = function() {
+            console.log(this.responseText);
+            xhrval = JSON.parse(xhr['response']);
+            runfinalbolt(xhrval['encryptpass']);
+        };
+        xhr.send(data);
+    }
 
-        function runfinalbolt(hash) {
-            console.log(hash);
-            trxamtval=document.getElementById('ssubtotalval').value+','+document.getElementById('staxval').value+','+document.getElementById('sfinaltotalval').value+','+document.getElementById('ps').value+','+document.getElementById('walletuseflag').value+','+document.getElementById('sgrandtotalval').value;
-            pkgval=document.getElementById('packageid').value+','+document.getElementById('days').value+','+document.getElementById('totalmeals').value;
-           
-            boltdata = {
-                key:'YI0Weq', 
-                //key: 'gtKFFx',
-                txnid: document.getElementById('txnid').value,
-                hash: hash,
-                amount: document.getElementById('sfinaltotalval').value,
-                //amount: 1,
-                firstname: document.getElementById('fname').value,
-                email: document.getElementById('useremailid').value,
-                phone: document.getElementById('mobno').value,
-                productinfo: 'subscription',
-                udf1: trxamtval,
-                udf2: pkgval,
-                udf3: document.getElementById('subscribefor').value,
-                udf4: document.getElementById('startdate1').value,
-                udf5: document.getElementById('userid').value,
-                address1: document.getElementById('add1').value,
-                address2: document.getElementById('add2').value,
-                zipcode: document.getElementById('pincodeval').value,
-                city: document.getElementById('areanameval').value,
+    function runfinalbolt(hash) {
+        console.log(hash);
+        trxamtval = document.getElementById('ssubtotalval').value + ',' + document.getElementById('staxval').value + ',' + document.getElementById('sfinaltotalval').value + ',' + document.getElementById('ps').value + ',' + document.getElementById('walletuseflag').value + ',' + document.getElementById('sgrandtotalval').value;
+        pkgval = document.getElementById('packageid').value + ',' + document.getElementById('days').value + ',' + document.getElementById('totalmeals').value;
 
-                surl: 'https://poonamkapur.com/app/payuresponsepkhk',
-                furl: 'https://poonamkapur.com/app/payuresponsepkhk',
-            };
-            console.log(boltdata);
-            if(boltdata.amount==0)
-            {
-                var fr = '<form action=\"/app/paywallet" method=\"post\">' +
+        boltdata = {
+            key: 'YI0Weq',
+            //key: 'gtKFFx',
+            txnid: document.getElementById('txnid').value,
+            hash: hash,
+            amount: document.getElementById('sfinaltotalval').value,
+            //amount: 1,
+            firstname: document.getElementById('fname').value,
+            email: document.getElementById('useremailid').value,
+            phone: document.getElementById('mobno').value,
+            productinfo: 'subscription',
+            udf1: trxamtval,
+            udf2: pkgval,
+            udf3: document.getElementById('subscribefor').value,
+            udf4: document.getElementById('startdate1').value,
+            udf5: document.getElementById('userid').value,
+            address1: document.getElementById('add1').value,
+            address2: document.getElementById('add2').value,
+            zipcode: document.getElementById('pincodeval').value,
+            city: document.getElementById('areanameval').value,
+
+            surl: 'https://poonamkapur.com/app/payuresponsepkhk',
+            furl: 'https://poonamkapur.com/app/payuresponsepkhk',
+        };
+        console.log(boltdata);
+        if (boltdata.amount == 0) {
+            var fr = '<form action=\"/app/paywallet" method=\"post\">' +
                 '<input type=\"hidden\" name=\"key\" value=\"' + boltdata.key + '\" />' +
                 '<input type=\"hidden\" name=\"txnid\" value=\"' + boltdata.txnid + '\" />' +
                 '<input type=\"hidden\" name=\"amount\" value=\"' + boltdata.amount + '\" />' +
@@ -405,14 +444,12 @@
                 '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
                 '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
                 '</form>';
-                console.log('HI' + fr);
-                var form = jQuery(fr);
-                jQuery('body').append(form);
-                form.submit();
-            }
-            else
-            {
-                var fr = '<form action=\"https://secure.payu.in/_payment" method=\"post\">' +
+            console.log('HI' + fr);
+            var form = jQuery(fr);
+            jQuery('body').append(form);
+            form.submit();
+        } else {
+            var fr = '<form action=\"https://secure.payu.in/_payment" method=\"post\">' +
                 '<input type=\"hidden\" name=\"key\" value=\"' + boltdata.key + '\" />' +
                 '<input type=\"hidden\" name=\"txnid\" value=\"' + boltdata.txnid + '\" />' +
                 '<input type=\"hidden\" name=\"amount\" value=\"' + boltdata.amount + '\" />' +
@@ -433,14 +470,13 @@
                 '<input type=\"hidden\" name=\"phone\" value=\"' + boltdata.phone + '\" />' +
                 '<input type=\"hidden\" name=\"hash\" value=\"' + boltdata.hash + '\" />' +
                 '</form>';
-                console.log('HI' + fr);
-                var form = jQuery(fr);
-                jQuery('body').append(form);
-                form.submit();
-            }
-
+            console.log('HI' + fr);
+            var form = jQuery(fr);
+            jQuery('body').append(form);
+            form.submit();
         }
-    
+
+    }
 </script>
 
 </html>

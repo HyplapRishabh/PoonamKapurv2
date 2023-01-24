@@ -690,9 +690,24 @@ class webController extends Controller
         $checktitle = $this->sanitizeStringForUrl($goal);
         $goaldtl = Goal::where([['deleteId', '0'], ['status', '1']])->where('name', $checktitle)->first();
         $goalpkg = Package::where([['deleteId', '0'], ['status', '1'], ['goalId', $goaldtl['id']]])->with('mealtype')->get();
+        $pincodelist = Pincode::where([['deleteId', '0'], ['status', '1']])->groupBy('pincode')->get();
         // return $goalpkg;
 
-        return view('web.goaldetail', compact('categorylist', 'goallist', 'packagelist', 'goaldtl', 'goalpkg', 'input'));
+        return view('web.goaldetail', compact('categorylist', 'goallist', 'packagelist', 'goaldtl', 'goalpkg', 'input', 'pincodelist'));
+    }
+
+    public function getAreaByPincode(Request $input)
+    {
+        $pincode = $input->pincode;
+        $pincodedtl = Pincode::where([['deleteId', '0'], ['status', '1'], ['pincode', $pincode]])->get();
+        return response()->json($pincodedtl);
+    }
+
+    public function getMealTimeByPincode(Request $input)
+    {
+        $areaId = $input->areaId;
+        $pincodedtl = Pincode::where('id', $areaId)->first();
+        return response()->json($pincodedtl);
     }
 
     public function packagemenu($pkgId, Request $input)
@@ -2048,7 +2063,7 @@ class webController extends Controller
         {
             $name = "Welcome To GRISHMA FOODS PRIVATE LIMITED";
             $subject = 'Order Failed';
-            $htmlContent = '<html><head></head><body><p>Hello Poonam Maam,</p> <br>An Order have failed from '.$username.'.<br>You can contact the user by: <br> <b> Call: </b> '.$phone.'<br> <b>Email : </b> '.$email.' </p><br><br><br></body></html>';
+            $body = '<html><head></head><body><p>Hello Poonam Maam,</p> <br>An Order have failed from '.$username.'.<br>You can contact the user by: <br> <b> Call: </b> '.$phone.'<br> <b>Email : </b> '.$email.' </p><br><br><br></body></html>';
         }
         else if($type == 'SubscribedToPoonam')
         {

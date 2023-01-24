@@ -186,7 +186,7 @@
             </ul>
         </div>
     </div>
-</nav> 
+</nav>
 <!--Nav End-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
@@ -254,13 +254,14 @@
     <a href="https://www.linkedin.com/posts/poonam-kapurs-kitchen-healthy-customized-diet-meals-services-in-mumbai-45b78113_poonamkapurshealthykitchen-prowok-highproteinmeals-activity-6941378619260690433-9LOn?utm_source=linkedin_share&utm_medium=android_app" target="_blank" class="linkedin"><i class="fa fa-linkedin"></i></a>
     <a href="https://wa.me/9820097377?text=Hello%2C%20can%20you%20please%20help%20me%20with%20the%20diet%20plan%20%3F" target="_blank" class="whatsapp"><i class="fa fa-whatsapp"></i></a>
 </div>
+
 @if (Auth::user())
 <a href="{{url('/app/viewcart')}}" class="float">
     <span class="badge badge-pill badge-danger notification" id="badgeforcart" style=" position: absolute; top: 0px; right: 0px; font-size: 10px; background-color: #000;">{{config('cartCount')}}</span>
     <i class="fa fa-shopping-cart my-float"></i>
 </a>
 @else
-<a href="{{url('/app/login')}}" class="float">
+<a onclick="clickCartFloating()" class="float">
     <span class="badge badge-pill badge-danger notification" id="badgeforcart" style=" position: absolute; top: 0px; right: 0px; font-size: 10px; background-color: #000;">{{config('cartCount')}}</span>
     <i class="fa fa-shopping-cart my-float"></i>
 </a>
@@ -325,12 +326,27 @@
         border-radius: 10px;
     }
 </style>
-<!-- </div> -->
+
+<style>
+    ..captchaField {
+      padding: 12px 20px;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    canvas {
+      /*prevent interaction with the canvas*/
+      pointer-events: none;
+    }
+  </style>
+
 
 <script>
-    // refresh div after 5 seconds
-    // setInterval(function() {
-    //     // div refresh
-    //     $('#badgeforcart').load(location.href + ' #badgeforcart');
-    // }, 2000);
+     function clickCartFloating() {
+        var url = '/app/viewcart';
+        localStorage.setItem("url", url);
+        window.location.href = "/app/login"
+    };
 </script>

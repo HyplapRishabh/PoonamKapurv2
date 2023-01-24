@@ -196,21 +196,32 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="form-label">Height: *</label>
-                                                                <input type="number" id="qheight" class="form-control" name="qheight" placeholder="Enter Your Height in INCH" />
+                                                                <?php
+
+                                                                use Illuminate\Support\Facades\Auth;
+
+                                                                $height = Auth::user() != null ? Auth::user()->height : '';
+                                                                // convert height from cm to inch
+                                                                if ($height != '') {
+                                                                    $height = $height / 2.54;
+                                                                    $height = round($height, 0);
+                                                                }
+                                                                ?>
+                                                                <input type="number" id="qheight" class="form-control" name="qheight" value="{{$height}}" placeholder="Enter Your Height in INCH" />
                                                                 <span id='qheighterror' class="errorshow"></span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="form-label">Weight: *</label>
-                                                                <input type="number" id="qweight" class="form-control" name="qweight" placeholder="Enter Your Weight in KG" />
+                                                                <input type="number" id="qweight" class="form-control" name="qweight" value="{{Auth::user() != null ? Auth::user()->weight : ''}}" placeholder="Enter Your Weight in KG" />
                                                                 <span id='qweighterror' class="errorshow"></span>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="form-label">Age: *</label>
-                                                                <input type="text" id="qage" class="form-control" name="qage" placeholder="Enter Your Age" />
+                                                                <input type="text" id="qage" class="form-control" name="qage" value="{{Auth::user() != null ? Auth::user()->age : ''}}" placeholder="Enter Your Age" />
                                                                 <span id='qageerror' class="errorshow"></span>
                                                             </div>
                                                         </div>
@@ -219,8 +230,16 @@
                                                                 <label class="form-label">Gender: *</label>
                                                                 <select class="form-control" name="gender" id="qgender">
                                                                     <option value="">Select gender</option>
+                                                                    @if (Auth::user())
+                                                                    <option value="Male" {{Auth::user()->gender == 'Male' ? 'selected' : ''}}>Male</option>
+                                                                    @else
                                                                     <option value="Male">Male</option>
+                                                                    @endif
+                                                                    @if (Auth::user())
+                                                                    <option value="Female" {{Auth::user()->gender == 'Female' ? 'selected' : ''}}>Female</option>
+                                                                    @else
                                                                     <option value="Female">Female</option>
+                                                                    @endif
                                                                 </select>
                                                                 <span id='qgendererror' class="errorshow"></span>
                                                             </div>
@@ -272,7 +291,7 @@
                     <!-- quiz modal ends here -->
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-md-12 col-lg-12">
                     <div class="card-header border-0  ">

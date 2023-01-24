@@ -408,6 +408,8 @@ Route::middleware(['CartCount'])->prefix('app')->group(function () {
     Route::get('/alacart', [webController::class, 'alacart']);
     Route::get('/getproductfilter/{ids}', [webController::class, 'getproductfilter']);
     Route::get('/getgoalpkg/{ids}', [webController::class, 'getgoalpkg']);
+    Route::post('/getMealTimeByPincode', [webController::class, 'getMealTimeByPincode']);
+    Route::post('/getAreaByPincode', [webController::class, 'getAreaByPincode']);
     Route::get('/addonlist/{pid}/{mealtype}/{cartid}', [webController::class, 'addonlist']);
     Route::get('/addtocart/{pid}/{addonval}', [webController::class, 'addtocart']);
     Route::post('/checklogin', [webController::class, 'checklogin']);

@@ -63,17 +63,14 @@
         }
 
 
-        /*
-This following statements selects each category individually that contains an input element that is a checkbox and is checked (or selected) and chabges the background color of the span element.
-*/
-
         .action input:checked+span {
             background-color: #EA6A12;
         }
     </style>
+
 </head>
 
-<body class="bodycss" onload="clickmt()">
+<body class="bodycss">
     @include('web.weblayout.loader')
     <div class="position-relative">
         <div class="user-img1">
@@ -83,6 +80,50 @@ This following statements selects each category individually that contains an in
             </svg>
         </div>
     </div>
+
+    <!-- welcome modal -->
+    <div class="modal fade" id="selectPincodeModal" tabindex="-1" role="dialog" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="welcomeModalLabel">Welcome to Poonam Kapur's Kitchen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="">
+                    <div class="">
+                        <p class="mb-4">We are glad to have you here and show interest in our packages. We will need your address to sort out the services that we provide at your locality.</p>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <select required id="pincode" class="form-select" data-style="py-0">
+                                    <option value="" selected>Select Pincode</option>
+                                    @foreach($pincodelist as $pinlist)
+                                    <option value="{{$pinlist->pincode}}">{{$pinlist->pincode}}</option>
+                                    @endforeach
+                                </select>
+                                <label id="errorpincode" for="" style="color: red; display: none;">please select a pincode</label>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <select required id="area" class="form-select" disabled data-style="py-0">
+
+                                </select>
+                                <label id="errorarea" for="" style="color: red; display: none;">please select an area</label>
+                            </div>
+                            <!-- <div class="form-group col-md-6">
+                                <select name="area" required class="form-select " id="areanameval" disabled data-style="py-0">
+                                    <option value="" selected>Select Area</option>
+                                </select>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="savePincode" class="btn btn-primary">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- welcome modal -->
 
 
     <main class="main-content">
@@ -114,28 +155,36 @@ This following statements selects each category individually that contains an in
                                     @endforeach
                                 </ul>
                             </div>
+
+                            <a href="" class="" id="displaySelectedLocation" data-bs-toggle="modal" data-bs-target="#selectPincodeModal">Select Location </a>
                             <div class="mt-3 iq-fetch">
+                                <input type="hidden" id="selectedArea">
+                                <style>
+                                    input:disabled+span {
+                                        background-color: #ccc;
+                                    }
+                                </style>
                                 <div class="cat action">
                                     <label>
-                                        <input onclick="clickmt()" checked name="mtck" type="checkbox" value="BreakFast"><span>Breakfast</span>
+                                        <input onclick="clickmt()" id="bf" name="mtck" type="checkbox" value="BreakFast"><span>Breakfast</span>
                                     </label>
                                 </div>
 
                                 <div class="cat action">
                                     <label>
-                                        <input onclick="clickmt()" checked name="mtck" type="checkbox" value="Lunch"><span>Lunch</span>
+                                        <input onclick="clickmt()" id="lh" name="mtck" type="checkbox" value="Lunch"><span>Lunch</span>
                                     </label>
                                 </div>
 
                                 <div class="cat action">
                                     <label>
-                                        <input onclick="clickmt()" name="mtck" type="checkbox" value="Snack"><span>Snacks</span>
+                                        <input onclick="clickmt()" id="sk" name="mtck" type="checkbox" value="Snack"><span>Snacks</span>
                                     </label>
                                 </div>
 
                                 <div class="cat action">
                                     <label>
-                                        <input onclick="clickmt()" checked name="mtck" type="checkbox" value="Dinner"><span>Dinner</span>
+                                        <input onclick="clickmt()" id="dn" name="mtck" type="checkbox" value="Dinner"><span>Dinner</span>
                                     </label>
                                 </div>
                             </div>
@@ -181,20 +230,45 @@ This following statements selects each category individually that contains an in
             clickmt();
         }
 
-        function clickmt() {
+        function loadclickmt() {
             yourArray = [];
+
             $("input:checkbox[name=mtck]:checked").each(function() {
                 yourArray.push($(this).val());
             });
             console.log(yourArray);
             totalmeal = yourArray.length;
 
-
             loadnewprod(totalmeal);
+
 
         }
 
+        function clickmt() {
+            if ($('#selectedArea').val() == '') {
+                // show modal
+                $('#selectPincodeModal').modal('show');
+                $("input:checkbox[name=mtck]").each(function() {
+                    // if checked then keep it checked
+                    if ($(this).prop('checked', true)) {
+                        $(this).prop('checked', false);
+                    } else {
+                        $(this).prop('checked', false);
+                    }
 
+                });
+                return false;
+            }
+            yourArray = [];
+
+            $("input:checkbox[name=mtck]:checked").each(function() {
+                yourArray.push($(this).val());
+            });
+            console.log(yourArray);
+            totalmeal = yourArray.length;
+
+            loadnewprod(totalmeal);
+        }
 
         function loadnewprod(selectedType) {
             console.log(selectedType);
@@ -275,8 +349,12 @@ This following statements selects each category individually that contains an in
                 yourArray.push($(this).val());
             });
             onemeal = onemeal * 23;
-            href = "/app/packagesubscription/" + pkgid + "?days=" + days + "&type=" + yourArray.toString() + "&ps=" + onemeal;
-            window.location.href = href;
+            // href = "/app/packagesubscription/" + pkgid + "?days=" + days + "&type=" + yourArray.toString() + "&ps=" + onemeal;
+            // window.location.href = href;
+            
+            var url = window.location.href;
+            localStorage.setItem("url", url);
+            window.location.href = "/app/login"
         }
 
         function menu(days, pkgid) {
@@ -289,6 +367,167 @@ This following statements selects each category individually that contains an in
             href = "/app/packagemenu/" + pkgid + "?days=" + days + "&type=" + yourArray.toString();
             window.location.href = href;
         }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // get local storage
+            var areaId = localStorage.getItem("areaId");
+            var areaNameFromStorage = localStorage.getItem("area");
+            var pincodeFromStorage = localStorage.getItem("pincode");
+            var bfFlag = localStorage.getItem("bfFlag");
+            var lhFlag = localStorage.getItem("lhFlag");
+            var skFlag = localStorage.getItem("skFlag");
+            var dnFlag = localStorage.getItem("dnFlag");
+
+            var location = areaNameFromStorage + ', ' + pincodeFromStorage + ' <i class="fa fa-angle-down" aria-hidden="true"></i>';
+            $('#selectedArea').val(areaId);
+
+            if (areaId != null) {
+                $('#displaySelectedLocation').html(location);
+                if (bfFlag == 1) {
+                    $('#bf').prop('disabled', false);
+                } else {
+                    $('#bf').prop('disabled', true);
+                }
+                if (lhFlag == 1) {
+                    $('#lh').prop('disabled', false);
+                } else {
+                    $('#lh').prop('disabled', true);
+                }
+                if (skFlag == 1) {
+                    $('#sk').prop('disabled', false);
+                } else {
+                    $('#sk').prop('disabled', true);
+                }
+                if (dnFlag == 1) {
+                    $('#dn').prop('disabled', false);
+                } else {
+                    $('#dn').prop('disabled', true);
+                }
+                loadclickmt();
+            } else {
+                $('#displaySelectedLocation').html('Select Location <i class="fa fa-angle-down" aria-hidden="true"></i>');
+                $('#selectPincodeModal').modal('show');
+
+            }
+
+        });
+
+        $('#pincode').change(function(e) {
+            e.preventDefault();
+            var pincode = $('#pincode').val();
+            $.ajax({
+                type: "post",
+                url: "{{url('/app/getAreaByPincode')}}",
+                data: {
+                    pincode: pincode,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                    $('#area').prop('disabled', false);
+                    $('#area').empty();
+                    $('#area').append('<option value="">Select Area</option>');
+                    $.each(response, function(i, item) {
+                        $('#area').append($('<option>', {
+                            value: item.id,
+                            text: item.areaName
+                        }));
+                    });
+                }
+            });
+        });
+
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        $('#savePincode').click(function(e) {
+            e.preventDefault();
+            var pincode = $('#pincode').val();
+            var area = $('#area').val();
+
+
+            if (pincode == '') {
+                $('#errorpincode').css('display', 'block');
+                return false;
+            }
+            if (area == '') {
+                $('#errorarea').css('display', 'block');
+                return false;
+            }
+
+            document.getElementById('selectedArea').value = area;
+            $.ajax({
+                type: "post",
+                url: "{{url('/app/getMealTimeByPincode')}}",
+                data: {
+                    areaId: area,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+
+                    localStorage.setItem("areaId", response.id);
+                    localStorage.setItem("area", response.areaName);
+                    localStorage.setItem("pincode", response.pincode);
+                    localStorage.setItem("bfFlag", response.breakFastFlag);
+                    localStorage.setItem("lhFlag", response.lunchFlag);
+                    localStorage.setItem("skFlag", response.snackFlag);
+                    localStorage.setItem("dnFlag", response.dinnerFlag);
+
+                    setCookie('pincode', response.pincode, 15);
+
+                    var breakfastCheckBox = $('#bf');
+                    var lunchCheckBox = $('#lh');
+                    var snackCheckBox = $('#sk');
+                    var dinnerCheckBox = $('#dn');
+
+                    // refresh div after change location
+                    $('#displaySelectedLocation').html(response.areaName + ', ' + response.pincode + ' <i class="fa fa-angle-down" aria-hidden="true"></i>');
+
+                    // un check all checkbox
+                    breakfastCheckBox.prop('checked', false);
+                    lunchCheckBox.prop('checked', false);
+                    snackCheckBox.prop('checked', false);
+                    dinnerCheckBox.prop('checked', false);
+
+                    // disable all checkbox
+                    breakfastCheckBox.prop('disabled', true);
+                    lunchCheckBox.prop('disabled', true);
+                    snackCheckBox.prop('disabled', true);
+                    dinnerCheckBox.prop('disabled', true);
+
+                    if (response.breakFastFlag == 1) {
+                        breakfastCheckBox.prop('disabled', false);
+                    }
+                    if (response.lunchFlag == 1) {
+                        lunchCheckBox.prop('disabled', false);
+                    }
+                    if (response.snackFlag == 1) {
+                        snackCheckBox.prop('disabled', false);
+                    }
+                    if (response.dinnerFlag == 1) {
+                        dinnerCheckBox.prop('disabled', false);
+                    }
+                    clickmt();
+
+                    // close modal
+                    $('#selectPincodeModal').modal('hide');
+                }
+            });
+
+        });
     </script>
 </body>
 

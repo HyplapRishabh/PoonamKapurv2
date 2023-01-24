@@ -29,7 +29,7 @@
 
 </head>
 
-<body class="bodycss">
+<body class="bodycss" onload="createCaptcha()">
     @include('web.weblayout.loader')
     <div class="position-relative">
         <div class="user-img1">
@@ -69,7 +69,7 @@
                     <div class="dish-card-vertical1">
                         <div class="card dish-card3">
                             <div class="card-body">
-                                <form method="post" action="{{url('/app/submitFranchiseEnquiry')}}" class="text-center mt-3">
+                                <form method="post" id="franchiseForm" action="{{url('/app/submitFranchiseEnquiry')}}" class="text-center mt-3">
                                     @csrf
                                     <div class="form-card text-start">
                                         <div class="row">
@@ -103,9 +103,14 @@
                                                     <textarea class="form-control" name="message" placeholder="Enter Your Message" required></textarea>
                                                 </div>
                                             </div>
+                                            <div>
+                                                <div id="captcha"></div>
+                                                <input type="text" class="captchaField" placeholder="Captcha" id="cpatchaTextBox" autocomplete="off" />
+                                            </div>
+                                            <label id="label1"></label>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary  text-center rounded">Submit</button>
+                                    <button onclick="validateCaptcha()" class="btn btn-primary text-center rounded">Submit</button>
                                 </form>
                             </div>
                         </div>
@@ -226,6 +231,58 @@
     </main>
     @include('web.weblayout.footerscript')
     @include('web.weblayout.webscript')
+
+    <script>
+        var code;
+        var label1 = document.getElementById('label1');
+
+        function createCaptcha() {
+            document.getElementById('captcha').innerHTML = "";
+            var charsArray =
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*";
+            var lengthOtp = 6;
+            var captcha = [];
+            for (var i = 0; i < lengthOtp; i++) {
+                var index = Math.floor(Math.random() * charsArray.length + 1);
+                if (captcha.indexOf(charsArray[index]) == -1)
+                    captcha.push(charsArray[index]);
+                else i--;
+            }
+            var canv = document.createElement("canvas");
+            canv.id = "captcha";
+            canv.width = 100;
+            canv.height = 50;
+            var ctx = canv.getContext("2d");
+            ctx.font = "25px Georgia";
+            ctx.strokeText(captcha.join(""), 0, 30);
+            code = captcha.join("");
+            document.getElementById("captcha").appendChild(canv);
+            // add strike through
+            ctx.moveTo(0, 17);
+            ctx.lineTo(100, 17);
+            ctx.strokeStyle = "red";
+            ctx.stroke();
+            ctx.moveTo(0, 25);
+            ctx.lineTo(100, 25);
+            ctx.strokeStyle = "red";
+            ctx.stroke();
+
+        }
+
+        function validateCaptcha() {
+            event.preventDefault();
+            if (document.getElementById("cpatchaTextBox").value == code) {
+                label1.innerHTML = 'Captcha Matches';
+                label1.style.color = 'green';
+                // submit form
+                document.getElementById("franchiseForm").submit();
+            } else {
+                label1.innerHTML = 'Captcha is Invalid!! Please Try Again';
+                label1.style.color = 'red';
+                createCaptcha();
+            }
+        }
+    </script>
 
 </body>
 
