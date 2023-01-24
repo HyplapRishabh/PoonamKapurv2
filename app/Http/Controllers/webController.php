@@ -1101,7 +1101,7 @@ class webController extends Controller
 
     public function payuresponsepkhk(Request $input)
     {
-       return $input;
+    //    return $input;
         //$input='{"mihpayid":"403993715528002169","mode":"UPI","status":"success","unmappedstatus":"failed","key":"gtKFFx","txnid":"pk8719762","amount":"300.00","discount":"0.00","net_amount_debit":"0.00","addedon":"2022-12-30 10:52:57","productinfo":"AlaCartOrder","firstname":"Sayed Zaid","lastname":null,"address1":"Flat 07  anand dhan","address2":"near patel h","city":"B.P LANE","state":null,"country":null,"zipcode":"400003","email":"rishabh.2745@gmail.com","phone":"8433885667","udf1":"270,0,300,30,1,300","udf2":null,"udf3":null,"udf4":null,"udf5":"1","udf6":null,"udf7":null,"udf8":null,"udf9":null,"udf10":null,"hash":"636184f7353536fe36a56b296db0743772e825ceb562cf86f67791538a6a1ee58e310da2fe5fe1526736be276007d889005548fe259f8da1bb4db70393a63669","field1":"8976074007@ybl","field2":null,"field3":null,"field4":"RISHABH MAHENDRA KATARIYA","field5":null,"field6":null,"field7":null,"field8":null,"field9":"Transaction Failed at bank end.","payment_source":"payu","PG_TYPE":"HDFCU","bank_ref_num":null,"bankcode":"PP_UPI","error":"E308","error_Message":"Bank was unable to authenticate"}';
         //$input=json_decode($input,true);
         $carb= Carbon::now(); 
