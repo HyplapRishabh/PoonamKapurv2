@@ -42,20 +42,26 @@
                         @foreach($wallets as $key => $data )
                         <tr>
                             <td class="align-middle text-center">{{++$key}}</td>
-                            <td class="align-middle text-center">{{$data->user->name}}</td>
+                            <td class="align-middle text-center">
+                                @if (isset($data->user))
+                                {{$data->user->name}}
+                                @else
+                                 <span style="color: red;" >User Deleted</span> 
+                                @endif
+                            </td>
                             <td class="align-middle text-center">{{$data->availableBal}}</td>
                             <td class="align-middle text-center">{{$data->lockedAmt}}</td>
                             <td class="align-middle text-center">{{$data->totalAdded}}</td>
                             <td class="align-middle text-center">{{$data->totalSpent}}</td>
                             <td class="align-middle text-center">
-                                <a href="{{url('wallet/walletHistory')}}/{{$data->userId}}" class="btn btn-primary" >Wallet History</a>
+                                <a href="{{url('wallet/walletHistory')}}/{{$data->userId}}" class="btn btn-primary">Wallet History</a>
                             </td>
                             <td class="table-action text-center">
                                 <div>
                                     <!-- <a href="" class="btn btn-icon btn-outline-primary has-ripple" data-toggle="modal" data-target="#showModal{{$data->id}}"><i class="far fa-eye"></i><span class="ripple ripple-animate" style="height: 45px; width: 45px; animation-duration: 0.7s; animation-timing-function: linear; background: rgb(255, 255, 255); opacity: 0.4; top: 7.39999px; left: -12.6px;"></span></a> -->
                                     <a href="" class="btn btn-icon btn-outline-warning has-ripple" data-toggle="modal" data-target="#updateModal{{$data->id}}"><i class="fas fa-pen"></i></a>
                                     <!-- <a href="" class="btn btn-icon btn-outline-danger has-ripple" data-toggle="modal" data-target="#deleteModal{{$data->id}}"><i class="far fa-trash-alt"></i></a> -->
-                                </div> 
+                                </div>
                             </td>
                             <!--Update Modal -->
                             <div class="modal fade" id="updateModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

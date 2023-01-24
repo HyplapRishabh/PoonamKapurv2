@@ -20,7 +20,11 @@
     <div class="card card-custom">
         <div class="card-header">
             <div class="card-title">
-                <h5>Wallet History of {{$wallets->user->name}} </h5>
+                <h5>Wallet History of 
+                @if (isset($wallets->user))
+                {{$wallets->user->name}}         
+                @endif    
+            </h5>
             </div>
         </div>
         <div class="card-body">
@@ -28,6 +32,7 @@
                 <table id="tabdata" class="table table-striped table-bordered nowrap">
                     <thead>
                         <tr class="text-center">
+                            <th>#</th>
                             <th>Trx Id</th>
                             <th>Amount</th>
                             <th>Trx Type</th>
@@ -40,6 +45,7 @@
                     <tbody>
                         @foreach($wallets->walletremarks as $key => $data )
                         <tr>
+                            <td class="align-middle text-center">{{++$key}}</td>
                             <td class="align-middle text-center">{{$data->trxId}}</td>
                             <td class="align-middle text-center">{{$data->amount}}</td>
                             <td class="align-middle text-center">

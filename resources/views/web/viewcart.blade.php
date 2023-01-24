@@ -262,11 +262,8 @@
                                     </div> <hr>'
 
                                 } else {
-                                    str += '<div class="rounded-pill bg-soft-primary iq-my-cart">\
-                                        <div class="d-flex align-items-center justify-content-between profile-img4">\
-                                            <div class="profile-img11">\
-                                                <img alt="' + element['product']['name'] + '" src="/' + element['product']['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="img-fluid rounded-pill avatar-115 blur-shadow position-end"><img alt="' + element['product']['name'] + '" src="/' + element['product']['image'] + '" onerror="src=`/webassets/images/greyimage.jpg`" class="img-fluid rounded-pill avatar-115" >\
-                                            </div>\
+                                    str += '<div class=" iq-my-cart">\
+                                        <div class="d-flex align-items-center justify-content-between ">\
                                             <div class="d-flex align-items-center profile-content">\
                                                 <div>\
                                                     <h6 class="mb-1 heading-title fw-bolder">' + element['product']['name'] + '</h6>\
@@ -275,12 +272,8 @@
                                                             <span onclick="updatecart(`sub`,`' + element['id'] + '`)" class="minus">-</span>\
                                                             <input class="pminput" type="text" value="' + element['qty'] + '"/>\
                                                             <span onclick="updatecart(`add`,`' + element['id'] + '`)" class="plus">+</span>\
-                                                        </div>\
-                                                </div>\
-                                            </div>\
-                                            <div class="me-4 text-end">\
-                                                <a onclick="deletefromcart(' + element['id'] + ')">\
-                                                <span class="mb-1">\
+                                                            <a onclick="deletefromcart(' + element['id'] + ')">\
+                                                            <span class="mb-1">\
                                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">\
                                                         <path opacity="0.4" d="M19.6449 9.48924C19.6449 9.55724 19.112 16.298 18.8076 19.1349C18.6169 20.8758 17.4946 21.9318 15.8111 21.9618C14.5176 21.9908 13.2514 22.0008 12.0055 22.0008C10.6829 22.0008 9.38936 21.9908 8.1338 21.9618C6.50672 21.9228 5.38342 20.8458 5.20253 19.1349C4.88936 16.288 4.36613 9.55724 4.35641 9.48924C4.34668 9.28425 4.41281 9.08925 4.54703 8.93126C4.67929 8.78526 4.86991 8.69727 5.07026 8.69727H18.9408C19.1402 8.69727 19.3211 8.78526 19.464 8.93126C19.5973 9.08925 19.6644 9.28425 19.6449 9.48924" fill="#E60A0A" />\
                                                         <path d="M21 5.97686C21 5.56588 20.6761 5.24389 20.2871 5.24389H17.3714C16.7781 5.24389 16.2627 4.8219 16.1304 4.22692L15.967 3.49795C15.7385 2.61698 14.9498 2 14.0647 2H9.93624C9.0415 2 8.26054 2.61698 8.02323 3.54595L7.87054 4.22792C7.7373 4.8219 7.22185 5.24389 6.62957 5.24389H3.71385C3.32386 5.24389 3 5.56588 3 5.97686V6.35685C3 6.75783 3.32386 7.08982 3.71385 7.08982H20.2871C20.6761 7.08982 21 6.75783 21 6.35685V5.97686Z" fill="#E60A0A" />\
@@ -288,6 +281,8 @@
                                                 </span>\
                                                 </a>\
                                                 <p class="mb-0 text-dark" style="white-space: nowrap; margin-top: 25px;">&#8377 ' + element['product']['discountedPrice'] * element['qty'] + '</p>\
+                                                        </div>\
+                                                </div>\
                                             </div>\
                                         </div>\
                                     </div>'

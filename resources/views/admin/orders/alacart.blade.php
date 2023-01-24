@@ -9,69 +9,6 @@
 @section('content')
 
 
-<!-- Adding Faqs modal -->
-
-<!-- <div class=" col-sm-12 text-right">
-    <button type="button" id="createBtn" class="btn btn-primary btn-lg m-4 has-ripple" data-toggle="modal" data-target="#addModal">
-        <i class="fas fa-plus"></i> Add FAQ
-    </button>
-</div>
-
-<div class="modal fade" id="addModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" style="font-weight: 600; color: black; font-size: large;">Create Faqs</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="fas fa-times" style="font-size: 25px; "></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{url('/faqs/addFaqs')}}" method="post">
-                    @csrf
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label style="font-weight: bold;" for="Name">Question <span style="color: red;">&#42</span></label>
-                                <textarea class="form-control" id="question" name="question" required></textarea>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label style="font-weight: bold;" for="Number">Answer <span style="color: red;">&#42</span></label>
-                                <textarea class="form-control" id="answer" name="answer" required></textarea>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label style="font-weight: bold;" for="Number">Sequence <span style="color: red;">&#42</span></label>
-                                <input type="number" class="form-control" id="sequence" name="sequence" required>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label style="font-weight: bold;" for="role">Status <span style="color: red;">&#42</span></label>
-                                <select class="form-control selectpicker" name="status" id="status">
-                                    <optgroup label="Status">
-                                        <option value="1">Active</option>
-                                        <option value="0">Inactive</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 modal-footer">
-                            <button type="submit" id="addBtn" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Add Faqs
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> -->
-
 @foreach (['danger', 'warning', 'success', 'info'] as $msg)
 @if(Session::has('alert-' . $msg))
 <div class="col-sm-12">
@@ -258,7 +195,7 @@
                                                     <select class="form-control selectpicker" name="status" id="status">
                                                         <optgroup label="Status">
                                                             <option value="Completed" {{$data->deliverystatus == 'Completed' ? 'selected' : ''}}>Completed</option>
-                                                            <option value="In Kitchen" {{$data->deliverystatus == 'In Kitchen' ? 'selected' : ''}}>In Kitchen</option>
+                                                            <option value="InProcess" {{$data->deliverystatus == 'InProcess' ? 'selected' : ''}}>InProcess</option>
                                                             <option value="Pending" {{$data->deliverystatus == 'Pending' ? 'selected' : ''}}>Pending</option>
                                                             <option value="Cancelled" {{$data->deliverystatus == 'Cancelled' ? 'selected' : ''}}>Cancelled</option>
                                                         </optgroup>

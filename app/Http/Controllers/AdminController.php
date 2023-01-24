@@ -604,9 +604,9 @@ class AdminController extends Controller
 
     public function indexEnduser()
     {
-        $enduser = User::where('deleteId', '0')->whereIn('role', ['2'])->get();
+        $enduser = User::where('deleteId', '0')->whereIn('role', ['4'])->get();
         // return $user;
-        $roles = Role::where('deleteId', '0')->whereIn('id', ['2'])->get();
+        $roles = Role::where('deleteId', '0')->whereIn('id', ['4'])->get();
         return view('admin.enduser', compact('enduser', 'roles'));
     }
 
@@ -3266,7 +3266,9 @@ class AdminController extends Controller
 
     public function walletHistory($id)
     {
-        $wallets = Wallet::with('user')->with('walletremarks')->where('userId', $id)->first();
+        $wallets = Wallet::with('user')->with(['walletremarks'=> function($query){
+            $query->orderBy('id', 'desc');
+        }])->where('userId', $id)->first();
         // return $wallets;
         return view('admin.walletHistory', compact('wallets'));
     }
@@ -3279,21 +3281,24 @@ class AdminController extends Controller
         $order->deliverystatus = $request->status;
         $order->update();
 
-        if ($order->trxFor == 'Alacart') {
+        if ($order->trxFor == 'alacart') {
             $alacartOrders = alacartorder::where('trxId', $request->hiddenId)->get();
             $total = 0;
             foreach ($alacartOrders as $alacartOrder) {
                 if ($alacartOrder->status != 'Cancelled') {
                     $alacartOrder->status = $request->status;
-
                     $total += ($alacartOrder->productPrice + $alacartOrder->addonprice) * $alacartOrder->qty;
-
                     $alacartOrder->update();
                 }
             }
+            if($request->status == 'Cancelled')
+            {
+                $finalTotal = ($total + $order->deliveryamt + $order->gst) - $order->discount;
+                $this->creditAmount($order->userId, $finalTotal, 0, $order->id, null, 'Order Cancelled');
+            }
 
-            $finalTotal = ($total + $order->deliveryamt + $order->gst) - $order->discount;
-            $this->creditAmount($order->userId, $finalTotal, 0, $order->id, null, 'Order Cancelled');
+            // $finalTotal = ($total + $order->deliveryamt + $order->gst) - $order->discount;
+            // $this->creditAmount($order->userId, $finalTotal, 0, $order->id, null, 'Order Cancelled');
         }
 
 

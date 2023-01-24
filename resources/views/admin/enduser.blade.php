@@ -12,12 +12,12 @@ End Users
 
 <!-- Adding User modal -->
 
-<div class=" col-sm-12 text-right">
+<!-- <div class=" col-sm-12 text-right">
     <button type="button" id="createBtn" class="btn btn-primary btn-lg m-4 has-ripple" data-toggle="modal" data-target="#exampleModalLong">
         <i class="fas fa-user-plus"></i>
         Create User
     </button>
-</div>
+</div> -->
 
 <!--Excel Modal-->
 <div class="modal fade" id="importModal" data-backdrop="static" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
@@ -293,12 +293,15 @@ End Users
                 <thead>
                     <tr>
                         <th class="align-middle text-center">Sr.no</th>
-                        <th class="align-middle text-center">Id</th>
-                        <th class="align-middle text-center">Profile</th>
-                        <th class="align-middle text-center">Name</th>
-                        <th class="align-middle text-center">Email</th>
-                        <th class="align-middle text-center">Phone Number</th>
-                        <th class="align-middle text-center">Role</th>
+                        <!-- <th class="align-middle text-center">Id</th> -->
+                        <!-- <th class="align-middle text-center">Profile</th> -->
+                        <th class="align-middle text-center">User</th>
+                        <th class="align-middle text-center">Height</th>
+                        <th class="align-middle text-center">Weight</th>
+                        <th class="align-middle text-center">BMI</th>
+                        <th class="align-middle text-center">BMR</th>
+                        <th class="align-middle text-center">Age</th>
+                        <th class="align-middle text-center">Gender</th>
                         <th class="align-middle text-center">Status</th>
                         <th class="align-middle text-center">Actions</th>
                     </tr>
@@ -310,20 +313,20 @@ End Users
                     @foreach($enduser as $data)
                     <tr>
                         <td class="align-middle text-center">{{$i++}}</td>
-                        <td class="align-middle text-center">{{$data->id}}</td>
+                        <td class="align-middle text-center">{{$data->name}} <br> {{$data->email}} <br> {{$data->phone}}</td>
                         <td class="align-middle text-center">
-                            <img src="{{$data->profileImage != null ? $data->profileImage : 'media\blank.png'}}" onerror="this.src='media/blank.png'" alt="EndUser Image" style="height: 50px; width: 50px;">
+                            <?php
+                            $height = $data->height;
+                            // convert height from cm to inch
+                            $height = $height / 2.54;
+                            ?>
+                            {{round($height, 0)}} inch
                         </td>
-                        <td class="align-middle text-center">{{$data->name}}</td>
-                        <td class="align-middle text-center">{{$data->email}}</td>
-                        <td class="align-middle text-center">{{$data->phone}}</td>
-                        <td class="align-middle text-center">
-                            @if(isset($data->rolee))
-                            {{$data->rolee->name}}
-                            @else
-                            <span style="color: red;">No Role Selected</span>
-                            @endif
-                        </td>
+                        <td class="align-middle text-center">{{$data->weight}} kgs</td>
+                        <td class="align-middle text-center">{{$data->bmi}}</td>
+                        <td class="align-middle text-center">{{$data->bmr}}</td>
+                        <td class="align-middle text-center">{{$data->age}} years</td>
+                        <td class="align-middle text-center">{{$data->gender}}</td>
                         <td class="align-middle text-center">
                             @if($data->status == 1)
                             <span style="color: green;">Active</span>
@@ -380,7 +383,7 @@ End Users
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <!-- <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Role <span style="color: red;">&#42</span></label>
                                                     <select class="js-example-basic-single form-control" required style="width: 100%" name="role">
@@ -392,7 +395,7 @@ End Users
                                                         </optgroup>
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label"> Status </label>
