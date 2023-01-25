@@ -344,17 +344,24 @@
         }
 
         function subscribe(days, pkgid, onemeal) {
-            yourArray = [];
-            $("input:checkbox[name=mtck]:checked").each(function() {
-                yourArray.push($(this).val());
-            });
-            onemeal = onemeal * 23;
-            // href = "/app/packagesubscription/" + pkgid + "?days=" + days + "&type=" + yourArray.toString() + "&ps=" + onemeal;
-            // window.location.href = href;
-            
-            var url = window.location.href;
-            localStorage.setItem("url", url);
-            window.location.href = "/app/login"
+
+            var loggedIn = {{ Auth::check() ? true : false }};
+            console.log(loggedIn);
+            if(loggedIn)
+            {
+                console.log("hello");
+                yourArray = [];
+                $("input:checkbox[name=mtck]:checked").each(function() {
+                    yourArray.push($(this).val());
+                });
+                onemeal = onemeal * 23;
+                href = "/app/packagesubscription/" + pkgid + "?days=" + days + "&type=" + yourArray.toString() + "&ps=" + onemeal;
+                window.location.href = href;
+            } else {   
+                var url = window.location.href;
+                localStorage.setItem("url", url);
+                window.location.href = "/app/login"
+            }
         }
 
         function menu(days, pkgid) {
