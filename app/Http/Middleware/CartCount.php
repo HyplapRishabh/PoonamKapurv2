@@ -20,7 +20,7 @@ class CartCount
     {
         if (Auth::check()) {
             error_log('has cart order');
-            $cartCount = cart::where('userId', Auth::user()->id)->count();
+            $cartCount = cart::where('userId', Auth::user()->id)->sum('qty');
         } else {
             $cartCount = 0;
         }

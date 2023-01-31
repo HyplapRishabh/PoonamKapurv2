@@ -104,7 +104,15 @@
                      document.getElementById('mainsuccess').innerHTML = data['message'];
 
                      // window.location = document.referrer;
-                     window.location = localStorage.getItem('url');
+                     if (localStorage.getItem('url') == null) {
+                        window.location = '/';
+                     } else {
+                        window.location = localStorage.getItem('url');
+                     }
+                     // window.location = localStorage.getItem('url');
+                  } else if (data['status'] == 206) {
+                     document.getElementById('showerror').style.display = 'block';
+                     document.getElementById('mainerror').innerHTML = data['message'];
                   }
 
 

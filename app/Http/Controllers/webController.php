@@ -340,12 +340,27 @@ class webController extends Controller
         if ($result) {
             if ($result->status == 1 && $result->deleteId == 0) {
                 if (Hash::check($input['passwordval'], $result->password)) {
-                    Auth::login($result);
-                    $this->storeLog('Login', 'Login', Auth::user()->id);
-                    return response()->json([
-                        'status' => 200,
-                        'message' => 'Logged In succesfully',
-                    ]);
+                    if($result->role == 1 )
+                    {
+                        return response()->json([
+                            'status' => 206,
+                            'message' => 'This Account is registered as a Admin',
+                        ]);
+
+                    } else if ($result->role == 3)
+                    {
+                        return response()->json([
+                            'status' => 206,
+                            'message' => 'This Account is registered as a Dietician',
+                        ]);
+                    } else{
+                        Auth::login($result);
+                        $this->storeLog('Login', 'Login', Auth::user()->id);
+                        return response()->json([
+                            'status' => 200,
+                            'message' => 'Logged In succesfully',
+                        ]);
+                }
                 } else {
                     Session()->flash('alert-danger', 'Incorrect Password');
                     // return redirect()->back();

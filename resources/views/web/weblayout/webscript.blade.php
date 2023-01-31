@@ -110,9 +110,9 @@
                 console.log(data);
                 if (data['status'] == "success") {
                     $('#addonmodal').modal('hide');
+                    $('#badgeforcart').load(location.href + ' #badgeforcart');
                     sendnotify(data['message']);
                     loadcart();
-                    $('#badgeforcart').load(location.href + ' #badgeforcart');
                 } else if (data['status'] == "login") {
                     window.location.href = "/app/login";
                 }

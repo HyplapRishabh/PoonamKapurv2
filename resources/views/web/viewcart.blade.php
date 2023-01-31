@@ -310,6 +310,7 @@
                 success: function(data) {
                     console.log(data);
                     if (data['status'] == "success") {
+                    $('#badgeforcart').load(location.href + ' #badgeforcart');
                         loadcart();
                     }
                 }
