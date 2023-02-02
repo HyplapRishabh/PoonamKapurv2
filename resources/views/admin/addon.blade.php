@@ -242,7 +242,13 @@
                             </td>
 
                             <td class="align-middle text-center">
-                                <input type="checkbox" data-id="{{$data->id}}" class="toggle-class" data-style="slow" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Active" data-off="InActive" {{ $data->status == '1' ? 'checked' : ''}}>
+                                <!-- <input type="checkbox" data-id="{{$data->id}}" class="toggle-class" data-style="slow" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Active" data-off="InActive" {{ $data->status == '1' ? 'checked' : ''}}> -->
+                            
+                                @if($data->status == 1)
+                                <span class="badge badge-success">Active</span>
+                                @else
+                                <span class="badge badge-danger">InActive</span>
+                                @endif
                             </td>
                             <td class="table-action text-center">
                                 <div>

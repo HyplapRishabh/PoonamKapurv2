@@ -14,7 +14,11 @@ class Addon extends Model
         'price',
         'description',
         'image',
-        'category_id',
+        'quantity',
+        'unit',
+        'alaCartFlag',
+        'status',
+        'mealTypeId',
     ];
 
     public function mealtype()

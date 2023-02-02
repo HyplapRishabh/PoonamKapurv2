@@ -16,10 +16,10 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times" style="font-size: 20px;"></i></button>
             </div>
             <div class="modal-body">
-                <form action="{{url('/package/addPackageMenuExcel')}}" method="post" enctype="multipart/form-data">
+                <form action="{{url('/package/packageMenu/importSinglePackageMenu')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <input type="hidden" name="packageUId" value="{{$packageData->UID}}">
+                        <input type="" name="packageUId" value="{{$packageData->UID}}">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="p-3" style="font-weight: bold;">Select Excel File <span style="color: red;">&#42</span></label>
@@ -119,7 +119,7 @@
         <div class="card-body">
             <div class="dt-responsive table-responsive">
 
-                <table class="table table-striped table-bordered nowrap">
+                <table class="table table-striped table-bordered nowrap" id="tabdata">
                     <thead>
                         <tr class="text-center">
                             <th>Days</th>
@@ -137,7 +137,7 @@
                                 @if(isset($value->bf))
                                 <div class="d-flex">
                                     <a class="symbol symbol-50px">
-                                        <img src="/{{$value->bf->image != null ? $value->bf->image : 'media/imageNotAdded.jpg'}}" class="symbol-label" alt="">
+                                        <img src="/{{$value->bf->image}}" onerror="this.onerror=null;this.src='/media/imageNotAdded.jpg';" class="symbol-label" alt="">
                                     </a>
                                     <div class="m-5" style="text-align: start;">
                                         <label class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">{{$value->bf->name}}</label>
@@ -152,7 +152,7 @@
                                 @if(isset($value->l))
                                 <div class="d-flex">
                                     <a class="symbol symbol-50px">
-                                        <img src="/{{$value->l->image != null ? $value->l->image : 'media/imageNotAdded.jpg'}}" class="symbol-label" alt="">
+                                        <img src="/{{$value->l->image}}" onerror="this.onerror=null;this.src='/media/imageNotAdded.jpg';" class="symbol-label" alt="">
                                     </a>
                                     <div class="m-5" style="text-align: start;">
                                         <label class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">{{$value->l->name}}</label>
@@ -166,7 +166,7 @@
                                 @if(isset($value->s))
                                 <div class="d-flex">
                                     <a class="symbol symbol-50px">
-                                        <img src="/{{$value->s->image != null ? $value->s->image : 'media/imageNotAdded.jpg'}}" class="symbol-label" alt="">
+                                        <img src="/{{$value->s->image}}" onerror="this.onerror=null;this.src='/media/imageNotAdded.jpg';" class="symbol-label" alt="">
                                     </a>
                                     <div class="m-5" style="text-align: start;">
                                         <label class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">{{$value->s->name}}</label>
@@ -180,7 +180,7 @@
                                 @if(isset($value->d))
                                 <div class="d-flex">
                                     <a class="symbol symbol-50px">
-                                        <img src="/{{$value->d->image != null ? $value->d->image :'media/imageNotAdded.jpg'}}" class="symbol-label" alt="">
+                                        <img src="/{{$value->d->image}}" onerror="this.onerror=null;this.src='/media/imageNotAdded.jpg';" class="symbol-label" alt="">
                                     </a>
                                     <div class="m-5" style="text-align: start;">
                                         <label class="text-gray-800 text-hover-primary fs-5 fw-bold mb-1">{{$value->d->name}}</label>

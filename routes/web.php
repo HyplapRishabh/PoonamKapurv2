@@ -186,6 +186,7 @@ Route::group(['middleware' => ['checkUserr','AdminStatCount']], function () {
         Route::post('/updatePackage', [AdminController::class, 'updatePackage']);
         Route::get('/packageMenu/{uid}/exportToExcel', [AdminController::class, 'exportPackageMenuData']);
         Route::post('/packageMenu/importMultiplePackageMenu', [AdminController::class, 'importMultiplePackageMenu']);
+        Route::post('/packageMenu/importSinglePackageMenu', [AdminController::class, 'importSinglePackageMenu']);
         Route::get('/status', [AdminController::class, 'packageStatus']);
     });
 

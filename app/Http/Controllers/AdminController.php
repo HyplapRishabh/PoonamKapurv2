@@ -604,7 +604,7 @@ class AdminController extends Controller
 
     public function indexEnduser()
     {
-        $enduser = User::where('deleteId', '0')->whereIn('role', ['4'])->get();
+        $enduser = User::where('deleteId', '0')->whereIn('role', ['4'])->orderBy('id', 'Desc')->get();
         // return $user;
         $roles = Role::where('deleteId', '0')->whereIn('id', ['4'])->get();
         return view('admin.enduser', compact('enduser', 'roles'));
@@ -652,13 +652,21 @@ class AdminController extends Controller
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
-        // Mail::->to($user->email)->send(new TestEmail());
-
         $user->phone = $request->phone;
         $user->password = Hash::make($request->password);
-        $user->role = $request->role;
+        $user->role = 4;
         $user->status = $request->status;
+
+        $user->height = ($request->height * 2.54);
+        $user->weight = $request->weight;
+        $user->age = $request->age;
+        $user->bmi = $request->bmi;
+        $user->bmr = $request->bmr;
+        $user->gender = $request->gender;
         $user->save();
+
+        $this->createWalletUser($user->id);
+
         Session()->flash('alert-success', "User Added Succesfully");
         $this->storeLog('Add', 'saveEnduser', $user);
         return redirect()->back();
@@ -683,8 +691,14 @@ class AdminController extends Controller
         $model->email = $request->email;
         $model->phone = $request->phone;
         $model->age = $request->age;
-        $model->role = $request->role;
+        $model->role = 4;
         $model->status = $request->status;
+        $model->height = ($request->height * 2.54);
+        $model->weight = $request->weight;
+        $model->age = $request->age;
+        $model->bmi = $request->bmi;
+        $model->bmr = $request->bmr;
+        $model->gender = $request->gender;
         $model->update();
         Session()->flash('alert-success', "User Updated Succesfully");
         $this->storeLog('Update', 'updateEnduser', $model);
@@ -719,6 +733,56 @@ class AdminController extends Controller
 
         return view('admin.enduser', compact('user', 'roles'));
     }
+
+    public function exportEnduserExcel($data)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', '4000M');
+        try {
+            $spreadSheet = new Spreadsheet();
+            $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(20);
+            $spreadSheet->getActiveSheet()->fromArray($data);
+            $Excel_writer = new Xls($spreadSheet);
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="EndUserData.xls"');
+            header('Cache-Control: max-age=0');
+            ob_end_clean();
+            $Excel_writer->save('php://output');
+            exit();
+        } catch (Exception $e) {
+            return;
+        }
+    }
+
+    function exportEndUserData()
+    {
+        $this->storeLog('Export', 'exportUserData', '-');
+        $data = User::where('role', 4)->get();
+
+        $data_array[] = array("id", "Profile", "Name", "Email", "Phone", "Gender", "Age", "Height", "Weight", "BMI", "BMR", "Status", "Deleted", "Created At", "Updated At");
+        foreach ($data as $data_item) {
+            $data_array[] = array(
+                'id' => $data_item->id,
+                'Profile' => $data_item->profileImage,
+                'Name' => $data_item->name,
+                'Email' => $data_item->email,
+                'Phone' => $data_item->phone,
+                'Gender' => $data_item->gender,
+                'Age' => $data_item->age,
+                'Height' => $data_item->height,
+                'Weight' => $data_item->weight,
+                'BMI' => $data_item->bmi,
+                'BMR' => $data_item->bmr,
+                'Status' => $data_item->status == '1' ? 'Active' : 'Inactive',
+                'Deleted' => $data_item->deleteId == '1' ? 'Yes' : 'No',
+                'Created At' => $data_item->created_at,
+                'Updated At' => $data_item->updated_at,
+
+            );
+        }
+        $this->exportEnduserExcel($data_array);
+    }
+
 
     // Reset Pass Controller
 
@@ -1537,7 +1601,7 @@ class AdminController extends Controller
                     } else if (Productmacro::where('productUId', $value[0])->exists()) {
                         // $repeated++;
                         // $repeated_lov[] = $key + 2;
-                        
+
                         $fieldData = Productmacro::where('productUId', $value[0])->first();
                         $fieldData->calories = $value[1] != '' ? $value[1] : 0;
                         $fieldData->carbs = $value[2] != '' ? $value[2] : 0;
@@ -2019,33 +2083,28 @@ class AdminController extends Controller
                 if (empty($value)) {
                     $counter--;
                 } else {
-                    $fieldData = new Addon();  //name of modal
-                    $fieldData->name = $value[0]; //name of database feild = colm no in xls
-                    $fieldData->description = $value[1];
-                    $fieldData->price = $value[2];
-                    $fieldData->quantity = $value[3];
-                    $fieldData->unit = $value[4];
-                    if ($value[5] == 'Yes') {
-                        $fieldData->alaCartFlag = 1;
-                    } else {
-                        $fieldData->alaCartFlag = 0;
-                    }
                     foreach ($mealTypes as $mealType) {
                         if ($mealType->name == $value[6]) {
-                            $fieldData->mealTypeId = $mealType->id;
+                            $mealTypeId = $mealType->id;
                         }
                     }
-                    if ($value[7] == 'Active') {
-                        $fieldData->status = 1;
-                    } else {
-                        $fieldData->status = 0;
-                    }
-                    $fieldData->save();
+                    Addon::updateOrCreate(
+                        ['name' => $value[0]],
+                        [
+                            'description' => $value[1],
+                            'price' => $value[2],
+                            'quantity' => $value[3],
+                            'unit' => $value[4],
+                            'alaCartFlag' => $value[5] == 'Yes' ? 1 : 0,
+                            'mealTypeId' => $mealTypeId,
+                            'status' => $value[7] == 'Active' ? 1 : 0,
+                        ]
+                    );
                 }
                 $counter++;
             }
             Session()->flash('alert-success', "File Uploaded Succesfully");
-            $this->storeLog('Add', 'importAddon', $fieldData);
+            $this->storeLog('Add', 'importAddon', '-');
             // delete excel file
             if (file_exists($filepath)) {
                 unlink($filepath);
@@ -2326,8 +2385,8 @@ class AdminController extends Controller
     function exportPackageMenuData($uid)
     {
         // return "lol";
-        $this->storeLog('Export', 'exportOfficeUserData', '-');
-        $data = Packagemenu::where('packageUId', $uid)->orderBy('id', 'DESC')->get();
+        $this->storeLog('Export', 'exportPackageData', '-');
+        $data = Packagemenu::where('packageUId', $uid)->orderBy('day', 'asc')->get();
         $data_array[] = array("Id", "Package Id", "Day", "BreakFast", "Lunch", "Snack", "Dinner", "Created At", "Updated At");
         foreach ($data as $data_item) {
 
@@ -2335,24 +2394,19 @@ class AdminController extends Controller
                 'Id' => $data_item->id,
                 'Package Id' => $data_item->packageUId,
                 'Day' => $data_item->day,
-                'BreakFast' => $data_item->breakFast,
-                'Lunch' => $data_item->lunch,
-                'Snack' => $data_item->snack,
-                'Dinner' => $data_item->dinner,
+                'BreakFast' => $data_item->bf->name,
+                'Lunch' => $data_item->l->name,
+                'Snack' => $data_item->s->name,
+                'Dinner' => $data_item->d->name,
                 'Created At' => $data_item->created_at,
                 'Updated At' => $data_item->updated_at,
             );
         }
-        $this->ExportOfficeUserExcel($data_array);
+        $this->exportPackageMenuExcel($data_array);
     }
 
     public function importMultiplePackageMenu(Request $request)
     {
-        // $bf = trim('   VEG SALAD AND JUICE(ANY)');
-        // $bf = Product::where('name', $bf)->select('uid')->first();
-        // return $bf->uid;
-
-
         $this->validate($request, [
             'excel' => 'required|mimes:xls,xlsx'
         ]);
@@ -2408,6 +2462,81 @@ class AdminController extends Controller
                         [
                             'packageUId' => $value[0],
                             'day' => $value[1],
+                            'breakFast' => $bf['uid'],
+                            'lunch' => $lh['uid'],
+                            'snack' => $sk['uid'],
+                            'dinner' => $dn['uid']
+                        ]
+                    );
+                }
+                $counter++;
+            }
+            Session()->flash('alert-success', "File Uploaded Succesfully");
+            $this->storeLog('Add', 'importPackageMenu', $packageMenu);
+            // delete excel file
+            unlink($filepath);
+            return redirect()->back();
+        } catch (\Exception $e) {
+            Session()->flash('alert-danger', 'error:' . $e);
+            return redirect()->back();
+        }
+    }
+
+    public function importSinglePackageMenu(Request $request)
+    {
+        $this->validate($request, [
+            'excel' => 'required|mimes:xls,xlsx'
+        ]);
+        try {
+            $file = $request->file('excel');
+            $filename = time() . $file->getClientOriginalName();
+            $uploadpath = 'storage/ExcelFiles/PackageMenu/';
+            $filepath = 'storage/ExcelFiles/PackageMenu/' . $filename;
+            $file->move($uploadpath, $filename);
+
+            chmod('storage/ExcelFiles/PackageMenu/' . $filename, 0777);
+            $xls_file = $filepath;
+            $reader = new Xlsx();
+            $spreadsheet = $reader->load($xls_file);
+            $loadedSheetName = $spreadsheet->getSheetNames();
+
+            $writer = new Csv($spreadsheet);
+            $sheetName = $loadedSheetName[0];
+            foreach ($loadedSheetName as $sheetIndex => $loadedSheetName) {
+                $writer->setSheetIndex($sheetIndex);
+                $writer->save($loadedSheetName . '.csv');
+            }
+            $inf = $sheetName . '.csv';
+            $fileD = fopen($inf, "r");
+            $column = fgetcsv($fileD);
+            while (!feof($fileD)) {
+                $rowData[] = fgetcsv($fileD);
+            }
+            $skip_lov = array();
+            $counter = 0;
+            $failed = 0;
+            foreach ($rowData as $value) {
+
+                if (empty($value)) {
+                    $counter--;
+                } else {
+                    // trim values
+                    $value[1] = trim($value[1]);
+                    $value[2] = trim($value[2]);
+                    $value[3] = trim($value[3]);
+                    $value[4] = trim($value[4]);
+
+                    $bf = Product::where('name', $value[1])->select('uid')->first();
+                    $lh = Product::where('name', $value[2])->select('uid')->first();
+                    $sk = Product::where('name', $value[3])->select('uid')->first();
+                    $dn = Product::where('name', $value[4])->select('uid')->first();
+
+                    $packageMenu = Packagemenu::updateOrCreate(
+                        [
+                            'packageUId' => $request->packageUId,
+                            'day' => $value[0]
+                        ],
+                        [
                             'breakFast' => $bf['uid'],
                             'lunch' => $lh['uid'],
                             'snack' => $sk['uid'],
@@ -2683,43 +2812,34 @@ class AdminController extends Controller
                 if (empty($value)) {
                     $counter--;
                 } else {
-                    $fieldData = new Pincode();  //name of modal
-                    $fieldData->areaName = $value[0]; //name of database feild = colm no in xls
-                    $fieldData->pincode = $value[1];
-                    if ($value[2] == 'Yes') {
-                        $fieldData->breakFastFlag = 1;
-                    } else {
-                        $fieldData->breakFastFlag = 0;
-                    }
-                    if ($value[3] == 'Yes') {
-                        $fieldData->lunchFlag = 1;
-                    } else {
-                        $fieldData->lunchFlag = 0;
-                    }
-                    if ($value[4] == 'Yes') {
-                        $fieldData->snackFlag = 1;
-                    } else {
-                        $fieldData->snackFlag = 0;
-                    }
-                    if ($value[5] == 'Yes') {
-                        $fieldData->dinnerFlag = 1;
-                    } else {
-                        $fieldData->dinnerFlag = 0;
-                    }
-                    if ($value[6] == 'Yes') {
-                        $fieldData->alaCartFlag = 1;
-                    } else {
-                        $fieldData->alaCartFlag = 0;
-                    }
-                    $fieldData->deliveryCharge = $value[7];
-                    $fieldData->status = 1;
 
-                    $fieldData->save();
+                    $breakFastFlag = $value[2] == 'Yes' ? 1 : 0;
+                    $lunchFlag = $value[3] == 'Yes' ? 1 : 0;
+                    $snackFlag = $value[4] == 'Yes' ? 1 : 0;
+                    $dinnerFlag = $value[5] == 'Yes' ? 1 : 0;
+                    $alaCartFlag = $value[6] == 'Yes' ? 1 : 0;
+
+                    // create or update pincode
+                    Pincode::updateOrCreate(
+                        [
+                            'areaName' => $value[0],
+                            'pincode' => $value[1]
+                        ],
+                        [
+                            'breakFastFlag' => $breakFastFlag,
+                            'lunchFlag' => $lunchFlag,
+                            'snackFlag' => $snackFlag,
+                            'dinnerFlag' => $dinnerFlag,
+                            'alaCartFlag' => $alaCartFlag,
+                            'deliveryCharge' => $value[7],
+                            'status' => 1,
+                        ]
+                    );
                 }
                 $counter++;
             }
             Session()->flash('alert-success', "File Uploaded Succesfully");
-            $this->storeLog('Add', 'importPincode', $fieldData);
+            $this->storeLog('Add', 'importedPincode', '-');
             // delete excel file
             if (file_exists($filepath)) {
                 unlink($filepath);
@@ -3266,7 +3386,7 @@ class AdminController extends Controller
 
     public function walletHistory($id)
     {
-        $wallets = Wallet::with('user')->with(['walletremarks'=> function($query){
+        $wallets = Wallet::with('user')->with(['walletremarks' => function ($query) {
             $query->orderBy('id', 'desc');
         }])->where('userId', $id)->first();
         // return $wallets;
@@ -3291,8 +3411,7 @@ class AdminController extends Controller
                     $alacartOrder->update();
                 }
             }
-            if($request->status == 'Cancelled')
-            {
+            if ($request->status == 'Cancelled') {
                 $finalTotal = ($total + $order->deliveryamt + $order->gst) - $order->discount;
                 $this->creditAmount($order->userId, $finalTotal, 0, $order->id, null, 'Order Cancelled');
             }

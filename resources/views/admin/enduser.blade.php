@@ -12,12 +12,12 @@ End Users
 
 <!-- Adding User modal -->
 
-<!-- <div class=" col-sm-12 text-right">
+<div class=" col-sm-12 text-right">
     <button type="button" id="createBtn" class="btn btn-primary btn-lg m-4 has-ripple" data-toggle="modal" data-target="#exampleModalLong">
         <i class="fas fa-user-plus"></i>
         Create User
     </button>
-</div> -->
+</div>
 
 <!--Excel Modal-->
 <div class="modal fade" id="importModal" data-backdrop="static" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
@@ -50,7 +50,7 @@ End Users
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <a href="{{url('storage/ExcelFiles/EndUser/UserExcelFormat.xlsx')}}" id="download" download class="btn btn-success"><i class="fas fa-cloud-download-alt" ></i>Download
+                                <a href="{{url('storage/ExcelFiles/EndUser/UserExcelFormat.xlsx')}}" id="download" download class="btn btn-success"><i class="fas fa-cloud-download-alt"></i>Download
                                 </a>
                             </div>
                         </div>
@@ -58,7 +58,7 @@ End Users
                     <div class="modal-footer m-0 p-0 pt-3">
                         <!-- <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button> -->
                         <button type="submit" id="addExcel" class="btn btn-primary font-weight-bold">
-                        <i class="fas fa-plus"></i>
+                            <i class="fas fa-plus"></i>
                             Add Excel
                         </button>
                     </div>
@@ -83,18 +83,16 @@ End Users
                     <div class="row">
                         <div class="col-sm-12 text-center mb-5">
                             <div class="image-input image-input-outline" id="kt_image_4" style=" background-image: url(/media/blank.png)">
-                                <div class="image-input-wrapper" style="width: 200px; height: 200px; background-image: url(/media/blank.png)"></div>
+                                <div class="image-input-wrapper" style="width: 150px; height: 150px; background-image: url(/media/blank.png)"></div>
 
                                 <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change Image">
                                     <i class="fas fa-plus icon-sm text-muted"></i>
                                     <input type="file" name="image" accept=".png, .jpg, .jpeg" />
                                     <input type="hidden" name="profile_avatar_remove" />
                                 </label>
-
                                 <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel Image">
                                     <i class="ki ki-bold-close icon-xs text-muted"></i>
                                 </span>
-
                                 <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="remove" data-toggle="tooltip" title="Remove Image">
                                     <i class="ki ki-bold-close icon-xs text-muted"></i>
                                 </span>
@@ -151,55 +149,79 @@ End Users
 
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <label style="font-weight: bold;">Email <span style="color: red;">&#42</span></label>
                                 <input type="email" class="form-control" onkeyup="checkEmail()" id="Email" name="email" autocomplete="false" required>
                                 <span id="emailTitle"></span>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <label style="font-weight: bold;">Phone <span style="color: red;">&#42</span></label>
                                 <input type="text" class="form-control" onkeyup="checkPhone()" id="Phone" name="phone" maxlength="10" pattern="[789][0-9]{9}" required>
                                 <span id="phoneTitle"></span>
                             </div>
                         </div>
-
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label style="font-weight: bold;">Select Role <span style="color: red;">&#42</span></label>
-                                <select class="form-control selectpicker" name="role" required id="Role">
-                                    <optgroup label="Roles">
-
-                                        @foreach($roles as $role)
-                                        <option value="{{$role->id}}">{{$role->name}}</option>
-                                        @endforeach
-                                    </optgroup>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <label style="font-weight: bold;">User Status </label>
-                                <select class="form-control status" name="status" id="status">
+                                <select class="form-control selectpicker " name="status" id="status">
                                     <optgroup label="Status">
                                         <option value="1">Active</option>
                                         <option value="0">Deactive</option>
                                     </optgroup>
-
                                 </select>
                             </div>
                         </div>
-
-
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Height (in inch)</label>
+                                <input type="number" class="form-control" onkeyup="getCalculation()" id="height" name="height">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Weight (in kg)</label>
+                                <input type="number" class="form-control" onkeyup="getCalculation()" id="weight" name="weight">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Age </label>
+                                <input type="number" class="form-control" onkeyup="getCalculation()" id="age" name="age">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Gender </label>
+                                <select class="form-control selectpicker" onchange="getCalculation()" name="gender" id="gender">
+                                    <optgroup label="Gender">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label style="font-weight: bold;">BMI</label>
+                                <input type="text" class="form-control" readonly id="bmi" name="bmi">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label style="font-weight: bold;">BMR </label>
+                                <input type="text" class="form-control" readonly id="bmr" name="bmr">
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer m-0 p-0 pt-3">
                         <!-- <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button> -->
                         <button type="submit" id="userAdd" class="btn btn-primary font-weight-bold">
-                        <i class="fas fa-plus"></i>
+                            <i class="fas fa-plus"></i>
 
-                            Add EndUser
+                            Add End User
                         </button>
                     </div>
                 </form>
@@ -256,21 +278,21 @@ End Users
                                 </a>
                             </li> -->
                             <li class="navi-item">
-                                <a href="{{url('/enduser/exportUserExcel')}}" class="navi-link">
+                                <a href="{{url('/enduser/exportEndUserExcel')}}" class="navi-link">
                                     <span class="navi-icon">
                                         <i class="la la-file-excel-o"></i>
                                     </span>
                                     <span class="navi-text">Excel</span>
                                 </a>
                             </li>
-                            <li class="navi-item">
+                            <!-- <li class="navi-item">
                                 <a href="{{url('/enduser/exportToCSV')}}" class="navi-link">
                                     <span class="navi-icon">
                                         <i class="la la-file-text-o"></i>
                                     </span>
                                     <span class="navi-text">CSV</span>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- <li class="navi-item">
                                 <a href="{{url('/enduser/exportToPDF')}}" class="navi-link">
                                     <span class="navi-icon">
@@ -283,7 +305,7 @@ End Users
                     </div>
                 </div>
 
-                <button type="button" id="addExcel" class="btn btn-primary has-ripple" data-toggle="modal" data-target="#importModal"><i class="fas fa-file-import"></i>Import Excel</button>
+                <!-- <button type="button" id="addExcel" class="btn btn-primary has-ripple" data-toggle="modal" data-target="#importModal"><i class="fas fa-file-import"></i>Import Excel</button> -->
             </div>
         </div>
 
@@ -345,14 +367,14 @@ End Users
                     </tr>
 
                     <div class="modal fade" id="editModal{{$data->id}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog ">
+                        <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">End User Update</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times" style="font-size: 20px;"></i></button>
                                 </div>
 
-                                <form action="{{url('/enduser/editEndUser')}}" method="post">
+                                <form action="{{url('/enduser/updateEndUser')}}" method="post">
                                     @csrf
                                     <div class="modal-body">
                                         <input type="hidden" value="{{$data->id}}" name="hiddenId">
@@ -382,20 +404,6 @@ End Users
                                                     <input type="number" value="{{$data->phone}}" class="form-control" required name="phone">
                                                 </div>
                                             </div>
-
-                                            <!-- <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="form-label">Role <span style="color: red;">&#42</span></label>
-                                                    <select class="js-example-basic-single form-control" required style="width: 100%" name="role">
-                                                        
-                                                        <optgroup label="Roles">
-                                                            @foreach($roles as $role)
-                                                            <option value="{{$role->id}}" >{{$role->name}}</option>
-                                                            @endforeach
-                                                        </optgroup>
-                                                    </select>
-                                                </div>
-                                            </div> -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label"> Status </label>
@@ -407,12 +415,58 @@ End Users
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label>Height (in inch)</label>
+                                                    <?php
+                                                    $height = $data->height / 2.54;
+                                                    $height = round($height, 0);
+                                                    ?>
+
+                                                    <input type="number" class="form-control" value="{{$height}}" onkeyup="getCalculation('{{$data->id}}')" id="height{{$data->id}}" name="height">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label>Weight (in kg)</label>
+                                                    <input type="number" class="form-control" value="{{$data->weight}}" onkeyup="getCalculation('{{$data->id}}')" id="weight{{$data->id}}" name="weight">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label>Age </label>
+                                                    <input type="number" class="form-control" value="{{$data->age}}" onkeyup="getCalculation('{{$data->id}}')" id="age{{$data->id}}" name="age">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label>Gender </label>
+                                                    <select class="form-control selectpicker" onchange="getCalculation('{{$data->id}}')" name="gender" id="gender{{$data->id}}">
+                                                        <optgroup label="Gender">
+                                                            <option value="Male" {{$data->gender == 'Male' ? 'selected' : ''}}>Male</option>
+                                                            <option value="Female" {{$data->gender == 'Female' ? 'selected' : ''}}>Female</option>
+                                                        </optgroup>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label>BMI</label>
+                                                    <input type="text" class="form-control" value="{{$data->bmi}}" readonly id="bmi{{$data->id}}" name="bmi">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label>BMR </label>
+                                                    <input type="text" class="form-control" value="{{$data->bmr}}" readonly id="bmr{{$data->id}}" name="bmr">
+                                                </div>
+                                            </div>
 
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" id="updateBtn" class="btn btn-primary btngld">
-                                        <i class="fas fa-edit"></i>Update EndUser
+                                            <i class="fas fa-edit"></i>Update EndUser
                                         </button>
                                     </div>
                                 </form>
@@ -427,7 +481,7 @@ End Users
                                 <div class="modal-header">
                                     <h5 class="modal-title">Delete EndUser</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <i class="fas fa-times" style="font-size: 20px;"></i>
+                                        <i class="fas fa-times" style="font-size: 20px;"></i>
                                     </button>
                                 </div>
                                 <form action="{{url('/enduser/deleteEndUser')}}" method="post">
@@ -556,5 +610,57 @@ End Users
     }
 </script>
 
+<!-- Bmi BMr calculation -->
+<script>
+    function getCalculation() {
+        var height = $('#height').val();
+        var weight = $('#weight').val();
+        var age = $('#age').val();
+        var gender = $('#gender').val();
+        var bmi = 0;
+        var bmr = 0
+        if (height != '' && weight != '' && age != '') {
+            // bmi calculation
+            var bmi = weight / ((height * 0.0254) * (height * 0.0254));
+            var bmi = bmi.toFixed(2);
+            console.log('bmi: ' + bmi);
+            $('#bmi').val(bmi);
+
+            // bmr calculation
+            if (gender == 'Male') {
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else if (gender == 'Female') {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            }
+            $('#bmr').val(bmr);
+        }
+    }
+</script>
+
+<script>
+    function getCalculation(id) {
+        var height = $('#height' + id).val();
+        var weight = $('#weight' + id).val();
+        var age = $('#age' + id).val();
+        var gender = $('#gender' + id).val();
+        var bmi = 0;
+        var bmr = 0
+        if (height != '' && weight != '' && age != '') {
+            // bmi calculation
+            var bmi = weight / ((height * 0.0254) * (height * 0.0254));
+            var bmi = bmi.toFixed(2);
+            console.log('bmi: ' + bmi);
+            $('#bmi'+id).val(bmi);
+
+            // bmr calculation
+            if (gender == 'Male') {
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else if (gender == 'Female') {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            }
+            $('#bmr'+id).val(bmr);
+        }
+    }
+</script>
 
 @endsection
