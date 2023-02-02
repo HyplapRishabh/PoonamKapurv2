@@ -19,7 +19,7 @@
                 <form action="{{url('/package/packageMenu/importSinglePackageMenu')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <input type="" name="packageUId" value="{{$packageData->UID}}">
+                        <input type="hidden" name="packageUId" value="{{$packageData->UID}}">
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="p-3" style="font-weight: bold;">Select Excel File <span style="color: red;">&#42</span></label>
