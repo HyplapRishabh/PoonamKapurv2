@@ -1449,7 +1449,7 @@ class webController extends Controller
                 $packagedtl = Package::where('id', $pkgdtl[0])->with('goal')->with('mealtype')->first();
                 $this->sendEmail('SubscribedToUser', $result->email, $trxdtl->cpname, $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
                 // not working
-                $this->sendEmail('SubscribedToPoonam', 'szaid444666@gmail.com', 'Poonam Kapur', $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
+                $this->sendEmail('SubscribedToPoonam', 'poonamkapur77@gmail.com', 'Poonam Kapur', $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
                 return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
             }
         }
@@ -1927,7 +1927,7 @@ class webController extends Controller
 
                 $this->sendEmail('SubscribedToUser', $result->email, $trxdtl->cpname, $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
                 // not working
-                $this->sendEmail('SubscribedToPoonam', 'szaid444666@gmail.com', 'Poonam Kapur', $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
+                $this->sendEmail('SubscribedToPoonam', 'poonamkapur77@gmail.com', 'Poonam Kapur', $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
 
                 return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
             }

@@ -72,6 +72,9 @@
 
 <body class="bodycss">
     @include('web.weblayout.loader')
+
+    <input type="hidden" id="authUser" value="{{Auth::check()}}">
+
     <div class="position-relative">
         <div class="user-img1">
             <svg width="1857" viewBox="0 0 1857 327" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -345,7 +348,7 @@
 
         function subscribe(days, pkgid, onemeal) {
 
-            var loggedIn = {{ Auth::check() ? true : false }};
+            var loggedIn =  $("#authUser").val();
             console.log(loggedIn);
             if(loggedIn)
             {

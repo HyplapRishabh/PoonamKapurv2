@@ -7,6 +7,13 @@
 @endsection
 
 @section('content')
+@foreach (['danger', 'warning', 'success', 'info'] as $msg)
+@if(Session::has('alert-' . $msg))
+<div class="col-sm-12">
+    <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+</div>
+@endif
+@endforeach
 <!--Excel Modal-->
 <div class="modal fade" id="importModal" data-backdrop="static" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
     <div class="modal-dialog" role="document">

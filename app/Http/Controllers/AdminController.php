@@ -2526,21 +2526,24 @@ class AdminController extends Controller
                     $value[3] = trim($value[3]);
                     $value[4] = trim($value[4]);
 
+                    // return $value;
+
                     $bf = Product::where('name', $value[1])->select('uid')->first();
                     $lh = Product::where('name', $value[2])->select('uid')->first();
                     $sk = Product::where('name', $value[3])->select('uid')->first();
                     $dn = Product::where('name', $value[4])->select('uid')->first();
 
+                    
                     $packageMenu = Packagemenu::updateOrCreate(
                         [
                             'packageUId' => $request->packageUId,
                             'day' => $value[0]
                         ],
                         [
-                            'breakFast' => $bf['uid'],
-                            'lunch' => $lh['uid'],
-                            'snack' => $sk['uid'],
-                            'dinner' => $dn['uid']
+                            'breakFast' => $bf == null ? null : $bf->uid,
+                            'lunch' => $lh == null ? null : $lh->uid,
+                            'snack' => $sk == null ? null : $sk->uid,
+                            'dinner' => $dn == null ? null : $dn->uid
                         ]
                     );
                 }
