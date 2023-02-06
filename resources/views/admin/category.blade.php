@@ -12,7 +12,7 @@
 <!-- Adding Category modal -->
 
 <div class=" col-sm-12 text-right">
-    <button type="button" id="createBtn" class="btn btn-primary btn-lg m-4 has-ripple"  data-toggle="modal" data-target="#addModal">
+    <button type="button" id="createBtn" class="btn btn-primary btn-lg m-4 has-ripple" data-toggle="modal" data-target="#addModal">
         <i class="fas fa-plus"></i> Add Category
     </button>
 </div>
@@ -53,7 +53,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label style="font-weight: bold;" for="Name">Name <span style="color: red;">&#42</span></label>
-                                <input type="text" class="form-control"  id="Name" name="name" required>
+                                <input type="text" class="form-control" id="Name" name="name" required>
                             </div>
                         </div>
 
@@ -74,6 +74,27 @@
                             <div class="form-group">
                                 <label style="font-weight: bold;" for="description">Description <span style="color: red;">&#42</span></label> <br>
                                 <textarea class="form-control" name="description" id="Description" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label style="font-weight: bold;" for="Name">Page Title (do not use <'title'>) <span style="color: red;">&#42</span></label>
+                                <input type="text" class="form-control" id="title" name="title" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label style="font-weight: bold;" for="Name">Meta Keywords (Seperate with comma) <span style="color: red;">&#42</span></label>
+                                <input type="text" class="form-control" id="metaKeywords" name="metaKeywords" required>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label style="font-weight: bold;" for="Name">Meta Description <span style="color: red;">&#42</span></label>
+                                <textarea class="form-control" id="metaDescription" name="metaDescription" required></textarea>
                             </div>
                         </div>
 
@@ -150,7 +171,7 @@
                                         <div class="modal-header">
                                             <h5 class="modal-title" style="font-weight: 600; color: black; font-size: large;">Media</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <i class="fas fa-times" style="font-size: 25px; "></i>
+                                                <i class="fas fa-times" style="font-size: 25px; "></i>
                                             </button>
                                         </div>
                                         <div class="modal-body">
@@ -194,7 +215,7 @@
                                                                 <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="remove" data-toggle="tooltip" title="Remove avatar">
                                                                     <i class="ki ki-bold-close icon-xs text-muted"></i>
                                                                 </span>
-                                                            </div> 
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -221,7 +242,28 @@
                                                     <div class="col-sm-12">
                                                         <div class="form-group">
                                                             <label style="font-weight: bold;" for="description">Description <span style="color: red;">&#42</span></label> <br>
-                                                            <textarea class="form-control" name="description" id="Description" value="{{$data->description}}" required></textarea>
+                                                            <textarea class="form-control" name="description" id="Description" required>{{$data->description}}</textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label style="font-weight: bold;" for="Name">Page Title (do not use <'title'>) <span style="color: red;">&#42</span></label>
+                                                            <input type="text" class="form-control" id="title" name="title" value="{{$data->title}}" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label style="font-weight: bold;" for="Name">Meta Keywords (Seperate with comma) <span style="color: red;">&#42</span></label>
+                                                            <textarea class="form-control" id="metaKeywords" name="metaKeywords" required>{{$data->metaKeywords}}</textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label style="font-weight: bold;" for="Name">Meta Description <span style="color: red;">&#42</span></label>
+                                                            <textarea class="form-control" id="metaDescription" name="metaDescription" required>{{$data->metaDescription}}</textarea>
                                                         </div>
                                                     </div>
 
@@ -246,7 +288,7 @@
                                         <div class="modal-header">
                                             <h5 class="modal-title" style="font-weight: 600; color: black; font-size: large;">Confirmation</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <i class="fas fa-times" style="font-size: 25px; "></i>
+                                                <i class="fas fa-times" style="font-size: 25px; "></i>
                                             </button>
                                         </div>
 
@@ -300,7 +342,7 @@
 <script>
     var namee = document.getElementById("Name");
     var description = document.getElementById("Description");
-    
+
     namee.addEventListener('invalid', function(event) {
         if (event.target.validity.valueMissing) {
             event.target.setCustomValidity('Category Name is required');

@@ -872,6 +872,9 @@ class AdminController extends Controller
         $category->image = $image_path;
         $category->name = $request->name;
         $category->description = $request->description;
+        $category->title = $request->title;
+        $category->metaKeywords = $request->metaKeywords;
+        $category->metaDescription = $request->metaDescription;
         $category->status = $request->status;
         $category->save();
         Session()->flash('alert-success', "Category Added Succesfully");
@@ -892,12 +895,15 @@ class AdminController extends Controller
             chmod('media/images/category/' . $final_name, 0777);
             $image_path = "media/images/category/" . $final_name;
         } else {
-            $image_path = Blog::where('id', $request->hiddenId)->first();
+            $image_path = Category::where('id', $request->hiddenId)->first();
             $image_path = $image_path['image'];
         }
         $category->image = $image_path;
         $category->name = $request->name;
         $category->description = $request->description;
+        $category->title = $request->title;
+        $category->metaKeywords = $request->metaKeywords;
+        $category->metaDescription = $request->metaDescription;
         if ($request->status != $category->status) {
             $category->status = $request->status;
             Subcategory::where('categoryId', $request->hiddenId)->update(['status' => $request->status]);

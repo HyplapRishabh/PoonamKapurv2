@@ -6,7 +6,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Poonamkapur.com | Online Diet Food & Many More in Mumbai</title>
+    <title> Become a Franchisee & Make Your Mark | Poonamakpur </title>
+
+    <meta name="description" content=" Take your business to the next level by becoming a franchisee. Learn more about the financial and operational benefits of franchising and the opportunities available. ">
+
+    <meta name="keywords" content=" Our franchise, diet food online, meals diet, healthy food and meals. ">
+
 
     @include('web.weblayout.headlayout')
     <style>

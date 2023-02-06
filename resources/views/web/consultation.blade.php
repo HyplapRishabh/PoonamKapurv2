@@ -6,7 +6,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Poonamkapur.com | Online Diet Food & Many More in Mumbai</title>
+    <title> Health and Diet Consultation with Poonam Kapur </title>
+
+    <meta name="description" content=" Get advice and guidance on health and diet from expert nutritionist and dietitian Poonam Kapur. Get personalized, result-oriented consultation today. ">
+
+    <meta name="keywords" content=" Consultation, Healthy food Balance diet, nutritious foods, healthy meal delivery, healthy food delivery, healthy food order. ">
+
 
     @include('web.weblayout.headlayout')
     <style>
@@ -45,7 +50,7 @@
             @include('web.weblayout.headerlayout')
         </div>
         <div class="content-inner mt-5 py-0">
-        <div class="row mb-3">
+            <div class="row mb-3">
                 <div class="col-sm-12 col-lg-12">
                     <div class="bd-example">
                         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
@@ -200,7 +205,7 @@
                                             </div>
                                         </a>
                                     </div>
-                                    
+
                                     <div class="swiper-slide">
                                         <a href="//www.grishmahealthfoods.com" target="_blank" rel="noopener noreferrer">
                                             <div class="card card-white dish-card profile-img mb-0">

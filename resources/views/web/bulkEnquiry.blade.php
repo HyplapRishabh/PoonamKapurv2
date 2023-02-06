@@ -6,7 +6,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Poonamkapur.com | Online Diet Food & Many More in Mumbai</title>
+    <title> Poonam Kapur Bulk Enquiries - Get in touch Now! </title>
+
+<meta name="description" content=" Get in touch with Poonam Kapur now for bulk enquiries. Connect with Poonam on her official website and find out more about her services.">
+
+<meta name="keywords" content=" tiffin services, tiffin services in Mumbai, veg tiffin service near me, tiffin service andheri west, tiffin service andheri, healthy tiffin service Mumbai. ">
+
 
     @include('web.weblayout.headlayout')
     <style>

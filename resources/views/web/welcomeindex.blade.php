@@ -4,7 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Poonamkapur.com | Online Diet Food & Many More in Mumbai</title>
+    <title> Best & Healthy Meals in Andheri, Mumbai - Poonamkapur </title>
+
+    <meta name="description" content=" Enjoy online food delivery of healthy meals in Mumbai and start your fitness journey today! poonamkapur, healthy and high protein meals. We take care of your food, nutrition and overall health.">
+    <meta name="keywords" content=" Healthy food, Balance diet nutritious foods, healthy meal delivery, healthy food order, healthy meal subscription, healthy tiffin service, order diet food online, healthy tiffin service Mumbai, diet meals near me, poonamkapur.">
+
 
     @include('web.weblayout.headlayout')
 </head>

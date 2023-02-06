@@ -6,7 +6,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Poonamkapur.com | Online Diet Food & Many More in Mumbai</title>
+    <title> Poonamkapur – blog | balance healthy diet food in mumbai </title>
+
+    <meta name="description" content=" Get the proper guidance for your health and diet on poonamkapur blogs. Customised Healthy Meal Plans Delivered in Mumbai.">
+
+    <meta name="keywords" content=" healthy food, balanced diet, healthy diet, diet foods, healthy recipes, healthy meals, healthy meal plans, healthy foods to eat, eat healthy food, healthy food for weight loss, healthy indian food.">
+
 
     @include('web.weblayout.headlayout')
     <style>
@@ -65,14 +70,14 @@
                     </div>
                 </div>
             </div>
-            <div class="row">                
+            <div class="row">
                 @foreach($blogs as $blog)
                 <div class="col-sm-6 col-md-6 col-lg-3">
                     <div class="card">
                         <img src="/{{$blog->coverImage}}" class="card-img-top" alt="#">
                         <div class="card-body">
-                            <h5 class="card-title" style="display: -webkit-box; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" >{{$blog->title}}</h5>
-                            <p class="card-text" style="display: -webkit-box; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 3; -webkit-box-orient: vertical;" >{{$blog->subtitle}}</p>
+                            <h5 class="card-title" style="display: -webkit-box; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{$blog->title}}</h5>
+                            <p class="card-text" style="display: -webkit-box; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">{{$blog->subtitle}}</p>
                             <a href="{{url('/app/allblogs')}}/{{$blog->slug}}" class="btn btn-primary">View Blog</a>
                         </div>
                     </div>

@@ -6,7 +6,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Poonamkapur.com | Online Diet Food & Many More in Mumbai</title>
+    <title> Poonamkapur - blog | balance healthy diet food in mumbai </title>
+
+    <meta name="description" content=" Get the proper guidance for your health and diet on poonamkapur blogs. Customised Healthy Meal Plans Delivered in Mumbai.">
+
+    <meta name="keywords" content=" healthy food, balanced diet, healthy diet, diet foods, healthy recipes, healthy meals, healthy meal plans, healthy foods to eat, eat healthy food, healthy food for weight loss, healthy indian food.">
+
 
     @include('web.weblayout.headlayout')
     <style>
@@ -61,14 +66,14 @@
                         <div class="mt-5">
                             <div class="card ">
                                 <div class="card-body">
-                                    <h2 class="mb-3"  >{{$blog->title}}</h2>
+                                    <h2 class="mb-3">{{$blog->title}}</h2>
                                     <p><i class="fa fa-calendar" style="color: #EA6A12;" aria-hidden="true"></i> {{date('d M, Y', strtotime($blog->created_at))}} <i class="fa fa-user" style="color: #EA6A12;" aria-hidden="true"></i> {{$blog->writer}}</p>
                                     <h5 class="text-muted">{{$blog->subtitle}}</h5>
                                     <p class="">{!!$blog->description1!!}</p>
                                     <p class="">{!!$blog->description2!!}</p>
                                     <?php
                                     $tags = explode(',', $blog->tags);
-                                    
+
                                     ?>
                                     @foreach($tags as $tag)
                                     <a href="#!" class="btn btn-primary">{{$tag}}</a>

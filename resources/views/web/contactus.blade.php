@@ -6,7 +6,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Poonamkapur.com | Online Diet Food & Many More in Mumbai</title>
+    <title> Contact us for healthy diet meals & food subscription </title>
+
+    <meta name="description" content=" Order Healthy Food Online personalised for your diet requirements. Contact us now for Low carb, Balanced and medium calorie meals delivered.">
+
+    <meta name="keywords" content=" healthy diet, healthy meal, balanced meal, healthy meal subscription, healthy food online, healthy food subscription, healthy food, nutritious foods.">
+
 
     @include('web.weblayout.headlayout')
     <style>

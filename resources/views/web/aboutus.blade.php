@@ -6,26 +6,31 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Poonamkapur.com | Online Diet Food & Many More in Mumbai</title>
+    <title> Poonamkapur is Mumbai’s online healthy meals delivery service </title>
+
+    <meta name="description" content=" Try best and healthy meal plans and high protein meals Customized by dietician as per your fitness goals. ">
+
+    <meta name="keywords" content=" healthy food online subscription, healthy food, balanced diet chart, healthy food chart, nutritious foods, healthy meal plans, healthy diet plan to lose weight, healthy recipes, healthy meals, healthy foods to eat everyday. ">
+
 
     @include('web.weblayout.headlayout')
     <style>
-        .bkgcategory
-        {
+        .bkgcategory {
 
             background-image:url("{{url('webassets/images/layouts/01.png')}}");
-            background-repeat: no-repeat; 
-            
-            background-size: cover;background-position: center right;
+            background-repeat: no-repeat;
+
+            background-size: cover;
+            background-position: center right;
         }
-        .bodycss
-        {
-            background-image:url("{{url('webassets/images/dashboard.png')}}"); 
-            background-attachment: fixed; 
+
+        .bodycss {
+            background-image:url("{{url('webassets/images/dashboard.png')}}");
+            background-attachment: fixed;
             background-size: cover;
         }
     </style>
-    
+
 </head>
 
 <body class="bodycss">
@@ -33,12 +38,8 @@
     <div class="position-relative">
         <div class="user-img1">
             <svg width="1857" viewBox="0 0 1857 327" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M4.05078 189.348C86.8841 109.514 348.951 -25.2523 734.551 74.3477C1120.15 173.948 1641.22 91.181 1853.55 37.3477"
-                    stroke="#EA6A12" stroke-opacity="0.3" />
-                <path
-                    d="M0.99839 152.331C90.9502 80.6133 364.495 -28.9952 739.062 106.31C1113.63 241.616 1640.16 208.056 1856.6 174.363"
-                    stroke="#EA6A12" stroke-opacity="0.3" />
+                <path d="M4.05078 189.348C86.8841 109.514 348.951 -25.2523 734.551 74.3477C1120.15 173.948 1641.22 91.181 1853.55 37.3477" stroke="#EA6A12" stroke-opacity="0.3" />
+                <path d="M0.99839 152.331C90.9502 80.6133 364.495 -28.9952 739.062 106.31C1113.63 241.616 1640.16 208.056 1856.6 174.363" stroke="#EA6A12" stroke-opacity="0.3" />
             </svg>
         </div>
     </div>
@@ -48,7 +49,7 @@
             @include('web.weblayout.headerlayout')
         </div>
         <div class="content-inner mt-5 py-0">
-        <div class="row">
+            <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
                         <!-- <div class="card-header border-bottom-0 pb-0">
@@ -104,14 +105,10 @@
                     <div class="card-body p-0">
                         <div class="col-xl-12 col-lg-12 dish-card-horizontal mt-2">
                             <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2 row-cols-xxl-12">
-                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
-                                    data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll"
-                                    data-iq-ease="none">
+                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
                                     <div class="card card-white dish-card profile-img mb-0">
                                         <div class="profile-img21">
-                                            <img src="/webassets/images/hm/poonamkapur.jpg"
-                                                class="img-fluid rounded-pill avatar-170" alt="profile-image"
-                                                style="object-fit: cover; object-position: center;">
+                                            <img src="/webassets/images/hm/poonamkapur.jpg" class="img-fluid rounded-pill avatar-170" alt="profile-image" style="object-fit: cover; object-position: center;">
                                         </div>
                                         <div class="card-body menu-image">
                                             <h6 class="heading-title fw-bolder mt-4 mb-0 text-center">Poonam Kapur</h6>
@@ -140,14 +137,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
-                                    data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll"
-                                    data-iq-ease="none">
+                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
                                     <div class="card card-white dish-card profile-img mb-0">
                                         <div class="profile-img21">
-                                            <img src="/webassets/images/hm/duttaprasad.jpg"
-                                                class="img-fluid rounded-pill avatar-170" alt="profile-image"
-                                                style="object-fit: cover; object-position: center;">
+                                            <img src="/webassets/images/hm/duttaprasad.jpg" class="img-fluid rounded-pill avatar-170" alt="profile-image" style="object-fit: cover; object-position: center;">
                                         </div>
                                         <div class="card-body menu-image">
                                             <h6 class="heading-title fw-bolder mt-4 mb-0 text-center">Duttprasad Kapur
@@ -179,14 +172,10 @@
 
                             <!-- team starts -->
                             <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2 row-cols-xxl-4 mt-4">
-                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
-                                    data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll"
-                                    data-iq-ease="none">
+                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
                                     <div class="card card-white dish-card profile-img mb-0">
                                         <div class="profile-img21">
-                                            <img src="/webassets/images/hm/nareshdhoot.jpg"
-                                                class="img-fluid rounded-pill avatar-170" alt="profile-image"
-                                                style="object-fit: cover; object-position: center;">
+                                            <img src="/webassets/images/hm/nareshdhoot.jpg" class="img-fluid rounded-pill avatar-170" alt="profile-image" style="object-fit: cover; object-position: center;">
                                         </div>
                                         <div class="card-body menu-image">
                                             <h6 class="heading-title fw-bolder mt-4 mb-0">NARESH DHOOT</h6>
@@ -194,7 +183,7 @@
                                             </div>
                                             <div class="d-flex justify-content-between mt-3">
                                                 <div class="d-flex align-items-center">
-                                                    <p style="text-align: justify; overflow-y: auto; height: 150px;"> 
+                                                    <p style="text-align: justify; overflow-y: auto; height: 150px;">
                                                         Naresh R Dhoot is one of our associates at Mumbai who is
                                                         qualified CA having experience of more than 35 years in
                                                         Audit/Direct and Indirect Taxation/ Company law matters/Project
@@ -210,14 +199,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
-                                    data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll"
-                                    data-iq-ease="none">
+                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
                                     <div class="card card-white dish-card profile-img mb-0">
                                         <div class="profile-img21">
-                                            <img src="/webassets/images/hm/shashi.jpg"
-                                                class="img-fluid rounded-pill avatar-170" alt="profile-image"
-                                                style="object-fit: cover; object-position: center;">
+                                            <img src="/webassets/images/hm/shashi.jpg" class="img-fluid rounded-pill avatar-170" alt="profile-image" style="object-fit: cover; object-position: center;">
                                         </div>
                                         <div class="card-body menu-image">
                                             <h6 class="heading-title fw-bolder mt-4 mb-0">SHASHI SHARMA</h6>
@@ -245,14 +230,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
-                                    data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll"
-                                    data-iq-ease="none">
+                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
                                     <div class="card card-white dish-card profile-img mb-0">
                                         <div class="profile-img21">
-                                            <img src="/webassets/images/hm/arunapoojary.jpg"
-                                                class="img-fluid rounded-pill avatar-170" alt="profile-image"
-                                                style="object-fit: cover; object-position: center;">
+                                            <img src="/webassets/images/hm/arunapoojary.jpg" class="img-fluid rounded-pill avatar-170" alt="profile-image" style="object-fit: cover; object-position: center;">
                                         </div>
                                         <div class="card-body menu-image">
                                             <h6 class="heading-title fw-bolder mt-4 mb-0">ARUNA POOJARIY</h6>
@@ -272,14 +253,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40"
-                                    data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll"
-                                    data-iq-ease="none">
+                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
                                     <div class="card card-white dish-card profile-img mb-0">
                                         <div class="profile-img21">
-                                            <img src="/webassets/images/hm/ipsita.jpg"
-                                                class="img-fluid rounded-pill avatar-170" alt="profile-image"
-                                                style="object-fit: cover; object-position: center;">
+                                            <img src="/webassets/images/hm/ipsita.jpg" class="img-fluid rounded-pill avatar-170" alt="profile-image" style="object-fit: cover; object-position: center;">
                                         </div>
                                         <div class="card-body menu-image">
                                             <h6 class="heading-title fw-bolder mt-4 mb-0">IPSITA BHATTACHARYA
@@ -303,7 +280,7 @@
                                         </div>
                                     </div>
                                 </div>
-                         
+
                             </div>
                             <!-- team ends -->
 
@@ -320,4 +297,5 @@
     @include('web.weblayout.footerscript')
     @include('web.weblayout.webscript')
 </body>
+
 </html>

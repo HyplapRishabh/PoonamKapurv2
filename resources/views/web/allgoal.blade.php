@@ -6,7 +6,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Poonamkapur.com | Online Diet Food & Many More in Mumbai</title>
+    <title> Poonamkapur - Set Health Goals to Reach Your Goals </title>
+
+    <meta name="description" content=" Take control of your health and set goals to help you reach your objectives. Discover tips, tricks and advice to stay on track and reach your goals. ">
+
+    <meta name="keywords" content=" smart goals, goal setting, life goals, short term goals, long term goals, goal oriented, personal goals. ">
+
 
     @include('web.weblayout.headlayout')
     <style>
