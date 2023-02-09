@@ -127,7 +127,7 @@ class webController extends Controller
         $categorydtl = Category::where([['deleteId', '0'], ['status', '1']])->where('name', $checktitle)->first();
         $mealTypes = Product::with('webmealtype')->groupBy('mealTypeId')
             ->select('categoryId', 'status', 'deleteId', 'mealTypeId', DB::raw('count(*) as totalmealTypeId'))
-            ->where([['categoryId', $categorydtl['id']], ['deleteId', '0'], ['status', '1']])->get();
+            ->where([['categoryId', $categorydtl['id']],['alaCartFlag','1'], ['deleteId', '0'], ['status', '1']])->get();
 
         return view('web.category', compact('categorylist', 'goallist', 'packagelist', 'categorydtl', 'mealTypes', 'input'));
     }
@@ -160,7 +160,7 @@ class webController extends Controller
             $categorydtl = Category::where([['deleteId', '0'], ['status', '1']])->where('name', $checktitle)->first();
         }
 
-        $productdtl = Product::where([['categoryId', $categorydtl['id']], ['deleteId', '0'], ['status', '1']])
+        $productdtl = Product::where([['categoryId', $categorydtl['id']],['alaCartFlag','1'], ['deleteId', '0'], ['status', '1']])
             ->when($mealtypedtl, function ($q) use ($mealtypedtl) {
                 return $q->where('mealTypeId', '=', $mealtypedtl);
             })
@@ -254,7 +254,7 @@ class webController extends Controller
         $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
 
         $categoryall = Category::where([['deleteId', '0'], ['status', '1']])->get();
-        $productdtl = Product::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('16')->get();
+        $productdtl = Product::where([['alaCartFlag','1'],['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('16')->get();
 
         return view('web.alacart', compact('categorylist', 'goallist', 'packagelist', 'categoryall', 'productdtl'));
     }
@@ -649,7 +649,7 @@ class webController extends Controller
         $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
         $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
 
-        $productlist = Product::with('category')->where([['deleteId', '0'], ['status', '1']])->limit('8')->get();
+        $productlist = Product::with('category')->where([['alaCartFlag', '1'],['deleteId', '0'], ['status', '1']])->limit('8')->get();
 
         $cartlist = cart::with('product')->with('addoncart')->where('userID', Auth::user()->id)->get();
 
@@ -665,7 +665,7 @@ class webController extends Controller
         $dishdtl = Product::with('category')->where([['deleteId', '0'], ['status', '1']])->where('slug', $pname)->first();
         $dishmacros = Productmacro::where('productUId', $dishdtl['UID'])->first();
         $dishaddonlist = Addon::where([['deleteId', '0'], ['status', '1'], ['mealTypeId', $dishdtl['mealTypeId']], ['alaCartFlag', '1']])->with('mealtype')->get();
-        $similarproduct = Product::with('category')->where([['deleteId', '0'], ['status', '1'], ['categoryId', $dishdtl['categoryId']]])->inRandomOrder()->limit('8')->get();
+        $similarproduct = Product::with('category')->where([['alaCartFlag','1'],['deleteId', '0'], ['status', '1'], ['categoryId', $dishdtl['categoryId']]])->inRandomOrder()->limit('8')->get();
         return view('web.dish', compact('categorylist', 'goallist', 'packagelist', 'dishdtl', 'dishmacros', 'dishaddonlist', 'similarproduct'));
     }
 
