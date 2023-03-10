@@ -171,7 +171,7 @@
 
 
                             <!-- team starts -->
-                            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2 row-cols-xxl-4 mt-4">
+                            <!-- <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2 row-cols-xxl-4 mt-4">
                                 <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
                                     <div class="card card-white dish-card profile-img mb-0">
                                         <div class="profile-img21">
@@ -198,7 +198,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
                                     <div class="card card-white dish-card profile-img mb-0">
                                         <div class="profile-img21">

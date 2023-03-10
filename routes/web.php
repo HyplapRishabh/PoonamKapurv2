@@ -19,6 +19,8 @@ Route::post('auth', [AdminController::class, 'checkUser'])->name('auth');
 Route::get('register', [AdminController::class, 'showRegister']);
 Route::post('register', [AdminController::class, 'Register']);
 
+Route::get('sendOtp/{number}/{otp}', [webController::class, 'sendotp']);
+
 Route::post('/signup', [AdminController::class, 'storeEnquiry']);
 
 Route::get('forgetPassword', [AdminController::class, 'showforget']);

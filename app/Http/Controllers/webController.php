@@ -394,7 +394,7 @@ class webController extends Controller
         $user = User::where('phone', $request->mobile)->first();
         if($user)
         {
-            return response()->json([
+            return response()->json([ 
                 'status' => 200,
                 'user'=> $user,
                 'message' => 'Already a user',
@@ -408,6 +408,9 @@ class webController extends Controller
             ]);
         }
     }
+
+    
+
 
     function savePersonalDtl(Request $request)
     {
@@ -429,6 +432,8 @@ class webController extends Controller
                 'message' => 'Registered succesfully',
             ]);
     }
+
+
 
     public function checkPassword(Request $request)
     {
@@ -636,6 +641,9 @@ class webController extends Controller
                 'message' => 'mobile number already exist !',
             ]);
         } else {
+
+            $this->sendOtp($input['uphone'], $input['uotp']);
+
             return response()->json([
                 'status' => 200,
                 'message' => 'OTP send successfully !',
@@ -1300,6 +1308,9 @@ class webController extends Controller
                 $packagedtl = [];
                 $this->sendEmail('OrderPlacedToUser', $result->email, $trxdtl->cpname, $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
                 $this->sendEmail('OrderPlacedToPoonam', 'poonamkapur77@gmail.com', 'Poonam Kapur', $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
+
+                $this->orderConfirmationMsg($trxdtl->cpno, '#PKHK_'.$input['txnid']);
+
                 return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
             }
         }
@@ -1450,6 +1461,10 @@ class webController extends Controller
                 $this->sendEmail('SubscribedToUser', $result->email, $trxdtl->cpname, $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
                 // not working
                 $this->sendEmail('SubscribedToPoonam', 'poonamkapur77@gmail.com', 'Poonam Kapur', $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
+
+                $this->subscriptionConfirmationMsg($trxdtl->cpno, $packagedtl->name , $pkgdtl[1] , '#PKHK_'.$input['txnid']);
+
+
                 return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
             }
         }
@@ -1829,6 +1844,9 @@ class webController extends Controller
                 $this->sendEmail('OrderPlacedToUser', $result->email, $trxdtl->cpname, $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
                 $this->sendEmail('OrderPlacedToPoonam', 'poonamkapur77@gmail.com', 'Poonam Kapur', $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
 
+                $this->orderConfirmationMsg($trxdtl->cpno, '#PKHK_'.$input['txnid']);
+
+
                 return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
             }
             else
@@ -1928,6 +1946,8 @@ class webController extends Controller
                 $this->sendEmail('SubscribedToUser', $result->email, $trxdtl->cpname, $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
                 // not working
                 $this->sendEmail('SubscribedToPoonam', 'poonamkapur77@gmail.com', 'Poonam Kapur', $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode );
+
+                $this->subscriptionConfirmationMsg($trxdtl->cpno, $packagedtl->name , $pkgdtl[1] , '#PKHK_'.$input['txnid']);
 
                 return view('web.alacartsuccess')->with(['trxdtl'=>$trxdtl,'packagedtl'=>$packagedtl]);
             }

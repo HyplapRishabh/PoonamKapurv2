@@ -81,4 +81,86 @@ class Controller extends BaseController
         $walletRemark->remark = $remark;
         $walletRemark->save();
     }
+
+    public function sendotp($userNumber,$otp)
+    {
+        // Account details
+        $apiKey = urlencode('NWEzMTU0NDc3YTUzMzgzMDQ4NTA2Yjc3NzA2ODY1Mzk=');
+            
+        // Message details
+        $numbers = urlencode($userNumber);
+        $sender = urlencode('PKAPUR');
+        $message = rawurlencode('Dear User, '.$otp.' is the OTP to Register on the portal www.poonamkapur.com. Thank you, Team Grishma Health Foods Pvt. Ltd.');
+    
+        // Prepare data for POST request
+        $data = 'apikey=' . $apiKey . '&numbers=' . $numbers . "&sender=" . $sender . "&message=" . $message;
+        // return $data;
+        // Send the GET request with cURL
+        $ch = curl_init('https://api.textlocal.in/send/?' . $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch); 
+    }
+    
+    public function sendloginotp($userNumber,$otp)
+    {
+        // Account details
+        $apiKey = urlencode('NWEzMTU0NDc3YTUzMzgzMDQ4NTA2Yjc3NzA2ODY1Mzk=');
+            
+        // Message details
+        $numbers = urlencode($userNumber);
+        $sender = urlencode('PKAPUR');
+        $message = rawurlencode('Dear User, '.$otp.' is your OTP to log in to the portal www.poonamkapur.com. Thank you, Team Grishma Health Foods Pvt. Ltd.');
+    
+        // Prepare data for POST request
+        $data = 'apikey=' . $apiKey . '&numbers=' . $numbers . "&sender=" . $sender . "&message=" . $message;
+        // return $data;
+        // Send the GET request with cURL
+        $ch = curl_init('https://api.textlocal.in/send/?' . $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch); 
+    }
+
+    public function orderConfirmationMsg($userNumber,$orderId)
+    {
+        // Account details
+        $apiKey = urlencode('NWEzMTU0NDc3YTUzMzgzMDQ4NTA2Yjc3NzA2ODY1Mzk=');
+            
+        // Message details
+        $numbers = urlencode($userNumber);
+        $sender = urlencode('PKAPUR');
+        $message = rawurlencode('Thanks for your order with PKAPUR Healthy kitchen(PKHK). Your order id is '.$orderId);
+    
+        // Prepare data for POST request
+        $data = 'apikey=' . $apiKey . '&numbers=' . $numbers . "&sender=" . $sender . "&message=" . $message;
+        // return $data;
+        // Send the GET request with cURL
+        $ch = curl_init('https://api.textlocal.in/send/?' . $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch); 
+
+    }
+
+    public function subscriptionConfirmationMsg($userNumber, $packageName, $days ,$orderId)
+    {
+        // Account details
+        $apiKey = urlencode('NWEzMTU0NDc3YTUzMzgzMDQ4NTA2Yjc3NzA2ODY1Mzk=');
+            
+        // Message details
+        $numbers = urlencode($userNumber);
+        $sender = urlencode('PKAPUR');
+        $message = rawurlencode('Dear User, Your Subscription of '.$packageName.' is successful for '.$days.' days. Your Order Id is '.$orderId.'. Thank You, Team Grishma Health Foods Pvt. Ltd');
+    
+        // Prepare data for POST request
+        $data = 'apikey=' . $apiKey . '&numbers=' . $numbers . "&sender=" . $sender . "&message=" . $message;
+        // return $data;
+        // Send the GET request with cURL
+        $ch = curl_init('https://api.textlocal.in/send/?' . $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch); 
+
+    }
 }
