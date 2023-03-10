@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CheckUser 
+class CheckUser
 {
     /**
      * Handle an incoming request.
@@ -18,7 +18,12 @@ class CheckUser
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check()) {
-            if (Auth::User()->status == 1) {
+            if (Auth::User()->status == 1 || Auth::User()->deleteId == 0) {
+                if (Auth::User()->role == 1 || Auth::User()->role == 3) {
+                    return $next($request);
+                } else {
+                    return redirect('/');
+                }
             } else {
                 Auth::logout();
                 Session()->flash('alert-danger', "You have been deactivated from the ADMIN PANEL\nPlease contact the Admin to reinstate your privileges");
@@ -28,7 +33,5 @@ class CheckUser
             Session()->flash('alert-danger', "Please Login in First");
             return redirect('login');
         }
-
-        return $next($request);
     }
 }
