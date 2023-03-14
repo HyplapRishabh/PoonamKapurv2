@@ -171,8 +171,8 @@
 
 
                             <!-- team starts -->
-                            <!-- <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2 row-cols-xxl-4 mt-4">
-                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-3 mt-4">
+                                <!-- <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
                                     <div class="card card-white dish-card profile-img mb-0">
                                         <div class="profile-img21">
                                             <img src="/webassets/images/hm/nareshdhoot.jpg" class="img-fluid rounded-pill avatar-170" alt="profile-image" style="object-fit: cover; object-position: center;">
@@ -199,7 +199,7 @@
                                         </div>
                                     </div>
                                 </div> -->
-                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                <div class="col" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
                                     <div class="card card-white dish-card profile-img mb-0">
                                         <div class="profile-img21">
                                             <img src="/webassets/images/hm/shashi.jpg" class="img-fluid rounded-pill avatar-170" alt="profile-image" style="object-fit: cover; object-position: center;">
@@ -230,7 +230,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                <div class="col" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
                                     <div class="card card-white dish-card profile-img mb-0">
                                         <div class="profile-img21">
                                             <img src="/webassets/images/hm/arunapoojary.jpg" class="img-fluid rounded-pill avatar-170" alt="profile-image" style="object-fit: cover; object-position: center;">
@@ -253,7 +253,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
+                                <div class="col" data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay=".6" data-iq-trigger="scroll" data-iq-ease="none">
                                     <div class="card card-white dish-card profile-img mb-0">
                                         <div class="profile-img21">
                                             <img src="/webassets/images/hm/ipsita.jpg" class="img-fluid rounded-pill avatar-170" alt="profile-image" style="object-fit: cover; object-position: center;">
@@ -283,12 +283,18 @@
 
                             </div>
                             <!-- team ends -->
-
-
-
                         </div>
                     </div>
 
+                </div>
+            </div>
+            <div class="row">
+                
+                <div class="col-lg-6 col-xl-6 my-5 " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay="1.4" data-iq-trigger="scroll" data-iq-ease="none">
+                    <img src="/webassets/images/teamImage2.jpg" class="img-fluid rounded" alt="image">
+                </div>
+                <div class="col-lg-6 col-xl-6 my-5 " data-iq-gsap="onStart" data-iq-opacity="0" data-iq-position-y="-40" data-iq-duration=".6" data-iq-delay="1.4" data-iq-trigger="scroll" data-iq-ease="none">
+                    <img src="/webassets/images/teamImage3.jpg" class="img-fluid rounded" alt="image">
                 </div>
             </div>
         </div>
