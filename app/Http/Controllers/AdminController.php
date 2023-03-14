@@ -59,7 +59,6 @@ class AdminController extends Controller
     // cron job functions
     function dailySubscriptionKt()
     {
-
         $getSubscriptionTrx = transction::where('trxFor', 'subscription')->pluck('id')->toArray();
         $today = Carbon::now()->format('d');
         $getActiveSubscriptions = subscriptionorder::whereIn('trxId', $getSubscriptionTrx)->where('status', 'Booked')->with(['pkgdtl' => function ($query) use ($today) {
@@ -68,12 +67,12 @@ class AdminController extends Controller
             }]);
         }])->get();
         foreach ($getActiveSubscriptions as $subscription) {
-            return $subscription;
+            // return $subscription;
             $completedMealCount = Subscriptionkt::where('status', 'Completed')->where('userId', $subscription->userId)->count();
             $mealTimeSubscribed = $subscription->subscribedfor;
             $mealTimeSubscribed = explode(',', $mealTimeSubscribed);
             $getSubscriptionKt = $subscription->pkgdtl->packagemenu;
-            return $getSubscriptionKt;
+            // return $getSubscriptionKt;
             foreach ($getSubscriptionKt as $kt) {
                 if ($completedMealCount == $subscription->totalmeal) {
                     $changeStatus = subscriptionorder::where('userId', $subscription->userId)->first();
@@ -412,6 +411,9 @@ class AdminController extends Controller
         $user->role = $request->role;
         $user->status = $request->status;
         $user->save();
+
+        $this->createWalletUser($user->id);
+
         Session()->flash('alert-success', "User Added Succesfully");
         $this->storeLog('Add', 'saveUser', $user);
         return redirect()->back();

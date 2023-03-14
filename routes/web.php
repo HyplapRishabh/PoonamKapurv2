@@ -442,6 +442,9 @@ Route::middleware(['CartCount'])->prefix('app')->group(function () {
     Route::get('/alacartsuccess', [webController::class, 'alacartsuccess']);
     Route::get('/orderdetails', [webController::class, 'orderdetails']);
     Route::get('/deletesubscription/{subid}', [webController::class, 'deletesubscription']);
+    Route::get('/pausesubscription/{subid}', [webController::class, 'pausesubscription']);
+    Route::get('/resumesubscription/{subid}', [webController::class, 'resumesubscription']);
+
     Route::post('/gethashofpayu', [webController::class, 'gethashofpayu']);
     Route::post('/undefined', [webController::class, 'undefined']);
     Route::post('/payuresponsepkhk', [webController::class, 'payuresponsepkhk']);

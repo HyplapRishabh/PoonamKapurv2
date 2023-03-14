@@ -1087,6 +1087,40 @@ class webController extends Controller
             'message' => 'Deleted successfully !',
         ]);
     }
+    
+    public function pausesubscription($subid)
+    {
+        transction::where('id', $subid)->update([
+            'deliverystatus' => 'Paused'
+        ]);
+
+        subscriptionorder::where('trxId', $subid)->update([
+            'status' => "Paused",
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Paused successfully !',
+        ]);
+    }
+
+    public function resumesubscription($subid)
+    {
+        transction::where('id', $subid)->update([
+            'deliverystatus' => 'InProcess'
+        ]);
+
+        subscriptionorder::where('trxId', $subid)->update([
+            'status' => "Booked",
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Resumed successfully !',
+        ]);
+    }
+    
+
     public function gethashofpayu(Request $input)
     {
         //salt = 4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW  MBFfc0sn

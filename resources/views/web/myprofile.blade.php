@@ -269,7 +269,31 @@
                                                                     </svg>
                                                                 </span>
                                                             </a> -->
-                                                                    <a class="btn btn-sm btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="Delete subscription" data-original-title="Delete" data-bs-toggle="modal" data-bs-target="#exampleModaldelete{{$subdetails->id}}">
+                                                                    @if($subdetails->trxsubscriptionorder->status == 'Booked' )
+                                                                    <a class="btn btn-sm btn-icon btn-warning" title="Pause subscription" data-bs-toggle="modal" data-bs-target="#exampleModalPause{{$subdetails->id}}">
+                                                                        <span class="btn-inner">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                                    <rect x="0" y="0" width="24" height="24" />
+                                                                                    <path d="M8,6 L10,6 C10.5522847,6 11,6.44771525 11,7 L11,17 C11,17.5522847 10.5522847,18 10,18 L8,18 C7.44771525,18 7,17.5522847 7,17 L7,7 C7,6.44771525 7.44771525,6 8,6 Z M14,6 L16,6 C16.5522847,6 17,6.44771525 17,7 L17,17 C17,17.5522847 16.5522847,18 16,18 L14,18 C13.4477153,18 13,17.5522847 13,17 L13,7 C13,6.44771525 13.4477153,6 14,6 Z" fill="#ffffff" />
+                                                                                </g>
+                                                                            </svg>
+                                                                        </span>
+                                                                    </a>
+                                                                    @else
+                                                                    <a class="btn btn-sm btn-icon btn-success" title="Resume subscription" data-bs-toggle="modal" data-bs-target="#exampleModalResume{{$subdetails->id}}">
+                                                                        <span class="btn-inner">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                                    <rect x="0" y="0" width="24" height="24" />
+                                                                                    <path d="M9.82866499,18.2771971 L16.5693679,12.3976203 C16.7774696,12.2161036 16.7990211,11.9002555 16.6175044,11.6921539 C16.6029128,11.6754252 16.5872233,11.6596867 16.5705402,11.6450431 L9.82983723,5.72838979 C9.62230202,5.54622572 9.30638833,5.56679309 9.12422426,5.7743283 C9.04415337,5.86555116 9,5.98278612 9,6.10416552 L9,17.9003957 C9,18.1765381 9.22385763,18.4003957 9.5,18.4003957 C9.62084305,18.4003957 9.73759731,18.3566309 9.82866499,18.2771971 Z" fill="#fff" />
+                                                                                </g>
+                                                                            </svg>
+                                                                        </span>
+                                                                    </a>
+
+                                                                    @endif
+                                                                    <a class="btn btn-sm btn-icon btn-danger" title="Delete subscription" data-original-title="Delete" data-bs-toggle="modal" data-bs-target="#exampleModaldelete{{$subdetails->id}}">
                                                                         <span class="btn-inner">
                                                                             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
                                                                                 <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -285,8 +309,62 @@
                                                             </td>
                                                         </tr>
 
+                                                        <div class="modal fade" id="exampleModalPause{{$subdetails->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalPause{{$subdetails->id}}" aria-hidden="true">
+                                                            <div class="modal-dialog " role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Pause Subscription</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                                        </button>
+                                                                    </div>
+                                                                    <form>
+                                                                        @csrf
+                                                                        <div class="modal-body">
+                                                                            <input type="hidden" value="{{$subdetails->id}}" name="subId">
+                                                                            <p>Are you sure you want to pause subscription @if(isset($subdetails->trxsubscriptionorder->pkgdtl))
+                                                                                of {{$subdetails->trxsubscriptionorder->pkgdtl->name}}
+                                                                                @endif
+                                                                            </p>
+                                                                            <p>Note: Subscription will be discontinued from tomorrow</p>
+                                                                        </div>
+                                                                        <div class="modal-footer" style="text-align: center;justify-content: center;">
+                                                                            <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
+                                                                            <button type="button" onclick="pausesub({{$subdetails->id}})" style="" class="btn btn-primary rounded-pill">Pause</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="modal fade" id="exampleModalResume{{$subdetails->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalResue{{$subdetails->id}}" aria-hidden="true">
+                                                            <div class="modal-dialog " role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Resume Subscription</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                                        </button>
+                                                                    </div>
+                                                                    <form>
+                                                                        @csrf
+                                                                        <div class="modal-body">
+                                                                            <input type="hidden" value="{{$subdetails->id}}" name="subId">
+                                                                            <p>Are you sure you want to resume subscription @if(isset($subdetails->trxsubscriptionorder->pkgdtl))
+                                                                                of {{$subdetails->trxsubscriptionorder->pkgdtl->name}}
+                                                                                @endif
+                                                                            </p>
+                                                                            <p>Note: Subscription will be continue from tomorrow</p>
+                                                                        </div>
+                                                                        <div class="modal-footer" style="text-align: center;justify-content: center;">
+                                                                            <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
+                                                                            <button type="button" onclick="resumesub({{$subdetails->id}})" style="" class="btn btn-primary rounded-pill">Resume</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                         <div class="modal fade" id="exampleModaldelete{{$subdetails->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModaldelete{{$subdetails->id}}" aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
+                                                            <div class="modal-dialog " role="document">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title">Delete Subscription</h5>
@@ -297,7 +375,7 @@
                                                                         @csrf
                                                                         <div class="modal-body">
                                                                             <input type="hidden" value="{{$subdetails->id}}" name="subId">
-                                                                            <p>Are you suer you want to stop subscription @if(isset($subdetails->trxsubscriptionorder->pkgdtl))
+                                                                            <p>Are you sure you want to stop subscription @if(isset($subdetails->trxsubscriptionorder->pkgdtl))
                                                                                 of {{$subdetails->trxsubscriptionorder->pkgdtl->name}}
                                                                                 @else
                                                                                 @endif
@@ -375,6 +453,40 @@
                     console.log(data);
                     if (data['status'] == "success") {
                         $('#exampleModaldelete' + subid).modal('hide');
+                        sendnotify(data['message']);
+                        location.reload();
+                    } else {
+                        sendnotify(data['message']);
+                    }
+                }
+            });
+        }
+
+        function pausesub(subid) {
+            $.ajax({
+                url: '/app/pausesubscription/' + subid,
+                type: "get",
+                success: function(data) {
+                    console.log(data);
+                    if (data['status'] == "success") {
+                        $('#exampleModalPause' + subid).modal('hide');
+                        sendnotify(data['message']);
+                        location.reload();
+                    } else {
+                        sendnotify(data['message']);
+                    }
+                }
+            });
+        }
+
+        function resumesub(subid) {
+            $.ajax({
+                url: '/app/resumesubscription/' + subid,
+                type: "get",
+                success: function(data) {
+                    console.log(data);
+                    if (data['status'] == "success") {
+                        $('#exampleModalResume' + subid).modal('hide');
                         sendnotify(data['message']);
                         location.reload();
                     } else {
