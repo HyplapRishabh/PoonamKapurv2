@@ -46,7 +46,7 @@
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 col-sm-12">
                                                 <button style="margin: 5%;padding:5%;width:100%;" type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#gridSystemModal">
-                                                    Customized Meal
+                                                    Subscription
                                                 </button>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-12">
@@ -296,7 +296,36 @@
                 </div>
             </div>
 
-            <div class="row">
+            <style>
+                /* media query for mobile */
+                @media only screen and (max-width: 600px) {
+                    .redirection-btn {
+                        display: flex;
+                    }
+                }
+
+                /* media query for greater than mobile */
+                @media only screen and (min-width: 600px) {
+                    .redirection-btn {
+                        display: none;
+                    }
+                }
+
+                .howItWorks a p {
+                    color: #959895;
+                }
+            </style>
+
+            <div class="row mt-5 redirection-btn">
+                <div class="col-5">
+                    <a href="{{url('/app/alacart')}}" class="btn btn-primary w-100 px-0">Order Now</a>
+                </div>
+                <div class="col-7">
+                    <a href="https://wa.me/9820097377?text=Hello%2C%20can%20you%20please%20help%20me%20with%20the%20diet%20plan%20%3F" target="_blank" class="btn btn-outline-primary w-100 px-0">Order using <i class="fa fa-whatsapp" style="color: #26b33f;" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+            <div class="row howItWorks">
                 <div class="col-md-12 col-lg-12">
                     <div class="card-header border-0  ">
                         <div class="card-transparent bg-transparent mb-0">
@@ -306,15 +335,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="card" style="text-align: center;">
-                        <img src="webassets/images/icons_login.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
-                        <div class="card-body">
-                            <h4 class="card-title">Login</h4>
-                            <p class="card-text">Simple one step login to the ordering platform </p>
-
+                <div class="col-sm-6 col-md-6 col-lg-3" >
+                    <a href="{{url('app/login')}}">
+                        <div class="card" style="text-align: center;">
+                            <img src="webassets/images/icons_login.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
+                            <div class="card-body">
+                                <h4 class="card-title">Login</h4>
+                                <p class="card-text">Simple one step login to the ordering platform </p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-3">
                     <div class="card" style="text-align: center;">
@@ -924,7 +954,7 @@
             <div class="col-6 text-center">
                 <a data-bs-toggle="modal" data-bs-target="#gridSystemModal">
                     <div class="login-block" id="regBtnfooter">
-                        <span style="color: #fff;">Customized </span>
+                        <span style="color: #fff;"> Subscription </span>
                     </div>
                 </a>
             </div>
