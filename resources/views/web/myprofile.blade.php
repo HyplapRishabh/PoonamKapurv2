@@ -43,6 +43,119 @@
         <div class="position-relative">
             @include('web.weblayout.headerlayout')
         </div>
+        <div class="modal fade" id="editModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="editModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitleId">Update Information</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="" method="post">
+                        <div class="modal-body">
+
+                            <div class="alert alert-danger alert-dismissible fade show" id="alertBox" style="display: none;" role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <strong>Incorrect Otp!</strong> Please try again.
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Full name</label>
+                                        <input type="text" class="form-control" id="name" name="name" value="{{Auth::user() != null ? Auth::user()->name : ''}}" placeholder="User Name" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" value="{{Auth::user() != null ? Auth::user()->email : ''}}" placeholder="Email" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Mobile number</label>
+                                        <input type="text" maxlength="10" minlength="10" onkeyup="mobileField()" class="form-control" id="phone" name="phone" value="{{Auth::user() != null ? Auth::user()->phone : ''}}" placeholder="Phone" />
+                                        <span class="text-danger" id="phoneerror"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" id="otpDiv" style="display: none;">
+                                    <div class="form-group">
+                                        <div class="d-flex" style="justify-content: space-between; align-items: center; ">
+                                            <label class="form-label">Otp</label>
+                                            <a href="javascript:void(0)" id="otptext" class=" text-primary " style="font-size: 12px;" onclick="sendOtp()">Send Otp</a>
+                                            <a href="javascript:void(0)" id="otptimer" class=" text-primary" style="font-size: 12px; display: none; "></a>
+
+                                        </div>
+
+                                        <input type="text" maxlength="4" class="form-control" style="position: relative;" id="otp" onkeyup="checkOtp()" placeholder="Enter Otp" />
+                                        <!-- <a href="javascript:void(0)" id="verify" class=" text-primary" style="font-size: 12px;  position: absolute; right: 20px; top: 50%;" onclick="verifyOtp()">Verify Otp</a> -->
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Height (in inches)</label>
+                                        <?php
+
+                                        use Illuminate\Support\Facades\Auth;
+
+                                        $height = Auth::user() != null ? Auth::user()->height : '';
+                                        // convert height from cm to inch
+                                        if ($height != '') {
+                                            $height = $height / 2.54;
+                                            $height = round($height, 0);
+                                        }
+                                        ?>
+                                        <input type="text" class="form-control" id="qheight" name="qheight" value="{{$height}}" placeholder="Enter Height" />
+                                        <span id='qheighterror' class="errorshow"></span>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Weight (in kgs) </label>
+                                        <input type="number" id="qweight" class="form-control" name="qweight" value="{{Auth::user() != null ? Auth::user()->weight : ''}}" placeholder="Enter Your Weight in KG" />
+                                        <span id='qweighterror' class="errorshow"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Age</label>
+                                        <input type="text" id="qage" class="form-control" name="qage" value="{{Auth::user() != null ? Auth::user()->age : ''}}" placeholder="Enter Your Age" />
+                                        <span id='qageerror' class="errorshow"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="form-label">Gender</label>
+                                        <select class="form-control" name="gender" id="qgender">
+                                            <option value="">Select gender</option>
+                                            @if (Auth::user())
+                                            <option value="Male" {{Auth::user()->gender == 'Male' ? 'selected' : ''}}>Male</option>
+                                            @else
+                                            <option value="Male">Male</option>
+                                            @endif
+                                            @if (Auth::user())
+                                            <option value="Female" {{Auth::user()->gender == 'Female' ? 'selected' : ''}}>Female</option>
+                                            @else
+                                            <option value="Female">Female</option>
+                                            @endif
+                                        </select>
+                                        <span id='qgendererror' class="errorshow"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="updateBtn" onclick="updateInfo()" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="content-inner mt-5 py-0">
             <div class="row">
                 <div class="col-lg-12">
@@ -61,11 +174,26 @@
                                  <circle cx="12" cy="9" r="3" stroke="#07143B" stroke-width="1.5"/>
                                  </svg><small class="mb-0 text-dark">Andheri, India</small></span> -->
                                         </div>
-                                        <div class="ms-4">
-                                            <p class="mb-0 text-dark">{{Auth::user() != null ? Auth::user()->email : ''}}</p>
-                                            <!-- <p class="me-2 mb-0 text-dark">G-15, HAWARE FANTASIA BUSINESS PARK, VASHI, NAVI MUMBAI</p> -->
-                                            <p class="mb-0 text-dark">+91-{{Auth::user() != null ? Auth::user()->phone : ''}}</p>
+                                        <div class="ms-4 d-flex" style="justify-content: center; align-items: center; ">
+                                            <div class="">
+                                                <p class="mb-0 text-dark">{{Auth::user() != null ? Auth::user()->email : ''}}</p>
+                                                <p class="mb-0 text-dark">+91-{{Auth::user() != null ? Auth::user()->phone : ''}}</p>
+                                            </div>
+                                            <div style="margin-left: 10px;">
+                                                <a class="text-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa fa-pencil-square" style="font-size: 20px;" aria-hidden="true"></i></a>
+                                            </div>
                                         </div>
+
+
+                                        <!-- Modal Body -->
+                                        <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+
+
+
+                                        <!-- Optional: Place to the bottom of scripts -->
+                                        <script>
+                                            const myModal = new bootstrap.Modal(document.getElementById('modalId'), options)
+                                        </script>
                                     </div>
                                 </div>
                                 <ul class="d-flex mb-0 text-center ">
@@ -83,7 +211,11 @@
                                     </li>
                                     <li class="badge bg-primary py-2 me-2">
                                         <p class="mb-3 mt-2">{{Auth::user() != null ? Auth::user()->bmi : ''}}</p>
-                                        <small class="mb-1 fw-normal">BMI & BMR</small>
+                                        <small class="mb-1 fw-normal">BMI </small>
+                                    </li>
+                                    <li class="badge bg-primary py-2 me-2">
+                                        <p class="mb-3 mt-2">{{Auth::user() != null ? Auth::user()->bmr : ''}}</p>
+                                        <small class="mb-1 fw-normal">BMR </small>
                                     </li>
                                 </ul>
                             </div>
@@ -335,7 +467,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
+
                                                         <div class="modal fade" id="exampleModalResume{{$subdetails->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalResue{{$subdetails->id}}" aria-hidden="true">
                                                             <div class="modal-dialog " role="document">
                                                                 <div class="modal-content">
@@ -441,7 +573,7 @@
         </div>
         @include('web.weblayout.footerlayout')
     </main>
-    @include('web.weblayout.footerscript')
+    @include('web.weblayout.footerscript')9
     @include('web.weblayout.webscript')
 
     <script>
@@ -494,6 +626,205 @@
                     }
                 }
             });
+        }
+    </script>
+
+    <script>
+        var updateBtn = $('#updateBtn');
+        var maxTime = 30;
+        var random = '';
+
+        function mobileField() {
+
+            var oldPhone = '{{Auth::user()->phone}}';
+            console.log(oldPhone);
+            var newPhone = $('#phone').val();
+
+            // indian phonenumber validation starting with 6,7,8,9
+            var regex = /^[6-9]\d{9}$/;
+
+            if (regex.test(newPhone)) {
+                $('#phoneerror').html('');
+                if (oldPhone != newPhone) {
+                    $.ajax({
+                        url: "{{url('app/profile/checkPhone')}}/" + newPhone,
+                        success: function(response) {
+
+                            if(response.status == 200 )
+                            {
+
+                                $('#phoneerror').html('');
+                                updateBtn.attr('disabled', false);
+                                $('#otpDiv').css('display', 'block');
+                                // updateBtn.attr('disabled', true);
+                                $('#otp').val('');
+                            } else if(response.status == 400)
+                            {
+                                $('#phoneerror').html('Phone number already exists');
+                                updateBtn.attr('disabled', true);
+                                $('#otpDiv').css('display', 'none');
+                                $('#otp').val('');
+                            }
+
+                        },
+                        error: function(response) {
+                            console.log(response);
+                            $('#phoneerror').html('');
+                            updateBtn.attr('disabled', true);
+                            $('#otpDiv').css('display', 'block');
+                            $('#otp').val('');
+                        }
+                    });
+
+                } else {
+                    $('#otpDiv').css('display', 'none');
+                    updateBtn.attr('disabled', false);
+                }
+            } else {
+                $('#phoneerror').html('Invalid phone number');
+                updateBtn.attr('disabled', true);
+            }
+
+
+
+        }
+
+        function checkOtp() {
+            var otp = $('#otp').val();
+            if (otp.length == 4) {
+                updateBtn.attr('disabled', false);
+            } else {
+                updateBtn.attr('disabled', true);
+            }
+        }
+
+        function updateInfo() {
+
+            name = document.getElementById('name').value;
+            email = document.getElementById('email').value;
+            phone = document.getElementById('phone').value;
+
+            document.getElementById('qheighterror').innerHTML = '';
+            document.getElementById('qweighterror').innerHTML = '';
+            document.getElementById('qageerror').innerHTML = '';
+
+            qheight = document.getElementById('qheight').value;
+            qheight = qheight * 2.54;
+            qheight = Math.round(qheight);
+            qweight = document.getElementById('qweight').value;
+            qage = document.getElementById('qage').value;
+            qgender = document.getElementById('qgender').value;
+
+            if (qheight && qweight && qage && qgender) {
+                if (!(qheight > 92 && qheight < 244)) {
+                    document.getElementById('qheighterror').innerHTML = 'Please enter valid height between 36 inches to 96 inches';
+                } else if (!(qweight > 20 && qweight < 200)) {
+                    document.getElementById('qweighterror').innerHTML = 'Please enter valid weight between 20Kg to 200Kg';
+                } else if (!(qage > 10 && qage < 80)) {
+                    document.getElementById('qageerror').innerHTML = 'Please enter valid age between 10 to 80';
+                } else {
+                    qgender = document.getElementById('qgender').value;
+
+                    BMI = 0;
+                    BMI = qweight / (qheight / 100 * qheight / 100);
+                    BMR = 0;
+                    if (qgender == 'Male') {
+                        BMR = 10 * qweight + 6.25 * qheight - 5 * qage + 5;
+                    } else if (qgender == 'Female') {
+                        BMR = 10 * qweight + 6.25 * qheight - 5 * qage - 161;
+                    }
+
+                    if (random == $('#otp').val()) {
+
+                        $.ajax({
+                            type: "post",
+                            url: "{{url('/app/profile/updateDetails')}}",
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "name": name,
+                                "email": email,
+                                "phone": phone,
+                                "height": qheight,
+                                "weight": qweight,
+                                "age": qage,
+                                "gender": qgender,
+                                "bmi": BMI.toFixed(2),
+                                "bmr": BMR.toFixed(2),
+                            },
+                            dataType: "json",
+                            success: function(response) {
+                                console.log(response);
+                                location.reload();
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
+                        });
+
+                    } else {
+                        $('#alertBox').css('display', 'block');
+                    }
+
+                }
+
+            } else {
+                if (!qheight) {
+                    document.getElementById('qheighterror').innerHTML = 'Please enter your height';
+                }
+                if (!qweight) {
+                    document.getElementById('qweighterror').innerHTML = 'Please enter your weight';
+                }
+                if (!qage) {
+                    document.getElementById('qageerror').innerHTML = 'Please enter your age';
+                }
+                if (!qgender) {
+                    document.getElementById('qgendererror').innerHTML = 'Please select your gender';
+                }
+            }
+        }
+
+        function sendOtp() {
+            var uphone = document.getElementById('phone').value;
+            random = Math.floor(Math.random() * 9000 + 1000);
+            if (uphone) {
+
+                $.ajax({
+                    url: '{{url("app/sendotp")}}/' + uphone + '/' + random,
+                    success: function(data) {
+                        console.log(data);
+                        if (data['status'] == 'phoneerror') {
+                            document.getElementById('signupphone').innerHTML = data['message'];
+                        } else {
+                            StartTimer();
+                            // document.getElementById('signupphone').innerHTML = random;
+                            // document.getElementById('showsuccess').style.display = 'block';
+                            // document.getElementById('mainsuccess').innerHTML = data['message'];
+                        }
+                    }
+                });
+
+            } else {
+                document.getElementById('signupphone').innerHTML = 'Please enter mobile number for OTP';
+            }
+        }
+
+        function StartTimer() {
+            console.log(maxTime);
+            setTimeout(x => {
+                if (maxTime <= 0) {}
+                maxTime -= 1;
+                if (maxTime > 0) {
+                    document.getElementById('otptext').style.display = 'none';
+                    document.getElementById('otptimer').style.display = 'block';
+                    document.getElementById('otptimer').innerHTML = '00:' + maxTime;
+                    this.StartTimer();
+                    console.log(maxTime);
+                } else {
+                    maxTime = 30;
+                    document.getElementById('otptext').style.display = 'block';
+                    document.getElementById('otptimer').style.display = 'none';
+                }
+            }, 1000);
         }
     </script>
 </body>

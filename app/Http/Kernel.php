@@ -57,6 +57,8 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\CartCount::class,
         ], 'AdminStatCount' => [
             \App\Http\Middleware\AdminStatCount::class,
+        ], 'CheckWebUser' => [
+            \App\Http\Middleware\CheckWebUser::class,
         ]
     ];
 

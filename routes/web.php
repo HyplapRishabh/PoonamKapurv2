@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\webController;
 use App\Models\Blog;
 use Illuminate\Support\Facades\Route;
@@ -427,7 +428,7 @@ Route::middleware(['CartCount'])->prefix('app')->group(function () {
     Route::get('/updatecart/{type}/{cartid}', [webController::class, 'updatecart']);
     Route::get('/packagemenu/{pkgid}', [webController::class, 'packagemenu']);
     Route::get('/packagesubscription/{pkgid}', [webController::class, 'packagesubscription']);
-    Route::get('/myprofile', [webController::class, 'myprofile']);
+    Route::get('/myprofile', [webController::class, 'myprofile'])->middleware('CheckWebUser');
     Route::get('/deletefromcart/{cartid}', [webController::class, 'deletefromcart']);
     Route::get('/weblogout', [webController::class, 'weblogout']);
     Route::get('/consultation', [webController::class, 'consultation']); //
@@ -454,5 +455,9 @@ Route::middleware(['CartCount'])->prefix('app')->group(function () {
     Route::get('/wallet', [webController::class, 'wallet']);
     Route::get('/trymod/{id}', [webController::class, 'trymod']);
     Route::post('/paywallet', [webController::class, 'paywallet']);
+
+    Route::get('sendotp/{phone}/{otp}', [Controller::class, 'sendotp']);
+    Route::post('profile/updateDetails', [webController::class, 'updateDetails']);
+    Route::get('profile/checkPhone/{phone}', [webController::class, 'checkProfilePhone']);
 });
 

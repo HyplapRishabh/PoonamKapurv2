@@ -651,6 +651,44 @@ class webController extends Controller
         }
     }
 
+    public function updateDetails(){
+
+        $user = User::find(Auth::user()->id);
+        $user->name = request('name');
+        $user->email = request('email');
+        $user->phone = request('phone');
+        $user->height = request('height');
+        $user->weight = request('weight');
+        $user->age = request('age');
+        $user->gender = request('gender');
+        $user->bmi = request('bmi');
+        $user->bmr = request('bmr');
+        $user->update();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Profile Updated succesfully !',
+        ]);
+
+    }
+
+    public function checkProfilePhone($phone)
+    {
+        $user = User::where('phone', $phone)->first();
+
+        if ($user->id == Auth::user()->id) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Phone number is available !',
+            ]);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Phone number is not available !',
+            ]);
+        }
+    }
+
     public function viewcart()
     {
         $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
