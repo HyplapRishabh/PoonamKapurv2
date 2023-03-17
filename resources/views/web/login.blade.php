@@ -22,7 +22,7 @@
                      <img src="{{ asset('webassets/images/logo.png')}}" class="img-fluid logo-img" alt="img4">
                   </a>
                   <h2 class="mb-2 text-center">Sign In</h2>
-                  <p class="text-center">Sign in to stay connected.</p>
+                  <p class="text-center">To stay connected.</p>
                   <div class="alert alert-danger alert-dismissible fade show" id="showerror" style="display: none;" role="alert">
                      <span><i class="far fa-life-ring"></i></span>
                      <span id="mainerror"></span>
@@ -30,43 +30,35 @@
                   </div>
                   <div class="alert alert-success alert-dismissible fade show mb-3" id="showsuccess" style="display: none;" role="alert">
                      <span><i class="fas fa-thumbs-up"></i></span>
-                     <span id="mainsuccess"></span>
+                     <span id="mainsuccess">Otp sent succesfully</span>
                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                   </div>
-                  <form action="{{url('/checklogin')}}" method="post" onsubmit="checklogin(event)" id="myloginform">
+                  <form action="{{url('app/checklogin')}}" method="post" id="myloginform">
                      @csrf
-                     <div class="row">
-                        <div class="col-lg-12">
-                           <div class="form-group">
-                              <label for="email" class="form-label">Email or mobile number</label>
-                              <input type="text" class="form-control form-control-sm" name='useremail' id="uemail" aria-describedby="email" placeholder=" ">
-                              <span id='loginuemail' class="errorshow"></span>
-                           </div>
+                     <div class="row d-flex justify-content-center" id="loginForm">
+                        <!-- <div class="col-lg-12"> -->
+                        <div class="form-group" style="width: 50%;">
+                           <input type="text" maxlength="10" minlength="10" class="form-control form-control-sm" name='phone' id="phone" placeholder="Enter Phone Number">
+                           <span id='phoneError' class="errorshow"></span>
                         </div>
-                        <div class="col-lg-12">
-                           <div class="form-group">
-                              <label for="password" class="form-label">Password</label>
-                              <input type="password" class="form-control form-control-sm" id="upassword" name='userpassword' aria-describedby="password" placeholder=" ">
-                              <span id='loginupassword' class="errorshow"></span>
-                           </div>
+                        <!-- </div> -->
+                        <!-- <div class="col-lg-12"> -->
+                        <div class="form-group" id="otpDiv" style=" display: none; width: 50%;">
+                           <input type="text" maxlength="4" minlength="4" class="form-control form-control-sm" id="otp" placeholder="Enter Otp">
+                           <span id='otpError' class="errorshow"></span>
                         </div>
-                        <div class="col-lg-12 d-flex justify-content-between">
-                           <a href="{{url('/app/resetpassword')}}">Forgot Password?</a>
-                        </div>
-                     </div>
-                     <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary">Sign In</button>
+                        <!-- </div> -->
                      </div>
 
-                     <p class="mt-3 text-center">
-                        Don’t have an account? <a href="{{url('/app/signup')}}" class="text-underline">Click here to sign up.</a>
-                     </p>
+                     <div class="d-flex justify-content-center">
+                        <button type="button" id="signIn" onclick="checkPhone()" class="btn btn-primary">Sign In</button>
+                        <button type="button" id="signUp" style="display: none;" onclick="goToAddDetails()" class="btn btn-primary">Verify Otp</button>
+                     </div>
                   </form>
                </div>
             </div>
             <div class="col-md-12 col-lg-5 col-xl-8 d-lg-block d-none vh-100 overflow-hidden">
                <img src="{{ asset('webassets/images/auth/09.png')}}" class="img-fluid sign-in-img" alt="images">
-
             </div>
          </div>
       </section>
@@ -75,60 +67,112 @@
    @include('web.weblayout.webscript')
 
    <script>
-      function checklogin(event) {
-         event.preventDefault();
-         document.getElementById('loginuemail').innerHTML = '';
-         document.getElementById('loginupassword').innerHTML = '';
-         document.getElementById('showerror').style.display = 'none';
-         document.getElementById('showsuccess').style.display = 'none';
+      var phoneError = $('#phoneError');
+      var otpError = $('#otpError');
+      var showerror = $('#showerror');
+      var mainerror = $('#mainerror');
+      var showsuccess = $('#showsuccess');
+      var mainsuccess = $('#mainsuccess');
+      var otpDiv = $('#otpDiv');
+
+      var random = '';
 
 
-         var oldpasswrod = document.getElementById('upassword').value;
-         var emailidval = document.getElementById('uemail').value;
-
-         if (oldpasswrod && emailidval) {
-            logindata = {
-               emailId: emailidval,
-               passwordval: oldpasswrod
-            }
+      function checkPhone() {
+         var phone = $('#phone').val();
+         var phoneRegex = /^[6-9]\d{9}$/;
+         if (phone == '') {
+            phoneError.html('Please enter phone number');
+            phoneError.show();
+            return false;
+         } else if (!phoneRegex.test(phone)) {
+            phoneError.html('Please enter valid phone number');
+            phoneError.show();
+            return false;
+         } else {
+            phoneError.hide();
+            console.log(phone);
             $.ajax({
-               url: '/app/checklogin',
-               type: "post",
-               data: logindata,
-               success: function(data) {
-                  if (data['status'] != 200) {
-                     document.getElementById('showerror').style.display = 'block';
-                     document.getElementById('mainerror').innerHTML = data['message'];
-                  } else if (data['status'] == 200) {
-                     document.getElementById('showsuccess').style.display = 'block';
-                     document.getElementById('mainsuccess').innerHTML = data['message'];
+               url: "{{url('/app/checkphonenumber')}}/" + phone,
 
-                     // window.location = document.referrer;
+               success: function(data) {
+                  console.log(data);
+                  if (data.status == 200) {
                      if (localStorage.getItem('url') == null) {
                         window.location = '/';
                      } else {
                         window.location = localStorage.getItem('url');
                      }
-                     // window.location = localStorage.getItem('url');
-                  } else if (data['status'] == 206) {
-                     document.getElementById('showerror').style.display = 'block';
-                     document.getElementById('mainerror').innerHTML = data['message'];
+                  } else {
+                     sendotp();
+
                   }
-
-
-
+               },
+               error: function(data) {
+                  console.log('User Not Found');
+                  console.log('Error:', data);
                }
             });
-         } else {
-            if (!oldpasswrod) {
-               document.getElementById('loginupassword').innerHTML = 'Please enter password to continue';
-            }
-            if (!emailidval) {
-               document.getElementById('loginuemail').innerHTML = 'Please enter valid Email or mobile number to continue';
-            }
          }
+      }
+
+      function sendotp() {
+         var uphone = document.getElementById('phone').value;
+         random = Math.floor(Math.random() * 9000 + 1000);
+         if (uphone) {
+            signupotpdata = {
+               uphone: uphone,
+               uotp: random
+            }
+            $.ajax({
+               url: '/app/sendotp/' + uphone + '/' + random,
+
+               success: function(data) {
+                  console.log(data);
+                  if (data.status == 'success') {
+                     otpDiv.show();
+                     $('#signIn').hide();
+                     $('#signUp').show();
+                     showsuccess.show();
+
+                  } else {
+                     showerror.show();
+                     mainerror.html('Something went wrong');
+                  }
+               }
+            });
+
+         } else {
+            document.getElementById('signupphone').innerHTML = 'Please enter mobile number for OTP';
+         }
+      }
 
 
+      function goToAddDetails() {
+         if ( $('#otp').val() == random) {
+
+            $.ajax({
+               url: "{{url('/app/addphonenumber')}}/" + phone,
+               success: function(response) {
+                  console.log(response);
+                  if (response.status == 200) {
+                     if (localStorage.getItem('url') == null) {
+                        window.location = '/app/signup';
+                     } else {
+                        window.location = localStorage.getItem('url');
+                     }
+                  } else {
+                     showerror.show();
+                     mainerror.html('Something went wrong');
+                  }
+               }
+            });
+
+         } else {
+            otpError.html('Please enter valid otp');
+            otpError.show();
+            return false;
+         }
       }
    </script>
 </body>

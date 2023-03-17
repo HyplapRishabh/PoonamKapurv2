@@ -417,6 +417,10 @@ Route::middleware(['CartCount'])->prefix('app')->group(function () {
     Route::get('/addonlist/{pid}/{mealtype}/{cartid}', [webController::class, 'addonlist']);
     Route::get('/addtocart/{pid}/{addonval}', [webController::class, 'addtocart']);
     Route::post('/checklogin', [webController::class, 'checklogin']);
+
+    Route::get('/checkphonenumber/{phone}', [webController::class, 'checkphonenumber']);
+    Route::get('/addphonenumber/{phone}', [webController::class, 'addphonenumber']);
+
     Route::post('/checkresetpass', [webController::class, 'checkresetpass']);
     Route::post('/checksignup', [webController::class, 'checksignup']);
     Route::post('/quizsignup', [webController::class, 'quizsignup']);

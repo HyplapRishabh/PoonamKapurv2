@@ -179,7 +179,7 @@
                         <li><a class="dropdown-item text-dark" href="{{url('/app/weblogout')}}">Log out</a></li>
                         @else
                         <li><a class="dropdown-item text-dark" href="{{url('/app/login')}}">Login</a></li>
-                        <li><a class="dropdown-item text-dark" href="{{url('/app/signup')}}">Sign Up</a></li>
+                        <li><a class="dropdown-item text-dark" href="{{url('/app/login')}}">Sign Up</a></li>
                         @endif
                     </ul>
                 </li>
