@@ -99,6 +99,13 @@ class Controller extends BaseController
         $ch = curl_init('https://api.textlocal.in/send/?' . $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'OTP sent successfully',
+            'data' => $response
+        ]);
+
         curl_close($ch); 
     }
 
