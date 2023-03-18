@@ -29,17 +29,17 @@
                             <form action="{{url('app/checksignup')}}" method="post" id="checksignup">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-12">
                                         <div class="form-group">
                                             <label for="full-name" class="form-label">Full Name</label>
-                                            <input type="text" class="form-control form-control-sm" id="full-name" name='name' placeholder=" ">
+                                            <input type="text" class="form-control form-control-sm" id="full-name" name='name' required placeholder="">
                                             <span id='signupfull-name' class="errorshow"></span>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-12">
                                         <div class="form-group">
                                             <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control form-control-sm" id="email" name='email' placeholder=" ">
+                                            <input type="email" class="form-control form-control-sm" id="email" name='email' required placeholder="">
                                             <span id='signupemail' class="errorshow"></span>
                                         </div>
                                     </div>
@@ -52,7 +52,7 @@
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-center ">
-                                    <a href="/" class="btn btn-outline-primary mx-2">Do it Later</a>
+                                    <!-- <a href="/" class="btn btn-outline-primary mx-2">Do it Later</a> -->
                                     <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
                             </form>

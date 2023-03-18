@@ -297,19 +297,7 @@
             </div>
 
             <style>
-                /* media query for mobile */
-                @media only screen and (max-width: 600px) {
-                    .redirection-btn {
-                        display: flex;
-                    }
-                }
-
-                /* media query for greater than mobile */
-                @media only screen and (min-width: 600px) {
-                    .redirection-btn {
-                        display: none;
-                    }
-                }
+                
 
                 .howItWorks a p {
                     color: #959895;

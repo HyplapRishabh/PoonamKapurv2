@@ -395,20 +395,22 @@ class webController extends Controller
     {
         $result = User::where('phone', $phone)->first();
         if ($result) {
-            Auth::login($result);
-            $this->storeLog('Login', 'Login', Auth::user()->id);
-            return response()->json([
-                'status' => 200,
-                'message' => 'Phone Number Exist',
-            ]);
+
+            if ($result->name == null || $result->email == null) {
+                return response()->json([
+                    'status' => 203,
+                    'message' => 'details not filled',
+                ]);
+            } else {
+                Auth::login($result);
+                $this->storeLog('Login', 'Login', Auth::user()->id);
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Phone Number Exist',
+                ]);
+            }
+
         } else {
-
-            // $user = new User;
-            // $user->phone = $phone;
-            // $user->save();
-
-            // Auth::login($user);
-
             return response()->json([
                 'status' => 201,
                 'message' => 'Phone Number Not Exist',
@@ -420,6 +422,8 @@ class webController extends Controller
     {
         $user = new User;
         $user->phone = $phone;
+        $user->role = 4;
+        $user->status = 1;
         $user->save();
 
         Auth::login($user);

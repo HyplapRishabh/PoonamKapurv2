@@ -35,19 +35,21 @@
                   </div>
                   <form action="{{url('app/checklogin')}}" method="post" id="myloginform">
                      @csrf
-                     <div class="row d-flex justify-content-center" id="loginForm">
-                        <!-- <div class="col-lg-12"> -->
-                        <div class="form-group" style="width: 50%;">
-                           <input type="text" maxlength="10" minlength="10" class="form-control form-control-sm" name='phone' id="phone" placeholder="Enter Phone Number">
-                           <span id='phoneError' class="errorshow"></span>
+                     <div class="row" id="loginForm">
+                        <div class="col-lg-12">
+                           <div class="form-group">
+                              <input type="text" maxlength="10" minlength="10" class="form-control form-control-sm" name='phone' id="phone" placeholder="Enter Phone Number">
+                              <span id='phoneError' class="errorshow"></span>
+                           </div>
                         </div>
-                        <!-- </div> -->
-                        <!-- <div class="col-lg-12"> -->
-                        <div class="form-group" id="otpDiv" style=" display: none; width: 50%;">
-                           <input type="text" maxlength="4" minlength="4" class="form-control form-control-sm" id="otp" placeholder="Enter Otp">
-                           <span id='otpError' class="errorshow"></span>
+                        <div class="col-lg-12" id="otpDiv" style="display: none;" >
+                           <div class="form-group">
+                                 <input type="text" maxlength="4" minlength="4" class="form-control form-control-sm"  id="otp" placeholder="Enter Otp">
+                                 <a href="javascript:void(0)" id="otptimer" class=" text-primary" style="font-size: 12px; float: right; display: none;">00:30</a>
+                                 <a href="javascript:void(0)" id="otptext" class=" text-primary" onclick="sendotp()" style="font-size: 12px; float: right; display: none; ">Resend Otp</a>
+                              <span id='otpError' class="errorshow"></span>
+                           </div>
                         </div>
-                        <!-- </div> -->
                      </div>
 
                      <div class="d-flex justify-content-center">
@@ -76,6 +78,7 @@
       var otpDiv = $('#otpDiv');
 
       var random = '';
+      var maxTime = 30;
 
 
       function checkPhone() {
@@ -103,9 +106,10 @@
                      } else {
                         window.location = localStorage.getItem('url');
                      }
-                  } else {
+                  } else if (data.status == 203) {
+                     window.location = '/app/signup';
+                  } else if (data.status == 201) {
                      sendotp();
-
                   }
                },
                error: function(data) {
@@ -134,6 +138,7 @@
                      $('#signIn').hide();
                      $('#signUp').show();
                      showsuccess.show();
+                     StartTimer();
 
                   } else {
                      showerror.show();
@@ -147,20 +152,35 @@
          }
       }
 
+      function StartTimer() {
+         console.log(maxTime);
+         setTimeout(x => {
+            if (maxTime <= 0) {}
+            maxTime -= 1;
+            if (maxTime > 0) {
+               document.getElementById('otptext').style.display = 'none';
+               document.getElementById('otptimer').style.display = 'block';
+               document.getElementById('otptimer').innerHTML = '00:' + maxTime;
+               this.StartTimer();
+               console.log(maxTime);
+            } else {
+               maxTime = 30;
+               document.getElementById('otptext').style.display = 'block';
+               document.getElementById('otptimer').style.display = 'none';
+            }
+         }, 1000);
+      }
+
 
       function goToAddDetails() {
-         if ( $('#otp').val() == random) {
+         if ($('#otp').val() == random) {
 
             $.ajax({
-               url: "{{url('/app/addphonenumber')}}/" + phone,
+               url: "{{url('/app/addphonenumber')}}/" + $('#phone').val(),
                success: function(response) {
                   console.log(response);
                   if (response.status == 200) {
-                     if (localStorage.getItem('url') == null) {
-                        window.location = '/app/signup';
-                     } else {
-                        window.location = localStorage.getItem('url');
-                     }
+                     window.location = '/app/signup';
                   } else {
                      showerror.show();
                      mainerror.html('Something went wrong');
