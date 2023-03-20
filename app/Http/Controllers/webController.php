@@ -401,12 +401,17 @@ class webController extends Controller
                     'status' => 203,
                     'message' => 'details not filled',
                 ]);
-            } else {
+            } else if( $result->role == 4 ) {
                 Auth::login($result);
                 $this->storeLog('Login', 'Login', Auth::user()->id);
                 return response()->json([
                     'status' => 200,
                     'message' => 'Phone Number Exist',
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 201,
+                    'message' => 'Admin User'
                 ]);
             }
 
@@ -420,6 +425,14 @@ class webController extends Controller
 
     public function addphonenumber($phone)
     {
+        if(User::where('phone',$phone)->exists())
+        {
+            return response()->json([
+                'status' => 201,
+                'message' => 'Phone already exists',
+            ]);
+        }
+
         $user = new User;
         $user->phone = $phone;
         $user->role = 4;
@@ -465,6 +478,16 @@ class webController extends Controller
 
     function savePersonalDtl(Request $request)
     {
+
+        if(User::where('phone',$request->mobile)->exists())
+        {
+            $user = User::where('phone',$request->mobile)->first();
+            Auth::login($user);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Phone already exists',
+            ]);
+        }
 
         $user = new User;
         $user->name = $request->name;

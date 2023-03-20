@@ -42,11 +42,11 @@
                               <span id='phoneError' class="errorshow"></span>
                            </div>
                         </div>
-                        <div class="col-lg-12" id="otpDiv" style="display: none;" >
+                        <div class="col-lg-12" id="otpDiv" style="display: none;">
                            <div class="form-group">
-                                 <input type="text" maxlength="4" minlength="4" class="form-control form-control-sm"  id="otp" placeholder="Enter Otp">
-                                 <a href="javascript:void(0)" id="otptimer" class=" text-primary" style="font-size: 12px; float: right; display: none;">00:30</a>
-                                 <a href="javascript:void(0)" id="otptext" class=" text-primary" onclick="sendotp()" style="font-size: 12px; float: right; display: none; ">Resend Otp</a>
+                              <input type="text" maxlength="4" minlength="4" class="form-control form-control-sm" id="otp" placeholder="Enter Otp">
+                              <a href="javascript:void(0)" id="otptimer" class=" text-primary" style="font-size: 12px; float: right; display: none;">00:30</a>
+                              <a href="javascript:void(0)" id="otptext" class=" text-primary" onclick="sendotp()" style="font-size: 12px; float: right; display: none; ">Resend Otp</a>
                               <span id='otpError' class="errorshow"></span>
                            </div>
                         </div>
@@ -100,17 +100,10 @@
 
                success: function(data) {
                   console.log(data);
-                  if (data.status == 200) {
-                     if (localStorage.getItem('url') == null) {
-                        window.location = '/';
-                     } else {
-                        window.location = localStorage.getItem('url');
-                     }
-                  } else if (data.status == 203) {
-                     window.location = '/app/signup';
-                  } else if (data.status == 201) {
-                     sendotp();
+                  if (data.status == 201) {
+                     window.location = "/login";
                   }
+                  sendotp();
                },
                error: function(data) {
                   console.log('User Not Found');
@@ -181,6 +174,8 @@
                   console.log(response);
                   if (response.status == 200) {
                      window.location = '/app/signup';
+                  } else if (response.status == 201) {
+                     window.location = '/'
                   } else {
                      showerror.show();
                      mainerror.html('Something went wrong');

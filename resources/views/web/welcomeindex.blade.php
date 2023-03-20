@@ -153,11 +153,22 @@
                                                                 <span id='quemailerror' class="errorshow"></span>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <!-- <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="form-label">Password: *</label>
                                                                 <input type="text" class="form-control" id="qupass" name="upass" placeholder="Password" />
                                                                 <span id='qupasserror' class="errorshow"></span>
+                                                            </div>
+                                                        </div> -->
+                                                        <div class="col-md-6" id="otpDiv" style="display: none;">
+                                                            <div class="form-group">
+                                                                <div class="d-flex justify-content-between align-items-center ">
+                                                                    <label class="form-label">Otp</label>
+                                                                    <a href="javascript:void(0)" id="otptimer" class=" text-primary" style="font-size: 12px; float: right; display: none;">00:30</a>
+                                                                    <a href="javascript:void(0)" id="otptext" class=" text-primary" onclick="sendotp()" style="font-size: 12px; float: right; display: none; ">Resend Otp</a>
+                                                                </div>
+                                                                <input type="number" class="form-control" id="otp" placeholder="Enter Otp" />
+                                                                <span id='otpError' class="errorshow"></span>
                                                             </div>
                                                         </div>
 
@@ -297,7 +308,10 @@
             </div>
 
             <style>
-                
+                .redirection-btn {
+                    z-index: 0;
+                    position: relative;
+                }
 
                 .howItWorks a p {
                     color: #959895;
@@ -305,10 +319,10 @@
             </style>
 
             <div class="row mt-5 redirection-btn">
-                <div class="col-5">
+                <div class="col-6">
                     <a href="{{url('/app/alacart')}}" class="btn btn-primary w-100 px-0">Order Now</a>
                 </div>
-                <div class="col-7">
+                <div class="col-6">
                     <a href="https://wa.me/9820097377?text=Hello%2C%20can%20you%20please%20help%20me%20with%20the%20diet%20plan%20%3F" target="_blank" class="btn btn-outline-primary w-100 px-0">Order using <i class="fa fa-whatsapp" style="color: #26b33f;" aria-hidden="true"></i></a>
                 </div>
             </div>
@@ -323,7 +337,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-6 col-lg-3" >
+                <div class="col-sm-6 col-md-6 col-lg-3">
                     <a href="{{url('app/login')}}">
                         <div class="card" style="text-align: center;">
                             <img src="webassets/images/icons_login.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
@@ -335,44 +349,50 @@
                     </a>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="card" style="text-align: center;">
-                        <img src="webassets/images/bmi.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
-                        <div class="card-body">
-                            <h4 class="card-title">BMI & BMR Calculations</h4>
-                            <p class="card-text">Get your BMI & BMR calculations at your fingertips </p>
-
+                    <a data-bs-toggle="modal" data-bs-target="#gridSystemModal">
+                        <div class="card" style="text-align: center;">
+                            <img src="webassets/images/bmi.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
+                            <div class="card-body">
+                                <h4 class="card-title">BMI & BMR Calculations</h4>
+                                <p class="card-text">Get your BMI & BMR calculations at your fingertips </p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="card" style="text-align: center;">
-                        <img src="webassets/images/icons_goal.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
-                        <div class="card-body">
-                            <h4 class="card-title">Goal Selection</h4>
-                            <p class="card-text">Select your body goal as per the requirement & recommendation.
-                            </p>
-                            <!-- <ul class="list-group list-group-flush">
+                    <a href="{{url('app/allgoal')}}">
+
+                        <div class="card" style="text-align: center;">
+                            <img src="webassets/images/icons_goal.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
+                            <div class="card-body">
+                                <h4 class="card-title">Goal Selection</h4>
+                                <p class="card-text">Select your body goal as per the requirement & recommendation.
+                                </p>
+                                <!-- <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Cras justo odio</li>
                                 <li class="list-group-item">Vestibulum at eros</li>
                             </ul> -->
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-3">
-                    <div class="card" style="text-align: center;">
-                        <img src="webassets/images/icons_meal.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
-                        <div class="card-body">
-                            <h4 class="card-title">Choose Meal Packages</h4>
-                            <p class="card-text">Select your meal packages as per your preference.</p>
-                        </div>
-                        <!-- <ul class="list-group list-group-flush">
+                    <a href="{{url('app/allgoal')}}">
+                        <div class="card" style="text-align: center;">
+                            <img src="webassets/images/icons_meal.png" style="width: 100px; margin: auto;text-align: center;" class="card-img-top" alt="#">
+                            <div class="card-body">
+                                <h4 class="card-title">Choose Meal Packages</h4>
+                                <p class="card-text">Select your meal packages as per your preference.</p>
+                            </div>
+                            <!-- <ul class="list-group list-group-flush">
                             <li class="list-group-item">Cras justo odio</li>
                         </ul>
                         <div class="card-body">
                             <a href="#" class="card-link">Card link</a>
                             <a href="#" class="card-link">Another link</a>
                         </div> -->
-                    </div>
+                        </div>
+                    </a>
                 </div>
             </div>
 
@@ -569,7 +589,7 @@
                             <div class="d-flex align-items-center justify-content-center">
                                 <div class="d-flex flex-column text-center align-items-center justify-content-between">
                                     <div class="fs-italic">
-                                        <h5>Protien Breads</h5>
+                                        <h5>Protein Breads</h5>
                                     </div>
 
                                     <div class="mt-3 text-center text-black-50">
@@ -998,6 +1018,8 @@
     <script>
         var userFlag = 0;
         var userId = '';
+        var random = '';
+        var maxTime = 30;
 
         function goalselect(goalId) {
             document.getElementById('goalselect').value = goalId;
@@ -1008,6 +1030,8 @@
             // indian mobile number regex
             var mobileRegex = /^[6-9]\d{9}$/;
             if (mobileRegex.test(mobile)) {
+                sendotp();
+
                 $.ajax({
                     type: "post",
                     url: "{{url('/app/checkOldUser')}}",
@@ -1033,7 +1057,7 @@
                                 }
                             }
                             maskid = maskid + postfix;
-                            document.getElementById('quemobileerror').innerHTML = 'User already exists. Enter password to continue.';
+                            document.getElementById('quemobileerror').innerHTML = 'User already exists. Enter Otp to continue.';
                             document.getElementById('quemailids').value = response.user.email;
                             document.getElementById('quname').value = response.user.name;
                             document.getElementById('quemailids').readOnly = true;
@@ -1044,7 +1068,6 @@
                             document.getElementById('quemailids').readOnly = false;
                             userFlag = 0;
                         }
-
                     },
                     error: function(error) {
                         console.log(error);
@@ -1057,6 +1080,52 @@
 
         }
 
+        function sendotp() {
+            $('#otpDiv').css('display', 'block');
+            var uphone = document.getElementById('qumobile').value;
+            random = Math.floor(Math.random() * 9000 + 1000);
+            if (uphone) {
+                signupotpdata = {
+                    uphone: uphone,
+                    uotp: random
+                }
+                $.ajax({
+                    url: '/app/sendotp/' + uphone + '/' + random,
+
+                    success: function(data) {
+                        console.log(data);
+                        if (data.status == 'success') {
+                            $('#otpDiv').show();
+                            StartTimer();
+
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+
+            }
+        }
+
+        function StartTimer() {
+            console.log(maxTime);
+            setTimeout(x => {
+                if (maxTime <= 0) {}
+                maxTime -= 1;
+                if (maxTime > 0) {
+                    document.getElementById('otptext').style.display = 'none';
+                    document.getElementById('otptimer').style.display = 'block';
+                    document.getElementById('otptimer').innerHTML = '00:' + maxTime;
+                    this.StartTimer();
+                    console.log(maxTime);
+                } else {
+                    maxTime = 30;
+                    document.getElementById('otptext').style.display = 'block';
+                    document.getElementById('otptimer').style.display = 'none';
+                }
+            }, 1000);
+        }
 
         function submitquiz(type) {
             console.log(type);
@@ -1065,40 +1134,17 @@
                 document.getElementById('qunameerror').innerHTML = '';
                 document.getElementById('quemailerror').innerHTML = '';
                 document.getElementById('quemobileerror').innerHTML = '';
-                document.getElementById('qupasserror').innerHTML = '';
+                // document.getElementById('qupasserror').innerHTML = '';
 
                 quname = document.getElementById('quname').value;
                 quemail = document.getElementById('quemailids').value;
                 quemobile = document.getElementById('qumobile').value;
-                qupass = document.getElementById('qupass').value;
+                // qupass = document.getElementById('qupass').value;
+                otp = document.getElementById('otp').value;
 
-                if (quname && quemail && quemobile && qupass) {
+                if (quname && quemail && quemobile) {
 
-                    if (userFlag == 1) {
-                        $.ajax({
-                            type: "post",
-                            url: "{{url('/app/checkPassword')}}",
-                            data: {
-                                "_token": "{{ csrf_token() }}",
-                                "email": quemail,
-                                "pass": qupass,
-                            },
-                            dataType: "json",
-                            success: function(response1) {
-                                console.log(response1.status);
-                                if (response1.status == 200) {
-                                    document.getElementById('personalbtn').click();
-                                } else if (response1.status == 202) {
-                                    document.getElementById('qupasserror').innerHTML = `Password is incorrect <a href="{{url('/app/resetpassword')}}">Forgot Password?</a> `;
-                                } else if (response1.status == 201) {
-                                    document.getElementById('quemailerror').innerHTML = 'Email is incorrect';
-                                }
-                            },
-                            error: function(error) {
-                                console.log(error);
-                            }
-                        });
-                    } else {
+                    if ($('#otp').val() == random) {
                         $.ajax({
                             type: "post",
                             url: "{{url('/app/quiz/savePersonalDtl')}}",
@@ -1107,7 +1153,7 @@
                                 "name": quname,
                                 "email": quemail,
                                 "mobile": quemobile,
-                                "pass": qupass,
+                                // "pass": qupass,
                             },
                             dataType: "json",
                             success: function(response) {
@@ -1120,12 +1166,9 @@
                                 console.log(error);
                             }
                         });
+                    } else {
+                        document.getElementById('otpError').innerHTML = 'Please enter valid otp';
                     }
-
-
-
-
-
 
                 } else {
                     console.log(quemail);
