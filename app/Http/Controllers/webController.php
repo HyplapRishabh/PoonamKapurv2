@@ -1554,7 +1554,8 @@ class webController extends Controller
 
 
                 $trxdtl = transction::where('payutxnid', $input['txnid'])->with('trxalacartorder')->first();
-                $packagedtl = Package::where('id', $pkgdtl[0])->with('goal')->with('mealtype')->first();
+                $packagedtl = Package::where('uid', $pkgdtl[0])->with('goal')->with('mealtype')->first();
+                // return $packagedtl;
                 $this->sendEmail('SubscribedToUser', $result->email, $trxdtl->cpname, $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode);
                 // not working
                 $this->sendEmail('SubscribedToPoonam', 'poonamkapur77@gmail.com', 'Poonam Kapur', $trxdtl->cpname, $trxdtl->cpno, $result->email, $trxdtl->id, $trxdtl->address, $trxdtl->area, $trxdtl->pincode);
@@ -1984,7 +1985,7 @@ class webController extends Controller
                 $result = User::where('id', $input['udf5'])->first();
                 Auth::login($result);
                 $trxdtl = transction::where('payutxnid', $input['txnid'])->with('trxalacartorder')->first();
-                $packagedtl = Package::where('id', $pkgdtl[0])->with('goal')->with('mealtype')->first();
+                $packagedtl = Package::where('uid', $pkgdtl[0])->with('goal')->with('mealtype')->first();
 
                 // return $trxdtl;
 
