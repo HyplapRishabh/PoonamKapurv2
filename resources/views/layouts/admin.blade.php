@@ -759,6 +759,8 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#tabdata').DataTable();
+            $('#tabdata2').DataTable();
+
 
         });
 

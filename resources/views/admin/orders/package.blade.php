@@ -361,7 +361,6 @@ $repeatedIdsCount = count($repeatedIds);
         </div>
     </div>
 </div>
-</div>
 @endsection
 
 @section('scripts')

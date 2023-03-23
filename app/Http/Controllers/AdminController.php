@@ -187,9 +187,14 @@ class AdminController extends Controller
 
     public function indexAdmin()
     {
-        $endusers = User::where('deleteId', '0')->where('role', '5')->orWhere('role', '6')->orWhere('role', '7')->count();
-        $orders = alacartorder::count();
-        return view('admin.dashboard', compact('endusers', 'orders'));
+        $endusers = User::where('role', '4')->count();
+        $alacartOrders = transction::where('trxFor','alacart')->where('trxStatus','success')->count();
+        $subsOrders = transction::where('trxFor','subscription')->where('trxStatus','success')->count();
+        $alacartorders = transction::where('trxFor', 'alacart')->with('trxalacartorder')->with('user')->whereDate('created_at', Carbon::today())->get();
+        $packageorders = Subscriptionkt::with('trx')->with('user')->with('subscription')->whereDate('created_at', Carbon::today())->get();
+        $packageorderscount = Subscriptionkt::where('status','!=','Completed')->whereDate('created_at', Carbon::today())->count();
+
+        return view('admin.dashboard', compact('endusers', 'alacartorders', 'packageorders', 'alacartOrders', 'subsOrders', 'packageorderscount'));
     }
 
     public function indexHompage()

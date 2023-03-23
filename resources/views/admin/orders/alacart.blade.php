@@ -107,14 +107,14 @@
                                     <div class="modal-body" id="printLabelBody{{$data->id}}">
                                         <div class="labelContents" style="max-width: 430px; border: 2px solid #000; padding: 10px; border-radius: 10px; ">
                                             <div class="row g-2">
-                                                
+
                                                 <div class="col-9">
                                                     <picture>
                                                         <img src="/webassets/images/logo.png" class="img-fluid" alt="image desc">
                                                     </picture>
                                                 </div>
                                                 <div class="col-3" style="display: flex; align-items: center;">
-                                                {{ date('d M Y', strtotime($data->created_at)) }}
+                                                    {{ date('d M Y', strtotime($data->created_at)) }}
                                                 </div>
                                                 <div class="col-12 mt-2" style="display: flex; align-items: center;">
                                                     <h6 for="">Poonam Kapur Healthy Kitchen</h6>
@@ -307,42 +307,12 @@
                             </div>
                         </div>
                         <!-- End Status modal -->
-
-                        <!--Delete Modal -->
-                        <div class="modal fade" id="deleteModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" style="font-weight: 600; color: black; font-size: large;">Confirmation</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <i class="fas fa-times" style="font-size: 25px; "></i>
-                                        </button>
-                                    </div>
-
-                                    <form action="{{url('/faqs/deleteFaqs')}}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="hiddenId" value="{{$data->id}}">
-                                        <div class="modal-body">
-                                            <p style="color: black;"> Are you sure you want to delete this Faqs? <br> ACTION CAN NOT BE REVERTED </p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                                            <button type="submit" class="btn btn-primary">
-                                                <i class="fas fa-trash-alt" style="font-size: 20px;"></i>Delete
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End delete modal -->
                         @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-</div>
 </div>
 @endsection
 
