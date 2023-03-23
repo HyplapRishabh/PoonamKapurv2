@@ -84,15 +84,109 @@
                             <td class="align-middle text-center">{{$data->city}}</td>
                             <td class="align-middle text-center">{{$data->deliverystatus}}
                                 <a href="" class="btn btn-icon has-ripple" data-toggle="modal" data-target="#changeStatus{{$data->id}}" title="Cancel Product"><i class="fas fa-edit"></i></a>
-
                             </td>
                             <td class="table-action text-center">
                                 <div>
+                                    <a href="" class="btn btn-icon btn-outline-success has-ripple" data-toggle="modal" data-target="#viewLabelModal{{$data->id}}"><i class="fas fa-file-invoice"></i></a>
                                     <a href="" class="btn btn-icon btn-outline-warning has-ripple" data-toggle="modal" data-target="#viewModal{{$data->id}}"><i class="fas fa-eye"></i></a>
                                     <!-- <a href="" class="btn btn-icon btn-outline-danger has-ripple" data-toggle="modal" data-target="#deleteModal{{$data->id}}"><i class="far fa-trash-alt"></i></a> -->
                                 </div>
                             </td>
                         </tr>
+
+                        <!--View Label Modal -->
+                        <div class="modal fade" id="viewLabelModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" style="font-weight: 600; color: black; font-size: large;">Print Label</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <i class="fas fa-times" style="font-size: 25px; "></i>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="printLabelBody{{$data->id}}">
+                                        <div class="labelContents" style="max-width: 430px; border: 2px solid #000; padding: 10px; border-radius: 10px; ">
+                                            <div class="row g-2">
+                                                
+                                                <div class="col-9">
+                                                    <picture>
+                                                        <img src="/webassets/images/logo.png" class="img-fluid" alt="image desc">
+                                                    </picture>
+                                                </div>
+                                                <div class="col-3" style="display: flex; align-items: center;">
+                                                {{ date('d M Y', strtotime($data->created_at)) }}
+                                                </div>
+                                                <div class="col-12 mt-2" style="display: flex; align-items: center;">
+                                                    <h6 for="">Poonam Kapur Healthy Kitchen</h6>
+                                                </div>
+                                                <div class="col-3 mt-5">
+                                                    <h6 for="">Order No </h6>
+                                                </div>
+                                                <div class="col-9 mt-5">
+                                                    <p for="">{{$data->id}}</p>
+                                                </div>
+                                                <div class="col-3">
+                                                    <h6 for="">Name </h6>
+                                                </div>
+                                                <div class="col-9">
+                                                    <p for="">{{$data->cpname}}</p>
+                                                </div>
+                                                <div class="col-3">
+                                                    <h6 for="">Phone </h6>
+                                                </div>
+                                                <div class="col-9">
+                                                    <p for="">{{$data->cpno}}</p>
+                                                </div>
+                                                <div class="col-3">
+                                                    <h6 for="">Address </h6>
+                                                </div>
+                                                <div class="col-9">
+                                                    <p for="">{{$data->address}}, {{$data->area}},{{$data->pincode}} </p>
+                                                </div>
+                                                <div class="col-3">
+                                                    <h6 for="">Landmark </h6>
+                                                </div>
+                                                <div class="col-9">
+                                                    <p for="">{{$data->landmark}} </p>
+                                                </div>
+                                                <div class="col-12">
+                                                    <hr>
+                                                </div>
+
+                                                <div class="col-10">
+                                                    <h5 for="">Order </h5>
+                                                </div>
+                                                <div class="col-2 text-right">
+                                                    <h5 for="">Qty </h5>
+                                                </div>
+                                                @foreach($data->trxalacartorder as $key=>$orderdetails)
+
+                                                <div class="col-11">
+                                                    <p for="">{{$key+1}}) {{$orderdetails->productName}} </p>
+                                                    @if($orderdetails->addonName != null)
+                                                    <span style="padding-left: 25px;" for=""> [{{$orderdetails->addonName}}] </span>
+                                                    @endif
+                                                </div>
+                                                <div class="col-1">
+                                                    <p for="">x{{$orderdetails->qty}} </p>
+                                                </div>
+
+                                                @endforeach
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" onclick="printLabel('{{$data->id}}')" class="btn btn-primary">
+                                            <i class="fas fa-print" style="font-size: 20px;"></i>Print
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End View Label modal -->
+
                         <!--View Modal -->
                         <div class="modal fade" id="viewModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-xl">
@@ -286,6 +380,23 @@
 
     function closeModal(id) {
         $('#cancel' + id).modal('hide');
+    }
+</script>
+
+<script>
+    function printLabel(id) {
+        var divContents = $('#printLabelBody' + id).html();
+        var printWindow = window.open('', '', 'height=400,width=800');
+        printWindow.document.write('<html><head><title>Print Label</title>');
+        printWindow.document.write('<link href="/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />');
+        printWindow.document.write('<style>');
+        printWindow.document.write('body{padding: 10px; background: #fff} ');
+        printWindow.document.write('</style>');
+        printWindow.document.write('</head><body >');
+        printWindow.document.write(divContents);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
     }
 </script>
 

@@ -161,14 +161,14 @@
                                                 <span class="menu-text">Office Users</span>
                                             </a>
                                         </li>
-                                        <li class="menu-item {{ Request::is('role*') ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                        <!-- <li class="menu-item {{ Request::is('role*') ? 'menu-item-active' : '' }}" aria-haspopup="true">
                                             <a href="{{url('/role')}}" class="menu-link">
                                                 <i class="menu-bullet menu-bullet-dot">
                                                     <span></span>
                                                 </i>
                                                 <span class="menu-text">Roles</span>
                                             </a>
-                                        </li>
+                                        </li> -->
                                         <li class="menu-item {{ Request::is('goal*') ? 'menu-item-active' : '' }}" aria-haspopup="true">
                                             <a href="{{url('/goal')}}" class="menu-link">
                                                 <i class="menu-bullet menu-bullet-dot">

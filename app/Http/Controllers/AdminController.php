@@ -59,7 +59,7 @@ class AdminController extends Controller
     // cron job functions
     function dailySubscriptionKt()
     {
-        $getSubscriptionTrx = transction::where('trxFor', 'subscription')->pluck('id')->toArray();
+        $getSubscriptionTrx = transction::where('trxFor', 'subscription')->where('deliverystatus','InProcess')->where('trxStatus','success')->pluck('id')->toArray();
         $today = Carbon::now()->format('d');
         $getActiveSubscriptions = subscriptionorder::whereIn('trxId', $getSubscriptionTrx)->where('status', 'Booked')->with(['pkgdtl' => function ($query) use ($today) {
             $query->with(['packagemenu' => function ($query) use ($today) {

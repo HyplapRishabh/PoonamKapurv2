@@ -138,9 +138,11 @@ $repeatedIdsCount = count($repeatedIds);
                             <th>Discount</th>
                             <th>GST</th>
                             <th>Total</th>
-                            @endif
                             <th>Package Name</th>
                             <th>Package Time</th>
+                            @endif
+                            <th>Product</th>
+                            <th>Time</th>
                             <th>Customer Details</th>
                             @if(Request::is('order/package'))
                             <th>Customer Name</th>
@@ -153,8 +155,8 @@ $repeatedIdsCount = count($repeatedIds);
                             <th>Order Date</th>
                             @endif
                             <th>Address</th>
-                            <!-- <th>Delivery Status</th> -->
-                            <!-- <th>Action</th> -->
+                            <th>Delivery Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -166,11 +168,13 @@ $repeatedIdsCount = count($repeatedIds);
                             <th class="align-middle text-center">{{$data->discountamt}}</th>
                             <th class="align-middle text-center">{{$data->gstamt}}</th>
                             <td class="align-middle text-center">{{$data->grandtotal}}</td>
-                            @endif
                             <td class="align-middle text-center">{{$data->trxsubscriptionorder->packageId}}</td>
                             <td class="align-middle text-center">{{$data->trxsubscriptionorder->subscribedfor}}</td>
+                            @endif
+                            <td class="align-middle text-center">{{$data->productName}}</td>
+                            <td class="align-middle text-center">{{$data->mealTime}}</td>
                             <td class="align-middle text-center">
-                                {{$data->cpname}} <br> {{$data->cpno}}
+                                {{$data->user->name}} <br> {{$data->user->email}} <br> {{$data->user->phone}}
                             </td>
                             @if(Request::is('order/package'))
                             <td class="align-middle text-center">
@@ -184,24 +188,102 @@ $repeatedIdsCount = count($repeatedIds);
                             <td class="align-middle text-center">{{$data->city}}</td>
                             <td class="align-middle text-center">{{date('d M, Y', strtotime($data->created_at))}}</td>
                             @endif
-                            <td class="align-middle ">
-                                {{$data->address}} <br>
-                                {{$data->pincode}} <br>
-                                {{$data->area}} <br>
-                                {{$data->landmark}} <br>
-                                {{$data->city}} <br>
+                            <td class="align-middle text-center">
+                                {{$data->trx->address}} <br>
+                                {{$data->trx->pincode}} <br>
+                                {{$data->trx->area}} <br>
+                                {{$data->trx->landmark}} <br>
+                                {{$data->trx->city}} <br>
                             </td>
-                            <!-- <td class="align-middle text-center">{{$data->deliverystatus}}
+                            <td class="align-middle text-center">{{$data->status}}
                                 <a href="" class="btn btn-icon has-ripple" data-toggle="modal" data-target="#changeStatus{{$data->id}}" title="Cancel Product"><i class="fas fa-edit"></i></a>
-                            </td> -->
-                            <!-- <td class="table-action text-center"> -->
-                            <!-- <div> -->
-                            <!-- <a href="" class="btn btn-icon btn-outline-warning has-ripple" data-toggle="modal" data-target="#viewModal{{$data->id}}"><i class="fas fa-eye"></i></a> -->
-                            <!-- <a href="" class="btn btn-icon btn-outline-danger has-ripple" data-toggle="modal" data-target="#deleteModal{{$data->id}}"><i class="far fa-trash-alt"></i></a> -->
-                            <!-- </div> -->
-                            <!-- </td> -->
+                            </td>
+                            <td class="table-action text-center">
+                                <div>
+                                    <a href="" class="btn btn-icon btn-outline-success has-ripple" data-toggle="modal" data-target="#viewLabelModal{{$data->id}}"><i class="fas fa-file-invoice"></i></a>
+
+                                </div>
+                            </td>
                         </tr>
 
+                        <!--View Label Modal -->
+                        <div class="modal fade" id="viewLabelModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" style="font-weight: 600; color: black; font-size: large;">Print Label</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <i class="fas fa-times" style="font-size: 25px; "></i>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="printLabelBody{{$data->id}}">
+                                        <div class="labelContents" style="max-width: 430px; border: 2px solid #000; padding: 10px; border-radius: 10px; ">
+                                            <div class="row g-2">
+
+                                                <div class="col-9">
+                                                    <picture>
+                                                        <img src="/webassets/images/logo.png" class="img-fluid" alt="image desc">
+                                                    </picture>
+                                                </div>
+                                                <div class="col-3" style="display: flex; align-items: center;">
+                                                    {{ date('d M Y', strtotime($data->created_at)) }}
+                                                </div>
+                                                <div class="col-12 mt-2" style="display: flex; align-items: center;">
+                                                    <h6 for="">Poonam Kapur Healthy Kitchen</h6>
+                                                </div>
+                                                <div class="col-3 mt-5">
+                                                    <h6 for="">Order No </h6>
+                                                </div>
+                                                <div class="col-9 mt-5">
+                                                    <p for="">{{$data->id}}</p>
+                                                </div>
+                                                <div class="col-3">
+                                                    <h6 for="">Name </h6>
+                                                </div>
+                                                <div class="col-9">
+                                                    <p for="">{{$data->trx->cpname}}</p>
+                                                </div>
+                                                <div class="col-3">
+                                                    <h6 for="">Phone </h6>
+                                                </div>
+                                                <div class="col-9">
+                                                    <p for="">{{$data->trx->cpno}}</p>
+                                                </div>
+                                                <div class="col-3">
+                                                    <h6 for="">Address </h6>
+                                                </div>
+                                                <div class="col-9">
+                                                    <p for="">{{$data->trx->address}}, {{$data->trx->area}},{{$data->trx->pincode}} </p>
+                                                </div>
+                                                <div class="col-3">
+                                                    <h6 for="">Landmark </h6>
+                                                </div>
+                                                <div class="col-9">
+                                                    <p for="">{{$data->trx->landmark}} </p>
+                                                </div>
+                                                <div class="col-12">
+                                                    <hr>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <h5 for="">Order </h5>
+                                                </div>
+                                                <div class="col-12">
+                                                    <p for="">{{$data->productName}} </p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" onclick="printLabel('{{$data->id}}')" class="btn btn-primary">
+                                            <i class="fas fa-print" style="font-size: 20px;"></i>Print
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End View Label modal -->
 
                         <!--Status Modal -->
                         <div class="modal fade" id="changeStatus{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -285,7 +367,20 @@ $repeatedIdsCount = count($repeatedIds);
 @section('scripts')
 
 <script>
-
+    function printLabel(id) {
+        var divContents = $('#printLabelBody' + id).html();
+        var printWindow = window.open('', '', 'height=400,width=800');
+        printWindow.document.write('<html><head><title>Print Label</title>');
+        printWindow.document.write('<link href="/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />');
+        printWindow.document.write('<style>');
+        printWindow.document.write('body{padding: 10px; background: #fff} ');
+        printWindow.document.write('</style>');
+        printWindow.document.write('</head><body >');
+        printWindow.document.write(divContents);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
 </script>
 
 @endsection
