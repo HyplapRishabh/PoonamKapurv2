@@ -48,6 +48,12 @@ DashBoard
     </div>
 </div>
 
+<div class="row">
+    <div class="col-12 text-right">
+        <a href="{{url('/print/all')}}" class="btn btn-primary" >Print All Labels</a>
+    </div>
+</div>
+
 <div class="col-sm-12 mt-3">
     <div class="card card-custom">
         <div class="card-header">
@@ -105,7 +111,7 @@ DashBoard
                             </td>
                             <td class="table-action text-center">
                                 <div>
-                                    <a href="" class="btn btn-icon btn-outline-success has-ripple" data-toggle="modal" data-target="#viewLabelModal{{$data->id}}"><i class="fas fa-file-invoice"></i></a>
+                                    <!-- <a href="" class="btn btn-icon btn-outline-success has-ripple" data-toggle="modal" data-target="#viewLabelModal{{$data->id}}"><i class="fas fa-file-invoice"></i></a> -->
                                     <a href="" class="btn btn-icon btn-outline-warning has-ripple" data-toggle="modal" data-target="#viewModal{{$data->id}}"><i class="fas fa-eye"></i></a>
                                     <!-- <a href="" class="btn btn-icon btn-outline-danger has-ripple" data-toggle="modal" data-target="#deleteModal{{$data->id}}"><i class="far fa-trash-alt"></i></a> -->
                                 </div>
@@ -113,7 +119,7 @@ DashBoard
                         </tr>
 
                         <!--View Label Modal -->
-                        <div class="modal fade" id="viewLabelModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <!-- <div class="modal fade" id="viewLabelModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -125,7 +131,6 @@ DashBoard
                                     <div class="modal-body" id="printLabelBody{{$data->id}}">
                                         <div class="labelContents" style="max-width: 430px; border: 2px solid #000; padding: 10px; border-radius: 10px; ">
                                             <div class="row g-2">
-
                                                 <div class="col-9">
                                                     <picture>
                                                         <img src="/webassets/images/logo.png" class="img-fluid" alt="image desc">
@@ -202,7 +207,7 @@ DashBoard
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- End View Label modal -->
 
                         <!--View Modal -->
@@ -371,7 +376,7 @@ DashBoard
                             @endif
                             <th>Address</th>
                             <th>Delivery Status</th>
-                            <th>Action</th>
+                            <!-- <th>Action</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -413,16 +418,15 @@ DashBoard
                             <td class="align-middle text-center">{{$data->status}}
                                 <a href="" class="btn btn-icon has-ripple" data-toggle="modal" data-target="#changePackageStatus{{$data->id}}" title="Change Status"><i class="fas fa-edit"></i></a>
                             </td>
-                            <td class="table-action text-center">
+                            <!-- <td class="table-action text-center">
                                 <div>
                                     <a href="" class="btn btn-icon btn-outline-success has-ripple" data-toggle="modal" data-target="#viewLabelPackageModal{{$data->id}}"><i class="fas fa-file-invoice"></i></a>
-
                                 </div>
-                            </td>
+                            </td> -->
                         </tr>
 
                         <!--View Label Modal -->
-                        <div class="modal fade" id="viewLabelPackageModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <!-- <div class="modal fade" id="viewLabelPackageModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -434,7 +438,6 @@ DashBoard
                                     <div class="modal-body" id="printLabelPackageBody{{$data->id}}">
                                         <div class="labelContents" style="max-width: 430px; border: 2px solid #000; padding: 10px; border-radius: 10px; ">
                                             <div class="row g-2">
-
                                                 <div class="col-9">
                                                     <picture>
                                                         <img src="/webassets/images/logo.png" class="img-fluid" alt="image desc">
@@ -497,7 +500,7 @@ DashBoard
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- End View Label modal -->
 
                         <!--Status Modal -->

@@ -36,6 +36,11 @@
             <div class="card-title">
                 <h5>Ala Cart</h5>
             </div>
+            @if(Request::is('order/alacart/today'))            
+            <div class="card-toolbar">
+                <a href="{{url('/print/alacart')}}" class="btn btn-primary">Print All Labels</a>
+            </div>
+            @endif
         </div>
         <div class="card-body">
             <div class="dt-responsive table-responsive">

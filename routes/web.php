@@ -36,6 +36,9 @@ Route::group(['middleware' => ['checkUserr','AdminStatCount']], function () {
     Route::post('checkPass', [AdminController::class, 'checkPass']);
 
     Route::get('dashboard', [AdminController::class, 'indexAdmin']);
+    Route::group(['prefix' => 'print'], function () {
+        Route::get('/{status}', [AdminController::class, 'indexPrint']);
+    });
 
     //Office User 
     Route::group([

@@ -197,6 +197,21 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('endusers', 'alacartorders', 'packageorders', 'alacartOrders', 'subsOrders', 'packageorderscount'));
     }
 
+    public function indexPrint($status)
+    {
+        if($status == 'all'){
+            $alacartorders = transction::where('trxFor', 'alacart')->with('trxalacartorder')->with('user')->whereDate('created_at', Carbon::today())->get();
+            $packageorders = Subscriptionkt::with('trx')->with('user')->with('subscription')->whereDate('created_at', Carbon::today())->get();
+            return view('admin.print', compact('alacartorders', 'packageorders'));
+        } elseif($status == 'alacart'){
+            $alacartorders = transction::where('trxFor', 'alacart')->with('trxalacartorder')->with('user')->whereDate('created_at', Carbon::today())->get();
+            return view('admin.print', compact('alacartorders'));
+        } elseif($status == 'package'){
+            $packageorders = Subscriptionkt::with('trx')->with('user')->with('subscription')->whereDate('created_at', Carbon::today())->get();
+            return view('admin.print', compact('packageorders'));
+        }
+    }
+
     public function indexHompage()
     {
         return view('homepage.home');

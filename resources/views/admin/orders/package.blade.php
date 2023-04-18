@@ -125,6 +125,11 @@ $repeatedIdsCount = count($repeatedIds);
             <div class="card-title">
                 <h5>Subscription</h5>
             </div>
+            @if(Request::is('order/package/today'))
+            <div class="card-toolbar">
+                <a href="{{url('/print/package')}}" class="btn btn-primary">Print All Labels</a>
+            </div>
+            @endif
         </div>
         <div class="card-body">
             <div class="dt-responsive table-responsive">
@@ -154,9 +159,11 @@ $repeatedIdsCount = count($repeatedIds);
                             <th>City</th>
                             <th>Order Date</th>
                             @endif
+                            @if(Request::is('order/package/today'))
                             <th>Address</th>
                             <th>Delivery Status</th>
                             <th>Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -188,6 +195,7 @@ $repeatedIdsCount = count($repeatedIds);
                             <td class="align-middle text-center">{{$data->city}}</td>
                             <td class="align-middle text-center">{{date('d M, Y', strtotime($data->created_at))}}</td>
                             @endif
+                            @if(Request::is('order/package/today'))
                             <td class="align-middle text-center">
                                 {{$data->trx->address}} <br>
                                 {{$data->trx->pincode}} <br>
@@ -201,11 +209,11 @@ $repeatedIdsCount = count($repeatedIds);
                             <td class="table-action text-center">
                                 <div>
                                     <a href="" class="btn btn-icon btn-outline-success has-ripple" data-toggle="modal" data-target="#viewLabelModal{{$data->id}}"><i class="fas fa-file-invoice"></i></a>
-
                                 </div>
                             </td>
+                            @endif
                         </tr>
-
+                        @if(Request::is('order/package/today'))
                         <!--View Label Modal -->
                         <div class="modal fade" id="viewLabelModal{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -284,6 +292,7 @@ $repeatedIdsCount = count($repeatedIds);
                             </div>
                         </div>
                         <!-- End View Label modal -->
+                        @endif
 
                         <!--Status Modal -->
                         <div class="modal fade" id="changeStatus{{$data->id}}" data-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
