@@ -34,6 +34,10 @@ Route::group(['middleware' => ['checkUserr','AdminStatCount']], function () {
     Route::post('resetPass', [AdminController::class, 'resetPass']);
     Route::post('checkPhone', [AdminController::class, 'checkPhone']);
     Route::post('checkPass', [AdminController::class, 'checkPass']);
+    Route::post('getUserWalletBalance', [AdminController::class, 'getUserWalletBalance']);
+    Route::post('getAreasByPincode', [AdminController::class, 'getAreasByPincode']);
+    Route::post('getPackagesByGoal', [AdminController::class, 'getPackagesByGoal']);
+    Route::post('getPackageTotal', [AdminController::class, 'getPackageTotal']);
 
     Route::get('dashboard', [AdminController::class, 'indexAdmin']);
     Route::group(['prefix' => 'print'], function () {
@@ -73,6 +77,14 @@ Route::group(['middleware' => ['checkUserr','AdminStatCount']], function () {
         Route::get('/review', [AdminController::class, 'indexReview']);
         Route::post('/review/deleteReviews', [AdminController::class, 'deleteReview']);
         Route::get('/review/status', [AdminController::class, 'reviewStatus']);
+    });
+
+    //buy subscription
+    Route::group([
+        'prefix' => 'buySubscription'
+    ], function () {
+        Route::get('/', [AdminController::class, 'indexBuySubscription']);
+        Route::post('/add', [AdminController::class, 'saveSubscription']);
     });
 
     //Role

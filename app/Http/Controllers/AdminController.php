@@ -59,7 +59,7 @@ class AdminController extends Controller
     // cron job functions
     function dailySubscriptionKt()
     {
-        $getSubscriptionTrx = transction::where('trxFor', 'subscription')->where('deliverystatus','InProcess')->where('trxStatus','success')->pluck('id')->toArray();
+        $getSubscriptionTrx = transction::where('trxFor', 'subscription')->where('deliverystatus', 'InProcess')->where('trxStatus', 'success')->pluck('id')->toArray();
         $today = Carbon::now()->format('d');
         $getActiveSubscriptions = subscriptionorder::whereIn('trxId', $getSubscriptionTrx)->where('status', 'Booked')->with(['pkgdtl' => function ($query) use ($today) {
             $query->with(['packagemenu' => function ($query) use ($today) {
@@ -188,25 +188,25 @@ class AdminController extends Controller
     public function indexAdmin()
     {
         $endusers = User::where('role', '4')->count();
-        $alacartOrders = transction::where('trxFor','alacart')->where('trxStatus','success')->count();
-        $subsOrders = transction::where('trxFor','subscription')->where('trxStatus','success')->count();
+        $alacartOrders = transction::where('trxFor', 'alacart')->where('trxStatus', 'success')->count();
+        $subsOrders = transction::where('trxFor', 'subscription')->where('trxStatus', 'success')->count();
         $alacartorders = transction::where('trxFor', 'alacart')->with('trxalacartorder')->with('user')->whereDate('created_at', Carbon::today())->get();
         $packageorders = Subscriptionkt::with('trx')->with('user')->with('subscription')->whereDate('created_at', Carbon::today())->get();
-        $packageorderscount = Subscriptionkt::where('status','!=','Completed')->whereDate('created_at', Carbon::today())->count();
+        $packageorderscount = Subscriptionkt::where('status', '!=', 'Completed')->whereDate('created_at', Carbon::today())->count();
 
         return view('admin.dashboard', compact('endusers', 'alacartorders', 'packageorders', 'alacartOrders', 'subsOrders', 'packageorderscount'));
     }
 
     public function indexPrint($status)
     {
-        if($status == 'all'){
+        if ($status == 'all') {
             $alacartorders = transction::where('trxFor', 'alacart')->with('trxalacartorder')->with('user')->whereDate('created_at', Carbon::today())->get();
             $packageorders = Subscriptionkt::with('trx')->with('user')->with('subscription')->whereDate('created_at', Carbon::today())->get();
             return view('admin.print', compact('alacartorders', 'packageorders'));
-        } elseif($status == 'alacart'){
+        } elseif ($status == 'alacart') {
             $alacartorders = transction::where('trxFor', 'alacart')->with('trxalacartorder')->with('user')->whereDate('created_at', Carbon::today())->get();
             return view('admin.print', compact('alacartorders'));
-        } elseif($status == 'package'){
+        } elseif ($status == 'package') {
             $packageorders = Subscriptionkt::with('trx')->with('user')->with('subscription')->whereDate('created_at', Carbon::today())->get();
             return view('admin.print', compact('packageorders'));
         }
@@ -356,6 +356,8 @@ class AdminController extends Controller
             ]);
         }
     }
+
+
 
     public function logout()
     {
@@ -2561,7 +2563,7 @@ class AdminController extends Controller
                     $sk = Product::where('name', $value[3])->select('uid')->first();
                     $dn = Product::where('name', $value[4])->select('uid')->first();
 
-                    
+
                     $packageMenu = Packagemenu::updateOrCreate(
                         [
                             'packageUId' => $request->packageUId,
@@ -2955,6 +2957,154 @@ class AdminController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Status Changed Successfully',
+        ]);
+    }
+
+    // Buy Subscription controller
+    public function indexBuySubscription()
+    {
+        $users = User::where('deleteId', '0')->whereIn('role', [4])->get();
+        $pincodes = Pincode::where('deleteId', '0')->where('status', 1)->groupBy('pincode')->get();
+        $goals = Goal::where('deleteId', '0')->where('status', 1)->get();
+        $mealTimes = Mealtime::all();
+        $mealTypes = Mealtype::where('deleteId', '0')->where('status', 1)->get();
+        return view('admin.orders.buySubscription', compact('users', 'pincodes', 'goals', 'mealTimes', 'mealTypes'));
+    }
+
+    public function saveSubscription(Request $request)
+    {
+        $model = new transction();
+        $model->trxdate = date('Y-m-d H:i:s');
+        $model->subtotalamt = $request->packageTotal;
+        $model->deliveryamt = $request->deliveryTotal;
+        $model->finalamt = $request->grandTotal;
+        $model->grandtotal = $request->grandTotal;
+        $model->paymenId = $request->paymentId;
+        $model->trxFor = 'subscription';
+        $model->userId = $request->userId;
+        $model->address = $request->address;
+        $model->landmark = $request->landmark;
+        $model->pincode = $request->pincode;
+        $area = Pincode::find($request->area);
+        $model->area = $area->areaName;
+        $user = User::find($request->userId);
+        $model->cpname = $user->name;
+        $model->cpno = $user->phone;
+        $model->deliveryStatus = 'Pending';
+        $model->trxStatus = 'Success';
+        $model->mode = $request->mode;
+        $model->save();
+
+
+        $subscription = new subscriptionorder();
+        $subscription->trxId = $model->id;
+        $subscription->userId = $request->userId;
+        $subscription->packageId = $request->package;
+        $subscription->totaldays = $request->days;
+        $subscription->totalmeal = count($request->mealTime) * $request->days;
+
+        $mealTime = json_encode($request->mealTime);
+        // remove [ and ] and " from string
+        $mealTime = str_replace(array('[', ']', '"'), '', $mealTime);
+        $subscription->subscribedFor = $mealTime;
+        $subscription->startDate = $request->startDate;
+        $subscription->status = 'Booked';
+        $subscription->save();
+
+        $this->creditAmount($request->userId, 0, $request->grandTotal, $model->id, 'subscription', 'Purchased Subscription From Admin Panel');
+
+        Session()->flash('alert-success', "Buy Subscription Added Succesfully");
+        $this->storeLog('Add', 'addBuySubscription', $model);
+
+        return redirect()->back();
+    }
+
+    public function getUserWalletBalance(Request $request)
+    {
+        $wallet = Wallet::where('userId', $request->userId)->with('user')->first();
+        if ($wallet) {
+            return response()->json([
+                'status' => 201,
+                'message' => 'User Found',
+                'wallet' => $wallet,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 200,
+                'message' => 'User not Found',
+            ]);
+        }
+    }
+
+    public function getAreasByPincode(Request $request)
+    {
+        $areas = Pincode::where('pincode', $request->pincode)->where('status', 1)->where('deleteId', 0)->get();
+        if ($areas) {
+            return response()->json([
+                'status' => 201,
+                'message' => 'Areas Found',
+                'areas' => $areas,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Areas not Found',
+            ]);
+        }
+    }
+
+    public function getPackagesByGoal(Request $request)
+    {
+        $packages = Package::where('goalId', $request->goalId)->where('status', 1)->where('deleteId', 0)->get();
+        if ($packages) {
+            return response()->json([
+                'status' => 201,
+                'message' => 'Packages Found',
+                'packages' => $packages,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Packages not Found',
+            ]);
+        }
+    }
+
+    public function getPackageTotal(Request $request)
+    {
+        $mealTimeSelected = $request->mealTimeUID;
+        $days = $request->day;
+        $package = Package::where('UID', $request->packageUID)->first();
+        $packageTotal = 0;
+
+        foreach ($mealTimeSelected as $key => $value) {
+            if ($value == 'BreakFast') {
+                $packageTotal += $package->bfPrice;
+            }
+            if ($value == 'Lunch') {
+                $packageTotal += $package->lPrice;
+            }
+            if ($value == 'Snack') {
+                $packageTotal += $package->sPrice;
+            }
+            if ($value == 'Dinner') {
+                $packageTotal += $package->dPrice;
+            }
+        }
+
+        $packageTotal = $packageTotal * $days;
+
+        $deliveryCharge = Pincode::where('id', $request->areaId)->first()->deliveryCharge;
+        $deliveryCharge = $deliveryCharge * $days;
+
+        $grandTotal = $packageTotal + $deliveryCharge;
+
+        return response()->json([
+            'status' => 201,
+            'message' => 'Package Total Found',
+            'packageTotal' => $packageTotal,
+            'deliveryCharge' => $deliveryCharge,
+            'grandTotal' => $grandTotal,
         ]);
     }
 
