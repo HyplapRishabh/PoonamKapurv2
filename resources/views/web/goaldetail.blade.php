@@ -300,6 +300,8 @@
                             } else if (element == 60) {
                                 onemealprice = (avgMealPrice - (avgMealPrice * 15) / 100);
                             }
+                            // round off to 1 decimal
+                            onemealprice = Math.round(onemealprice * 10) / 10;
 
 
                             str += '<div class="col-lg-3 col-sm-12 col-md-3">\

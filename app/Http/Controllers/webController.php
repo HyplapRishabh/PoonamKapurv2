@@ -2137,8 +2137,15 @@ class webController extends Controller
             $name = "Welcome To GRISHMA FOODS PRIVATE LIMITED";
             $subject = 'Forget Password';
             $body = '<html><head></head><body><p>Hello ' . $username . ',</p> <br> You have requested for a password reset. Please click on the link below to reset your password. <br> <a href="https://poonamkapur.com/app/resetpassword/' . $address . '""> Reset Password </a> </p><br><br><br></body></html>';
+        } else if ($type == 'SubscriptionFailedToPoonam') {
+            $name = "Welcome To GRISHMA FOODS PRIVATE LIMITED";
+            $subject = 'Subscription Purchase Failed';
+            $body = '<html><head></head><body><p>Hello Poonam Maam,</p> <br>An Order have failed from ' . $username . '.<br>You can contact the user by: <br> <b> Call: </b> ' . $phone . '<br> <b>Email : </b> ' . $email . ' </p><br><br><br></body></html>';
+        } else {
+            $name = "Welcome To GRISHMA FOODS PRIVATE LIMITED";
+            $subject = 'Welcome To GRISHMA FOODS PRIVATE LIMITED';
+            $body = '<html><head></head><body><p>Hello</body></html>';
         }
-        // SubscriptionFailedToPoonam
 
         $data = array(
             "sender" => array(
