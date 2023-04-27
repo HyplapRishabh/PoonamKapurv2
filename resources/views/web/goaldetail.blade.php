@@ -290,14 +290,15 @@
                         console.log(data['pkgdtl']['lPrice']);
                         data['days'].forEach(element => {
                             onemealprice = (data['pkgdtl']['bfPrice']*1+data['pkgdtl']['lPrice']*1+data['pkgdtl']['sPrice']*1+data['pkgdtl']['dPrice']*1)/4;
+                            avgMealPrice=(data['pkgdtl']['bfPrice']*1+data['pkgdtl']['lPrice']*1+data['pkgdtl']['sPrice']*1+data['pkgdtl']['dPrice']*1)/4;
                             if (element == 3) {
-                                onemealprice = data['pkgdtl']['lPrice'];
+                                onemealprice = avgMealPrice;
                             } else if (element == 15) {
-                                onemealprice = (data['pkgdtl']['lPrice'] - (data['pkgdtl']['lPrice'] * 5) / 100);
+                                onemealprice = (avgMealPrice - (avgMealPrice * 5) / 100);
                             } else if (element == 30) {
-                                onemealprice = (data['pkgdtl']['lPrice'] - (data['pkgdtl']['lPrice'] * 10) / 100);
+                                onemealprice = (avgMealPrice - (avgMealPrice * 10) / 100);
                             } else if (element == 60) {
-                                onemealprice = (data['pkgdtl']['lPrice'] - (data['pkgdtl']['lPrice'] * 15) / 100);
+                                onemealprice = (avgMealPrice - (avgMealPrice * 15) / 100);
                             }
 
 
