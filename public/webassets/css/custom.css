@@ -25,6 +25,16 @@
     align-items: center;
 }
 
+.wordhide
+{
+  text-overflow: ellipsis;
+  /* line-height: 2; */
+  white-space: nowrap;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  overflow: hidden !important;
+  display: inherit;
+}
 .loader123 {
     
     border-top: 16px solid rgba(234, 106, 18, 0.2) !important; /* Blue */

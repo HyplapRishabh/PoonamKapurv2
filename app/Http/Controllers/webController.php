@@ -872,7 +872,15 @@ class webController extends Controller
             $categorylist = Category::where([['deleteId', '0'], ['status', '1']])->inRandomOrder()->limit('6')->get();
             $goallist = Goal::where([['deleteId', '0'], ['status', '1']])->with('package')->get();
             $packagelist = Package::where([['deleteId', '0'], ['status', '1']])->with('goal')->with('mealtype')->inRandomOrder()->limit('6')->get();
-
+            $cityDeliverychg=pincode::where('id',$input['pcode'])->pluck('deliveryCharge');
+            if(isset($cityDeliverychg[0]))
+            {
+                $cityDeliverychg=$cityDeliverychg[0]*$input['days'];
+            }
+            else
+            {
+                $cityDeliverychg=0*$input['days'];
+            }
             $mealtimecount = count(explode(",", $input['type']));
 
             $packageinfo = Package::where([['deleteId', '0'], ['status', '1'], ['id', $pkgId]])->with('goal')->first();
@@ -891,12 +899,14 @@ class webController extends Controller
             } else if ($input['days'] == 60) {
                 $finalamt = $fprice - $fprice * 15 / 100;
             }
-            $finalamt = round($finalamt);
+            $fstotal=round($finalamt);
+            $finalamt = round($finalamt +$cityDeliverychg);
+           
             $mindate = Carbon::now();
             $mindate = $mindate->addDays(1)->format('Y-m-d');
             $txnid = 'pk' . rand(99999, 9999999);
 
-            return view('web.packagesubscription', compact('userwallet', 'txnid', 'mindate', 'userdetail', 'useraddress', 'pincodelist', 'categorylist', 'goallist', 'packageinfo', 'packagelist', 'input', 'mealtimecount', 'finalamt'));
+            return view('web.packagesubscription', compact('cityDeliverychg','fstotal','userwallet', 'txnid', 'mindate', 'userdetail', 'useraddress', 'pincodelist', 'categorylist', 'goallist', 'packageinfo', 'packagelist', 'input', 'mealtimecount', 'finalamt'));
         } else {
             return view('web.login');
         }
@@ -1451,7 +1461,7 @@ class webController extends Controller
                         'subtotalamt' => $trxdtl[0],
                         'discountamt' => '0',
                         'gstamt' => $trxdtl[1],
-                        'deliveryamt' => '0',
+                        'deliveryamt' => $trxdtl[6],
                         'walletamt' => $walletamt,
                         'payuamt' => $payuamt,
                         'grandtotal' => $trxdtl[5],
@@ -1503,7 +1513,7 @@ class webController extends Controller
                         'subtotalamt' => $trxdtl[0],
                         'discountamt' => '0',
                         'gstamt' => $trxdtl[1],
-                        'deliveryamt' => '0',
+                        'deliveryamt' => $trxdtl[6],
                         'walletamt' => $walletamt,
                         'payuamt' => $payuamt,
                         'grandtotal' => $trxdtl[5],
@@ -2128,7 +2138,7 @@ class webController extends Controller
             $subject = 'Forget Password';
             $body = '<html><head></head><body><p>Hello ' . $username . ',</p> <br> You have requested for a password reset. Please click on the link below to reset your password. <br> <a href="https://poonamkapur.com/app/resetpassword/' . $address . '""> Reset Password </a> </p><br><br><br></body></html>';
         }
-
+        // SubscriptionFailedToPoonam
 
         $data = array(
             "sender" => array(

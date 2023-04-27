@@ -289,7 +289,7 @@
                         str = "";
                         console.log(data['pkgdtl']['lPrice']);
                         data['days'].forEach(element => {
-                            onemealprice = data['pkgdtl']['lPrice'];
+                            onemealprice = (data['pkgdtl']['bfPrice']*1+data['pkgdtl']['lPrice']*1+data['pkgdtl']['sPrice']*1+data['pkgdtl']['dPrice']*1)/4;
                             if (element == 3) {
                                 onemealprice = data['pkgdtl']['lPrice'];
                             } else if (element == 15) {
@@ -358,7 +358,7 @@
                     yourArray.push($(this).val());
                 });
                 onemeal = onemeal * 23;
-                href = "/app/packagesubscription/" + pkgid + "?days=" + days + "&type=" + yourArray.toString() + "&ps=" + onemeal;
+                href = "/app/packagesubscription/" + pkgid + "?days=" + days + "&type=" + yourArray.toString() + "&ps=" + onemeal+ "&pcode=" + localStorage.getItem('areaId');
                 window.location.href = href;
             } else {   
                 var url = window.location.href;

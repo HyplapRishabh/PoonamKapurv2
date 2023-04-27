@@ -61,11 +61,12 @@
                                     <form action="{{url('/app/subscriptionorderplace')}}" onsubmit="subscriptionpayment(event)" method="post">
                                         @csrf
                                         <input type="hidden" value="45453" name="paymentId">
-                                        <input type="hidden" id="ssubtotalval" name="subtotalval" value="{{$finalamt}}">
+                                        <input type="hidden" id="ssubtotalval" name="subtotalval" value="{{$fstotal}}">
                                         <input type="hidden" id="staxval" name="taxval" value="0">
                                         <input type="hidden" id="sfinaltotalval" name="finaltotalval" value="{{$finalamt}}">
                                         <input type="hidden" id="sgrandtotalval" name="sgrandtotalval" value="{{$finalamt}}">
-                                        <input type="hidden" id="sdeliveryval" name="deliveryval" value="0">
+                                        <input type="hidden" id="fstotal" name="fstotal" value="{{$fstotal}}">
+                                        <input type="hidden" id="sdeliveryval" name="deliveryval" value="{{$cityDeliverychg}}">
                                         <input type="hidden" id="walletuseflag" name="walletuseflag" value="0">
                                         <input type="hidden" id="goalid" name="goalid" value="{{$packageinfo->goal->id}}">
                                         <input type="hidden" id="packageid" name="packageid" value="{{$packageinfo->UID}}">
@@ -95,7 +96,7 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label class="form-label" for="pno">Pin Code:</label>
-                                                <select name="pincode" required id="pincodeval" class="selectpicker form-control" onChange="pincodechg()" data-style="py-0">
+                                                <select name="pincode" onChange="pincodechg()" required id="pincodeval" class="selectpicker form-control" onChange="pincodechg()" data-style="py-0">
                                                     <option value="" selected>Select Pincode</option>
                                                     <?php
                                                     if (isset($_COOKIE['pincode'])) {
@@ -163,8 +164,11 @@
                                             <h6 class="heading-title fw-bolder text-primary" id='subscribeforval'>{{$input['type']}}</h6>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h6 class="heading-title fw-bolder">Delivery Charges</h6>
+                                            <h6 class="heading-title fw-bolder text-primary" id="deliverychg">{{$cityDeliverychg}}</h6>                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h6 class="heading-title fw-bolder">Total Amount</h6>
-                                            <h6 class="heading-title fw-bolder text-primary">&#8377 {{$finalamt}}</h6>
+                                            <h6 class="heading-title fw-bolder text-primary" id='prewallet'> &#8377 {{$finalamt}}</h6>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h6 class="heading-title fw-bolder">
@@ -197,6 +201,8 @@
 <script id="bolt" src="https://checkout-static.citruspay.com/bolt/run/bolt.min.js" bolt-color="e34524" bolt-logo="https://poonamkapur.com/assets/images/logo_dark.png"></script>
 
 <script>
+    deliverychg=document.getElementById('deliverychg').innerHTML*1;
+
     $(document).ready(function() {
         $('#pincodeval').select2();
         $('#areanameval').select2();
@@ -233,44 +239,27 @@
     });
 
     function pincodechg() {
-        newpincodeval = document.getElementById('pincodeval').value;
-        $.ajax({
-            url: '/app/pincodechg/' + newpincodeval,
-            type: "get",
-            success: function(data) {
-                document.getElementById('areaalert').style.display = 'none';
-                console.log(data);
+            newpincodeval = document.getElementById('pincodeval').value;
+            $.ajax({
+                url: '/app/pincodechg/' + newpincodeval,
+                type: "get",
+                success: function (data) {
+                    document.getElementById('areaalert').style.display='none';
+                    console.log(data);
+                    if (data['status'] == "success") {
+                        str='';
+                        str += '<option value="" selected >Select Area</option>';
+                        data['pincodelist'].forEach(element => {
+                            str += '<option value="' + element['areaName'] + '">' + element['areaName'] + '</option>';
+                        });
+                        document.getElementById('areanameval').innerHTML = str;
+                    }
+                    else {
 
-                if (data['status'] == "success") {
-                    // str = '';
-                    // str += '<option value="" selected >Select Area</option>';
-                    // data['pincodelist'].forEach(element => {
-                    //     str += '<option value="' + element['areaName'] + '">' + element['areaName'] + '</option>';
-                    // });
-                    // console.log(str);
-                    // document.getElementById('areanameval').innerHTML = str;
-
-                    $('#areanameval').empty();
-                    $('#areanameval').append('<option value="" selected >Select Area</option>');
-                    $.each(data['pincodelist'], function(i, item) {
-                        $('#areanameval').append($('<option>', {
-                            value: item.areaName,
-                            text: item.areaName,
-                            selected: item.areaName == localStorage.getItem('areaName') ? true : false
-                        }));
-                        // make array of areaName
-                        areaNameSelected.push(item.areaName);
-
-                    });
-                    console.log(areaNameSelected);
-
-                } else {
-
+                    }
                 }
-            }
-        });
-    }
-
+            });
+        }
     function cityselected() {
         newcityval = document.getElementById('areanameval').value;
         $.ajax({
@@ -280,11 +269,11 @@
 
                 console.log(data);
                 if (data['status'] == "success") {
-
-                    // document.getElementById('deliverychg').innerHTML = data['citylist']['deliveryCharge'];
-                    // deliverychg = data['citylist']['deliveryCharge'];
-                    // console.log(deliverychg);
-                    // calculate();
+                    deliverychg = data['citylist']['deliveryCharge']*document.getElementById('days').value;
+                    document.getElementById('deliverychg').innerHTML = deliverychg;
+                    document.getElementById('sdeliveryval').innerHTML = deliverychg;
+                    console.log(deliverychg);
+                    calculate();
 
                     var subscribeforval = document.getElementById('subscribeforval').innerHTML;
                     subscribeforval = subscribeforval.split(',');
@@ -306,10 +295,6 @@
                             dinnerf = data['citylist']['dinnerFlag'];
                         }
                     });
-                    console.log(breakfastf);
-                    console.log(lunchf);
-                    console.log(snacksf);
-                    console.log(dinnerf);
                     if (breakfastf == 1 && lunchf == 1 && snacksf == 1 && dinnerf == 1) {
                         console.log('hidf');
                         document.getElementById('areaalert').style.display = 'none';
@@ -346,15 +331,21 @@
 
     function calculate() {
         walletbal = $('#walluse').val();
-        currenttotal = document.getElementById('sgrandtotalval').value;
+        console.log(document.getElementById('fstotal').value*1+':'+deliverychg*1)
+        currenttotal = document.getElementById('fstotal').value*1+deliverychg*1;
         if ($('#walluse').is(":checked")) {
             if (walletbal >= currenttotal) {
                 walletbal = currenttotal;
             }
+            
+            document.getElementById('prewallet').innerHTML = '₹ ' + (currenttotal * 1);
+            document.getElementById('sgrandtotalval').innerHTML = currenttotal * 1;
             document.getElementById('afterwallet').innerHTML = '₹ ' + (currenttotal * 1 - walletbal * 1);
             document.getElementById('sfinaltotalval').value = currenttotal - walletbal;
             document.getElementById('walletuseflag').value = '1';
         } else {
+            document.getElementById('prewallet').innerHTML = '₹ ' + (currenttotal * 1);
+            document.getElementById('sgrandtotalval').innerHTML =currenttotal * 1;
             document.getElementById('afterwallet').innerHTML = '₹ ' + currenttotal;
             document.getElementById('sfinaltotalval').value = currenttotal;
             document.getElementById('walletuseflag').value = '0';
@@ -366,7 +357,7 @@
 
     function subscriptionpayment(event) {
         event.preventDefault();
-        trxamtval = document.getElementById('ssubtotalval').value + ',' + document.getElementById('staxval').value + ',' + document.getElementById('sfinaltotalval').value + ',' + document.getElementById('ps').value + ',' + document.getElementById('walletuseflag').value + ',' + document.getElementById('sgrandtotalval').value;
+        trxamtval = document.getElementById('ssubtotalval').value + ',' + document.getElementById('staxval').value + ',' + document.getElementById('sfinaltotalval').value + ',' + document.getElementById('ps').value + ',' + document.getElementById('walletuseflag').value + ',' + document.getElementById('sfinaltotalval').value+','+document.getElementById('sdeliveryval').value;
         pkgval = document.getElementById('packageid').value + ',' + document.getElementById('days').value + ',' + document.getElementById('totalmeals').value;
         var data = new FormData();
         data.append('key', 'YI0Weq');
@@ -394,7 +385,8 @@
 
     function runfinalbolt(hash) {
         console.log(hash);
-        trxamtval = document.getElementById('ssubtotalval').value + ',' + document.getElementById('staxval').value + ',' + document.getElementById('sfinaltotalval').value + ',' + document.getElementById('ps').value + ',' + document.getElementById('walletuseflag').value + ',' + document.getElementById('sgrandtotalval').value;
+        trxamtval = document.getElementById('ssubtotalval').value + ',' + document.getElementById('staxval').value + ',' + document.getElementById('sfinaltotalval').value + ',' + document.getElementById('ps').value + ',' + document.getElementById('walletuseflag').value + ',' + document.getElementById('sfinaltotalval').value+','+document.getElementById('sdeliveryval').value;
+        console.log(trxamtval);
         pkgval = document.getElementById('packageid').value + ',' + document.getElementById('days').value + ',' + document.getElementById('totalmeals').value;
 
         boltdata = {
