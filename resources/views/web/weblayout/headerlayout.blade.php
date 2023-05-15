@@ -156,6 +156,13 @@
                     </a>
 
                 </li>
+
+                <li>
+                    <a href="https://poonamkapurhealthykitchen.petpooja.com" target="_blank" style="margin: 5%;padding:5%;width:120px;"  class="btn btn-primary rounded-pill">
+                        Order Now
+                    </a>
+                </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="{{asset('webassets/images/avatars/01.png')}}" alt="User-Profile" class="img-fluid avatar avatar-50 avatar-rounded">
@@ -329,22 +336,22 @@
 
 <style>
     ..captchaField {
-      padding: 12px 20px;
-      display: inline-block;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
+        padding: 12px 20px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
     }
 
     canvas {
-      /*prevent interaction with the canvas*/
-      pointer-events: none;
+        /*prevent interaction with the canvas*/
+        pointer-events: none;
     }
-  </style>
+</style>
 
 
 <script>
-     function clickCartFloating() {
+    function clickCartFloating() {
         var url = '/app/viewcart';
         localStorage.setItem("url", url);
         window.location.href = "/app/login"
