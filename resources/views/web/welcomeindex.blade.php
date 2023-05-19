@@ -43,14 +43,14 @@
                                     <img src="{{asset($bannerinfo->image)}}" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="Banner" class="d-block w-100" alt="#">
 
                                     <div class="carousel-caption d-none d-md-block">
-                                        <div class="row">
+                                        <div class="row" >
                                             <div class="col-lg-3 col-md-3 col-sm-12">
-                                                <button style="margin: 5%;padding:5%;width:100%;" type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#gridSystemModal">
+                                                <button style="margin: 5%;padding:5%;width:100%;z-index: 10;" type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#gridSystemModal">
                                                     Subscription
                                                 </button>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-12">
-                                                <a href="{{url('/app/alacart')}}" type="button" class="btn  btn-primary rounded-pill" style="margin: 5%;padding:5%;width:100%;">Ala-Cart</a>
+                                                <a href="https://poonamkapurhealthykitchen.petpooja.com" target="_blank" type="button" class="btn  btn-primary rounded-pill" style="margin: 5%;padding:5%;width:100%;z-index: 10;">Order Now</a>
                                             </div>
                                         </div>
                                     </div>
@@ -320,7 +320,7 @@
 
             <div class="row mt-5 redirection-btn">
                 <div class="col-6">
-                    <a href="{{url('/app/alacart')}}" class="btn btn-primary w-100 px-0">Order Now</a>
+                    <a href="https://poonamkapurhealthykitchen.petpooja.com" target="_blank" class="btn btn-primary w-100 px-0">Order Now</a>
                 </div>
                 <div class="col-6">
                     <a href="https://wa.me/9820097377?text=Hello%2C%20can%20you%20please%20help%20me%20with%20the%20diet%20plan%20%3F" target="_blank" class="btn btn-outline-primary w-100 px-0">Order using <i class="fa fa-whatsapp" style="color: #26b33f;" aria-hidden="true"></i></a>
@@ -407,7 +407,7 @@
                     </div>
                 </div>
                 <div class="col-sm-12 my-2 col-md-6">
-                    <a href="{{url('/app/alacart')}}">
+                    <a href="https://poonamkapurhealthykitchen.petpooja.com" target="_blank">
                         <!-- <div style="background-image: url('webassets/images/alacartCard.png'); background-repeat: no-repeat; height: 400px; border-radius: 15px; background-size: contain; background-position: center right"></div> -->
                         <img src="webassets/images/alacartCard.png" onerror="src=`{{ asset('webassets/images/greyimage.jpg')}}`" alt="Banner" class="d-block w-100" alt="#" style="border-radius: 20px;">
 
@@ -953,9 +953,9 @@
         <!-- Base buttons -->
         <div class="row " id="enqRow">
             <div class="col-6 text-center">
-                <a href="{{url('/app/alacart')}}" class=" show">
+                <a href="https://poonamkapurhealthykitchen.petpooja.com" target="_blank" class=" show">
                     <div class="login-block" id="enqBtnfooter">
-                        <span style="color: #EA6A12;">Ala Cart </span>
+                        <span style="color: #EA6A12;">Order Now </span>
                     </div>
                 </a>
             </div>

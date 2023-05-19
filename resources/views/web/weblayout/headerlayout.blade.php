@@ -156,12 +156,12 @@
                     </a>
 
                 </li>
-
+<!-- 
                 <li>
                     <a href="https://poonamkapurhealthykitchen.petpooja.com" target="_blank" style="margin: 5%;padding:5%;width:120px;"  class="btn btn-primary rounded-pill">
                         Order Now
                     </a>
-                </li>
+                </li> -->
 
                 <li class="nav-item dropdown">
                     <a class="nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
